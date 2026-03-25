@@ -21,6 +21,9 @@ const config: Config = {
         heading: ["var(--font-league-spartan)", "sans-serif"],
         body: ["var(--font-inter)", "sans-serif"],
       },
+      height: {
+        "18": "4.5rem",
+      },
     },
   },
   plugins: [],

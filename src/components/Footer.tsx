@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-navy text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="bg-navy text-white border-t-2 border-gold">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About NAP */}
           <div>
-            <h3 className="font-heading text-lg font-bold mb-4 text-gold">About NAP</h3>
+            <h3 className="font-heading text-lg font-bold mb-5 text-gold">About NAP</h3>
             <p className="text-white/70 text-sm leading-relaxed">
               Networking For Awesome People is free weekly networking across four Middle Tennessee
               cities. Show up, be genuine, and don&apos;t be a jerk.
@@ -16,8 +16,8 @@ export default function Footer() {
 
           {/* Cities */}
           <div>
-            <h3 className="font-heading text-lg font-bold mb-4 text-gold">Cities</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-heading text-lg font-bold mb-5 text-gold">Cities</h3>
+            <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/cities/manchester" className="text-white/70 hover:text-white transition-colors">
                   Manchester
@@ -43,8 +43,8 @@ export default function Footer() {
 
           {/* Blog */}
           <div>
-            <h3 className="font-heading text-lg font-bold mb-4 text-gold">Blog</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-heading text-lg font-bold mb-5 text-gold">Blog</h3>
+            <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/blog" className="text-white/70 hover:text-white transition-colors">
                   Latest Posts
@@ -55,8 +55,8 @@ export default function Footer() {
 
           {/* Stay Connected */}
           <div>
-            <h3 className="font-heading text-lg font-bold mb-4 text-gold">Stay Connected</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-heading text-lg font-bold mb-5 text-gold">Stay Connected</h3>
+            <ul className="space-y-3 text-sm">
               <li>
                 <a
                   href="https://www.facebook.com/groups/networkingforawesomepeople"
@@ -76,7 +76,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 text-center text-sm text-white/50">
+        <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white/30">
           <p>&copy; {new Date().getFullYear()} I Got A Guy, LLC &mdash; Networking For Awesome People</p>
         </div>
       </div>
