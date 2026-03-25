@@ -1,142 +1,252 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 
-const cityPills = [
-  { name: "Manchester", color: "bg-manchester", href: "#city-manchester" },
-  { name: "Murfreesboro", color: "bg-murfreesboro", textColor: "text-white", href: "#city-murfreesboro" },
-  { name: "Nolensville", color: "bg-nolensville", href: "#city-nolensville" },
-  { name: "Smyrna", color: "bg-smyrna", href: "#city-smyrna" },
+const cityPanels = [
+  {
+    name: "Manchester",
+    day: "Tuesdays",
+    time: "9:00am",
+    location: "FirstBank",
+    href: "/cities/manchester",
+    bg: "bg-manchester",
+    text: "text-white",
+    linkText: "text-white/80 hover:text-white",
+  },
+  {
+    name: "Murfreesboro",
+    day: "Wednesdays",
+    time: "9:00am",
+    location: "Achieve",
+    href: "/cities/murfreesboro",
+    bg: "bg-[#2A4A6B]",
+    text: "text-white",
+    linkText: "text-white/80 hover:text-white",
+  },
+  {
+    name: "Nolensville",
+    day: "Thursdays",
+    time: "8:30am",
+    location: "Waldo's",
+    href: "/cities/nolensville",
+    bg: "bg-nolensville",
+    text: "text-navy",
+    linkText: "text-navy/70 hover:text-navy",
+  },
+  {
+    name: "Smyrna",
+    day: "Fridays",
+    time: "9:15am",
+    location: "Smyrna Public Library",
+    href: "/cities/smyrna",
+    bg: "bg-smyrna",
+    text: "text-white",
+    linkText: "text-white/80 hover:text-white",
+  },
 ];
 
-const cities = [
-  { name: "Manchester", id: "city-manchester", day: "Tuesdays", time: "9:00am", location: "FirstBank", href: "/cities/manchester", borderColor: "border-l-manchester", linkColor: "text-manchester", hoverColor: "hover:text-manchester" },
-  { name: "Murfreesboro", id: "city-murfreesboro", day: "Wednesdays", time: "9:00am", location: "Achieve", href: "/cities/murfreesboro", borderColor: "border-l-navy", linkColor: "text-navy", hoverColor: "hover:text-navy" },
-  { name: "Nolensville", id: "city-nolensville", day: "Thursdays", time: "8:30am", location: "Waldo's", href: "/cities/nolensville", borderColor: "border-l-nolensville", linkColor: "text-nolensville", hoverColor: "hover:text-nolensville" },
-  { name: "Smyrna", id: "city-smyrna", day: "Fridays", time: "9:15am", location: "Smyrna Public Library", href: "/cities/smyrna", borderColor: "border-l-smyrna", linkColor: "text-smyrna", hoverColor: "hover:text-smyrna" },
+const features = [
+  {
+    icon: (
+      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+      </svg>
+    ),
+    title: "Free to Attend",
+    body: "Every meeting, every week, every city. No cost, no catch.",
+  },
+  {
+    icon: (
+      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+      </svg>
+    ),
+    title: "Weekly Meetings",
+    body: "Four cities. Four chances every week to show up and connect.",
+  },
+  {
+    icon: (
+      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+      </svg>
+    ),
+    title: "Don't Be a Jerk",
+    body: "Our one rule. Show up genuine, support each other, leave inspired.",
+  },
 ];
 
 const stats = [
-  { label: "Cities", value: "4" },
-  { label: "Meetings", value: "Weekly" },
-  { label: "Cost", value: "Free" },
-  { label: "Vibe", value: "No Jerks" },
+  { value: "4", label: "Cities" },
+  { value: "15+", label: "Events Per Month" },
+  { value: "Free", label: "Always" },
+  { value: "1", label: "Rule: Don't Be a Jerk" },
 ];
 
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-white py-20 md:py-32 lg:py-40 px-4">
-        <div className="max-w-[1200px] mx-auto text-center">
-          <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] text-navy mb-6 md:mb-8">
-            Free Weekly Networking<br className="hidden sm:block" /> in Middle Tennessee
-          </h1>
-          <p className="text-gold text-xl md:text-2xl lg:text-3xl italic mb-10 md:mb-14">
-            Because regular networking is, well, regular.
-          </p>
-          <a
-            href="#cities"
-            className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 hover:shadow-lg hover:shadow-gold/25 transition-all duration-300 mb-12 md:mb-16"
-          >
-            Find Your City
-          </a>
-
-          {/* City pills */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {cityPills.map((pill) => (
-              <a
-                key={pill.name}
-                href={pill.href}
-                className={`${pill.color} ${pill.textColor || "text-navy"} text-sm font-bold px-5 py-2 rounded-full hover:opacity-90 hover:shadow-md transition-all duration-200`}
-              >
-                {pill.name}
-              </a>
-            ))}
+      {/* ===== SECTION 1 — HERO ===== */}
+      <section className="bg-navy">
+        {/* Hero text */}
+        <div className="px-4 py-16 md:py-24 lg:py-32">
+          <div className="max-w-[1200px] mx-auto text-center">
+            <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] text-white mb-6 md:mb-8">
+              Free Weekly Networking<br className="hidden sm:block" /> in Middle Tennessee
+            </h1>
+            <p className="text-gold text-lg sm:text-xl md:text-2xl lg:text-3xl italic mb-10 md:mb-14">
+              Because regular networking is, well, regular.
+            </p>
+            <a
+              href="#cities"
+              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
+            >
+              Find Your City
+            </a>
           </div>
         </div>
 
-        {/* Gold divider */}
-        <div className="max-w-[200px] mx-auto mt-16 md:mt-20 border-t-2 border-gold" />
-      </section>
-
-      {/* City Cards */}
-      <section id="cities" className="bg-white py-12 md:py-20 px-4 scroll-mt-16">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12 md:mb-16">
-              Find Your City
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal stagger>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {cities.map((city) => (
-                <Link
-                  key={city.name}
-                  id={city.id}
-                  href={city.href}
-                  className={`group bg-white rounded-xl shadow-sm hover:shadow-xl border border-gray-100 border-l-[6px] ${city.borderColor} p-8 min-h-[200px] flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 scroll-mt-24`}
-                >
-                  <div>
-                    <h3 className="font-heading text-2xl font-bold text-navy mb-3">{city.name}</h3>
-                    <p className="text-navy font-medium mb-1">{city.day} &middot; {city.time}</p>
-                    <p className="text-gray-400 text-sm italic">{city.location}</p>
-                  </div>
-                  <span className={`${city.linkColor} text-sm font-bold mt-6 group-hover:underline`}>
-                    Learn More &rarr;
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </ScrollReveal>
+        {/* City panels */}
+        <div id="cities" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
+          {cityPanels.map((city) => (
+            <Link
+              key={city.name}
+              href={city.href}
+              className={`${city.bg} ${city.text} min-h-[300px] p-8 md:p-10 flex flex-col justify-between group hover:brightness-110 hover:-translate-y-1 transition-all duration-300`}
+            >
+              <div>
+                <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">{city.name}</h2>
+                <p className="text-lg font-medium mb-1">
+                  {city.day} &middot; {city.time}
+                </p>
+                <p className="opacity-70 italic">{city.location}</p>
+              </div>
+              <span className={`${city.linkText} text-sm font-bold uppercase tracking-wider mt-6 transition-colors`}>
+                Learn More &rarr;
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* What is NAP */}
-      <section className="bg-[#F8F9FA] border-t-2 border-gold py-12 md:py-20 px-4">
+      {/* ===== SECTION 2 — WHAT IS NAP ===== */}
+      <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[1200px] mx-auto text-center">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-6">
               More Than Networking. It&apos;s a Community.
             </h2>
-            <p className="text-lg md:text-xl text-navy/60 leading-relaxed max-w-[600px] mx-auto mb-16 md:mb-20">
+            <p className="text-navy/60 text-lg md:text-xl leading-relaxed max-w-[650px] mx-auto mb-16 md:mb-20">
               NAP is where Middle Tennessee professionals build real relationships &mdash; the kind
               that generate referrals, create partnerships, and make Mondays worth showing up for.
             </p>
           </div>
         </ScrollReveal>
         <ScrollReveal stagger>
-          <div className="max-w-[1200px] mx-auto grid grid-cols-4 gap-4">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center px-2">
-                <p className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy whitespace-nowrap">{stat.value}</p>
-                <p className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest mt-2">{stat.label}</p>
+          <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+            {features.map((f) => (
+              <div key={f.title} className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/10 text-gold mb-5">
+                  {f.icon}
+                </div>
+                <h3 className="font-heading text-xl font-bold text-navy mb-3">{f.title}</h3>
+                <p className="text-gray-500 leading-relaxed max-w-xs mx-auto">{f.body}</p>
               </div>
             ))}
           </div>
         </ScrollReveal>
       </section>
 
-      {/* Our One Rule */}
-      <section className="bg-white py-12 md:py-20 px-4">
+      {/* ===== SECTION 3 — WE LOVE GETTING PEOPLE TOGETHER ===== */}
+      <section className="bg-navy py-16 md:py-24 px-4">
         <ScrollReveal>
-          <div className="max-w-[1200px] mx-auto">
-            <div className="max-w-[700px] mx-auto md:mx-0 md:ml-[15%] border-l-4 border-gold pl-8 md:pl-12 relative">
-              {/* Decorative quotation mark */}
-              <span className="absolute -left-4 -top-6 text-gold/15 font-heading text-[8rem] md:text-[10rem] leading-none select-none pointer-events-none" aria-hidden="true">
-                &ldquo;
-              </span>
-              <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-6 relative z-10">Our One Rule</h2>
-              <p className="text-navy text-lg md:text-xl leading-relaxed relative z-10">
-                We keep it simple. Show up, be genuine, support each other, and don&apos;t be a jerk.
-                That&apos;s the whole thing.
+          <div className="max-w-[800px] mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
+              We Love Getting People Together
+            </h2>
+            <p className="text-gold text-lg md:text-xl italic mb-10">
+              It&apos;s the essence of what we do
+            </p>
+            <Link
+              href="/cities"
+              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
+            >
+              Find Your City
+            </Link>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== SECTION 4 — MEET THE FOUNDER ===== */}
+      <section className="bg-white py-16 md:py-24 px-4">
+        <ScrollReveal>
+          <div className="max-w-[1200px] mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-3">
+              Meet the Founder
+            </h2>
+            <p className="text-gold text-lg md:text-xl italic mb-12 md:mb-16">
+              The person behind Networking For Awesome People
+            </p>
+
+            {/* Founder card */}
+            <div className="max-w-[700px] mx-auto bg-white rounded-xl shadow-md border border-gray-100 p-8 md:p-12 text-center">
+              {/* Headshot placeholder */}
+              <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-gray-100 mx-auto mb-6 flex items-center justify-center border-4 border-gold/20">
+                <span className="text-gray-400 text-xs text-center px-2">Rachel Albertson headshot</span>
+              </div>
+              <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-1">Rachel Albertson</h3>
+              <p className="text-gold font-medium mb-6">Founder, Networking For Awesome People</p>
+              <p className="text-gray-500 leading-relaxed max-w-lg mx-auto mb-8">
+                Rachel founded NAP in Murfreesboro, Tennessee with a simple belief &mdash; that
+                networking should feel like belonging, not a chore. What started as one weekly
+                meeting has grown into four cities and a community of hundreds of Middle Tennessee
+                professionals.
               </p>
+              <a
+                href="https://www.facebook.com/groups/networkingforawesomepeople"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-navy hover:text-gold transition-colors font-medium"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+                Follow on Facebook
+              </a>
             </div>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* Blog Preview */}
-      <section className="bg-[#F8F9FA] py-12 md:py-20 px-4">
+      {/* ===== SECTION 5 — COMMUNITY SUPPORTERS ===== */}
+      <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
+        <ScrollReveal>
+          <div className="max-w-[1200px] mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-3">
+              Community Supporters
+            </h2>
+            <p className="text-gold text-lg md:text-xl italic mb-12 md:mb-16">
+              Just a few of the awesome businesses in our network
+            </p>
+
+            {/* Logo grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-8">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="flex flex-col items-center">
+                  <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border border-gray-200 flex items-center justify-center shadow-sm">
+                    <span className="text-gray-300 text-sm">Member Logo {i}</span>
+                  </div>
+                  <p className="text-navy text-sm mt-3 font-medium">Business {i}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-gray-400 text-sm italic">
+              Connected and Amplified members featured here
+            </p>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== SECTION 6 — BLOG ===== */}
+      <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12">
@@ -152,8 +262,8 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="p-6">
-                    <h3 className="font-heading text-lg font-bold text-navy mb-2">Stay Tuned</h3>
-                    <p className="text-gray-400 text-sm">
+                    <h3 className="font-heading text-lg font-bold text-navy mb-2">Coming Soon</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">
                       Networking tips, community stories, and updates from across Middle Tennessee.
                     </p>
                   </div>
@@ -163,29 +273,43 @@ export default function Home() {
             <div className="text-center mt-12">
               <Link
                 href="/blog"
-                className="inline-block bg-navy text-white font-bold px-10 py-4 rounded-full hover:bg-navy/90 hover:shadow-lg transition-all duration-300"
+                className="inline-block bg-gold text-navy font-bold px-10 py-4 rounded-full hover:bg-gold/90 hover:shadow-lg transition-all duration-300"
               >
-                Read More
+                Read the Blog
               </Link>
             </div>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* Join CTA */}
-      <section className="bg-navy py-12 md:py-20 px-4">
+      {/* ===== SECTION 7 — STATS ===== */}
+      <section className="bg-navy py-16 md:py-24 px-4">
+        <ScrollReveal stagger>
+          <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="font-heading text-5xl md:text-6xl font-bold text-white mb-2">{stat.value}</p>
+                <p className="text-gold text-xs sm:text-sm font-bold uppercase tracking-widest">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== SECTION 8 — JOIN CTA ===== */}
+      <section className="bg-gold py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[800px] mx-auto text-center">
-            <h2 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6">
+            <h2 className="font-heading text-4xl md:text-6xl font-bold text-navy mb-6">
               Ready to Find Your People?
             </h2>
-            <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-navy/70 text-lg md:text-xl leading-relaxed mb-10">
               Join the directory, get found by your community, and start building the network you
               actually want.
             </p>
             <Link
               href="/join"
-              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-5 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
+              className="inline-block bg-navy text-white font-bold text-lg px-10 py-5 rounded-full hover:bg-white hover:text-navy hover:shadow-xl transition-all duration-300"
             >
               See Membership Options
             </Link>

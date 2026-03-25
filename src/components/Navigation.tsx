@@ -15,18 +15,18 @@ export default function Navigation() {
   const [citiesOpen, setCitiesOpen] = useState(false);
 
   return (
-    <nav className="bg-white text-navy sticky top-0 z-50 shadow-sm border-b border-gray-100">
+    <nav className="bg-navy text-white sticky top-0 z-50 shadow-lg shadow-black/10">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-18">
           {/* Logo */}
           <Link href="/" className="flex items-baseline gap-0.5 group">
-            <span className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-navy">NAP</span>
+            <span className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-white">NAP</span>
             <span className="w-2.5 h-2.5 rounded-full bg-gold mb-1 ring-1 ring-gold/50 group-hover:scale-125 transition-transform" />
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-10">
-            <Link href="/" className="font-medium text-navy hover:text-gold transition-colors">
+            <Link href="/" className="font-medium text-white hover:text-gold transition-colors">
               Home
             </Link>
 
@@ -34,7 +34,7 @@ export default function Navigation() {
               <button
                 onClick={() => setCitiesOpen(!citiesOpen)}
                 onBlur={() => setTimeout(() => setCitiesOpen(false), 150)}
-                className="font-medium text-navy hover:text-gold transition-colors flex items-center gap-1"
+                className="font-medium text-white hover:text-gold transition-colors flex items-center gap-1"
               >
                 Cities
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,13 +57,13 @@ export default function Navigation() {
               )}
             </div>
 
-            <Link href="/events" className="font-medium text-navy hover:text-gold transition-colors">
+            <Link href="/events" className="font-medium text-white hover:text-gold transition-colors">
               Events
             </Link>
-            <Link href="/blog" className="font-medium text-navy hover:text-gold transition-colors">
+            <Link href="/blog" className="font-medium text-white hover:text-gold transition-colors">
               Blog
             </Link>
-            <Link href="/contact" className="font-medium text-navy hover:text-gold transition-colors">
+            <Link href="/contact" className="font-medium text-white hover:text-gold transition-colors">
               Contact
             </Link>
             <Link
@@ -76,7 +76,7 @@ export default function Navigation() {
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden p-2 text-navy"
+            className="md:hidden p-2 text-white"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -95,9 +95,9 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100">
+        <div className="md:hidden bg-navy border-t border-white/10">
           <div className="px-4 py-4 space-y-3">
-            <Link href="/" className="block font-medium text-navy hover:text-gold" onClick={() => setMobileOpen(false)}>
+            <Link href="/" className="block font-medium text-white hover:text-gold" onClick={() => setMobileOpen(false)}>
               Home
             </Link>
             <div className="space-y-2">
@@ -106,20 +106,20 @@ export default function Navigation() {
                 <Link
                   key={city.name}
                   href={city.href}
-                  className="block pl-4 font-medium text-navy hover:text-gold"
+                  className="block pl-4 font-medium text-white hover:text-gold"
                   onClick={() => setMobileOpen(false)}
                 >
                   {city.name}
                 </Link>
               ))}
             </div>
-            <Link href="/events" className="block font-medium text-navy hover:text-gold" onClick={() => setMobileOpen(false)}>
+            <Link href="/events" className="block font-medium text-white hover:text-gold" onClick={() => setMobileOpen(false)}>
               Events
             </Link>
-            <Link href="/blog" className="block font-medium text-navy hover:text-gold" onClick={() => setMobileOpen(false)}>
+            <Link href="/blog" className="block font-medium text-white hover:text-gold" onClick={() => setMobileOpen(false)}>
               Blog
             </Link>
-            <Link href="/contact" className="block font-medium text-navy hover:text-gold" onClick={() => setMobileOpen(false)}>
+            <Link href="/contact" className="block font-medium text-white hover:text-gold" onClick={() => setMobileOpen(false)}>
               Contact
             </Link>
             <Link

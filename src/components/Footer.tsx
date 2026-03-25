@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white/30">
-          <p>&copy; {new Date().getFullYear()} I Got A Guy, LLC &mdash; Networking For Awesome People</p>
+          <p>&copy; 2026 I Got A Guy, LLC &mdash; Networking For Awesome People</p>
         </div>
       </div>
     </footer>
