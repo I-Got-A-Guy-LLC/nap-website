@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About NAP */}
           <div>
-            <h3 className="font-heading text-lg font-bold mb-5 text-gold">About NAP</h3>
+            <h3 className="font-heading text-lg font-bold mb-5 text-gold">About Networking For Awesome People</h3>
             <p className="text-white/70 text-sm leading-relaxed">
               Networking For Awesome People is free weekly networking across four Middle Tennessee
               cities. Show up, be genuine, and don&apos;t be a jerk.
