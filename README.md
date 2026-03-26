@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Networking For Awesome People
+
+Official website for [Networking For Awesome People](https://networkingforawesomepeople.com) — a free weekly networking organization across four Middle Tennessee cities.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 14** — App Router, TypeScript
+- **Tailwind CSS** — Styling with custom brand colors
+- **Decap CMS** — Content management at /admin
+- **Netlify** — Hosting and deployment
+- **League Spartan + Inter** — Typography via Google Fonts
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/app/           — Pages (homepage, about, blog, events, city pages)
+src/components/    — Reusable components (nav, footer, FAQ, city template)
+src/lib/           — Data and utilities (city data, blog parser)
+src/content/blog/  — Markdown blog posts
+public/admin/      — Decap CMS configuration
+public/images/     — Logos, photos, supporter logos
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Cities
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| City | Day | Time | Venue | URL |
+|------|-----|------|-------|-----|
+| Manchester | Tuesday | 9:00am | FirstBank | /tn/manchester |
+| Murfreesboro | Wednesday | 9:00am | Achieve | /tn/murfreesboro |
+| Nolensville | Thursday | 8:30am | Waldo's | /tn/nolensville |
+| Smyrna | Friday | 9:15am | Smyrna Public Library | /tn/smyrna |
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The site deploys to Netlify via the `netlify.toml` configuration. Push to `main` to trigger a deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Content Management
+
+- **Blog posts:** Add markdown files to `src/content/blog/` with frontmatter
+- **CMS:** Access Decap CMS at `/admin` (requires Netlify Identity setup)
+- **City data:** Update `src/lib/cityData.ts` for meeting details, leaders, FAQs
+
+## License
+
+Copyright I Got A Guy, LLC. All rights reserved.
