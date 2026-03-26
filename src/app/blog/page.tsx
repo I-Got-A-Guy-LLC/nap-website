@@ -26,11 +26,11 @@ export default function BlogPage() {
       {/* Hero */}
       <section className="bg-navy py-16 md:py-24 px-4">
         <div className="w-[90%] mx-auto text-center">
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4">
+          <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 italic">
             Business Talk
           </h1>
-          <p className="text-gold text-lg md:text-xl italic">
-            Networking tips, community stories, and professional insights from Middle Tennessee
+          <p className="text-gold text-lg md:text-xl">
+            Networking tips, community stories, and professional insights that are proven, tried, and true!
           </p>
         </div>
       </section>
