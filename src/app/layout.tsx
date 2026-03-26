@@ -99,7 +99,7 @@ export default function RootLayout({
       "@type": "LocalBusiness",
       name: "Networking For Awesome People — Manchester",
       description: "Free weekly business networking in Manchester, Tennessee. Meets every Tuesday at 9:00am at FirstBank.",
-      url: "https://networkingforawesomepeople.com/cities/manchester",
+      url: "https://networkingforawesomepeople.com/tn/manchester",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Manchester",
@@ -124,7 +124,7 @@ export default function RootLayout({
       "@type": "LocalBusiness",
       name: "Networking For Awesome People — Murfreesboro",
       description: "Free weekly business networking in Murfreesboro, Tennessee. Meets every Wednesday at 9:00am at Achieve.",
-      url: "https://networkingforawesomepeople.com/cities/murfreesboro",
+      url: "https://networkingforawesomepeople.com/tn/murfreesboro",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Murfreesboro",
@@ -149,7 +149,7 @@ export default function RootLayout({
       "@type": "LocalBusiness",
       name: "Networking For Awesome People — Nolensville",
       description: "Free weekly business networking in Nolensville, Tennessee. Meets every Thursday at 8:30am at Waldo's.",
-      url: "https://networkingforawesomepeople.com/cities/nolensville",
+      url: "https://networkingforawesomepeople.com/tn/nolensville",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Nolensville",
@@ -174,7 +174,7 @@ export default function RootLayout({
       "@type": "LocalBusiness",
       name: "Networking For Awesome People — Smyrna",
       description: "Free weekly business networking in Smyrna, Tennessee. Meets every Friday at 9:15am at Smyrna Public Library.",
-      url: "https://networkingforawesomepeople.com/cities/smyrna",
+      url: "https://networkingforawesomepeople.com/tn/smyrna",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Smyrna",

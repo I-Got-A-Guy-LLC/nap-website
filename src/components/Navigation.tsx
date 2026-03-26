@@ -5,10 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const cities = [
-  { name: "Manchester", href: "/cities/manchester" },
-  { name: "Murfreesboro", href: "/cities/murfreesboro" },
-  { name: "Nolensville", href: "/cities/nolensville" },
-  { name: "Smyrna", href: "/cities/smyrna" },
+  { name: "Manchester", href: "/tn/manchester" },
+  { name: "Murfreesboro", href: "/tn/murfreesboro" },
+  { name: "Nolensville", href: "/tn/nolensville" },
+  { name: "Smyrna", href: "/tn/smyrna" },
 ];
 
 export default function Navigation() {

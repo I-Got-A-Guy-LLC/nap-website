@@ -19,22 +19,22 @@ export default function Footer() {
             <h3 className="font-heading text-lg font-bold mb-5 text-gold">Cities</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/cities/manchester" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/manchester" className="text-white/70 hover:text-white transition-colors">
                   Manchester
                 </Link>
               </li>
               <li>
-                <Link href="/cities/murfreesboro" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/murfreesboro" className="text-white/70 hover:text-white transition-colors">
                   Murfreesboro
                 </Link>
               </li>
               <li>
-                <Link href="/cities/nolensville" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/nolensville" className="text-white/70 hover:text-white transition-colors">
                   Nolensville
                 </Link>
               </li>
               <li>
-                <Link href="/cities/smyrna" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/smyrna" className="text-white/70 hover:text-white transition-colors">
                   Smyrna
                 </Link>
               </li>
