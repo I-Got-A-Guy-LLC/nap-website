@@ -213,11 +213,11 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12 md:mb-16">
               Meet the {city.name} Leadership Team
             </h2>
-            <div className={`grid grid-cols-1 ${city.leaders.length === 2 ? "md:grid-cols-2 max-w-[700px]" : "md:grid-cols-3"} gap-8 mx-auto`}>
+            <div className={`grid grid-cols-1 ${city.leaders.length === 2 ? "md:grid-cols-2 max-w-[800px]" : "md:grid-cols-3"} gap-6 mx-auto items-stretch`}>
               {city.leaders.map((leader) => (
-                <div key={leader.name} className="text-center">
-                  {/* REPLACE PLACEHOLDERS WITH ACTUAL HEADSHOTS */}
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-5 overflow-hidden border-4 flex-shrink-0" style={{ borderColor: city.color }}>
+                <div key={leader.name} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center md:flex-row md:items-start md:text-left gap-4">
+                  {/* Headshot */}
+                  <div className="w-[140px] h-[140px] md:w-[120px] md:h-[120px] rounded-full overflow-hidden border-4 flex-shrink-0" style={{ borderColor: city.color }}>
                     {leader.image ? (
                       <img
                         src={leader.image}
@@ -230,13 +230,16 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                       </div>
                     )}
                   </div>
-                  <h3 className="font-heading text-xl font-bold text-navy">{leader.name}</h3>
-                  <p className="font-medium mb-3" style={{ color: city.color }}>
-                    {leader.title}
-                  </p>
-                  <p className="text-navy/70 text-sm leading-relaxed max-w-xs mx-auto">
-                    {leader.bio}
-                  </p>
+                  {/* Info */}
+                  <div className="flex-1">
+                    <h3 className="font-heading text-lg font-bold text-navy">{leader.name}</h3>
+                    <p className="font-medium text-sm mb-2" style={{ color: city.color }}>
+                      {leader.title}
+                    </p>
+                    <p className="text-navy/70 text-sm leading-relaxed">
+                      {leader.bio}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
