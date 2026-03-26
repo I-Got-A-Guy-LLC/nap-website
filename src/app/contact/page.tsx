@@ -91,12 +91,7 @@ export default function ContactPage() {
               <div className="space-y-6 mb-8">
                 <div>
                   <p className="text-gold text-xs font-bold uppercase tracking-widest mb-1">Email</p>
-                  <a
-                    href="mailto:hello@networkingforawesomepeople.com"
-                    className="text-navy font-medium hover:text-gold transition-colors"
-                  >
-                    hello@networkingforawesomepeople.com
-                  </a>
+                  <p className="text-navy font-medium">Use the contact form to send us a message</p>
                 </div>
 
                 <div>
