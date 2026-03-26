@@ -9,23 +9,30 @@ export default function PricingCards() {
   return (
     <div>
       {/* Toggle */}
-      <div className="flex items-center justify-center gap-3 mb-10">
-        <span className={`text-sm font-bold ${!annual ? "text-navy" : "text-navy/40"}`}>Monthly</span>
-        <button
-          onClick={() => setAnnual(!annual)}
-          className="relative w-14 h-7 bg-gray-200 rounded-full transition-colors"
-          style={{ backgroundColor: annual ? "#FBC761" : "#d1d5db" }}
-          aria-label="Toggle annual pricing"
-        >
-          <span
-            className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${
-              annual ? "translate-x-7" : "translate-x-0.5"
+      <div className="flex flex-col items-center mb-12">
+        <div className="bg-gray-100 rounded-full p-1 flex items-center gap-1 mb-2">
+          <button
+            onClick={() => setAnnual(false)}
+            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 ${
+              !annual ? "bg-navy text-white shadow-md" : "text-navy/50 hover:text-navy"
             }`}
-          />
-        </button>
-        <span className={`text-sm font-bold ${annual ? "text-navy" : "text-navy/40"}`}>Annual</span>
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setAnnual(true)}
+            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 ${
+              annual ? "bg-gold text-navy shadow-md" : "text-navy/50 hover:text-navy"
+            }`}
+          >
+            Annual
+          </button>
+        </div>
         {annual && (
-          <span className="text-green-600 text-xs font-bold bg-green-50 px-2 py-0.5 rounded-full">Save more</span>
+          <span className="text-green-600 text-sm font-bold">Save up to $120/yr with annual billing</span>
+        )}
+        {!annual && (
+          <span className="text-navy/40 text-sm">Switch to annual to save</span>
         )}
       </div>
 
@@ -63,24 +70,29 @@ export default function PricingCards() {
         </div>
 
         {/* CONNECTED */}
-        <div className="bg-white rounded-xl shadow-xl border-2 border-gold overflow-hidden relative ring-2 ring-gold/20">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gold text-navy text-xs font-bold px-4 py-1 rounded-full">
+        <div className="bg-white rounded-xl shadow-xl border-2 border-gold relative ring-2 ring-gold/20 mt-6 md:mt-0">
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 bg-gold text-navy text-xs font-bold px-5 py-1.5 rounded-full shadow-md whitespace-nowrap">
             BEST VALUE
           </div>
-          <div className="bg-gold p-6 text-center">
+          <div className="bg-gold p-6 pt-8 text-center rounded-t-[10px]">
             <h3 className="font-heading text-2xl font-bold text-navy mb-2">Connected</h3>
-            <p className="font-heading text-5xl font-bold text-navy">
-              {annual ? "$300" : "$30"}
-            </p>
-            <p className="text-navy/70 text-sm font-bold mt-1">
-              {annual ? "/year" : "/month"}
-            </p>
-            {annual && (
-              <span className="inline-block text-green-700 text-xs font-bold bg-green-100 px-2 py-0.5 rounded-full mt-2">
-                Save $60/yr
-              </span>
+            <div className="flex items-baseline justify-center gap-1">
+              <p className="font-heading text-5xl font-bold text-navy">
+                {annual ? "$300" : "$30"}
+              </p>
+              <p className="text-navy/70 text-lg font-bold">
+                {annual ? "/yr" : "/mo"}
+              </p>
+            </div>
+            {annual ? (
+              <p className="text-navy/60 text-sm mt-2">
+                That&apos;s just $25/month &middot; <span className="text-green-700 font-bold">Save $60/yr vs monthly</span>
+              </p>
+            ) : (
+              <p className="text-navy/60 text-sm mt-2">
+                $360/yr monthly &middot; <span className="font-bold">Switch to annual for $300/yr</span>
+              </p>
             )}
-            <p className="text-navy/50 text-xs italic mt-2">Most members choose annual</p>
           </div>
           <div className="p-6">
             <p className="text-navy/40 text-xs uppercase tracking-wider font-bold mb-3">Everything in Linked, plus:</p>
@@ -113,18 +125,23 @@ export default function PricingCards() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="bg-smyrna p-6 text-center">
             <h3 className="font-heading text-2xl font-bold text-white mb-2">Amplified</h3>
-            <p className="font-heading text-5xl font-bold text-white">
-              {annual ? "$500" : "$50"}
-            </p>
-            <p className="text-white/70 text-sm font-bold mt-1">
-              {annual ? "/year" : "/month"}
-            </p>
-            {annual && (
-              <span className="inline-block text-green-700 text-xs font-bold bg-green-100 px-2 py-0.5 rounded-full mt-2">
-                Save $120/yr
-              </span>
+            <div className="flex items-baseline justify-center gap-1">
+              <p className="font-heading text-5xl font-bold text-white">
+                {annual ? "$500" : "$50"}
+              </p>
+              <p className="text-white/70 text-lg font-bold">
+                {annual ? "/yr" : "/mo"}
+              </p>
+            </div>
+            {annual ? (
+              <p className="text-white/60 text-sm mt-2">
+                That&apos;s just $42/month &middot; <span className="text-green-200 font-bold">Save $120/yr vs monthly</span>
+              </p>
+            ) : (
+              <p className="text-white/60 text-sm mt-2">
+                $600/yr monthly &middot; <span className="font-bold text-white/80">Switch to annual for $500/yr</span>
+              </p>
             )}
-            <p className="text-white/50 text-xs italic mt-2">Most members choose annual</p>
           </div>
           <div className="p-6">
             <p className="text-navy/40 text-xs uppercase tracking-wider font-bold mb-3">Everything in Connected, plus:</p>
