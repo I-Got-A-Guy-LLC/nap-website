@@ -71,7 +71,7 @@ export default function Navigation() {
               Lead a Chapter
             </Link>
             <Link href="/blog" className="font-medium text-white hover:text-navy transition-colors">
-              Blog
+              Business Talk
             </Link>
             <Link href="/contact" className="font-medium text-white hover:text-navy transition-colors">
               Contact
@@ -130,7 +130,7 @@ export default function Navigation() {
               Lead a Chapter
             </Link>
             <Link href="/blog" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
-              Blog
+              Business Talk
             </Link>
             <Link href="/contact" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
               Contact

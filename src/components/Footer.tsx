@@ -43,7 +43,7 @@ export default function Footer() {
 
           {/* Blog */}
           <div>
-            <h3 className="font-heading text-lg font-bold mb-5 text-gold">Blog</h3>
+            <h3 className="font-heading text-lg font-bold mb-5 text-gold">Business Talk</h3>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/blog" className="text-white/70 hover:text-white transition-colors">

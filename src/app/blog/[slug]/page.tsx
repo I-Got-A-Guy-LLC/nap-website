@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params }: Props) {
             href="/blog"
             className="text-navy/50 hover:text-navy text-sm font-medium transition-colors"
           >
-            &larr; Back to Blog
+            &larr; Back to Business Talk
           </Link>
         </div>
       </div>
@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: Props) {
           <ScrollReveal>
             <div className="w-[90%] max-w-[1200px] mx-auto">
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy text-center mb-12">
-                More From the Blog
+                More Business Talk
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {relatedPosts.map((rp) => (

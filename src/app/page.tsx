@@ -329,7 +329,7 @@ export default function Home() {
         <ScrollReveal>
           <div className="max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12">
-              From the Networking For Awesome People Blog
+              Business Talk
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[1, 2, 3].map((i) => (
@@ -354,7 +354,7 @@ export default function Home() {
                 href="/blog"
                 className="inline-block bg-gold text-navy font-bold px-10 py-4 rounded-full hover:bg-gold/90 hover:shadow-lg transition-all duration-300"
               >
-                Read the Blog
+                Read More
               </Link>
             </div>
           </div>
