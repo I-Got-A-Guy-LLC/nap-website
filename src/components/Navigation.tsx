@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const cities = [
   { name: "Manchester", href: "/cities/manchester" },
@@ -19,9 +20,15 @@ export default function Navigation() {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-18">
           {/* Logo */}
-          <Link href="/" className="flex items-baseline gap-0.5 group">
-            <span className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-white">NAP</span>
-            <span className="w-2.5 h-2.5 rounded-full bg-gold mb-1 ring-1 ring-gold/50 group-hover:scale-125 transition-transform" />
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/images/nap-logo.png"
+              alt="Networking For Awesome People"
+              width={120}
+              height={48}
+              className="h-10 md:h-12 w-auto brightness-0 invert"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

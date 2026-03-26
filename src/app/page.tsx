@@ -85,9 +85,17 @@ export default function Home() {
   return (
     <>
       {/* ===== SECTION 1 — HERO ===== */}
-      <section className="bg-navy">
+      <section className="bg-navy relative">
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-navy/75" />
+
         {/* Hero text */}
-        <div className="px-4 py-16 md:py-24 lg:py-32">
+        <div className="relative z-10 px-4 py-16 md:py-24 lg:py-32">
           <div className="max-w-[1200px] mx-auto text-center">
             <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] text-white mb-6 md:mb-8">
               Free Weekly Networking<br className="hidden sm:block" /> in Middle Tennessee
@@ -105,7 +113,7 @@ export default function Home() {
         </div>
 
         {/* City panels */}
-        <div id="cities" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
+        <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
           {cityPanels.map((city) => (
             <Link
               key={city.name}
