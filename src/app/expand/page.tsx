@@ -67,7 +67,7 @@ export default function ExpandPage() {
       {/* ===== SECTION 2 — THE OPPORTUNITY ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
-          <div className="w-[90%] max-w-[900px] mx-auto mb-16">
+          <div className="w-[90%] max-w-[1200px] mx-auto mb-16">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-6">
               What Is a Networking For Awesome People Licensed Chapter?
             </h2>
@@ -109,7 +109,7 @@ export default function ExpandPage() {
       {/* ===== SECTION 3 — WHAT'S PROVIDED ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
-          <div className="w-[90%] max-w-[900px] mx-auto">
+          <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-4">
               What Does Networking For Awesome People Provide to Licensed City Leaders?
             </h2>
@@ -239,7 +239,7 @@ export default function ExpandPage() {
       {/* ===== SECTION 5 — DIRECTORY REVENUE EXPLAINED ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
-          <div className="w-[90%] max-w-[900px] mx-auto">
+          <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-6">
               How the Directory Revenue Share Works
             </h2>
@@ -329,7 +329,7 @@ export default function ExpandPage() {
       {/* ===== SECTION 7 — THE PROCESS ===== */}
       <section id="process" className="bg-[#F8F9FA] py-16 md:py-24 px-4 scroll-mt-16">
         <ScrollReveal>
-          <div className="w-[90%] max-w-[900px] mx-auto">
+          <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-10">
               How the Licensing Process Works
             </h2>
@@ -373,7 +373,7 @@ export default function ExpandPage() {
       {/* ===== SECTION 9 — FAQ ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
-          <div className="w-[90%] max-w-[900px] mx-auto">
+          <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12">
               Questions About Bringing Networking For Awesome People to Your City
             </h2>

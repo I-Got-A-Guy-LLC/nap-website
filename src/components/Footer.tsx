@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-navy text-white border-t-2 border-gold">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="w-[90%] max-w-[1200px] mx-auto py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About NAP */}
           <div>

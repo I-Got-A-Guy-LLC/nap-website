@@ -163,7 +163,7 @@ export default function EventsPage() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">
               Put Your Business in Front of Middle Tennessee&apos;s Most Connected Professionals
             </h2>
-            <p className="text-white/70 text-lg leading-relaxed max-w-3xl mx-auto mb-12">
+            <p className="text-white/70 text-lg leading-relaxed mb-12">
               Networking For Awesome People hosts 15+ free networking events every month across four
               Middle Tennessee cities. Our members are business owners, entrepreneurs, and
               professionals actively looking to refer and be referred. Sponsorship opportunities are
