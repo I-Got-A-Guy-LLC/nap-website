@@ -209,40 +209,54 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
       {/* ===== SECTION 4 — LEADERSHIP TEAM ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
-          <div className="w-[90%] max-w-[1200px] mx-auto">
+          <div className="w-[90%] max-w-[1100px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12 md:mb-16">
               Meet the {city.name} Leadership Team
             </h2>
-            <div className={`grid grid-cols-1 ${city.leaders.length === 2 ? "md:grid-cols-2 max-w-[800px]" : "md:grid-cols-3"} gap-6 mx-auto items-stretch`}>
-              {city.leaders.map((leader) => (
-                <div key={leader.name} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center md:flex-row md:items-start md:text-left gap-4">
-                  {/* Headshot */}
-                  <div className="w-[140px] h-[140px] md:w-[120px] md:h-[120px] rounded-full overflow-hidden border-4 flex-shrink-0" style={{ borderColor: city.color }}>
-                    {leader.image ? (
-                      <img
-                        src={leader.image}
-                        alt={leader.alt}
-                        className="w-full h-full object-cover object-top"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                        <span className="text-gray-400 text-xs text-center px-2">{leader.alt}</span>
-                      </div>
-                    )}
-                  </div>
-                  {/* Info */}
-                  <div className="flex-1">
+
+            {/* 3 leaders: vertical cards in 3-column grid */}
+            {city.leaders.length > 2 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                {city.leaders.map((leader) => (
+                  <div key={leader.name} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 text-center">
+                    <div className="w-[140px] h-[140px] rounded-full overflow-hidden border-4 mx-auto mb-4 flex-shrink-0" style={{ borderColor: city.color }}>
+                      {leader.image ? (
+                        <img src={leader.image} alt={leader.alt} className="w-full h-full object-cover object-top" />
+                      ) : (
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                          <span className="text-gray-400 text-xs text-center px-2">{leader.alt}</span>
+                        </div>
+                      )}
+                    </div>
                     <h3 className="font-heading text-lg font-bold text-navy">{leader.name}</h3>
-                    <p className="font-medium text-sm mb-2" style={{ color: city.color }}>
-                      {leader.title}
-                    </p>
-                    <p className="text-navy/70 text-sm leading-relaxed">
-                      {leader.bio}
-                    </p>
+                    <p className="font-medium text-sm mb-3" style={{ color: city.color }}>{leader.title}</p>
+                    <p className="text-navy/70 text-sm leading-relaxed text-left">{leader.bio}</p>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              /* 2 leaders: horizontal cards in 2-column grid */
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                {city.leaders.map((leader) => (
+                  <div key={leader.name} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col items-center text-center md:flex-row md:items-start md:text-left gap-5">
+                    <div className="w-[140px] h-[140px] rounded-full overflow-hidden border-4 flex-shrink-0" style={{ borderColor: city.color }}>
+                      {leader.image ? (
+                        <img src={leader.image} alt={leader.alt} className="w-full h-full object-cover object-top" />
+                      ) : (
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                          <span className="text-gray-400 text-xs text-center px-2">{leader.alt}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-heading text-lg font-bold text-navy">{leader.name}</h3>
+                      <p className="font-medium text-sm mb-2" style={{ color: city.color }}>{leader.title}</p>
+                      <p className="text-navy/70 text-sm leading-relaxed">{leader.bio}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </ScrollReveal>
       </section>

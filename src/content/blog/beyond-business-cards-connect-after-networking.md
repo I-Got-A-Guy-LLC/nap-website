@@ -7,16 +7,8 @@ date: "2024-05-01"
 excerpt: "Networking events are valuable opportunities — but the real value happens after you leave. Here's how to turn new contacts into lasting connections."
 ---
 
-CONTENT PLACEHOLDER — Replace with migrated and rewritten content from original post.
+The real value of a networking event doesn't happen in the room — it happens in the days and weeks that follow. If you're walking away from meetings with a pocket full of business cards but no real relationships to show for it, you're leaving the best part on the table.
 
-## The Follow-Up Is Where the Magic Happens
+At Networking For Awesome People, we believe the follow-up is where the magic happens. Here are some creative ways to turn a first handshake into a lasting professional connection.
 
-Coming soon — this post will cover creative strategies for following up after networking meetings, including:
-
-- Personalized follow-up messages
-- Social media connection tips
-- Coffee meeting frameworks
-- Referral partner development
-- Long-term relationship building
-
-*This content is part of the Networking For Awesome People blog. Visit [networkingforawesomepeople.com](https://networkingforawesomepeople.com) to learn more about free weekly networking across Middle Tennessee.*
+*Full article coming soon. In the meantime, come see us at a meeting — Networking For Awesome People meets every week across four Middle Tennessee cities. [Find your city](/events) and show up.*

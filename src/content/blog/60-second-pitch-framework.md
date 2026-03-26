@@ -7,16 +7,8 @@ date: "2024-07-01"
 excerpt: "You have 60 seconds. Here's a simple framework for crafting a pitch that's authentic, clear, and actually gets people interested in what you do."
 ---
 
-CONTENT PLACEHOLDER — Replace with migrated and rewritten content from original post.
+Every Networking For Awesome People meeting gives you 60 seconds to introduce yourself and your business. That sounds simple — until you're staring at a room full of people and your mind goes blank.
 
-## Your 60 Seconds Start Now
+The good news? A great 60-second pitch isn't about being polished or rehearsed. It's about being clear, authentic, and genuinely interesting. Here's a framework that works every time.
 
-Coming soon — this post will cover a proven framework for networking introductions, including:
-
-- The three-part pitch structure
-- How to avoid sounding salesy
-- What to include (and what to leave out)
-- How to tailor your pitch to the room
-- Practice tips for sounding natural
-
-*This content is part of the Networking For Awesome People blog. Visit [networkingforawesomepeople.com](https://networkingforawesomepeople.com) to learn more about free weekly networking across Middle Tennessee.*
+*Full article coming soon. In the meantime, come see us at a meeting — Networking For Awesome People meets every week across four Middle Tennessee cities. [Find your city](/events) and show up.*

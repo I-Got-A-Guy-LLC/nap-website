@@ -7,16 +7,8 @@ date: "2024-09-01"
 excerpt: "Great networking isn't about collecting contacts — it's about building relationships. Here are five tips that will change how you show up in every room."
 ---
 
-CONTENT PLACEHOLDER — Replace with migrated and rewritten content from original post.
+Most people think networking is about collecting as many business cards as possible. It's not. Great networking is about building real relationships with people who trust you, refer you, and genuinely want to see you succeed.
 
-## Networking Is a Skill, Not a Talent
+At Networking For Awesome People, we've watched hundreds of Middle Tennessee professionals transform their businesses through consistent, authentic networking. Here are five essential tips that will change how you show up in every room.
 
-Coming soon — this post will cover five essential networking principles, including:
-
-- Lead with generosity, not asks
-- Be consistently present
-- Follow up within 48 hours
-- Build referral partnerships, not contact lists
-- Show up as yourself — authenticity wins
-
-*This content is part of the Networking For Awesome People blog. Visit [networkingforawesomepeople.com](https://networkingforawesomepeople.com) to learn more about free weekly networking across Middle Tennessee.*
+*Full article coming soon. In the meantime, come see us at a meeting — Networking For Awesome People meets every week across four Middle Tennessee cities. [Find your city](/events) and show up.*
