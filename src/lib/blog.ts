@@ -15,6 +15,15 @@ export interface BlogPost {
   excerpt: string;
   content: string;
   htmlContent?: string;
+  tags?: string[];
+  focusKeyword?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  series?: string | null;
+  seriesOrder?: number;
+  readTime?: string;
+  image?: string;
+  draft?: boolean;
 }
 
 export function getAllPosts(): BlogPost[] {
@@ -34,10 +43,21 @@ export function getAllPosts(): BlogPost[] {
         date: data.date,
         excerpt: data.excerpt,
         content,
+        tags: data.tags || [],
+        focusKeyword: data.focusKeyword || "",
+        metaTitle: data.metaTitle || "",
+        metaDescription: data.metaDescription || "",
+        series: data.series || null,
+        seriesOrder: data.seriesOrder || 0,
+        readTime: data.readTime || "",
+        image: data.image || "",
+        draft: data.draft || false,
       } as BlogPost;
     });
 
-  return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
+  return posts
+    .filter((p) => !p.draft)
+    .sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -54,4 +74,10 @@ export function getAllCategories(): string[] {
   const posts = getAllPosts();
   const categories = new Set(posts.map((p) => p.category));
   return Array.from(categories);
+}
+
+export function getPostsBySeries(series: string): BlogPost[] {
+  return getAllPosts()
+    .filter((p) => p.series === series)
+    .sort((a, b) => (a.seriesOrder || 0) - (b.seriesOrder || 0));
 }

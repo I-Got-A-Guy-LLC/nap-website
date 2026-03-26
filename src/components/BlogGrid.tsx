@@ -10,6 +10,10 @@ interface Post {
   category: string;
   date: string;
   excerpt: string;
+  tags?: string[];
+  readTime?: string;
+  series?: string | null;
+  seriesOrder?: number;
 }
 
 interface BlogGridProps {
@@ -63,6 +67,11 @@ export default function BlogGrid({ posts }: BlogGridProps) {
               <span className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
                 {post.category}
               </span>
+              {post.series && (
+                <span className="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">
+                  {post.series}
+                </span>
+              )}
             </div>
             <div className="p-6">
               <h2 className="font-heading text-lg font-bold text-navy mb-2 group-hover:text-gold transition-colors line-clamp-2">
@@ -73,13 +82,21 @@ export default function BlogGrid({ posts }: BlogGridProps) {
               </p>
               <div className="flex items-center justify-between text-xs text-navy/40">
                 <span className="font-medium">{post.author}</span>
-                <span>
-                  {new Date(post.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </span>
+                <div className="flex items-center gap-2">
+                  {post.readTime && (
+                    <>
+                      <span>{post.readTime}</span>
+                      <span>&middot;</span>
+                    </>
+                  )}
+                  <span>
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
               </div>
               <span className="text-navy text-sm font-bold mt-4 block group-hover:text-gold transition-colors">
                 Read More &rarr;

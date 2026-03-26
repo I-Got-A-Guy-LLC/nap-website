@@ -17,12 +17,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
   if (!post) return {};
 
+  const title = post.metaTitle || post.title;
+  const description = post.metaDescription || post.excerpt;
+
   return {
-    title: `${post.title} | Networking For Awesome People`,
-    description: post.excerpt,
+    title: `${title} | Networking For Awesome People`,
+    description,
     openGraph: {
-      title: `${post.title} | Networking For Awesome People`,
-      description: post.excerpt,
+      title: `${title} | Networking For Awesome People`,
+      description,
       url: `https://networkingforawesomepeople.com/blog/${post.slug}`,
       type: "article",
       publishedTime: post.date,
@@ -56,6 +59,7 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.date,
     description: post.excerpt,
     url: `https://networkingforawesomepeople.com/blog/${post.slug}`,
+    keywords: post.tags?.join(", "),
   };
 
   const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
@@ -89,6 +93,11 @@ export default async function BlogPostPage({ params }: Props) {
           <span className="inline-block bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full mb-4">
             {post.category}
           </span>
+          {post.series && (
+            <p className="text-navy/50 text-sm font-medium mb-2">
+              Part {post.seriesOrder || 1} of {post.series}
+            </p>
+          )}
           <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight mb-4">
             {post.title}
           </h1>
@@ -96,6 +105,12 @@ export default async function BlogPostPage({ params }: Props) {
             <span className="font-medium text-navy">{post.author}</span>
             <span>&middot;</span>
             <span>{formattedDate}</span>
+            {post.readTime && (
+              <>
+                <span>&middot;</span>
+                <span>{post.readTime}</span>
+              </>
+            )}
           </div>
         </div>
       </section>

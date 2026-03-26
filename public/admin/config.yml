@@ -20,6 +20,15 @@ collections:
       - { label: "Excerpt", name: "excerpt", widget: "text" }
       - { label: "Featured Image", name: "thumbnail", widget: "image", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Focus Keyword", name: "focusKeyword", widget: "string", required: false }
+      - { label: "Meta Title", name: "metaTitle", widget: "string", required: false }
+      - { label: "Meta Description", name: "metaDescription", widget: "text", required: false }
+      - { label: "Series", name: "series", widget: "string", required: false }
+      - { label: "Series Order", name: "seriesOrder", widget: "number", required: false }
+      - { label: "Read Time", name: "readTime", widget: "string", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
 
   - name: "manchester"
     label: "Manchester (NAPSTER)"
