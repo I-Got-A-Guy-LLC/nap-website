@@ -9,11 +9,13 @@ function getResend() {
 }
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: SupabaseAdapter(),
   providers: [
     EmailProvider({
       server: {},
       from: "members@networkingforawesomepeople.com",
+      maxAge: 86400, // 24 hours
       sendVerificationRequest: async ({ identifier: email, url }) => {
         await getResend().emails.send({
           from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
@@ -56,4 +58,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  debug: process.env.NODE_ENV === "development",
 };

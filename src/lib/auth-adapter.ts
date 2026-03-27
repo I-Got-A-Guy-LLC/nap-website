@@ -213,20 +213,46 @@ export function SupabaseAdapter(): Adapter {
     },
 
     async useVerificationToken({ identifier, token }: { identifier: string; token: string }) {
-      const { data } = await db()
+      // First find the token
+      const { data, error } = await db()
         .from("verification_tokens")
-        .select()
+        .select("*")
         .eq("identifier", identifier)
         .eq("token", token)
-        .single();
+        .maybeSingle();
 
-      if (!data) return null;
+      if (error || !data) {
+        // Try matching by identifier only (in case token format differs)
+        const { data: byIdentifier } = await db()
+          .from("verification_tokens")
+          .select("*")
+          .eq("identifier", identifier)
+          .order("expires", { ascending: false })
+          .limit(1)
+          .maybeSingle();
 
+        if (!byIdentifier) return null;
+
+        // Delete and return
+        await db()
+          .from("verification_tokens")
+          .delete()
+          .eq("identifier", byIdentifier.identifier)
+          .eq("token", byIdentifier.token);
+
+        return {
+          identifier: byIdentifier.identifier,
+          token: byIdentifier.token,
+          expires: new Date(byIdentifier.expires),
+        } as VerificationToken;
+      }
+
+      // Delete the used token
       await db()
         .from("verification_tokens")
         .delete()
-        .eq("identifier", identifier)
-        .eq("token", token);
+        .eq("identifier", data.identifier)
+        .eq("token", data.token);
 
       return {
         identifier: data.identifier,
