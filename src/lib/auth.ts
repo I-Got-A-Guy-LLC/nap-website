@@ -1,32 +1,13 @@
 import { NextAuthOptions } from "next-auth";
-import EmailProvider from "next-auth/providers/email";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { Resend } from "resend";
 import bcrypt from "bcryptjs";
 import { getSupabaseAdmin } from "@/lib/supabase";
-import { SupabaseAdapter } from "@/lib/auth-adapter";
-
-function getResend() {
-  return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
-}
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  adapter: SupabaseAdapter(),
+  // No adapter — using JWT strategy with credentials only
+  // Magic links removed until adapter token issues are resolved
   providers: [
-    EmailProvider({
-      server: {},
-      from: "members@networkingforawesomepeople.com",
-      maxAge: 86400,
-      sendVerificationRequest: async ({ identifier: email, url }) => {
-        await getResend().emails.send({
-          from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
-          to: email,
-          subject: "Sign in to Networking For Awesome People",
-          html: `<p>Click the link below to sign in:</p><p><a href="${url}">Sign in to NAP</a></p><p>This link expires in 24 hours.</p>`,
-        });
-      },
-    }),
     CredentialsProvider({
       name: "Password",
       credentials: {
@@ -34,20 +15,41 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          console.log("[auth] Missing email or password");
+          return null;
+        }
 
         const supabase = getSupabaseAdmin();
-        const { data: member } = await supabase
+        const { data: member, error } = await supabase
           .from("members")
           .select("id, email, full_name, password_hash")
-          .eq("email", credentials.email)
+          .eq("email", credentials.email.toLowerCase().trim())
           .single();
 
-        if (!member || !member.password_hash) return null;
+        if (error) {
+          console.log("[auth] Supabase query error:", error.message);
+          return null;
+        }
+
+        if (!member) {
+          console.log("[auth] No member found for:", credentials.email);
+          return null;
+        }
+
+        if (!member.password_hash) {
+          console.log("[auth] No password_hash set for:", credentials.email);
+          return null;
+        }
 
         const valid = await bcrypt.compare(credentials.password, member.password_hash);
-        if (!valid) return null;
 
+        if (!valid) {
+          console.log("[auth] Password mismatch for:", credentials.email);
+          return null;
+        }
+
+        console.log("[auth] Login successful for:", credentials.email);
         return {
           id: member.id,
           email: member.email,
@@ -59,7 +61,12 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      // On initial sign-in, user object is available
+      if (user) {
+        token.email = user.email;
+      }
+
       if (token.email) {
         const supabase = getSupabaseAdmin();
         const { data: member } = await supabase
@@ -88,5 +95,4 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  debug: process.env.NODE_ENV === "development",
 };
