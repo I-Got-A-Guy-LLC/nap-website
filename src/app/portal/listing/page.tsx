@@ -196,7 +196,7 @@ export default function EditListingPage() {
   const [streetAddress, setStreetAddress] = useState("");
   const [suite, setSuite] = useState("");
   const [addressCity, setAddressCity] = useState("");
-  const [addressState, setAddressState] = useState("TN");
+  const [addressState, setAddressState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [businessHours, setBusinessHours] = useState<BusinessHours>(
     defaultBusinessHours()
@@ -290,7 +290,7 @@ export default function EditListingPage() {
         setStreetAddress(l.street_address || "");
         setSuite(l.suite || "");
         setAddressCity(l.listing_city || "");
-        setAddressState(l.listing_state || "TN");
+        setAddressState(l.listing_state || "");
         setZipCode(l.zip_code || "");
 
         // Business hours
@@ -527,6 +527,20 @@ export default function EditListingPage() {
           <h1 className="font-heading text-3xl md:text-4xl font-bold text-white">
             {listingId ? "Edit Your Listing" : "Create Your Listing"}
           </h1>
+          {/* Tier badge */}
+          <div className="mt-3 flex items-center gap-3">
+            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+              isAmplified ? "bg-[#FE6651] text-white" :
+              isConnected ? "bg-[#F5BE61] text-navy" :
+              "bg-white/20 text-white"
+            }`}>
+              {isAmplified ? (member?.is_leadership ? "Leadership (Amplified)" : "Amplified") :
+               isConnected ? "Connected" : "Linked"}
+            </span>
+            <span className="text-white/60 text-sm">
+              You are editing your {isAmplified ? "Amplified" : isConnected ? "Connected" : "Linked"} listing
+            </span>
+          </div>
           {!listingId && (
             <p className="text-white/60 mt-2 text-sm">
               Fill out the details below to add your business to the NAP
@@ -717,7 +731,10 @@ export default function EditListingPage() {
                 {/* Referral Form URL (read-only, only when listing exists) */}
                 {listingId && referralUrl && (
                   <div>
-                    <label className={labelClass}>Referral Form URL</label>
+                    <label className={labelClass}>
+                      Referral Form URL
+                      <span className="text-gray-400 font-normal ml-1" title="Share this link so people can send you referrals directly. You'll get an email with their details.">ⓘ</span>
+                    </label>
                     <div className="flex items-center gap-2">
                       <input
                         type="text"
@@ -733,15 +750,18 @@ export default function EditListingPage() {
                         {copied ? "Copied!" : "Copy"}
                       </button>
                     </div>
+                    <p className="text-gray-400 text-xs mt-2">
+                      Share this link with your network so they can send you referrals directly. When someone fills out the form, you&apos;ll receive an email with their contact details and notes.
+                    </p>
                   </div>
                 )}
 
-                {/* Additional Category (Connected gets 1 extra = 2 total) */}
+                {/* Additional Category */}
                 <div>
                   <label className={labelClass}>
-                    Additional Category
+                    Additional {isAmplified ? "Categories" : "Category"}
                     <span className="text-gray-400 font-normal ml-1">
-                      (2 total with Connected)
+                      ({isAmplified ? "4 total with Amplified" : "2 total with Connected"})
                     </span>
                   </label>
                   {additionalCategories.map((val, idx) => (
@@ -765,14 +785,19 @@ export default function EditListingPage() {
                   ))}
                 </div>
 
-                {/* Tags (Connected gets 2) */}
+                {/* Tags */}
                 <div>
                   <label className={labelClass}>
                     Tags
                     <span className="text-gray-400 font-normal ml-1">
-                      ({tags.filter((t) => t.trim()).length}/2)
+                      ({isAmplified
+                        ? `${[...tags, ...extraTags].filter((t) => t.trim()).length} of 4 used`
+                        : `${tags.filter((t) => t.trim()).length} of 2 used`})
                     </span>
                   </label>
+                  <p className="text-gray-400 text-xs mb-2">
+                    Tags help people find your listing. Add keywords for your specialty, service area, or what makes you unique. Example: mobile, affordable, emergency service, pet-friendly
+                  </p>
                   <div className="space-y-2">
                     {tags.map((val, idx) => (
                       <input
