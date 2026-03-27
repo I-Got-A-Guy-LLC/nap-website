@@ -2,15 +2,17 @@ import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { Resend } from "resend";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { SupabaseAdapter } from "@/lib/auth-adapter";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 }
 
 export const authOptions: NextAuthOptions = {
+  adapter: SupabaseAdapter(),
   providers: [
     EmailProvider({
-      server: {}, // not used with custom sendVerificationRequest
+      server: {},
       from: "members@networkingforawesomepeople.com",
       sendVerificationRequest: async ({ identifier: email, url }) => {
         await getResend().emails.send({
@@ -25,23 +27,6 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   callbacks: {
-    async signIn({ user }) {
-      if (!user.email) return false;
-      const supabase = getSupabaseAdmin();
-      const { data: member } = await supabase
-        .from("members")
-        .select("id")
-        .eq("email", user.email)
-        .single();
-      if (!member) {
-        await supabase.from("members").insert({
-          email: user.email,
-          full_name: user.name || user.email.split("@")[0],
-          tier: "linked",
-        });
-      }
-      return true;
-    },
     async jwt({ token }) {
       if (token.email) {
         const supabase = getSupabaseAdmin();
