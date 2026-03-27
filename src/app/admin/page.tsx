@@ -15,20 +15,30 @@ export default async function AdminDashboard() {
 
   const supabase = getSupabaseAdmin();
 
-  // Fetch all members with relevant fields
-  const { data: members } = await supabase
+  // Fetch all members
+  const { data: members, error: membersError } = await supabase
     .from("members")
-    .select(
-      "id, tier, is_comped, is_leadership, subscription_status, subscription_interval"
-    );
+    .select("*");
 
-  const tierCounts = { linked: 0, connected: 0, amplified: 0, leadership: 0 };
+  if (membersError) {
+    console.error("Admin dashboard members query error:", membersError);
+  }
+
+  const tierCounts = { linked: 0, connected: 0, amplified: 0 };
+  let leadershipCount = 0;
   const compedCounts = { connected: 0, amplified: 0 };
   const paidCounts = { connected: 0, amplified: 0 };
   let mrr = 0;
 
   (members || []).forEach((m) => {
     const tier = m.tier || "linked";
+
+    // Count leadership separately (leadership is a flag, not a tier)
+    if (m.is_leadership) {
+      leadershipCount++;
+    }
+
+    // Count by tier
     if (tier in tierCounts) {
       tierCounts[tier as keyof typeof tierCounts]++;
     }
@@ -36,7 +46,7 @@ export default async function AdminDashboard() {
     // Track comped vs paid for connected and amplified
     if (tier === "connected" || tier === "amplified") {
       const t = tier as "connected" | "amplified";
-      if (m.is_comped) {
+      if (m.is_comped || m.is_leadership) {
         compedCounts[t]++;
       } else if (m.subscription_status === "active") {
         paidCounts[t]++;
@@ -50,11 +60,9 @@ export default async function AdminDashboard() {
       !m.is_leadership
     ) {
       if (tier === "connected") {
-        // Monthly = $30, Annual = $25/mo equivalent
-        mrr += m.subscription_interval === "year" ? 25 : 30;
+        mrr += m.billing_interval === "year" ? 25 : 30;
       } else if (tier === "amplified") {
-        // Monthly = $50, Annual = ~$42/mo equivalent
-        mrr += m.subscription_interval === "year" ? 42 : 50;
+        mrr += m.billing_interval === "year" ? 42 : 50;
       }
     }
   });
@@ -140,7 +148,7 @@ export default async function AdminDashboard() {
               <p>
                 Leadership:{" "}
                 <span className="font-bold text-[#1F3149]">
-                  {tierCounts.leadership}
+                  {leadershipCount}
                 </span>
                 <span className="text-xs text-gray-500 ml-1">
                   (always comped)
