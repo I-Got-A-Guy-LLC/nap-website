@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const cities = [
-  { name: "Manchester", day: "Tue 9am", href: "/tn/manchester", color: "#71D4D1" },
-  { name: "Murfreesboro", day: "Wed 9am", href: "/tn/murfreesboro", color: "#4A6A8B" },
-  { name: "Nolensville", day: "Thu 9am", href: "/tn/nolensville", color: "#F5BE61" },
+  { name: "Manchester", day: "Tue 9:00am", href: "/tn/manchester", color: "#71D4D1" },
+  { name: "Murfreesboro", day: "Wed 9:00am", href: "/tn/murfreesboro", color: "#4A6A8B" },
+  { name: "Nolensville", day: "Thu 9:00am", href: "/tn/nolensville", color: "#F5BE61" },
   { name: "Smyrna", day: "Fri 9:15am", href: "/tn/smyrna", color: "#FE6651" },
 ];
 

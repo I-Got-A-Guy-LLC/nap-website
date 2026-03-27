@@ -385,7 +385,7 @@ export default function Home() {
                   Where can I find free networking in Middle Tennessee?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9am at FirstBank), Murfreesboro (Wednesdays at 9am at Achieve), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:15am at Smyrna Public Library).
+                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays at 9:00am at Achieve), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:15am at Smyrna Public Library).
                 </p>
               </div>
               <div>

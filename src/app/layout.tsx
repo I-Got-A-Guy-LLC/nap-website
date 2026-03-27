@@ -213,7 +213,7 @@ export default function RootLayout({
           name: "Where can I find free networking in Middle Tennessee?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Networking For Awesome People hosts free weekly meetings in four Middle Tennessee cities: Manchester (Tuesdays at 9am at FirstBank), Murfreesboro (Wednesdays at 9am at Achieve), Nolensville (Thursdays at 9:00am at Waldo's), and Smyrna (Fridays at 9:15am at Smyrna Public Library).",
+            text: "Networking For Awesome People hosts free weekly meetings in four Middle Tennessee cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays at 9:00am at Achieve), Nolensville (Thursdays at 9:00am at Waldo's), and Smyrna (Fridays at 9:15am at Smyrna Public Library).",
           },
         },
         {

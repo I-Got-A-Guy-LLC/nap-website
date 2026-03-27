@@ -66,7 +66,7 @@ export const cities: Record<string, CityData> = {
     lng: -86.0886,
     metaTitle: "Free Weekly Networking in Manchester TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Manchester, Tennessee — free weekly networking every Tuesday at 9am at FirstBank. No fees, no registration required.",
+      "Join Networking For Awesome People in Manchester, Tennessee — free weekly networking every Tuesday at 9:00am at FirstBank. No fees, no registration required.",
     chapterHeading: "About NAPSTER — Manchester's Networking For Awesome People Chapter",
     chapterBody:
       "The Manchester chapter of Networking For Awesome People — known locally as NAPSTER — meets every Tuesday at 9:00am at FirstBank. This is a free, weekly, one-hour meeting designed for Manchester and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
@@ -145,7 +145,7 @@ export const cities: Record<string, CityData> = {
     lng: -86.4138,
     metaTitle: "Free Weekly Networking in Murfreesboro TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Murfreesboro, Tennessee — free weekly networking every Wednesday at 9am at Achieve Entrepreneur & CoWorking Center. No fees, no registration required.",
+      "Join Networking For Awesome People in Murfreesboro, Tennessee — free weekly networking every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. No fees, no registration required.",
     chapterHeading:
       "About BORO NAP — Murfreesboro's Networking For Awesome People Chapter",
     chapterBody:
