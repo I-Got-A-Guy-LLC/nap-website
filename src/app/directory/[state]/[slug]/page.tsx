@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import ReviewForm from "@/components/ReviewForm";
+import ReviewList from "@/components/ReviewList";
 import ListingReferralButton from "@/components/ListingReferralButton";
 
 const dayLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -252,18 +253,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                     <p className="text-navy/40 text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
                   </div>
                 </div>
-                <div className="space-y-6 mb-10">
-                  {reviews.map((review: any) => (
-                    <div key={review.id} className="bg-gray-50 rounded-xl p-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-bold text-navy">{review.reviewer_name}</span>
-                        <span className="text-navy/30 text-sm">{new Date(review.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
-                      </div>
-                      <p className="text-gold text-sm mb-2">{"★".repeat(review.rating || 0)}{"☆".repeat(5 - (review.rating || 0))}</p>
-                      {review.review_text && <p className="text-navy/70 text-sm leading-relaxed">{review.review_text}</p>}
-                    </div>
-                  ))}
-                </div>
+                <ReviewList reviews={reviews} />
               </>
             ) : (
               <p className="text-navy/40 mb-8">No reviews yet. Be the first to leave one!</p>
