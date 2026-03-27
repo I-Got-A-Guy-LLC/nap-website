@@ -10,6 +10,13 @@ interface Category {
   parent_id: string | null;
 }
 
+interface MemberInfo {
+  tier: string;
+  is_leadership: boolean;
+  leadership_city?: string;
+  is_nap_verified: boolean;
+}
+
 interface Listing {
   id: string;
   business_name: string;
@@ -20,16 +27,11 @@ interface Listing {
   website_url?: string;
   logo_url?: string;
   photos?: string[];
-  members: {
-    tier: string;
-    is_leadership: boolean;
-    leadership_city?: string;
-    is_nap_verified: boolean;
-  };
+  members: MemberInfo | MemberInfo[];
   categories?: {
     name: string;
     slug: string;
-  };
+  } | null;
 }
 
 const cityOptions = [
@@ -40,12 +42,26 @@ const cityOptions = [
   { value: "smyrna", label: "Smyrna" },
 ];
 
-const cityColors: Record<string, string> = {
-  manchester: "#71D4D1",
-  murfreesboro: "#1F3149",
-  nolensville: "#F5BE61",
-  smyrna: "#FE6651",
-};
+function getMemberInfo(listing: Listing): MemberInfo {
+  // Supabase may return members as object or array — handle both
+  try {
+    if (!listing.members) return { tier: "linked", is_leadership: false, is_nap_verified: false };
+    if (Array.isArray(listing.members)) return listing.members[0] || { tier: "linked", is_leadership: false, is_nap_verified: false };
+    return listing.members;
+  } catch {
+    return { tier: "linked", is_leadership: false, is_nap_verified: false };
+  }
+}
+
+function getCategoryName(listing: Listing): string {
+  try {
+    if (!listing.categories) return "";
+    if (Array.isArray(listing.categories)) return (listing.categories as any)[0]?.name || "";
+    return listing.categories.name || "";
+  } catch {
+    return "";
+  }
+}
 
 export default function DirectoryBrowser() {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -68,13 +84,17 @@ export default function DirectoryBrowser() {
 
   const fetchListings = async () => {
     setLoading(true);
-    const params = new URLSearchParams();
-    if (search) params.set("search", search);
-    if (city) params.set("city", city);
-    if (category) params.set("category", category);
-    const res = await fetch(`/api/directory?${params}`);
-    const data = await res.json();
-    setListings(data.listings || []);
+    try {
+      const params = new URLSearchParams();
+      if (search) params.set("search", search);
+      if (city) params.set("city", city);
+      if (category) params.set("category", category);
+      const res = await fetch(`/api/directory?${params}`);
+      const data = await res.json();
+      setListings(data.listings || []);
+    } catch {
+      setListings([]);
+    }
     setLoading(false);
   };
 
@@ -83,14 +103,12 @@ export default function DirectoryBrowser() {
     fetchListings();
   };
 
-  const getTierDisplay = (listing: Listing) => {
-    const { tier, is_leadership, leadership_city } = listing.members;
-    if (is_leadership) {
-      const color = cityColors[leadership_city || listing.city] || "#1F3149";
-      return { label: "Leadership", color, textColor: leadership_city === "murfreesboro" ? "white" : "#1F3149" };
+  const getTierDisplay = (member: MemberInfo) => {
+    if (member.is_leadership) {
+      return { label: "Leadership", color: "#FE6651", textColor: "white" };
     }
-    if (tier === "amplified") return { label: "Amplified", color: "#FE6651", textColor: "white" };
-    if (tier === "connected") return { label: "Connected", color: "#F5BE61", textColor: "#1F3149" };
+    if (member.tier === "amplified") return { label: "Amplified", color: "#FE6651", textColor: "white" };
+    if (member.tier === "connected") return { label: "Connected", color: "#F5BE61", textColor: "#1F3149" };
     return { label: "Linked", color: "#1F3149", textColor: "white" };
   };
 
@@ -143,20 +161,22 @@ export default function DirectoryBrowser() {
       ) : (
         <div className="space-y-4">
           {listings.map((listing) => {
-            const tierInfo = getTierDisplay(listing);
-            const isTop = listing.members.is_leadership || listing.members.tier === "amplified";
-            const isConnected = listing.members.tier === "connected";
+            const member = getMemberInfo(listing);
+            const tierInfo = getTierDisplay(member);
+            const isTop = member.is_leadership || member.tier === "amplified";
+            const isConnected = member.tier === "connected";
+            const catName = getCategoryName(listing);
 
             return (
               <Link
                 key={listing.id}
                 href={`/directory/${listing.id}`}
-                className={`block rounded-xl border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
+                className={`block bg-white rounded-xl border border-gray-100 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
                   isTop
-                    ? "bg-smyrna/[0.08] border-l-[3px] border-l-smyrna border-gray-100"
+                    ? "border-l-[3px] border-l-[#FE6651]"
                     : isConnected
-                    ? "bg-nolensville/[0.06] border-l-[2px] border-l-nolensville border-gray-100"
-                    : "bg-navy/[0.04] border-l border-l-navy border-gray-100"
+                    ? "border-l-[3px] border-l-[#F5BE61]"
+                    : "border-l-[3px] border-l-[#1F3149]"
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -178,7 +198,7 @@ export default function DirectoryBrowser() {
                       >
                         {tierInfo.label}
                       </span>
-                      {listing.members.is_nap_verified && (
+                      {member.is_nap_verified && (
                         <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-green-100 text-green-700">
                           NAP Verified
                         </span>
@@ -194,7 +214,7 @@ export default function DirectoryBrowser() {
                     )}
 
                     <div className="flex items-center gap-3 text-xs text-navy/40">
-                      {listing.categories && <span>{listing.categories.name}</span>}
+                      {catName && <span>{catName}</span>}
                       {listing.city && <span className="capitalize">{listing.city}</span>}
                       {listing.website_url && (isTop || isConnected) && (
                         <span className="text-gold">Website</span>
@@ -203,7 +223,7 @@ export default function DirectoryBrowser() {
                   </div>
 
                   {/* Photo thumbnails for Amplified */}
-                  {isTop && listing.photos && listing.photos.length > 0 && (
+                  {isTop && listing.photos && Array.isArray(listing.photos) && listing.photos.length > 0 && (
                     <div className="hidden md:flex gap-1 flex-shrink-0">
                       {listing.photos.slice(0, 3).map((photo, i) => (
                         <div key={i} className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
