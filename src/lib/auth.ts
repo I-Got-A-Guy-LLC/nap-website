@@ -5,8 +5,6 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  // No adapter — using JWT strategy with credentials only
-  // Magic links removed until adapter token issues are resolved
   providers: [
     CredentialsProvider({
       name: "Password",
@@ -15,41 +13,66 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("[auth] === Login attempt ===");
+
         if (!credentials?.email || !credentials?.password) {
-          console.log("[auth] Missing email or password");
+          console.log("[auth] FAIL: Missing email or password");
           return null;
         }
 
-        const supabase = getSupabaseAdmin();
+        const normalizedEmail = credentials.email.toLowerCase().trim();
+        console.log("[auth] Email:", normalizedEmail);
+        console.log("[auth] Password length:", credentials.password.length);
+
+        let supabase;
+        try {
+          supabase = getSupabaseAdmin();
+          console.log("[auth] Supabase URL:", process.env.SUPABASE_URL ? "SET" : "MISSING");
+          console.log("[auth] Supabase key:", process.env.SUPABASE_SERVICE_ROLE_KEY ? "SET" : "MISSING");
+        } catch (e) {
+          console.log("[auth] FAIL: Could not create Supabase client:", e);
+          return null;
+        }
+
         const { data: member, error } = await supabase
           .from("members")
-          .select("id, email, full_name, password_hash")
-          .eq("email", credentials.email.toLowerCase().trim())
+          .select("*")
+          .eq("email", normalizedEmail)
           .single();
 
         if (error) {
-          console.log("[auth] Supabase query error:", error.message);
+          console.log("[auth] FAIL: Supabase query error:", error.message, error.code);
           return null;
         }
 
         if (!member) {
-          console.log("[auth] No member found for:", credentials.email);
+          console.log("[auth] FAIL: No member found");
           return null;
         }
+
+        console.log("[auth] Member found:", member.id, member.full_name);
+        console.log("[auth] Has password_hash:", !!member.password_hash);
+        console.log("[auth] Hash starts with:", member.password_hash?.substring(0, 10) || "NONE");
 
         if (!member.password_hash) {
-          console.log("[auth] No password_hash set for:", credentials.email);
+          console.log("[auth] FAIL: No password_hash set for this member");
           return null;
         }
 
-        const valid = await bcrypt.compare(credentials.password, member.password_hash);
+        try {
+          const valid = await bcrypt.compare(credentials.password, member.password_hash);
+          console.log("[auth] bcrypt.compare result:", valid);
 
-        if (!valid) {
-          console.log("[auth] Password mismatch for:", credentials.email);
+          if (!valid) {
+            console.log("[auth] FAIL: Password does not match hash");
+            return null;
+          }
+        } catch (bcryptError) {
+          console.log("[auth] FAIL: bcrypt.compare threw error:", bcryptError);
           return null;
         }
 
-        console.log("[auth] Login successful for:", credentials.email);
+        console.log("[auth] SUCCESS: Login for", normalizedEmail);
         return {
           id: member.id,
           email: member.email,
@@ -62,7 +85,6 @@ export const authOptions: NextAuthOptions = {
   pages: { signIn: "/login" },
   callbacks: {
     async jwt({ token, user }) {
-      // On initial sign-in, user object is available
       if (user) {
         token.email = user.email;
       }
