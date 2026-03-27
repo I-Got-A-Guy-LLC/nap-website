@@ -1,6 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { Resend } from "resend";
+import bcrypt from "bcryptjs";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { SupabaseAdapter } from "@/lib/auth-adapter";
 
@@ -15,7 +17,7 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       server: {},
       from: "members@networkingforawesomepeople.com",
-      maxAge: 86400, // 24 hours
+      maxAge: 86400,
       sendVerificationRequest: async ({ identifier: email, url }) => {
         await getResend().emails.send({
           from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
@@ -23,6 +25,34 @@ export const authOptions: NextAuthOptions = {
           subject: "Sign in to Networking For Awesome People",
           html: `<p>Click the link below to sign in:</p><p><a href="${url}">Sign in to NAP</a></p><p>This link expires in 24 hours.</p>`,
         });
+      },
+    }),
+    CredentialsProvider({
+      name: "Password",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const supabase = getSupabaseAdmin();
+        const { data: member } = await supabase
+          .from("members")
+          .select("id, email, full_name, password_hash")
+          .eq("email", credentials.email)
+          .single();
+
+        if (!member || !member.password_hash) return null;
+
+        const valid = await bcrypt.compare(credentials.password, member.password_hash);
+        if (!valid) return null;
+
+        return {
+          id: member.id,
+          email: member.email,
+          name: member.full_name,
+        };
       },
     }),
   ],
