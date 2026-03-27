@@ -3,6 +3,7 @@ import { League_Spartan, Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Providers from "@/components/Providers";
 
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],
@@ -372,9 +373,11 @@ export default function RootLayout({
         ))}
       </head>
       <body className="font-body antialiased">
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
+        <Providers>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

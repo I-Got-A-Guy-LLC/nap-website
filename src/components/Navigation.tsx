@@ -67,6 +67,9 @@ export default function Navigation() {
             <Link href="/events" className="font-medium text-white hover:text-navy transition-colors">
               Events
             </Link>
+            <Link href="/directory" className="font-medium text-white hover:text-navy transition-colors">
+              Directory
+            </Link>
             <Link href="/expand" className="font-medium text-white hover:text-navy transition-colors">
               Lead a Chapter
             </Link>
@@ -125,6 +128,9 @@ export default function Navigation() {
             </div>
             <Link href="/events" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
               Events
+            </Link>
+            <Link href="/directory" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
+              Directory
             </Link>
             <Link href="/expand" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
               Lead a Chapter

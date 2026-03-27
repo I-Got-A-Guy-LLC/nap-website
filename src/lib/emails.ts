@@ -1,0 +1,325 @@
+import { Resend } from "resend";
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
+}
+
+const FROM = "Networking For Awesome People <members@networkingforawesomepeople.com>";
+const ADMIN_EMAIL = "rachel@networkingforawesomepeople.com";
+
+// ---------------------------------------------------------------------------
+// Shared email layout
+// ---------------------------------------------------------------------------
+
+function emailWrapper(content: string): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body style="margin:0;padding:0;background-color:#f4f4f7;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f7;padding:32px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+        <!-- Header -->
+        <tr>
+          <td style="background-color:#0a1628;padding:24px 32px;border-radius:12px 12px 0 0;text-align:center;">
+            <h1 style="margin:0;color:#c8a951;font-size:20px;font-weight:700;">Networking For Awesome People</h1>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="background-color:#ffffff;padding:32px;font-size:15px;line-height:1.6;color:#333333;">
+            ${content}
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="background-color:#0a1628;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center;">
+            <p style="margin:0;color:#8899aa;font-size:12px;">&copy; Networking For Awesome People. All rights reserved.</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+function goldButton(url: string, label: string): string {
+  return `<table cellpadding="0" cellspacing="0" style="margin:24px 0;"><tr><td style="background-color:#c8a951;border-radius:9999px;padding:12px 32px;"><a href="${url}" style="color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;">${label}</a></td></tr></table>`;
+}
+
+// ---------------------------------------------------------------------------
+// Member emails
+// ---------------------------------------------------------------------------
+
+export async function sendLinkedWelcome(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "You're in! Your listing is pending approval.",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to NAP, ${name}!</h2>
+      <p>Thanks for signing up for a Linked listing. Your submission is now being reviewed by our team.</p>
+      <p>We'll let you know as soon as your listing is approved and live in the directory.</p>
+      <p style="color:#888;font-size:13px;">This usually takes 1–2 business days.</p>
+    `),
+  });
+}
+
+export async function sendLinkedApproved(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Your NAP listing is live!",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Great news, ${name}!</h2>
+      <p>Your Linked listing has been approved and is now live in the NAP directory.</p>
+      <p>People can now find you and connect with you through Networking For Awesome People.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "View Your Listing")}
+    `),
+  });
+}
+
+export async function sendLinkedRejected(email: string, name: string, reason: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "About your NAP listing submission...",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Hi ${name},</h2>
+      <p>Thanks for submitting a listing to NAP. Unfortunately, we weren't able to approve it at this time.</p>
+      <p><strong>Reason:</strong> ${reason}</p>
+      <p>You're welcome to update your listing and resubmit. If you have any questions, just reply to this email.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "Update Your Listing")}
+    `),
+  });
+}
+
+export async function sendConnectedWelcome(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Welcome to Connected! Your listing is live.",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to Connected, ${name}!</h2>
+      <p>Your Connected membership is active and your enhanced listing is live in the NAP directory.</p>
+      <p>You now have access to all Connected features including priority placement, enhanced profile options, and more.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "Go to Your Portal")}
+    `),
+  });
+}
+
+export async function sendAmplifiedWelcome(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Welcome to Amplified! Your listing is live.",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to Amplified, ${name}!</h2>
+      <p>Your Amplified membership is active — you now have the top-tier NAP experience.</p>
+      <p>Enjoy featured placement, maximum visibility, premium profile options, and everything NAP has to offer.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "Go to Your Portal")}
+    `),
+  });
+}
+
+export async function sendReceipt(email: string, name: string, amount: string, date: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Payment confirmation — Networking For Awesome People",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Payment Received</h2>
+      <p>Hi ${name}, thanks for your payment!</p>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#666;">Amount</td><td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;font-weight:600;">${amount}</td></tr>
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#666;">Date</td><td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;">${date}</td></tr>
+      </table>
+      <p style="color:#888;font-size:13px;">If you have any questions about this charge, just reply to this email.</p>
+    `),
+  });
+}
+
+export async function sendPaymentFailed(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Action required: Payment failed",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Hi ${name},</h2>
+      <p>We were unable to process your latest payment. Please update your payment method to keep your membership active.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal/billing", "Update Payment Method")}
+      <p style="color:#888;font-size:13px;">If you believe this is an error, please reply to this email.</p>
+    `),
+  });
+}
+
+export async function sendCancellationConfirmed(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Your NAP membership has been cancelled",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">We're sorry to see you go, ${name}.</h2>
+      <p>Your paid membership has been cancelled. Your listing will revert to the free Linked tier at the end of your current billing period.</p>
+      <p>You can rejoin anytime — we'd love to have you back.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "Visit Your Portal")}
+    `),
+  });
+}
+
+export async function sendNewReviewNotification(email: string, name: string, reviewerName: string, rating: number) {
+  const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "You got a new review!",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New review, ${name}!</h2>
+      <p><strong>${reviewerName}</strong> left you a review:</p>
+      <p style="font-size:24px;color:#c8a951;margin:8px 0;">${stars}</p>
+      <p>Log in to your portal to read the full review and respond.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "View Review")}
+    `),
+  });
+}
+
+export async function sendNapVerifiedGranted(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "You've earned the NAP Verified badge!",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Congratulations, ${name}!</h2>
+      <p>You've been awarded the <strong style="color:#c8a951;">NAP Verified</strong> badge. This badge tells the community that you're a trusted, active member of the network.</p>
+      <p>Your badge is now visible on your listing.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "View Your Listing")}
+    `),
+  });
+}
+
+export async function sendCategorySuggestionReceived(email: string, name: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "We got your category suggestion!",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Thanks, ${name}!</h2>
+      <p>We received your category suggestion and our team will review it shortly.</p>
+      <p>We'll let you know once a decision has been made.</p>
+    `),
+  });
+}
+
+export async function sendCategorySuggestionApproved(email: string, name: string, categoryName: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Your category suggestion was added!",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Great news, ${name}!</h2>
+      <p>Your suggested category <strong>"${categoryName}"</strong> has been approved and added to the directory.</p>
+      <p>You can now select it for your listing.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal", "Update Your Listing")}
+    `),
+  });
+}
+
+export async function sendRenewalReminder30(email: string, name: string, renewalDate: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Your NAP membership renews in 30 days",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Heads up, ${name}!</h2>
+      <p>Your NAP membership will automatically renew on <strong>${renewalDate}</strong>.</p>
+      <p>No action is needed — just a friendly reminder. If you'd like to make any changes to your plan or payment method, you can do so in your portal.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal/billing", "Manage Billing")}
+    `),
+  });
+}
+
+export async function sendRenewalReminder7(email: string, name: string, renewalDate: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Your NAP membership renews in 7 days",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Final reminder, ${name}</h2>
+      <p>Your NAP membership will renew on <strong>${renewalDate}</strong> — that's just 7 days away.</p>
+      <p>Make sure your payment method is up to date to avoid any interruption.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal/billing", "Manage Billing")}
+    `),
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Admin notification emails
+// ---------------------------------------------------------------------------
+
+export async function notifyNewLinkedListing(memberName: string, businessName: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `New Linked listing: ${businessName}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New Listing Pending Approval</h2>
+      <p><strong>${memberName}</strong> submitted a new Linked listing for <strong>${businessName}</strong>.</p>
+      <p>Log in to the admin dashboard to review and approve or reject it.</p>
+      ${goldButton("https://networkingforawesomepeople.com/admin/listings", "Review Listing")}
+    `),
+  });
+}
+
+export async function notifyCategorySuggestion(memberName: string, suggestion: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `Category suggestion: ${suggestion}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New Category Suggestion</h2>
+      <p><strong>${memberName}</strong> suggested a new category: <strong>"${suggestion}"</strong></p>
+      ${goldButton("https://networkingforawesomepeople.com/admin/categories", "Review Suggestion")}
+    `),
+  });
+}
+
+export async function notifyNewReview(businessName: string, reviewerName: string, rating: number) {
+  const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `New ${rating}-star review for ${businessName}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New Review Posted</h2>
+      <p><strong>${reviewerName}</strong> left a <span style="color:#c8a951;">${stars}</span> review for <strong>${businessName}</strong>.</p>
+      ${goldButton("https://networkingforawesomepeople.com/admin/reviews", "View Review")}
+    `),
+  });
+}
+
+export async function notifyTierUpgrade(memberName: string, fromTier: string, toTier: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `Tier upgrade: ${memberName} → ${toTier}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Member Tier Upgrade</h2>
+      <p><strong>${memberName}</strong> upgraded from <strong>${fromTier}</strong> to <strong>${toTier}</strong>.</p>
+    `),
+  });
+}
+
+export async function notifyPaymentFailed(memberName: string, amount: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `Payment failed: ${memberName}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Payment Failed</h2>
+      <p>A payment of <strong>${amount}</strong> failed for member <strong>${memberName}</strong>.</p>
+      ${goldButton("https://networkingforawesomepeople.com/admin/billing", "View Details")}
+    `),
+  });
+}
