@@ -10,9 +10,8 @@ interface Member {
   email: string;
   city: string | null;
   tier: string;
-  status: string | null;
   subscription_status: string | null;
-  renewal_date: string | null;
+  current_period_end: string | null;
   is_nap_verified: boolean;
   is_leadership: boolean;
   is_comped: boolean;
@@ -25,6 +24,19 @@ export default function MembersClient() {
   const [tierFilter, setTierFilter] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  // Add member form state
+  const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newBusiness, setNewBusiness] = useState("");
+  const [newCity, setNewCity] = useState("");
+  const [newTier, setNewTier] = useState("linked");
+  const [newComped, setNewComped] = useState(false);
+  const [newCompReason, setNewCompReason] = useState("");
+  const [newCompExpires, setNewCompExpires] = useState("");
+  const [addLoading, setAddLoading] = useState(false);
+  const [addError, setAddError] = useState("");
 
   useEffect(() => {
     fetchMembers();
@@ -46,19 +58,50 @@ export default function MembersClient() {
     setLoading(false);
   }
 
+  async function handleAddMember(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newName || !newEmail) {
+      setAddError("Name and email are required.");
+      return;
+    }
+    setAddLoading(true);
+    setAddError("");
+
+    const res = await fetch("/api/admin/members", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        full_name: newName,
+        email: newEmail.toLowerCase().trim(),
+        business_name: newBusiness || null,
+        city: newCity || null,
+        tier: newTier,
+        is_comped: newComped,
+        comp_reason: newCompReason || null,
+        comp_expires_at: newCompExpires || null,
+      }),
+    });
+
+    if (res.ok) {
+      setShowAddForm(false);
+      setNewName(""); setNewEmail(""); setNewBusiness(""); setNewCity("");
+      setNewTier("linked"); setNewComped(false); setNewCompReason(""); setNewCompExpires("");
+      fetchMembers();
+    } else {
+      const data = await res.json();
+      setAddError(data.error || "Failed to create member.");
+    }
+    setAddLoading(false);
+  }
+
   const tierBadge = (tier: string) => {
     const colors: Record<string, string> = {
       linked: "bg-gray-100 text-gray-700",
       connected: "bg-blue-100 text-blue-700",
       amplified: "bg-[#FBC761]/20 text-[#1F3149]",
-      leadership: "bg-purple-100 text-purple-700",
     };
     return (
-      <span
-        className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-          colors[tier] || "bg-gray-100 text-gray-700"
-        }`}
-      >
+      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${colors[tier] || "bg-gray-100 text-gray-700"}`}>
         {tier}
       </span>
     );
@@ -66,33 +109,21 @@ export default function MembersClient() {
 
   const statusBadge = (member: Member) => {
     if (member.is_comped) {
-      return (
-        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#FE6651]/20 text-[#FE6651]">
-          COMPED
-        </span>
-      );
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#FE6651]/20 text-[#FE6651]">COMPED</span>;
     }
     if (member.is_leadership) {
-      return (
-        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#1F3149] text-white">
-          LEADERSHIP
-        </span>
-      );
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#1F3149] text-white">LEADERSHIP</span>;
     }
     if (member.subscription_status === "active" && !member.is_comped) {
-      return (
-        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
-          PAID
-        </span>
-      );
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">PAID</span>;
     }
     return null;
   };
 
   return (
     <div>
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      {/* Filters + Add Button */}
+      <div className="flex flex-wrap gap-3 mb-6 items-center">
         <input
           type="text"
           value={search}
@@ -100,48 +131,109 @@ export default function MembersClient() {
           placeholder="Search name or email..."
           className="border rounded-lg px-3 py-2 text-sm w-64"
         />
-        <select
-          value={tierFilter}
-          onChange={(e) => setTierFilter(e.target.value)}
-          className="border rounded-lg px-3 py-2 text-sm"
-        >
+        <select value={tierFilter} onChange={(e) => setTierFilter(e.target.value)} className="border rounded-lg px-3 py-2 text-sm">
           <option value="">All Tiers</option>
           <option value="linked">Linked</option>
           <option value="connected">Connected</option>
           <option value="amplified">Amplified</option>
-          <option value="leadership">Leadership</option>
         </select>
-        <select
-          value={cityFilter}
-          onChange={(e) => setCityFilter(e.target.value)}
-          className="border rounded-lg px-3 py-2 text-sm"
-        >
+        <select value={cityFilter} onChange={(e) => setCityFilter(e.target.value)} className="border rounded-lg px-3 py-2 text-sm">
           <option value="">All Cities</option>
-          <option value="Manchester">Manchester</option>
-          <option value="Murfreesboro">Murfreesboro</option>
-          <option value="Nolensville">Nolensville</option>
-          <option value="Smyrna">Smyrna</option>
+          <option value="manchester">Manchester</option>
+          <option value="murfreesboro">Murfreesboro</option>
+          <option value="nolensville">Nolensville</option>
+          <option value="smyrna">Smyrna</option>
         </select>
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="border rounded-lg px-3 py-2 text-sm"
-        >
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border rounded-lg px-3 py-2 text-sm">
           <option value="">All Statuses</option>
           <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="canceled">Canceled</option>
         </select>
+        <div className="flex-1" />
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="bg-gold text-navy font-bold px-5 py-2 rounded-full text-sm hover:bg-gold/90 transition-colors"
+        >
+          {showAddForm ? "Cancel" : "+ Add Member"}
+        </button>
       </div>
+
+      {/* Add Member Form */}
+      {showAddForm && (
+        <div className="bg-white rounded-xl shadow border border-gray-100 p-6 mb-6">
+          <h3 className="font-heading text-lg font-bold text-navy mb-4">Add New Member</h3>
+          <form onSubmit={handleAddMember} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-navy text-sm font-bold mb-1">Full Name *</label>
+              <input type="text" required value={newName} onChange={(e) => setNewName(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+            </div>
+            <div>
+              <label className="block text-navy text-sm font-bold mb-1">Email *</label>
+              <input type="email" required value={newEmail} onChange={(e) => setNewEmail(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+            </div>
+            <div>
+              <label className="block text-navy text-sm font-bold mb-1">Business Name</label>
+              <input type="text" value={newBusiness} onChange={(e) => setNewBusiness(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+            </div>
+            <div>
+              <label className="block text-navy text-sm font-bold mb-1">City</label>
+              <select value={newCity} onChange={(e) => setNewCity(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gold">
+                <option value="">Select...</option>
+                <option value="manchester">Manchester</option>
+                <option value="murfreesboro">Murfreesboro</option>
+                <option value="nolensville">Nolensville</option>
+                <option value="smyrna">Smyrna</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-navy text-sm font-bold mb-1">Tier</label>
+              <select value={newTier} onChange={(e) => setNewTier(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gold">
+                <option value="linked">Linked</option>
+                <option value="connected">Connected</option>
+                <option value="amplified">Amplified</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-3 pt-6">
+              <input type="checkbox" id="new-comped" checked={newComped} onChange={(e) => setNewComped(e.target.checked)} className="w-4 h-4 accent-gold" />
+              <label htmlFor="new-comped" className="text-navy text-sm font-bold">Comped member</label>
+            </div>
+            {newComped && (
+              <>
+                <div>
+                  <label className="block text-navy text-sm font-bold mb-1">Comp Reason</label>
+                  <input type="text" value={newCompReason} onChange={(e) => setNewCompReason(e.target.value)}
+                    placeholder="e.g. Existing paid member, Founding member"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+                </div>
+                <div>
+                  <label className="block text-navy text-sm font-bold mb-1">Comp Expires</label>
+                  <input type="date" value={newCompExpires} onChange={(e) => setNewCompExpires(e.target.value)}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+                </div>
+              </>
+            )}
+            <div className="md:col-span-2">
+              {addError && <p className="text-smyrna text-sm font-medium mb-2">{addError}</p>}
+              <button type="submit" disabled={addLoading}
+                className="bg-navy text-white font-bold px-6 py-2.5 rounded-full text-sm hover:bg-navy/90 transition-colors disabled:opacity-50">
+                {addLoading ? "Creating..." : "Create Member"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Table */}
       <div className="bg-white rounded-xl shadow overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">Loading...</div>
         ) : members.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
-            No members found.
-          </div>
+          <div className="p-8 text-center text-gray-500">No members found.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -152,9 +244,7 @@ export default function MembersClient() {
                   <th className="px-4 py-3 text-left font-medium">Email</th>
                   <th className="px-4 py-3 text-left font-medium">City</th>
                   <th className="px-4 py-3 text-left font-medium">Tier</th>
-                  <th className="px-4 py-3 text-left font-medium">Badge</th>
                   <th className="px-4 py-3 text-left font-medium">Status</th>
-                  <th className="px-4 py-3 text-left font-medium">Renewal</th>
                   <th className="px-4 py-3 text-left font-medium">Verified</th>
                 </tr>
               </thead>
@@ -162,42 +252,17 @@ export default function MembersClient() {
                 {members.map((m) => (
                   <tr key={m.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
-                      <Link
-                        href={`/admin/members/${m.id}`}
-                        className="font-medium text-[#1F3149] hover:text-[#FBC761] transition"
-                      >
+                      <Link href={`/admin/members/${m.id}`} className="font-medium text-[#1F3149] hover:text-[#FBC761] transition">
                         {m.full_name}
                       </Link>
                     </td>
                     <td className="px-4 py-3">{m.business_name || "—"}</td>
                     <td className="px-4 py-3 text-gray-500">{m.email}</td>
-                    <td className="px-4 py-3">{m.city || "—"}</td>
+                    <td className="px-4 py-3 capitalize">{m.city || "—"}</td>
                     <td className="px-4 py-3">{tierBadge(m.tier)}</td>
                     <td className="px-4 py-3">{statusBadge(m)}</td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`text-xs font-medium ${
-                          m.status === "active"
-                            ? "text-green-600"
-                            : "text-gray-400"
-                        }`}
-                      >
-                        {m.status || "—"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-gray-500 text-xs">
-                      {m.renewal_date
-                        ? new Date(m.renewal_date).toLocaleDateString()
-                        : "—"}
-                    </td>
                     <td className="px-4 py-3 text-center">
-                      {m.is_nap_verified ? (
-                        <span className="text-[#FBC761]" title="Verified">
-                          ★
-                        </span>
-                      ) : (
-                        "—"
-                      )}
+                      {m.is_nap_verified ? <span className="text-[#FBC761]" title="Verified">★</span> : "—"}
                     </td>
                   </tr>
                 ))}

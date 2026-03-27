@@ -62,6 +62,60 @@ export async function GET(request: Request) {
   }
 }
 
+export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email || session.user.email !== "hello@networkingforawesomepeople.com") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const { full_name, email, business_name, city, tier, is_comped, comp_reason, comp_expires_at } = body;
+
+    if (!full_name || !email) {
+      return NextResponse.json({ error: "Name and email are required" }, { status: 400 });
+    }
+
+    const supabase = getSupabaseAdmin();
+
+    // Check if member already exists
+    const { data: existing } = await supabase
+      .from("members")
+      .select("id")
+      .eq("email", email.toLowerCase().trim())
+      .single();
+
+    if (existing) {
+      return NextResponse.json({ error: "A member with this email already exists" }, { status: 409 });
+    }
+
+    const { data: member, error } = await supabase
+      .from("members")
+      .insert({
+        full_name,
+        email: email.toLowerCase().trim(),
+        business_name: business_name || null,
+        city: city || null,
+        tier: tier || "linked",
+        is_comped: is_comped || false,
+        comp_reason: comp_reason || null,
+        comp_expires_at: comp_expires_at || null,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Member creation error:", error);
+      return NextResponse.json({ error: "Failed to create member" }, { status: 500 });
+    }
+
+    return NextResponse.json({ member });
+  } catch (error) {
+    console.error("Members POST error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
 export async function PATCH(request: Request) {
   const session = await getServerSession(authOptions);
   if (
