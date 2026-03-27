@@ -103,11 +103,15 @@ export async function PATCH(request: Request) {
     const isPaid = member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
 
     // Check if listing exists
-    const { data: existingListing } = await supabase
+    const { data: existingListing, error: findError } = await supabase
       .from("directory_listings")
       .select("id, is_approved")
       .eq("member_id", member.id)
       .maybeSingle();
+
+    console.log("[listing] Member:", member.id, member.email, "Tier:", member.tier);
+    console.log("[listing] Existing listing:", existingListing?.id || "NONE");
+    if (findError) console.log("[listing] Find error:", findError.message);
 
     if (existingListing) {
       // UPDATE existing listing
@@ -123,23 +127,33 @@ export async function PATCH(request: Request) {
         .eq("id", existingListing.id);
 
       if (updateError) {
-        console.error("Listing update error:", updateError);
-        return NextResponse.json({ error: "Failed to update listing" }, { status: 500 });
+        console.error("[listing] Update error:", updateError.message, updateError.code);
+        return NextResponse.json({ error: "Failed to update listing: " + updateError.message }, { status: 500 });
       }
+      console.log("[listing] Updated listing:", existingListing.id);
     } else {
       // INSERT new listing
+      console.log("[listing] No existing listing — creating new one");
       body.member_id = member.id;
       body.is_approved = isPaid;
       body.approval_status = isPaid ? "approved" : "pending";
+      body.is_active = true;
 
-      const { error: insertError } = await supabase
+      // Ensure required field
+      if (!body.business_name) body.business_name = member.full_name;
+      if (!body.contact_name) body.contact_name = member.full_name;
+
+      const { data: newListing, error: insertError } = await supabase
         .from("directory_listings")
-        .insert(body);
+        .insert(body)
+        .select("id")
+        .single();
 
       if (insertError) {
-        console.error("Listing insert error:", insertError);
-        return NextResponse.json({ error: "Failed to create listing" }, { status: 500 });
+        console.error("[listing] Insert error:", insertError.message, insertError.code, insertError.details);
+        return NextResponse.json({ error: "Failed to create listing: " + insertError.message }, { status: 500 });
       }
+      console.log("[listing] Created listing:", newListing?.id);
     }
 
     // Handle category suggestion
