@@ -7,7 +7,7 @@ export default async function ReviewsPage() {
   const session = await getServerSession(authOptions);
   if (
     !session?.user?.email ||
-    session.user.email !== "rachel@networkingforawesomepeople.com"
+    session.user.email !== "hello@networkingforawesomepeople.com"
   ) {
     redirect("/portal");
   }

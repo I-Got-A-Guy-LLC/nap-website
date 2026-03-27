@@ -19,7 +19,7 @@ export default function VerifyPage() {
   }
 
   // Only Rachel and leadership members can access
-  const isAdmin = session.user?.email === "rachel@networkingforawesomepeople.com";
+  const isAdmin = session.user?.email === "hello@networkingforawesomepeople.com";
   const isLeadership = (session as any).isLeadership;
   if (!isAdmin && !isLeadership) {
     router.push("/portal");

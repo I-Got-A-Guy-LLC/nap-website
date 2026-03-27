@@ -7,7 +7,7 @@ export async function GET() {
   const session = await getServerSession(authOptions);
   if (
     !session?.user?.email ||
-    session.user.email !== "rachel@networkingforawesomepeople.com"
+    session.user.email !== "hello@networkingforawesomepeople.com"
   ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -59,7 +59,7 @@ export async function DELETE(request: Request) {
   const session = await getServerSession(authOptions);
   if (
     !session?.user?.email ||
-    session.user.email !== "rachel@networkingforawesomepeople.com"
+    session.user.email !== "hello@networkingforawesomepeople.com"
   ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

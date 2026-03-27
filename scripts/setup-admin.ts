@@ -11,7 +11,7 @@ const supabase = createClient(
 );
 
 async function main() {
-  const email = "rachel@networkingforawesomepeople.com";
+  const email = "hello@networkingforawesomepeople.com";
 
   const { data: existing } = await supabase
     .from("members")

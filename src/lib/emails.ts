@@ -5,7 +5,7 @@ function getResend() {
 }
 
 const FROM = "Networking For Awesome People <members@networkingforawesomepeople.com>";
-const ADMIN_EMAIL = "rachel@networkingforawesomepeople.com";
+const ADMIN_EMAIL = "hello@networkingforawesomepeople.com";
 
 // ---------------------------------------------------------------------------
 // Shared email layout
