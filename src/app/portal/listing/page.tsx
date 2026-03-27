@@ -66,6 +66,10 @@ function defaultBusinessHours(): BusinessHours {
 }
 
 function parseBusinessHours(raw: any): BusinessHours {
+  // Handle string (double-encoded JSON)
+  if (typeof raw === "string") {
+    try { raw = JSON.parse(raw); } catch { return defaultBusinessHours(); }
+  }
   if (!raw || typeof raw !== "object") return defaultBusinessHours();
   const result = defaultBusinessHours();
   for (const day of Object.keys(result)) {
@@ -268,10 +272,13 @@ export default function EditListingPage() {
         setTags([storedTags[0] || "", storedTags[1] || ""]);
         setExtraTags([storedTags[2] || "", storedTags[3] || ""]);
 
-        // Social
-        setSocialLinks(
-          l.social_links || { facebook: "", instagram: "", linkedin: "", twitter: "" }
-        );
+        // Social — individual columns, not a single object
+        setSocialLinks({
+          facebook: l.social_facebook || "",
+          instagram: l.social_instagram || "",
+          linkedin: l.social_linkedin || "",
+          twitter: l.social_twitter || "",
+        });
 
         // Photos
         setPhotos(Array.isArray(l.photos) ? l.photos : []);
@@ -437,7 +444,10 @@ export default function EditListingPage() {
           : [...tags];
         payload.tags = allTags.map((t) => t.trim()).filter(Boolean);
 
-        payload.social_links = socialLinks;
+        payload.social_facebook = socialLinks.facebook;
+        payload.social_instagram = socialLinks.instagram;
+        payload.social_linkedin = socialLinks.linkedin;
+        payload.social_twitter = socialLinks.twitter;
       }
 
       if (isAmplified) {
@@ -1009,9 +1019,10 @@ export default function EditListingPage() {
                       <input
                         type="text"
                         value={addressState}
-                        onChange={(e) => setAddressState(e.target.value)}
+                        onChange={(e) => setAddressState(e.target.value.toUpperCase().slice(0, 2))}
+                        maxLength={2}
                         className={inputClass}
-                        placeholder="State"
+                        placeholder="ST"
                       />
                       <input
                         type="text"
