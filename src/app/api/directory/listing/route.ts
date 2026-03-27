@@ -99,6 +99,26 @@ export async function PATCH(request: Request) {
       body.address = parts.join(", ");
     }
 
+    // Auto-generate slug from business_name
+    if (body.business_name && !body.slug) {
+      const baseSlug = body.business_name
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .trim();
+      // Check uniqueness
+      const state = body.listing_state || "TN";
+      const { data: existing } = await supabase
+        .from("directory_listings")
+        .select("slug")
+        .eq("listing_state", state)
+        .eq("slug", baseSlug)
+        .neq("member_id", member.id)
+        .maybeSingle();
+      body.slug = existing ? `${baseSlug}-${Date.now().toString(36).slice(-4)}` : baseSlug;
+    }
+
     // Set approval based on tier
     const isPaid = member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
 

@@ -366,20 +366,29 @@ export default function EditListingPage() {
   /*  Copy referral URL                                                */
   /* ---------------------------------------------------------------- */
 
-  const referralUrl = listingId
+  // Build listing URL using state/slug format
+  const listingSlug = businessName
+    ? businessName.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-")
+    : null;
+  const listingState = (addressState || "tn").toLowerCase();
+  const listingUrl = listingId && listingSlug
+    ? `https://networkingforawesomepeople.com/directory/${listingState}/${listingSlug}`
+    : null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _referralUrl = listingId
     ? `https://networkingforawesomepeople.com/referral/${listingId}`
     : null;
 
   const copyReferralUrl = async () => {
-    if (!referralUrl) return;
+    if (!listingUrl) return;
     try {
-      await navigator.clipboard.writeText(referralUrl);
+      await navigator.clipboard.writeText(listingUrl!);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Fallback
       const el = document.createElement("textarea");
-      el.value = referralUrl;
+      el.value = listingUrl!;
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
@@ -728,18 +737,18 @@ export default function EditListingPage() {
                   />
                 </div>
 
-                {/* Referral Form URL (read-only, only when listing exists) */}
-                {listingId && referralUrl && (
+                {/* Listing URL (read-only, only when listing exists) */}
+                {listingId && listingUrl && (
                   <div>
                     <label className={labelClass}>
-                      Referral Form URL
-                      <span className="text-gray-400 font-normal ml-1" title="Share this link so people can send you referrals directly. You'll get an email with their details.">ⓘ</span>
+                      Your Listing URL
+                      <span className="text-gray-400 font-normal ml-1" title="Share this link with your network. Visitors can send you referrals from your listing page.">ⓘ</span>
                     </label>
                     <div className="flex items-center gap-2">
                       <input
                         type="text"
                         readOnly
-                        value={referralUrl}
+                        value={listingUrl}
                         className={`${inputClass} bg-gray-50 text-gray-500 flex-1`}
                       />
                       <button
@@ -751,7 +760,7 @@ export default function EditListingPage() {
                       </button>
                     </div>
                     <p className="text-gray-400 text-xs mt-2">
-                      Share this link with your network so they can send you referrals directly. When someone fills out the form, you&apos;ll receive an email with their contact details and notes.
+                      Share this link with your network. Visitors can send you referrals directly from your listing page.
                     </p>
                   </div>
                 )}

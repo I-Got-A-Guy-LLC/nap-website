@@ -20,6 +20,8 @@ interface MemberInfo {
 interface Listing {
   id: string;
   business_name: string;
+  slug?: string;
+  listing_state?: string;
   tagline?: string;
   description?: string;
   contact_name: string;
@@ -170,7 +172,7 @@ export default function DirectoryBrowser() {
             return (
               <Link
                 key={listing.id}
-                href={`/directory/${listing.id}`}
+                href={listing.slug ? `/directory/${(listing.listing_state || "tn").toLowerCase()}/${listing.slug}` : `/directory/${listing.id}`}
                 className={`block bg-white rounded-xl border border-gray-100 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
                   isTop
                     ? "border-l-[3px] border-l-[#FE6651]"
