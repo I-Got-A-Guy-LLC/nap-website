@@ -136,7 +136,7 @@ export const cities: Record<string, CityData> = {
     dayPlural: "Wednesdays",
     time: "9:00am",
     timeRange: "9:00am–10:00am",
-    venue: "Achieve Entrepreneur & Coworking Space",
+    venue: "Achieve Entrepreneur & CoWorking Center",
     address: "1630 S Church St #100",
     city: "Murfreesboro",
     state: "TN",
@@ -145,11 +145,11 @@ export const cities: Record<string, CityData> = {
     lng: -86.4138,
     metaTitle: "Free Weekly Networking in Murfreesboro TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Murfreesboro, Tennessee — free weekly networking every Wednesday at 9am at Achieve Entrepreneur & Coworking Space. No fees, no registration required.",
+      "Join Networking For Awesome People in Murfreesboro, Tennessee — free weekly networking every Wednesday at 9am at Achieve Entrepreneur & CoWorking Center. No fees, no registration required.",
     chapterHeading:
       "About BORO NAP — Murfreesboro's Networking For Awesome People Chapter",
     chapterBody:
-      "The Murfreesboro chapter of Networking For Awesome People — known locally as BORO NAP — meets every Wednesday at 9:00am at Achieve Entrepreneur & Coworking Space. This is a free, weekly, one-hour meeting designed for Murfreesboro and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
+      "The Murfreesboro chapter of Networking For Awesome People — known locally as BORO NAP — meets every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. This is a free, weekly, one-hour meeting designed for Murfreesboro and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
     leaders: [
       {
         name: "Rachel Albertson",
@@ -177,7 +177,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Murfreesboro?",
         answer:
-          "The Murfreesboro chapter of Networking For Awesome People — also known as BORO NAP — meets every Wednesday from 9:00am to 10:00am at Achieve Entrepreneur & Coworking Space, 1630 S Church St #100, Murfreesboro, TN 37130.",
+          "The Murfreesboro chapter of Networking For Awesome People — also known as BORO NAP — meets every Wednesday from 9:00am to 10:00am at Achieve Entrepreneur & CoWorking Center, 1630 S Church St #100, Murfreesboro, TN 37130.",
       },
       {
         question: "Is the Murfreesboro networking meeting free?",
@@ -187,7 +187,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "Where does Networking For Awesome People meet in Murfreesboro?",
         answer:
-          "Networking For Awesome People meets at Achieve Entrepreneur & Coworking Space, located at 1630 S Church St #100, Murfreesboro, TN 37130.",
+          "Networking For Awesome People meets at Achieve Entrepreneur & CoWorking Center, located at 1630 S Church St #100, Murfreesboro, TN 37130.",
       },
       {
         question: "Do I need to register to attend the Murfreesboro networking meeting?",
@@ -215,8 +215,8 @@ export const cities: Record<string, CityData> = {
     btnClass: "bg-navy text-white",
     day: "Thursday",
     dayPlural: "Thursdays",
-    time: "8:30am",
-    timeRange: "8:30am–9:30am",
+    time: "9:00am",
+    timeRange: "9:00am–10:00am",
     venue: "Waldo's Chicken and Beer",
     address: "7238 Nolensville Road",
     city: "Nolensville",
@@ -226,11 +226,11 @@ export const cities: Record<string, CityData> = {
     lng: -86.6691,
     metaTitle: "Free Weekly Networking in Nolensville TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Nolensville, Tennessee — free weekly networking every Thursday at 8:30am at Waldo's Chicken and Beer. No fees, no registration required.",
+      "Join Networking For Awesome People in Nolensville, Tennessee — free weekly networking every Thursday at 9:00am at Waldo's Chicken and Beer. No fees, no registration required.",
     chapterHeading:
       "About N\u00B2 — Nolensville's Networking For Awesome People Chapter",
     chapterBody:
-      "The Nolensville chapter of Networking For Awesome People — known locally as N\u00B2 — meets every Thursday at 8:30am at Waldo's Chicken and Beer. This is a free, weekly, one-hour meeting designed for Nolensville and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
+      "The Nolensville chapter of Networking For Awesome People — known locally as N\u00B2 — meets every Thursday at 9:00am at Waldo's Chicken and Beer. This is a free, weekly, one-hour meeting designed for Nolensville and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
     leaders: [
       {
         name: "Mike Dotson",
@@ -251,7 +251,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Nolensville?",
         answer:
-          "The Nolensville chapter of Networking For Awesome People — also known as N\u00B2 — meets every Thursday from 8:30am to 9:30am at Waldo's Chicken and Beer, 7238 Nolensville Road, Nolensville, TN 37135.",
+          "The Nolensville chapter of Networking For Awesome People — also known as N\u00B2 — meets every Thursday from 9:00am to 10:00am at Waldo's Chicken and Beer, 7238 Nolensville Road, Nolensville, TN 37135.",
       },
       {
         question: "Is the Nolensville networking meeting free?",
@@ -266,7 +266,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "Do I need to register to attend the Nolensville networking meeting?",
         answer:
-          "No registration is required. You can walk in as a first-time visitor with no advance sign-up. Just show up at Waldo's on Thursday at 8:30am.",
+          "No registration is required. You can walk in as a first-time visitor with no advance sign-up. Just show up at Waldo's on Thursday at 9:00am.",
       },
       {
         question:

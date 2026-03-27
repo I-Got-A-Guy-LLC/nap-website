@@ -25,7 +25,6 @@ const allCategories = [
   "Networking Tips",
   "Introverts Welcome",
   "Connections & Collaboration",
-  "Member Stories",
 ];
 
 export default function BlogGrid({ posts }: BlogGridProps) {

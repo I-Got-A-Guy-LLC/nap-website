@@ -148,7 +148,7 @@ export default function RootLayout({
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       name: "Networking For Awesome People — Nolensville",
-      description: "Free weekly business networking in Nolensville, Tennessee. Meets every Thursday at 8:30am at Waldo's.",
+      description: "Free weekly business networking in Nolensville, Tennessee. Meets every Thursday at 9:00am at Waldo's.",
       url: "https://networkingforawesomepeople.com/tn/nolensville",
       address: {
         "@type": "PostalAddress",
@@ -164,8 +164,8 @@ export default function RootLayout({
       openingHoursSpecification: {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: "Thursday",
-        opens: "08:30",
-        closes: "09:30",
+        opens: "09:00",
+        closes: "10:00",
       },
       priceRange: "Free",
     },
@@ -212,7 +212,7 @@ export default function RootLayout({
           name: "Where can I find free networking in Middle Tennessee?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Networking For Awesome People hosts free weekly meetings in four Middle Tennessee cities: Manchester (Tuesdays at 9am at FirstBank), Murfreesboro (Wednesdays at 9am at Achieve), Nolensville (Thursdays at 8:30am at Waldo's), and Smyrna (Fridays at 9:15am at Smyrna Public Library).",
+            text: "Networking For Awesome People hosts free weekly meetings in four Middle Tennessee cities: Manchester (Tuesdays at 9am at FirstBank), Murfreesboro (Wednesdays at 9am at Achieve), Nolensville (Thursdays at 9:00am at Waldo's), and Smyrna (Fridays at 9:15am at Smyrna Public Library).",
           },
         },
         {
@@ -317,14 +317,14 @@ export default function RootLayout({
       "@type": "Event",
       name: "Free Weekly Networking — Nolensville",
       description: "Free weekly professional networking meeting in Nolensville, Tennessee at Waldo's.",
-      startDate: "2026-04-02T08:30:00-05:00",
-      endDate: "2026-04-02T09:30:00-05:00",
+      startDate: "2026-04-02T09:00:00-05:00",
+      endDate: "2026-04-02T10:00:00-05:00",
       eventSchedule: {
         "@type": "Schedule",
         repeatFrequency: "P1W",
         byDay: "https://schema.org/Thursday",
-        startTime: "08:30:00-05:00",
-        endTime: "09:30:00-05:00",
+        startTime: "09:00:00-05:00",
+        endTime: "10:00:00-05:00",
       },
       location: {
         "@type": "Place",

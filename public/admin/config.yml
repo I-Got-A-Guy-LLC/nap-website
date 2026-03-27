@@ -16,7 +16,7 @@ collections:
       - { label: "Slug", name: "slug", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Author", name: "author", widget: "string", default: "Rachel Albertson" }
-      - { label: "Category", name: "category", widget: "select", options: ["Networking Tips", "Introverts Welcome", "Connections & Collaboration", "Member Stories"] }
+      - { label: "Category", name: "category", widget: "select", options: ["Networking Tips", "Introverts Welcome", "Connections & Collaboration"] }
       - { label: "Excerpt", name: "excerpt", widget: "text" }
       - { label: "Featured Image", name: "thumbnail", widget: "image", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -53,7 +53,7 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Day", name: "day", widget: "string", default: "Wednesday" }
       - { label: "Time", name: "time", widget: "string", default: "9:00am" }
-      - { label: "Location", name: "location", widget: "string", default: "Achieve Entrepreneur & Coworking Space" }
+      - { label: "Location", name: "location", widget: "string", default: "Achieve Entrepreneur & CoWorking Center" }
       - { label: "Address", name: "address", widget: "string", default: "1630 S Church St #100, Murfreesboro, TN 37130" }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Body", name: "body", widget: "markdown" }
@@ -66,7 +66,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Day", name: "day", widget: "string", default: "Thursday" }
-      - { label: "Time", name: "time", widget: "string", default: "8:30am" }
+      - { label: "Time", name: "time", widget: "string", default: "9:00am" }
       - { label: "Location", name: "location", widget: "string", default: "Waldo's Chicken and Beer" }
       - { label: "Address", name: "address", widget: "string", default: "7238 Nolensville Road, Nolensville, TN 37135" }
       - { label: "Description", name: "description", widget: "text" }

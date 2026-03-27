@@ -34,7 +34,7 @@ const locations = [
     name: "Murfreesboro",
     day: "Wednesdays",
     time: "9:00am–10:00am",
-    venue: "Achieve Entrepreneur & Coworking Space",
+    venue: "Achieve Entrepreneur & CoWorking Center",
     address: "1630 S Church St #100, Murfreesboro, TN 37130",
     href: "/tn/murfreesboro",
     borderColor: "border-l-navy",
@@ -43,7 +43,7 @@ const locations = [
   {
     name: "Nolensville",
     day: "Thursdays",
-    time: "8:30am–9:30am",
+    time: "9:00am–10:00am",
     venue: "Waldo's Chicken and Beer",
     address: "7238 Nolensville Road, Nolensville, TN 37135",
     href: "/tn/nolensville",
@@ -259,7 +259,7 @@ export default function AboutPage() {
                   A Guy, LLC — a Middle Tennessee business network. Rachel built Networking For
                   Awesome People on the belief that networking should feel like belonging, not a
                   transaction. She co-leads the Murfreesboro chapter every Wednesday at Achieve
-                  Entrepreneur &amp; Coworking Space and oversees city leaders across all four
+                  Entrepreneur &amp; CoWorking Center and oversees city leaders across all four
                   Networking For Awesome People locations.
                 </p>
                 <a

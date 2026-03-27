@@ -40,7 +40,7 @@ const eventSchemas = [
     description: "Free weekly networking meeting in Murfreesboro, Tennessee",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    location: { "@type": "Place", name: "Achieve Entrepreneur & Coworking Space", address: "1630 S Church St #100, Murfreesboro, TN 37130" },
+    location: { "@type": "Place", name: "Achieve Entrepreneur & CoWorking Center", address: "1630 S Church St #100, Murfreesboro, TN 37130" },
     organizer: { "@type": "Organization", name: "Networking For Awesome People", url: "https://networkingforawesomepeople.com" },
     isAccessibleForFree: true,
     startDate: "2026-01-01",
@@ -57,7 +57,7 @@ const eventSchemas = [
     organizer: { "@type": "Organization", name: "Networking For Awesome People", url: "https://networkingforawesomepeople.com" },
     isAccessibleForFree: true,
     startDate: "2026-01-01",
-    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Thursday", startTime: "08:30:00-06:00", endTime: "09:30:00-06:00" },
+    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Thursday", startTime: "09:00:00-06:00", endTime: "10:00:00-06:00" },
   },
   {
     "@context": "https://schema.org",

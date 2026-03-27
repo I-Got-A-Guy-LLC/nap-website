@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const cityLinks = [
   { name: "Manchester", detail: "Tuesdays 9:00am", href: "/tn/manchester", color: "#71D4D1" },
   { name: "Murfreesboro", detail: "Wednesdays 9:00am", href: "/tn/murfreesboro", color: "#2A4A6B" },
-  { name: "Nolensville", detail: "Thursdays 8:30am", href: "/tn/nolensville", color: "#F5BE61" },
+  { name: "Nolensville", detail: "Thursdays 9:00am", href: "/tn/nolensville", color: "#F5BE61" },
   { name: "Smyrna", detail: "Fridays 9:15am", href: "/tn/smyrna", color: "#FE6651" },
 ];
 

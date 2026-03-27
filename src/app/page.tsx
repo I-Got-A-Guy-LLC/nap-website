@@ -25,7 +25,7 @@ const cityPanels = [
   {
     name: "Nolensville",
     day: "Thursdays",
-    time: "8:30am",
+    time: "9:00am",
     location: "Waldo's",
     href: "/tn/nolensville",
     bg: "bg-nolensville",
@@ -85,7 +85,7 @@ export default function Home() {
   return (
     <>
       {/* ===== SECTION 1 — HERO ===== */}
-      <section className="bg-navy relative">
+      <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
         {/* Background image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -385,7 +385,7 @@ export default function Home() {
                   Where can I find free networking in Middle Tennessee?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9am at FirstBank), Murfreesboro (Wednesdays at 9am at Achieve), Nolensville (Thursdays at 8:30am at Waldo&apos;s), and Smyrna (Fridays at 9:15am at Smyrna Public Library).
+                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9am at FirstBank), Murfreesboro (Wednesdays at 9am at Achieve), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:15am at Smyrna Public Library).
                 </p>
               </div>
               <div>
