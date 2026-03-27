@@ -1,8 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+/* ------------------------------------------------------------------ */
+/*  Constants                                                          */
+/* ------------------------------------------------------------------ */
 
 const cityOptions = [
   { value: "manchester", label: "Manchester" },
@@ -11,42 +16,200 @@ const cityOptions = [
   { value: "smyrna", label: "Smyrna" },
 ];
 
-const dayLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const dayLabels = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+/* ------------------------------------------------------------------ */
+/*  Types                                                              */
+/* ------------------------------------------------------------------ */
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  parent_id: string | null;
+}
+
+interface BusinessHoursDay {
+  open: boolean;
+  openTime: string;
+  closeTime: string;
+}
+
+type BusinessHours = Record<string, BusinessHoursDay>;
+
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
+
+const inputClass =
+  "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900";
+
+const selectClass =
+  "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 bg-white";
+
+const labelClass = "block text-sm font-medium text-gray-700 mb-1";
+
+function defaultBusinessHours(): BusinessHours {
+  const hours: BusinessHours = {};
+  dayLabels.forEach((d) => {
+    hours[d.toLowerCase()] = { open: false, openTime: "09:00", closeTime: "17:00" };
+  });
+  return hours;
+}
+
+function parseBusinessHours(raw: any): BusinessHours {
+  if (!raw || typeof raw !== "object") return defaultBusinessHours();
+  const result = defaultBusinessHours();
+  for (const day of Object.keys(result)) {
+    if (raw[day] && typeof raw[day] === "object") {
+      result[day] = {
+        open: !!raw[day].open,
+        openTime: raw[day].openTime || "09:00",
+        closeTime: raw[day].closeTime || "17:00",
+      };
+    } else if (typeof raw[day] === "string" && raw[day].trim()) {
+      // Legacy: simple string like "9:00 AM - 5:00 PM"
+      result[day] = { open: true, openTime: "09:00", closeTime: "17:00" };
+    }
+  }
+  return result;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Upload helper                                                      */
+/* ------------------------------------------------------------------ */
+
+async function handleUpload(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch("/api/upload", { method: "POST", body: formData });
+  const data = await res.json();
+  if (data.url) return data.url;
+  throw new Error(data.error || "Upload failed");
+}
+
+/* ------------------------------------------------------------------ */
+/*  Upgrade prompt                                                     */
+/* ------------------------------------------------------------------ */
+
+function UpgradePrompt({ tierName }: { tierName: string }) {
+  return (
+    <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+      <p className="text-navy/50 text-sm mb-2">
+        Available with {tierName} membership
+      </p>
+      <Link
+        href="/join"
+        className="text-gold text-sm font-bold hover:underline"
+      >
+        Upgrade &rarr;
+      </Link>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section wrapper                                                    */
+/* ------------------------------------------------------------------ */
+
+function Section({
+  title,
+  children,
+  border = true,
+}: {
+  title: string;
+  children: React.ReactNode;
+  border?: boolean;
+}) {
+  return (
+    <fieldset
+      className={`space-y-4 ${border ? "border-t border-gray-200 pt-8" : ""}`}
+    >
+      <legend className="font-heading text-lg font-bold text-navy mb-2">
+        {title}
+      </legend>
+      {children}
+    </fieldset>
+  );
+}
+
+/* ================================================================== */
+/*  MAIN COMPONENT                                                     */
+/* ================================================================== */
 
 export default function EditListingPage() {
   const { status } = useSession();
   const router = useRouter();
 
+  /* ---- State: loading / feedback ---- */
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [member, setMember] = useState<any>(null);
-  const [, setListing] = useState<any>(null);
-  const [categories, setCategories] = useState<any[]>([]);
 
-  // Form fields
+  /* ---- State: server data ---- */
+  const [member, setMember] = useState<any>(null);
+  const [listingId, setListingId] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  /* ---- State: All-tier fields ---- */
   const [businessName, setBusinessName] = useState("");
   const [tagline, setTagline] = useState("");
-  const [description, setDescription] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [city, setCity] = useState("");
   const [primaryCategoryId, setPrimaryCategoryId] = useState("");
+
+  /* ---- State: Connected+ fields ---- */
   const [logoUrl, setLogoUrl] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
-  const [referralFormUrl, setReferralFormUrl] = useState("");
-  const [tags, setTags] = useState("");
-  const [categorySuggestion, setCategorySuggestion] = useState("");
-  const [socialLinks, setSocialLinks] = useState({ facebook: "", instagram: "", linkedin: "", twitter: "" });
-  const [photos, setPhotos] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
-  const [address, setAddress] = useState("");
-  const [specialOffers, setSpecialOffers] = useState("");
-  const [businessHours, setBusinessHours] = useState<Record<string, string>>({
-    monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", saturday: "", sunday: "",
+  const [additionalCategories, setAdditionalCategories] = useState<string[]>([""]);
+  const [tags, setTags] = useState<string[]>([""]);
+  const [socialLinks, setSocialLinks] = useState({
+    facebook: "",
+    instagram: "",
+    linkedin: "",
+    twitter: "",
   });
+  const [description, setDescription] = useState("");
+  const [specialOffers, setSpecialOffers] = useState("");
+  const [categorySuggestion, setCategorySuggestion] = useState("");
+
+  /* ---- State: Amplified fields ---- */
+  const [extraCategories, setExtraCategories] = useState<string[]>(["", "", ""]);
+  const [extraTags, setExtraTags] = useState<string[]>(["", ""]);
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [suite, setSuite] = useState("");
+  const [addressCity, setAddressCity] = useState("");
+  const [addressState, setAddressState] = useState("TN");
+  const [zipCode, setZipCode] = useState("");
+  const [businessHours, setBusinessHours] = useState<BusinessHours>(
+    defaultBusinessHours()
+  );
+
+  /* ---- Upload state ---- */
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [photosUploading, setPhotosUploading] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const photosInputRef = useRef<HTMLInputElement>(null);
+
+  /* ---- Referral URL copy ---- */
+  const [copied, setCopied] = useState(false);
+
+  /* ---------------------------------------------------------------- */
+  /*  Auth redirect                                                    */
+  /* ---------------------------------------------------------------- */
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -54,45 +217,77 @@ export default function EditListingPage() {
     }
   }, [status, router]);
 
+  /* ---------------------------------------------------------------- */
+  /*  Fetch data                                                       */
+  /* ---------------------------------------------------------------- */
+
   useEffect(() => {
     if (status === "authenticated") {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   const fetchData = async () => {
     try {
-      // Fetch member + listing data via a lightweight API or directly
       const res = await fetch("/api/directory/listing");
-      if (res.ok) {
-        const data = await res.json();
-        setMember(data.member);
-        setListing(data.listing);
-        setCategories(data.categories || []);
+      if (!res.ok) throw new Error("Failed to load");
+      const data = await res.json();
 
-        if (data.listing) {
-          const l = data.listing;
-          setBusinessName(l.business_name || "");
-          setTagline(l.tagline || "");
-          setDescription(l.description || "");
-          setContactName(l.contact_name || "");
-          setContactEmail(l.contact_email || "");
-          setContactPhone(l.contact_phone || "");
-          setCity(l.city || "");
-          setPrimaryCategoryId(l.primary_category_id || "");
-          setLogoUrl(l.logo_url || "");
-          setWebsiteUrl(l.website_url || "");
-          setReferralFormUrl(l.referral_form_url || "");
-          setTags(Array.isArray(l.tags) ? l.tags.join(", ") : "");
-          setSocialLinks(l.social_links || { facebook: "", instagram: "", linkedin: "", twitter: "" });
-          setPhotos(Array.isArray(l.photos) ? l.photos.join("\n") : "");
-          setVideoUrl(l.video_url || "");
-          setAddress(l.address || "");
-          setSpecialOffers(l.special_offers || "");
-          setBusinessHours(l.business_hours || {
-            monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", saturday: "", sunday: "",
-          });
-        }
+      setMember(data.member);
+      setCategories(data.categories || []);
+
+      if (data.listing) {
+        const l = data.listing;
+        setListingId(l.id);
+        setBusinessName(l.business_name || "");
+        setTagline(l.tagline || "");
+        setContactName(l.contact_name || "");
+        setContactEmail(l.contact_email || "");
+        setContactPhone(l.contact_phone || "");
+        setCity(l.city || "");
+        setPrimaryCategoryId(l.primary_category_id || "");
+        setDescription(l.description || "");
+        setSpecialOffers(l.special_offers || "");
+
+        // Logo
+        setLogoUrl(l.logo_url || "");
+
+        // Website
+        setWebsiteUrl(l.website_url || "");
+
+        // Additional categories — split stored array into Connected (1) + Amplified (3)
+        const stored: string[] = Array.isArray(l.additional_category_ids)
+          ? l.additional_category_ids
+          : [];
+        setAdditionalCategories([stored[0] || ""]);
+        setExtraCategories([stored[1] || "", stored[2] || "", stored[3] || ""]);
+
+        // Tags
+        const storedTags: string[] = Array.isArray(l.tags) ? l.tags : [];
+        setTags([storedTags[0] || "", storedTags[1] || ""]);
+        setExtraTags([storedTags[2] || "", storedTags[3] || ""]);
+
+        // Social
+        setSocialLinks(
+          l.social_links || { facebook: "", instagram: "", linkedin: "", twitter: "" }
+        );
+
+        // Photos
+        setPhotos(Array.isArray(l.photos) ? l.photos : []);
+
+        // Video
+        setVideoUrl(l.video_url || "");
+
+        // Address
+        setStreetAddress(l.street_address || "");
+        setSuite(l.suite || "");
+        setAddressCity(l.listing_city || "");
+        setAddressState(l.listing_state || "TN");
+        setZipCode(l.zip_code || "");
+
+        // Business hours
+        setBusinessHours(parseBusinessHours(l.business_hours));
       }
     } catch {
       setError("Failed to load listing data.");
@@ -101,6 +296,111 @@ export default function EditListingPage() {
     }
   };
 
+  /* ---------------------------------------------------------------- */
+  /*  Tier helpers                                                     */
+  /* ---------------------------------------------------------------- */
+
+  const tier = member?.tier || "linked";
+  const isConnected =
+    tier === "connected" || tier === "amplified" || member?.is_leadership;
+  const isAmplified = tier === "amplified" || member?.is_leadership;
+
+  /* ---------------------------------------------------------------- */
+  /*  Main categories (parent_id is null)                              */
+  /* ---------------------------------------------------------------- */
+
+  const mainCategories = categories.filter((c) => !c.parent_id);
+
+  /* ---------------------------------------------------------------- */
+  /*  Upload handlers                                                  */
+  /* ---------------------------------------------------------------- */
+
+  const onLogoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLogoUploading(true);
+    try {
+      const url = await handleUpload(file);
+      setLogoUrl(url);
+    } catch (err: any) {
+      setError(err.message || "Logo upload failed");
+    } finally {
+      setLogoUploading(false);
+      if (logoInputRef.current) logoInputRef.current.value = "";
+    }
+  };
+
+  const onPhotosFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const remaining = 8 - photos.length;
+    if (remaining <= 0) {
+      setError("Maximum 8 photos allowed.");
+      return;
+    }
+    setPhotosUploading(true);
+    try {
+      const toUpload = Array.from(files).slice(0, remaining);
+      const urls = await Promise.all(toUpload.map(handleUpload));
+      setPhotos((prev) => [...prev, ...urls]);
+    } catch (err: any) {
+      setError(err.message || "Photo upload failed");
+    } finally {
+      setPhotosUploading(false);
+      if (photosInputRef.current) photosInputRef.current.value = "";
+    }
+  };
+
+  const removePhoto = (idx: number) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  /* ---------------------------------------------------------------- */
+  /*  Copy referral URL                                                */
+  /* ---------------------------------------------------------------- */
+
+  const referralUrl = listingId
+    ? `https://networkingforawesomepeople.com/referral/${listingId}`
+    : null;
+
+  const copyReferralUrl = async () => {
+    if (!referralUrl) return;
+    try {
+      await navigator.clipboard.writeText(referralUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback
+      const el = document.createElement("textarea");
+      el.value = referralUrl;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  /* ---------------------------------------------------------------- */
+  /*  Google Maps address                                              */
+  /* ---------------------------------------------------------------- */
+
+  const fullAddress = [
+    streetAddress,
+    suite,
+    addressCity,
+    `${addressState} ${zipCode}`.trim(),
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const showMap = streetAddress && addressCity && zipCode;
+
+  /* ---------------------------------------------------------------- */
+  /*  Save                                                             */
+  /* ---------------------------------------------------------------- */
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -108,10 +408,9 @@ export default function EditListingPage() {
     setSuccess(false);
 
     try {
-      const payload: any = {
+      const payload: Record<string, any> = {
         business_name: businessName,
         tagline,
-        description,
         contact_name: contactName,
         contact_email: contactEmail,
         contact_phone: contactPhone,
@@ -119,24 +418,36 @@ export default function EditListingPage() {
         primary_category_id: primaryCategoryId || null,
       };
 
-      const tier = member?.tier || "linked";
-      const isConnected = tier === "connected" || tier === "amplified" || member?.is_leadership;
-      const isAmplified = tier === "amplified" || member?.is_leadership;
-
       if (isConnected) {
         payload.logo_url = logoUrl;
         payload.website_url = websiteUrl;
-        payload.referral_form_url = referralFormUrl;
-        payload.tags = tags ? tags.split(",").map((t: string) => t.trim()).filter(Boolean) : [];
-        payload.social_links = socialLinks;
+        payload.description = description;
+        payload.special_offers = specialOffers;
         payload.category_suggestion = categorySuggestion || null;
+
+        // Merge additional categories: Connected gets 1, Amplified gets 1+3
+        const allAdditional = isAmplified
+          ? [...additionalCategories, ...extraCategories]
+          : [...additionalCategories];
+        payload.additional_category_ids = allAdditional.filter(Boolean);
+
+        // Merge tags: Connected gets 2, Amplified gets 2+2
+        const allTags = isAmplified
+          ? [...tags, ...extraTags]
+          : [...tags];
+        payload.tags = allTags.map((t) => t.trim()).filter(Boolean);
+
+        payload.social_links = socialLinks;
       }
 
       if (isAmplified) {
-        payload.photos = photos ? photos.split("\n").map((p: string) => p.trim()).filter(Boolean) : [];
+        payload.photos = photos;
         payload.video_url = videoUrl;
-        payload.address = address;
-        payload.special_offers = specialOffers;
+        payload.street_address = streetAddress;
+        payload.suite = suite;
+        payload.listing_city = addressCity;
+        payload.listing_state = addressState;
+        payload.zip_code = zipCode;
         payload.business_hours = businessHours;
       }
 
@@ -153,43 +464,77 @@ export default function EditListingPage() {
 
       setSuccess(true);
       setCategorySuggestion("");
+
+      // Re-fetch to get ID for new listings
+      if (!listingId) {
+        const refreshRes = await fetch("/api/directory/listing");
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          if (refreshData.listing?.id) {
+            setListingId(refreshData.listing.id);
+          }
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } finally {
       setSaving(false);
     }
   };
 
+  /* ---------------------------------------------------------------- */
+  /*  Loading state                                                    */
+  /* ---------------------------------------------------------------- */
+
   if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-navy/40">Loading...</p>
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-gray-200 border-t-[#c8a951] rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-navy/40">Loading your listing...</p>
+        </div>
       </div>
     );
   }
 
-  const tier = member?.tier || "linked";
-  const isConnected = tier === "connected" || tier === "amplified" || member?.is_leadership;
-  const isAmplified = tier === "amplified" || member?.is_leadership;
+  /* ================================================================ */
+  /*  RENDER                                                           */
+  /* ================================================================ */
 
   return (
     <>
+      {/* ---- Header ---- */}
       <section className="bg-navy py-12 md:py-16 px-4">
         <div className="w-[90%] max-w-[700px] mx-auto">
           <p className="text-gold text-sm mb-2">
-            <a href="/portal" className="hover:underline">&larr; Back to Portal</a>
+            <Link href="/portal" className="hover:underline">
+              &larr; Back to Portal
+            </Link>
           </p>
           <h1 className="font-heading text-3xl md:text-4xl font-bold text-white">
-            Edit Your Listing
+            {listingId ? "Edit Your Listing" : "Create Your Listing"}
           </h1>
+          {!listingId && (
+            <p className="text-white/60 mt-2 text-sm">
+              Fill out the details below to add your business to the NAP
+              Directory.
+            </p>
+          )}
         </div>
       </section>
 
+      {/* ---- Form ---- */}
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[700px] mx-auto">
+          {/* Feedback messages */}
           {success && (
             <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 text-green-700 text-sm font-medium">
-              Listing saved successfully!
+              {isConnected
+                ? "Listing saved and published!"
+                : "Listing saved! It will be visible after admin approval."}
             </div>
           )}
           {error && (
@@ -199,264 +544,611 @@ export default function EditListingPage() {
           )}
 
           <form onSubmit={handleSave} className="space-y-8">
-            {/* Basic Info — All Tiers */}
-            <fieldset className="space-y-4">
-              <legend className="font-heading text-lg font-bold text-navy mb-2">Basic Information</legend>
-
+            {/* ============================================================ */}
+            {/*  BASIC INFORMATION — ALL TIERS                                */}
+            {/* ============================================================ */}
+            <Section title="Basic Information" border={false}>
+              {/* Business Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Business Name *</label>
+                <label className={labelClass}>Business Name *</label>
                 <input
                   type="text"
                   required
                   value={businessName}
                   onChange={(e) => setBusinessName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
+                  className={inputClass}
                 />
               </div>
 
+              {/* Tagline */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                <label className={labelClass}>Tagline</label>
                 <input
                   type="text"
                   value={tagline}
                   onChange={(e) => setTagline(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
+                  className={inputClass}
                   placeholder="A short description of your business"
                 />
               </div>
 
+              {/* Contact Name + Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact Name *</label>
+                  <label className={labelClass}>Contact Name *</label>
                   <input
                     type="text"
                     required
                     value={contactName}
                     onChange={(e) => setContactName(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
+                    className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact Email *</label>
+                  <label className={labelClass}>Contact Email</label>
                   <input
                     type="email"
-                    required
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
+                    className={inputClass}
                   />
                 </div>
               </div>
 
+              {/* Phone + City */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <label className={labelClass}>Phone</label>
                   <input
                     type="tel"
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
+                    className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                  <label className={labelClass}>City</label>
                   <select
-                    required
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 bg-white"
+                    className={selectClass}
                   >
                     <option value="">Select a city</option>
                     {cityOptions.map((c) => (
-                      <option key={c.value} value={c.value}>{c.label}</option>
+                      <option key={c.value} value={c.value}>
+                        {c.label}
+                      </option>
                     ))}
                   </select>
                 </div>
               </div>
 
+              {/* Primary Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Primary Category *</label>
+                <label className={labelClass}>Primary Category</label>
                 <select
-                  required
                   value={primaryCategoryId}
                   onChange={(e) => setPrimaryCategoryId(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 bg-white"
+                  className={selectClass}
                 >
                   <option value="">Select a category</option>
-                  {categories.map((cat: any) => (
-                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  {mainCategories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
                   ))}
                 </select>
               </div>
+            </Section>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea
-                  rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 resize-none"
-                  placeholder="Tell people about your business..."
-                />
-              </div>
-            </fieldset>
-
-            {/* Connected + Amplified Fields */}
-            {isConnected && (
-              <fieldset className="space-y-4 border-t border-gray-200 pt-8">
-                <legend className="font-heading text-lg font-bold text-navy mb-2">Enhanced Profile</legend>
-
+            {/* ============================================================ */}
+            {/*  ENHANCED PROFILE — CONNECTED + AMPLIFIED                     */}
+            {/* ============================================================ */}
+            {isConnected ? (
+              <Section title="Enhanced Profile">
+                {/* Logo */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Logo URL</label>
-                  <input
-                    type="url"
-                    value={logoUrl}
-                    onChange={(e) => setLogoUrl(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                    placeholder="https://..."
-                  />
+                  <label className={labelClass}>Logo</label>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => logoInputRef.current?.click()}
+                      disabled={logoUploading}
+                      className="px-4 py-2 bg-navy text-white text-sm font-medium rounded-lg hover:bg-navy/90 transition-colors disabled:opacity-50"
+                    >
+                      {logoUploading ? "Uploading..." : "Upload Logo"}
+                    </button>
+                    <span className="text-gray-400 text-sm">or</span>
+                    <input
+                      type="url"
+                      value={logoUrl}
+                      onChange={(e) => setLogoUrl(e.target.value)}
+                      className={`${inputClass} flex-1`}
+                      placeholder="Paste image URL"
+                    />
+                    <input
+                      ref={logoInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={onLogoFileChange}
+                      className="hidden"
+                    />
+                  </div>
+                  {logoUrl && (
+                    <div className="mt-3 relative inline-block">
+                      <img
+                        src={logoUrl}
+                        alt="Logo preview"
+                        className="h-20 w-20 object-contain rounded-lg border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setLogoUrl("")}
+                        className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center hover:bg-red-600"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
                 </div>
 
+                {/* Website URL */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Website URL</label>
+                  <label className={labelClass}>Website URL</label>
                   <input
                     type="url"
                     value={websiteUrl}
                     onChange={(e) => setWebsiteUrl(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
+                    className={inputClass}
                     placeholder="https://yourbusiness.com"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Referral Form URL</label>
-                  <input
-                    type="url"
-                    value={referralFormUrl}
-                    onChange={(e) => setReferralFormUrl(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                    placeholder="https://..."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
-                  <input
-                    type="text"
-                    value={tags}
-                    onChange={(e) => setTags(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                    placeholder="plumber, emergency repair, residential"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Suggest a New Category</label>
-                  <input
-                    type="text"
-                    value={categorySuggestion}
-                    onChange={(e) => setCategorySuggestion(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                    placeholder="Don't see your category? Suggest one here."
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {Object.entries(socialLinks).map(([platform, value]) => (
-                    <div key={platform}>
-                      <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">{platform}</label>
+                {/* Referral Form URL (read-only, only when listing exists) */}
+                {listingId && referralUrl && (
+                  <div>
+                    <label className={labelClass}>Referral Form URL</label>
+                    <div className="flex items-center gap-2">
                       <input
-                        type="url"
-                        value={value}
-                        onChange={(e) => setSocialLinks((prev) => ({ ...prev, [platform]: e.target.value }))}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                        placeholder={`https://${platform}.com/...`}
+                        type="text"
+                        readOnly
+                        value={referralUrl}
+                        className={`${inputClass} bg-gray-50 text-gray-500 flex-1`}
                       />
+                      <button
+                        type="button"
+                        onClick={copyReferralUrl}
+                        className="px-4 py-3 bg-navy text-white text-sm font-medium rounded-lg hover:bg-navy/90 transition-colors whitespace-nowrap"
+                      >
+                        {copied ? "Copied!" : "Copy"}
+                      </button>
                     </div>
+                  </div>
+                )}
+
+                {/* Additional Category (Connected gets 1 extra = 2 total) */}
+                <div>
+                  <label className={labelClass}>
+                    Additional Category
+                    <span className="text-gray-400 font-normal ml-1">
+                      (2 total with Connected)
+                    </span>
+                  </label>
+                  {additionalCategories.map((val, idx) => (
+                    <select
+                      key={`addcat-${idx}`}
+                      value={val}
+                      onChange={(e) => {
+                        const updated = [...additionalCategories];
+                        updated[idx] = e.target.value;
+                        setAdditionalCategories(updated);
+                      }}
+                      className={`${selectClass} ${idx > 0 ? "mt-2" : ""}`}
+                    >
+                      <option value="">Select a category</option>
+                      {mainCategories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
                   ))}
                 </div>
-              </fieldset>
-            )}
 
-            {/* Amplified-Only Fields */}
-            {isAmplified && (
-              <fieldset className="space-y-4 border-t border-gray-200 pt-8">
-                <legend className="font-heading text-lg font-bold text-navy mb-2">Premium Profile</legend>
-
+                {/* Tags (Connected gets 2) */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Photos (one URL per line)</label>
-                  <textarea
-                    rows={4}
-                    value={photos}
-                    onChange={(e) => setPhotos(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 resize-none"
-                    placeholder={"https://example.com/photo1.jpg\nhttps://example.com/photo2.jpg"}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Video URL (embed link)</label>
-                  <input
-                    type="url"
-                    value={videoUrl}
-                    onChange={(e) => setVideoUrl(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                    placeholder="https://www.youtube.com/embed/..."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900"
-                    placeholder="123 Main St, City, TN 37000"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Special Offers</label>
-                  <textarea
-                    rows={3}
-                    value={specialOffers}
-                    onChange={(e) => setSpecialOffers(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 resize-none"
-                    placeholder="10% off for NAP members..."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Business Hours</label>
+                  <label className={labelClass}>
+                    Tags
+                    <span className="text-gray-400 font-normal ml-1">
+                      ({tags.filter((t) => t.trim()).length}/2)
+                    </span>
+                  </label>
                   <div className="space-y-2">
-                    {dayLabels.map((day) => (
-                      <div key={day} className="flex items-center gap-3">
-                        <span className="text-sm text-navy w-24 font-medium">{day}</span>
+                    {tags.map((val, idx) => (
+                      <input
+                        key={`tag-${idx}`}
+                        type="text"
+                        value={val}
+                        onChange={(e) => {
+                          const updated = [...tags];
+                          updated[idx] = e.target.value;
+                          setTags(updated);
+                        }}
+                        className={inputClass}
+                        placeholder={`Tag ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Social Media */}
+                <div>
+                  <label className={labelClass}>Social Media</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {(
+                      Object.keys(socialLinks) as Array<
+                        keyof typeof socialLinks
+                      >
+                    ).map((platform) => (
+                      <div key={platform}>
+                        <label className="block text-xs text-gray-500 mb-1 capitalize">
+                          {platform}
+                        </label>
                         <input
-                          type="text"
-                          value={businessHours[day.toLowerCase()] || ""}
+                          type="url"
+                          value={socialLinks[platform]}
                           onChange={(e) =>
-                            setBusinessHours((prev) => ({ ...prev, [day.toLowerCase()]: e.target.value }))
+                            setSocialLinks((prev) => ({
+                              ...prev,
+                              [platform]: e.target.value,
+                            }))
                           }
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 text-sm"
-                          placeholder="9:00 AM - 5:00 PM or Closed"
+                          className={inputClass}
+                          placeholder={`https://${platform}.com/...`}
                         />
                       </div>
                     ))}
                   </div>
                 </div>
-              </fieldset>
+
+                {/* Description */}
+                <div>
+                  <label className={labelClass}>Description</label>
+                  <textarea
+                    rows={5}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className={`${inputClass} resize-none`}
+                    placeholder="Tell people about your business..."
+                  />
+                </div>
+
+                {/* Special Offers */}
+                <div>
+                  <label className={labelClass}>Special Offers</label>
+                  <textarea
+                    rows={3}
+                    value={specialOffers}
+                    onChange={(e) => setSpecialOffers(e.target.value)}
+                    className={`${inputClass} resize-none`}
+                    placeholder="10% off for NAP members..."
+                  />
+                </div>
+
+                {/* Category Suggestion */}
+                <div>
+                  <label className={labelClass}>Suggest a New Category</label>
+                  <input
+                    type="text"
+                    value={categorySuggestion}
+                    onChange={(e) => setCategorySuggestion(e.target.value)}
+                    className={inputClass}
+                    placeholder="Don't see your category? Suggest one here."
+                  />
+                </div>
+              </Section>
+            ) : (
+              <Section title="Enhanced Profile">
+                <UpgradePrompt tierName="Connected" />
+              </Section>
             )}
 
-            <div className="pt-4">
+            {/* ============================================================ */}
+            {/*  PREMIUM PROFILE — AMPLIFIED ONLY                             */}
+            {/* ============================================================ */}
+            {isAmplified ? (
+              <Section title="Premium Profile">
+                {/* Additional Categories (Amplified gets 3 more = 4 total) */}
+                <div>
+                  <label className={labelClass}>
+                    Additional Categories
+                    <span className="text-gray-400 font-normal ml-1">
+                      (4 total with Amplified)
+                    </span>
+                  </label>
+                  <div className="space-y-2">
+                    {extraCategories.map((val, idx) => (
+                      <select
+                        key={`extracat-${idx}`}
+                        value={val}
+                        onChange={(e) => {
+                          const updated = [...extraCategories];
+                          updated[idx] = e.target.value;
+                          setExtraCategories(updated);
+                        }}
+                        className={selectClass}
+                      >
+                        <option value="">Select a category</option>
+                        {mainCategories.map((cat) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Extra Tags (Amplified gets 2 more = 4 total) */}
+                <div>
+                  <label className={labelClass}>
+                    Additional Tags
+                    <span className="text-gray-400 font-normal ml-1">
+                      (
+                      {[...tags, ...extraTags].filter((t) => t.trim()).length}/4
+                      total)
+                    </span>
+                  </label>
+                  <div className="space-y-2">
+                    {extraTags.map((val, idx) => (
+                      <input
+                        key={`extratag-${idx}`}
+                        type="text"
+                        value={val}
+                        onChange={(e) => {
+                          const updated = [...extraTags];
+                          updated[idx] = e.target.value;
+                          setExtraTags(updated);
+                        }}
+                        className={inputClass}
+                        placeholder={`Tag ${idx + 3}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Photos */}
+                <div>
+                  <label className={labelClass}>
+                    Photos
+                    <span className="text-gray-400 font-normal ml-1">
+                      ({photos.length}/8)
+                    </span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => photosInputRef.current?.click()}
+                    disabled={photosUploading || photos.length >= 8}
+                    className="px-4 py-2 bg-navy text-white text-sm font-medium rounded-lg hover:bg-navy/90 transition-colors disabled:opacity-50"
+                  >
+                    {photosUploading ? "Uploading..." : "Upload Photos"}
+                  </button>
+                  <input
+                    ref={photosInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={onPhotosFileChange}
+                    className="hidden"
+                  />
+                  {photos.length > 0 && (
+                    <div className="mt-3 grid grid-cols-4 gap-3">
+                      {photos.map((url, idx) => (
+                        <div key={idx} className="relative group">
+                          <img
+                            src={url}
+                            alt={`Photo ${idx + 1}`}
+                            className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removePhoto(idx)}
+                            className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Video URL */}
+                <div>
+                  <label className={labelClass}>
+                    Video URL
+                    <span className="text-gray-400 font-normal ml-1">
+                      (YouTube or Vimeo)
+                    </span>
+                  </label>
+                  <input
+                    type="url"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                    className={inputClass}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                  />
+                </div>
+
+                {/* Address */}
+                <div>
+                  <label className={labelClass}>Business Address</label>
+                  <div className="space-y-3">
+                    <input
+                      type="text"
+                      value={streetAddress}
+                      onChange={(e) => setStreetAddress(e.target.value)}
+                      className={inputClass}
+                      placeholder="Street Address"
+                    />
+                    <input
+                      type="text"
+                      value={suite}
+                      onChange={(e) => setSuite(e.target.value)}
+                      className={inputClass}
+                      placeholder="Suite / Unit (optional)"
+                    />
+                    <div className="grid grid-cols-3 gap-3">
+                      <input
+                        type="text"
+                        value={addressCity}
+                        onChange={(e) => setAddressCity(e.target.value)}
+                        className={inputClass}
+                        placeholder="City"
+                      />
+                      <input
+                        type="text"
+                        value={addressState}
+                        onChange={(e) => setAddressState(e.target.value)}
+                        className={inputClass}
+                        placeholder="State"
+                      />
+                      <input
+                        type="text"
+                        value={zipCode}
+                        onChange={(e) => setZipCode(e.target.value)}
+                        className={inputClass}
+                        placeholder="ZIP"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Map Preview */}
+                  {showMap && (
+                    <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+                      <iframe
+                        title="Map preview"
+                        width="100%"
+                        height="250"
+                        style={{ border: 0 }}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Business Hours */}
+                <div>
+                  <label className={labelClass}>Business Hours</label>
+                  <div className="space-y-2">
+                    {dayLabels.map((day) => {
+                      const key = day.toLowerCase();
+                      const dayData = businessHours[key] || {
+                        open: false,
+                        openTime: "09:00",
+                        closeTime: "17:00",
+                      };
+                      return (
+                        <div
+                          key={day}
+                          className="flex items-center gap-3 flex-wrap"
+                        >
+                          <label className="flex items-center gap-2 w-32">
+                            <input
+                              type="checkbox"
+                              checked={dayData.open}
+                              onChange={(e) =>
+                                setBusinessHours((prev) => ({
+                                  ...prev,
+                                  [key]: {
+                                    ...prev[key],
+                                    open: e.target.checked,
+                                  },
+                                }))
+                              }
+                              className="w-4 h-4 text-[#c8a951] border-gray-300 rounded focus:ring-[#c8a951]"
+                            />
+                            <span className="text-sm text-navy font-medium">
+                              {day}
+                            </span>
+                          </label>
+                          {dayData.open ? (
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="time"
+                                value={dayData.openTime}
+                                onChange={(e) =>
+                                  setBusinessHours((prev) => ({
+                                    ...prev,
+                                    [key]: {
+                                      ...prev[key],
+                                      openTime: e.target.value,
+                                    },
+                                  }))
+                                }
+                                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 text-sm"
+                              />
+                              <span className="text-gray-400 text-sm">to</span>
+                              <input
+                                type="time"
+                                value={dayData.closeTime}
+                                onChange={(e) =>
+                                  setBusinessHours((prev) => ({
+                                    ...prev,
+                                    [key]: {
+                                      ...prev[key],
+                                      closeTime: e.target.value,
+                                    },
+                                  }))
+                                }
+                                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 text-sm"
+                              />
+                            </div>
+                          ) : (
+                            <span className="text-gray-400 text-sm italic">
+                              Closed
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </Section>
+            ) : isConnected ? (
+              <Section title="Premium Profile">
+                <UpgradePrompt tierName="Amplified" />
+              </Section>
+            ) : null}
+
+            {/* ============================================================ */}
+            {/*  SAVE BUTTON                                                  */}
+            {/* ============================================================ */}
+            <div className="pt-4 flex items-center gap-4">
               <button
                 type="submit"
                 disabled={saving}
                 className="bg-[#c8a951] hover:bg-[#b8993f] text-white font-bold px-10 py-3 rounded-full transition-colors disabled:opacity-60"
               >
-                {saving ? "Saving..." : "Save Listing"}
+                {saving ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Saving...
+                  </span>
+                ) : listingId ? (
+                  "Save Changes"
+                ) : (
+                  "Create Listing"
+                )}
               </button>
+              {!isConnected && (
+                <p className="text-gray-400 text-xs">
+                  Linked listings require admin approval before appearing in the
+                  directory.
+                </p>
+              )}
             </div>
           </form>
         </div>
