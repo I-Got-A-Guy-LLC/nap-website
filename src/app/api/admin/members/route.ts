@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from("members")
       .select(
-        "id, full_name, business_name, email, city, tier, status, subscription_status, renewal_date, is_nap_verified, is_leadership, is_comped, comp_reason, comp_expires_at"
+        "*"
       )
       .order("created_at", { ascending: false });
 
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
       query = query.eq("city", city);
     }
     if (status) {
-      query = query.eq("status", status);
+      query = query.eq("subscription_status", status);
     }
     if (search) {
       query = query.or(
