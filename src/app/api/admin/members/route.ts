@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from("members")
       .select(
-        "id, full_name, business_name, email, city, tier, status, renewal_date, is_nap_verified, is_leadership"
+        "id, full_name, business_name, email, city, tier, status, subscription_status, renewal_date, is_nap_verified, is_leadership, is_comped, comp_reason, comp_expires_at"
       )
       .order("created_at", { ascending: false });
 
@@ -89,6 +89,9 @@ export async function PATCH(request: Request) {
       "is_leadership",
       "leadership_city",
       "admin_notes",
+      "is_comped",
+      "comp_reason",
+      "comp_expires_at",
     ];
     const updateData: Record<string, unknown> = {};
     for (const key of allowedFields) {

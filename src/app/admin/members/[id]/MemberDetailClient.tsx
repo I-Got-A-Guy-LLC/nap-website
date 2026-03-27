@@ -12,6 +12,9 @@ interface Member {
   tier: string;
   is_nap_verified: boolean;
   is_leadership: boolean;
+  is_comped: boolean;
+  comp_reason: string | null;
+  comp_expires_at: string | null;
   leadership_city: string | null;
   admin_notes: string | null;
   status: string | null;
@@ -45,6 +48,11 @@ export default function MemberDetailClient({
   const [tier, setTier] = useState(member.tier);
   const [leadershipCity, setLeadershipCity] = useState(
     member.leadership_city || ""
+  );
+  const [isComped, setIsComped] = useState(member.is_comped || false);
+  const [compReason, setCompReason] = useState(member.comp_reason || "");
+  const [compExpiresAt, setCompExpiresAt] = useState(
+    member.comp_expires_at ? member.comp_expires_at.split("T")[0] : ""
   );
   const [message, setMessage] = useState("");
 
@@ -191,6 +199,63 @@ export default function MemberDetailClient({
               </button>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Comp Settings */}
+      <div className="bg-white rounded-xl shadow p-6">
+        <h3 className="text-lg font-heading font-bold text-[#1F3149] mb-4">
+          Comp Settings
+        </h3>
+        <div className="space-y-4">
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={isComped}
+              onChange={(e) => setIsComped(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 text-[#FBC761] focus:ring-[#FBC761]"
+            />
+            <span className="text-sm">This member is comped</span>
+          </label>
+
+          <div>
+            <label className="block text-sm text-gray-500 mb-1">
+              Comp reason
+            </label>
+            <input
+              type="text"
+              value={compReason}
+              onChange={(e) => setCompReason(e.target.value)}
+              placeholder="e.g. Speaker, sponsor, founding member..."
+              className="w-full border rounded-lg px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-500 mb-1">
+              Comp expires (optional)
+            </label>
+            <input
+              type="date"
+              value={compExpiresAt}
+              onChange={(e) => setCompExpiresAt(e.target.value)}
+              className="border rounded-lg px-3 py-2 text-sm"
+            />
+          </div>
+
+          <button
+            onClick={() =>
+              save({
+                is_comped: isComped,
+                comp_reason: compReason || null,
+                comp_expires_at: compExpiresAt || null,
+              })
+            }
+            disabled={saving}
+            className="px-4 py-2 bg-[#1F3149] text-white rounded-lg text-sm font-medium hover:bg-[#2a4060] disabled:opacity-50 transition"
+          >
+            Save Comp Settings
+          </button>
         </div>
       </div>
 

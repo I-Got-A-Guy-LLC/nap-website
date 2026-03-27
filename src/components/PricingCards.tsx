@@ -7,6 +7,8 @@ export default function PricingCards() {
   const [annual, setAnnual] = useState(true);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [showPromo, setShowPromo] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
 
   const handleCheckout = async (tier: "connected" | "amplified") => {
     setLoading(tier);
@@ -41,6 +43,7 @@ export default function PricingCards() {
           priceId,
           tier,
           billingInterval: annual ? "annual" : "monthly",
+          couponCode: promoCode.trim() || undefined,
         }),
       });
 
@@ -210,6 +213,31 @@ export default function PricingCards() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Promo Code */}
+      <div className="text-center mt-8">
+        {!showPromo ? (
+          <button
+            onClick={() => setShowPromo(true)}
+            className="text-navy/40 text-sm hover:text-navy transition-colors"
+          >
+            Have a promo code?
+          </button>
+        ) : (
+          <div className="flex items-center justify-center gap-2 max-w-xs mx-auto">
+            <input
+              type="text"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+              placeholder="Enter code"
+              className="border border-gray-200 rounded-lg px-3 py-2 text-navy text-sm w-40 focus:outline-none focus:ring-2 focus:ring-gold"
+            />
+            {promoCode && (
+              <span className="text-green-600 text-sm font-bold">Applied</span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,9 +11,11 @@ interface Member {
   city: string | null;
   tier: string;
   status: string | null;
+  subscription_status: string | null;
   renewal_date: string | null;
   is_nap_verified: boolean;
   is_leadership: boolean;
+  is_comped: boolean;
 }
 
 export default function MembersClient() {
@@ -60,6 +62,31 @@ export default function MembersClient() {
         {tier}
       </span>
     );
+  };
+
+  const statusBadge = (member: Member) => {
+    if (member.is_comped) {
+      return (
+        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#FE6651]/20 text-[#FE6651]">
+          COMPED
+        </span>
+      );
+    }
+    if (member.is_leadership) {
+      return (
+        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#1F3149] text-white">
+          LEADERSHIP
+        </span>
+      );
+    }
+    if (member.subscription_status === "active" && !member.is_comped) {
+      return (
+        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+          PAID
+        </span>
+      );
+    }
+    return null;
   };
 
   return (
@@ -125,12 +152,10 @@ export default function MembersClient() {
                   <th className="px-4 py-3 text-left font-medium">Email</th>
                   <th className="px-4 py-3 text-left font-medium">City</th>
                   <th className="px-4 py-3 text-left font-medium">Tier</th>
+                  <th className="px-4 py-3 text-left font-medium">Badge</th>
                   <th className="px-4 py-3 text-left font-medium">Status</th>
                   <th className="px-4 py-3 text-left font-medium">Renewal</th>
                   <th className="px-4 py-3 text-left font-medium">Verified</th>
-                  <th className="px-4 py-3 text-left font-medium">
-                    Leadership
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -148,6 +173,7 @@ export default function MembersClient() {
                     <td className="px-4 py-3 text-gray-500">{m.email}</td>
                     <td className="px-4 py-3">{m.city || "—"}</td>
                     <td className="px-4 py-3">{tierBadge(m.tier)}</td>
+                    <td className="px-4 py-3">{statusBadge(m)}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`text-xs font-medium ${
@@ -168,15 +194,6 @@ export default function MembersClient() {
                       {m.is_nap_verified ? (
                         <span className="text-[#FBC761]" title="Verified">
                           ★
-                        </span>
-                      ) : (
-                        "—"
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      {m.is_leadership ? (
-                        <span className="text-purple-600" title="Leadership">
-                          ●
                         </span>
                       ) : (
                         "—"

@@ -4,12 +4,6 @@ import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import Link from "next/link";
 
-const TIER_PRICES: Record<string, number> = {
-  linked: 0,
-  connected: 29,
-  amplified: 59,
-};
-
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
   if (
@@ -21,26 +15,55 @@ export default async function AdminDashboard() {
 
   const supabase = getSupabaseAdmin();
 
-  // Fetch tier counts
+  // Fetch all members with relevant fields
   const { data: members } = await supabase
     .from("members")
-    .select("id, tier");
+    .select(
+      "id, tier, is_comped, is_leadership, subscription_status, subscription_interval"
+    );
 
-  const tierCounts: Record<string, number> = {
-    linked: 0,
-    connected: 0,
-    amplified: 0,
-    leadership: 0,
-  };
+  const tierCounts = { linked: 0, connected: 0, amplified: 0, leadership: 0 };
+  const compedCounts = { connected: 0, amplified: 0 };
+  const paidCounts = { connected: 0, amplified: 0 };
   let mrr = 0;
 
   (members || []).forEach((m) => {
     const tier = m.tier || "linked";
-    if (tierCounts[tier] !== undefined) {
-      tierCounts[tier]++;
+    if (tier in tierCounts) {
+      tierCounts[tier as keyof typeof tierCounts]++;
     }
-    mrr += TIER_PRICES[tier] || 0;
+
+    // Track comped vs paid for connected and amplified
+    if (tier === "connected" || tier === "amplified") {
+      const t = tier as "connected" | "amplified";
+      if (m.is_comped) {
+        compedCounts[t]++;
+      } else if (m.subscription_status === "active") {
+        paidCounts[t]++;
+      }
+    }
+
+    // MRR: only active Stripe subscribers who are NOT comped and NOT leadership
+    if (
+      m.subscription_status === "active" &&
+      !m.is_comped &&
+      !m.is_leadership
+    ) {
+      if (tier === "connected") {
+        // Monthly = $30, Annual = $25/mo equivalent
+        mrr += m.subscription_interval === "year" ? 25 : 30;
+      } else if (tier === "amplified") {
+        // Monthly = $50, Annual = ~$42/mo equivalent
+        mrr += m.subscription_interval === "year" ? 42 : 50;
+      }
+    }
   });
+
+  const arr = mrr * 12;
+
+  // Potential revenue: if all Linked members upgraded to Connected at $30/mo
+  const potentialMrr = tierCounts.linked * 30;
+  const potentialArr = potentialMrr * 12;
 
   // Pending approvals
   const { count: pendingCount } = await supabase
@@ -61,8 +84,6 @@ export default async function AdminDashboard() {
     .select("*")
     .order("created_at", { ascending: false })
     .limit(20);
-
-  const arr = mrr * 12;
 
   function notificationLink(n: { type: string; reference_id?: string }) {
     switch (n.type) {
@@ -85,7 +106,8 @@ export default async function AdminDashboard() {
         </h1>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {/* Card 1 — Members by Tier */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               Members by Tier
@@ -102,11 +124,17 @@ export default async function AdminDashboard() {
                 <span className="font-bold text-[#1F3149]">
                   {tierCounts.connected}
                 </span>
+                <span className="text-xs text-gray-500 ml-1">
+                  (paid: {paidCounts.connected} | comped: {compedCounts.connected})
+                </span>
               </p>
               <p>
                 Amplified:{" "}
                 <span className="font-bold text-[#1F3149]">
                   {tierCounts.amplified}
+                </span>
+                <span className="text-xs text-gray-500 ml-1">
+                  (paid: {paidCounts.amplified} | comped: {compedCounts.amplified})
                 </span>
               </p>
               <p>
@@ -114,23 +142,48 @@ export default async function AdminDashboard() {
                 <span className="font-bold text-[#1F3149]">
                   {tierCounts.leadership}
                 </span>
+                <span className="text-xs text-gray-500 ml-1">
+                  (always comped)
+                </span>
               </p>
             </div>
           </div>
 
+          {/* Card 2 — Actual Revenue */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
-              Revenue Estimates
+              Actual Revenue
             </h3>
             <p className="mt-3 text-2xl font-bold text-[#1F3149]">
-              ${mrr}
-              <span className="text-sm font-normal text-gray-500"> /mo</span>
+              ${mrr.toLocaleString()}
+              <span className="text-sm font-normal text-gray-500"> /mo MRR</span>
             </p>
             <p className="text-sm text-gray-500">
               ~${arr.toLocaleString()} ARR
             </p>
+            <p className="text-xs text-gray-400 mt-2">
+              Active paying members only
+            </p>
           </div>
 
+          {/* Card 3 — Potential Revenue */}
+          <div className="bg-white rounded-xl shadow p-6">
+            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              Potential Revenue
+            </h3>
+            <p className="mt-3 text-2xl font-bold text-[#FBC761]">
+              +${potentialMrr.toLocaleString()}
+              <span className="text-sm font-normal text-gray-500"> /mo</span>
+            </p>
+            <p className="text-sm text-gray-500">
+              ~${potentialArr.toLocaleString()} ARR
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              If all {tierCounts.linked} Linked members upgraded to Connected
+            </p>
+          </div>
+
+          {/* Card 4 — Pending Approvals */}
           <Link
             href="/admin/approvals"
             className="bg-white rounded-xl shadow p-6 hover:ring-2 hover:ring-[#FBC761] transition"
@@ -143,6 +196,7 @@ export default async function AdminDashboard() {
             </p>
           </Link>
 
+          {/* Card 5 — Unread Notifications */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               Unread Notifications
