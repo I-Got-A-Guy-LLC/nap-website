@@ -8,7 +8,6 @@ import { notifyCategorySuggestion, sendCategorySuggestionReceived } from "@/lib/
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -29,12 +28,13 @@ export async function GET() {
       .from("directory_listings")
       .select("*")
       .eq("member_id", member.id)
-      .single();
+      .maybeSingle();
 
     const { data: categories } = await supabase
       .from("categories")
-      .select("id, name, slug")
+      .select("id, name, slug, parent_id")
       .eq("is_active", true)
+      .order("sort_order")
       .order("name");
 
     return NextResponse.json({
@@ -45,20 +45,19 @@ export async function GET() {
         tier: member.tier,
         is_leadership: member.is_leadership,
       },
-      listing,
+      listing: listing || null,
       categories: categories || [],
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("GET listing error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
-// PATCH — Update the member's listing
+// PATCH — Create or update the member's listing (upsert)
 export async function PATCH(request: Request) {
   try {
     const session = await getServerSession(authOptions);
-
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -77,51 +76,85 @@ export async function PATCH(request: Request) {
 
     const body = await request.json();
 
-    // Extract category suggestion before stripping it from the listing update
+    // Extract category suggestion
     const categorySuggestion = body.category_suggestion;
     delete body.category_suggestion;
 
-    // Ensure member can only update their own listing
+    // Remove fields that shouldn't be set by the user
+    delete body.id;
+    delete body.member_id;
+    delete body.views_this_month;
+    delete body.views_all_time;
+    delete body.website_clicks_this_month;
+    delete body.website_clicks_all_time;
+
+    // Auto-combine address fields into the legacy address column
+    if (body.street_address) {
+      const parts = [
+        body.street_address,
+        body.suite,
+        body.listing_city,
+        `${body.listing_state || "TN"} ${body.zip_code || ""}`.trim(),
+      ].filter(Boolean);
+      body.address = parts.join(", ");
+    }
+
+    // Set approval based on tier
+    const isPaid = member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
+
+    // Check if listing exists
     const { data: existingListing } = await supabase
       .from("directory_listings")
       .select("id, is_approved")
       .eq("member_id", member.id)
-      .single();
+      .maybeSingle();
 
-    if (!existingListing) {
-      return NextResponse.json({ error: "No listing found for this member" }, { status: 404 });
-    }
+    if (existingListing) {
+      // UPDATE existing listing
+      if (isPaid) {
+        body.is_approved = true;
+        body.approval_status = "approved";
+      }
+      // For linked, keep existing approval status
 
-    // For paid tiers, listing stays approved. For linked, keep current approval status.
-    const isPaid = member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
-    if (isPaid) {
-      body.is_approved = true;
-    }
-    // For linked, don't change is_approved — keep whatever it currently is
+      const { error: updateError } = await supabase
+        .from("directory_listings")
+        .update(body)
+        .eq("id", existingListing.id);
 
-    const { error: updateError } = await supabase
-      .from("directory_listings")
-      .update(body)
-      .eq("id", existingListing.id);
+      if (updateError) {
+        console.error("Listing update error:", updateError);
+        return NextResponse.json({ error: "Failed to update listing" }, { status: 500 });
+      }
+    } else {
+      // INSERT new listing
+      body.member_id = member.id;
+      body.is_approved = isPaid;
+      body.approval_status = isPaid ? "approved" : "pending";
 
-    if (updateError) {
-      console.error("Listing update error:", updateError);
-      return NextResponse.json({ error: "Failed to update listing" }, { status: 500 });
+      const { error: insertError } = await supabase
+        .from("directory_listings")
+        .insert(body);
+
+      if (insertError) {
+        console.error("Listing insert error:", insertError);
+        return NextResponse.json({ error: "Failed to create listing" }, { status: 500 });
+      }
     }
 
     // Handle category suggestion
     if (categorySuggestion && categorySuggestion.trim()) {
-      await supabase.from("admin_notifications").insert({
-        type: "category_suggestion",
-        title: `Category suggestion: ${categorySuggestion.trim()}`,
-        message: `${member.full_name} suggested a new category: "${categorySuggestion.trim()}"`,
-        metadata: {
-          member_id: member.id,
-          suggestion: categorySuggestion.trim(),
-        },
+      await supabase.from("category_suggestions").insert({
+        member_id: member.id,
+        suggested_name: categorySuggestion.trim(),
       });
 
-      // Send notification emails (fire-and-forget)
+      await supabase.from("admin_notifications").insert({
+        type: "category_suggestion",
+        reference_id: member.id,
+        message: `${member.full_name} suggested a new category: "${categorySuggestion.trim()}"`,
+      });
+
       await Promise.allSettled([
         notifyCategorySuggestion(member.full_name, categorySuggestion.trim()),
         sendCategorySuggestionReceived(member.email, member.full_name),
@@ -129,7 +162,7 @@ export async function PATCH(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error("PATCH listing error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

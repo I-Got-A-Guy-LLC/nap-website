@@ -372,3 +372,39 @@ export async function sendCompGracePeriodEnd(email: string, name: string, tier: 
     `),
   });
 }
+
+// ---------------------------------------------------------------------------
+// Referral notification
+// ---------------------------------------------------------------------------
+
+export async function sendReferralNotification(
+  email: string,
+  ownerName: string,
+  businessName: string,
+  referrerName: string,
+  referrerEmail: string,
+  referredName: string,
+  referredEmail: string,
+  referredPhone?: string | null,
+  referredBusiness?: string | null,
+  notes?: string | null
+) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: `You received a referral from ${referrerName}!`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New Referral for ${businessName} 🎉</h2>
+      <p>Hey ${ownerName},</p>
+      <p><strong>${referrerName}</strong> (${referrerEmail}) just sent you a referral through your Networking For Awesome People listing!</p>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;width:140px;">Referred Person:</td><td style="padding:8px 0;font-weight:bold;">${referredName}</td></tr>
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;">Email:</td><td style="padding:8px 0;">${referredEmail}</td></tr>
+        ${referredPhone ? `<tr><td style="padding:8px 0;color:#666;font-size:14px;">Phone:</td><td style="padding:8px 0;">${referredPhone}</td></tr>` : ""}
+        ${referredBusiness ? `<tr><td style="padding:8px 0;color:#666;font-size:14px;">Business:</td><td style="padding:8px 0;">${referredBusiness}</td></tr>` : ""}
+        ${notes ? `<tr><td style="padding:8px 0;color:#666;font-size:14px;">Notes:</td><td style="padding:8px 0;">${notes}</td></tr>` : ""}
+      </table>
+      <p>Reach out to ${referredName} and let them know ${referrerName} sent them your way!</p>
+    `),
+  });
+}
