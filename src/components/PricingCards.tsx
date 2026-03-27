@@ -5,6 +5,59 @@ import Link from "next/link";
 
 export default function PricingCards() {
   const [annual, setAnnual] = useState(true);
+  const [loading, setLoading] = useState<string | null>(null);
+  const [error, setError] = useState("");
+
+  const handleCheckout = async (tier: "connected" | "amplified") => {
+    setLoading(tier);
+    setError("");
+
+    const priceEnvMap = {
+      connected: annual ? "NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_ANNUAL" : "NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_MONTHLY",
+      amplified: annual ? "NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_ANNUAL" : "NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_MONTHLY",
+    };
+
+    // Price IDs are passed from env at build time via NEXT_PUBLIC_ prefix
+    const priceIds: Record<string, string | undefined> = {
+      NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_ANNUAL: process.env.NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_ANNUAL,
+      NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_MONTHLY,
+      NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_ANNUAL: process.env.NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_ANNUAL,
+      NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_MONTHLY,
+    };
+
+    const priceId = priceIds[priceEnvMap[tier]];
+
+    if (!priceId) {
+      setError("Checkout is not yet configured. Please contact us to get started.");
+      setLoading(null);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          priceId,
+          tier,
+          billingInterval: annual ? "annual" : "monthly",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to start checkout");
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setLoading(null);
+    }
+  };
 
   return (
     <div>
@@ -28,13 +81,18 @@ export default function PricingCards() {
             Annual
           </button>
         </div>
-        {annual && (
+        {annual ? (
           <span className="text-green-600 text-sm font-bold">Save up to $120/yr with annual billing</span>
-        )}
-        {!annual && (
+        ) : (
           <span className="text-navy/40 text-sm">Switch to annual to save</span>
         )}
       </div>
+
+      {error && (
+        <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 text-sm text-center font-medium">
+          {error}
+        </div>
+      )}
 
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
@@ -47,24 +105,17 @@ export default function PricingCards() {
           </div>
           <div className="p-6">
             <ul className="space-y-3 mb-8">
-              {[
-                "Business Name",
-                "Your Name",
-                "Basic Contact Information",
-                "1 Business Category",
-                "Annual renewal confirmation",
-              ].map((f) => (
+              {["Business Name", "Your Name", "Basic Contact Information", "1 Business Category", "Annual renewal confirmation"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
-                  <span className="text-gold font-bold mt-0.5">&#10003;</span>
-                  {f}
+                  <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
                 </li>
               ))}
             </ul>
             <Link
-              href="/contact?subject=Linked%20Membership%20Interest"
+              href="/join/linked"
               className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors"
             >
-              Register Interest
+              Join Free
             </Link>
           </div>
         </div>
@@ -97,27 +148,22 @@ export default function PricingCards() {
           <div className="p-6">
             <p className="text-navy/40 text-xs uppercase tracking-wider font-bold mb-3">Everything in Linked, plus:</p>
             <ul className="space-y-3 mb-8">
-              {[
-                "Full Contact Information",
-                "Website URL",
-                "Business Logo",
-                "2 Categories + 2 Tags",
-                "Embedded Referral Form",
-                "Preferred Facebook Mention",
-                "Quarterly Shoutouts",
-              ].map((f) => (
+              {["Full Contact Information", "Website URL", "Business Logo", "2 Categories + 2 Tags", "Embedded Referral Form", "Preferred Facebook Mention", "Quarterly Shoutouts"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
-                  <span className="text-gold font-bold mt-0.5">&#10003;</span>
-                  {f}
+                  <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
                 </li>
               ))}
             </ul>
-            <Link
-              href="/contact?subject=Connected%20Membership%20Interest"
-              className="block text-center bg-navy text-white font-bold py-3 rounded-full hover:bg-navy/90 transition-colors"
+            <button
+              onClick={() => handleCheckout("connected")}
+              disabled={loading === "connected"}
+              className="block w-full text-center bg-navy text-white font-bold py-3 rounded-full hover:bg-navy/90 transition-colors disabled:opacity-50"
             >
-              Register Interest
-            </Link>
+              {loading === "connected" ? "Redirecting..." : `Get Started — ${annual ? "$300/yr" : "$30/mo"}`}
+            </button>
+            <p className="text-navy/30 text-xs text-center mt-3">
+              🔒 Secure checkout via Stripe &middot; Cancel anytime
+            </p>
           </div>
         </div>
 
@@ -146,31 +192,22 @@ export default function PricingCards() {
           <div className="p-6">
             <p className="text-navy/40 text-xs uppercase tracking-wider font-bold mb-3">Everything in Connected, plus:</p>
             <ul className="space-y-3 mb-8">
-              {[
-                "Photos + Videos",
-                "Business Hours",
-                "Map & Directions",
-                "Special Offers",
-                "Reviews Section",
-                "4 Categories + 4 Tags",
-                "Top Level Facebook Mention",
-                "Monthly Shoutouts",
-                "1 Free Event Ticket per Quarter",
-                "Sponsorship Priority",
-                "Ad Discounts",
-              ].map((f) => (
+              {["Photos + Videos", "Business Hours", "Map & Directions", "Special Offers", "Reviews Section", "4 Categories + 4 Tags", "Top Level Facebook Mention", "Monthly Shoutouts", "1 Free Event Ticket per Quarter", "Sponsorship Priority", "Ad Discounts"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
-                  <span className="text-gold font-bold mt-0.5">&#10003;</span>
-                  {f}
+                  <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
                 </li>
               ))}
             </ul>
-            <Link
-              href="/contact?subject=Amplified%20Membership%20Interest"
-              className="block text-center bg-smyrna text-white font-bold py-3 rounded-full hover:bg-smyrna/90 transition-colors"
+            <button
+              onClick={() => handleCheckout("amplified")}
+              disabled={loading === "amplified"}
+              className="block w-full text-center bg-smyrna text-white font-bold py-3 rounded-full hover:bg-smyrna/90 transition-colors disabled:opacity-50"
             >
-              Register Interest
-            </Link>
+              {loading === "amplified" ? "Redirecting..." : `Get Started — ${annual ? "$500/yr" : "$50/mo"}`}
+            </button>
+            <p className="text-white/30 text-xs text-center mt-3">
+              🔒 Secure checkout via Stripe &middot; Cancel anytime
+            </p>
           </div>
         </div>
       </div>

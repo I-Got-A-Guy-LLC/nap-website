@@ -3,6 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  parent_id: string | null;
+}
+
 interface Listing {
   id: string;
   business_name: string;
@@ -44,17 +51,27 @@ export default function DirectoryBrowser() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetch("/api/directory/categories")
+      .then((r) => r.json())
+      .then((data) => setCategories(data.categories || []))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
     fetchListings();
-  }, [city]);
+  }, [city, category]);
 
   const fetchListings = async () => {
     setLoading(true);
     const params = new URLSearchParams();
     if (search) params.set("search", search);
     if (city) params.set("city", city);
+    if (category) params.set("category", category);
     const res = await fetch(`/api/directory?${params}`);
     const data = await res.json();
     setListings(data.listings || []);
@@ -95,6 +112,16 @@ export default function DirectoryBrowser() {
         >
           {cityOptions.map((c) => (
             <option key={c.value} value={c.value}>{c.label}</option>
+          ))}
+        </select>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border border-gray-200 rounded-lg px-4 py-3 text-navy bg-white focus:outline-none focus:ring-2 focus:ring-gold"
+        >
+          <option value="">All Categories</option>
+          {categories.filter((c) => !c.parent_id).map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option>
           ))}
         </select>
         <button
