@@ -123,7 +123,7 @@ export default async function Home() {
             <Link
               key={city.name}
               href={city.href}
-              className={`${city.bg} ${city.text} min-h-[300px] p-8 md:p-10 flex flex-col justify-between group hover:brightness-110 hover:-translate-y-1 transition-all duration-300`}
+              className={`${city.bg} ${city.text} min-h-[240px] sm:min-h-[300px] p-8 md:p-10 flex flex-col justify-between group hover:brightness-110 hover:-translate-y-1 transition-all duration-300`}
             >
               <div>
                 <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">{city.name}</h2>

@@ -68,6 +68,26 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a
+                  href="https://www.linkedin.com/company/networking-for-awesome-people/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/70 hover:text-white transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.meetup.com/networking-for-awesome-people/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/70 hover:text-white transition-colors"
+                >
+                  Meetup
+                </a>
+              </li>
+              <li>
                 <Link href="/contact" className="text-white/70 hover:text-white transition-colors">
                   Contact Us
                 </Link>
