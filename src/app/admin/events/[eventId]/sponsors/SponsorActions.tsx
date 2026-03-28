@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 interface Sponsor {
@@ -21,6 +21,8 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
   const [showEdit, setShowEdit] = useState(false);
   const [logoUrl, setLogoUrl] = useState(sponsor.logo_url || "");
   const [websiteUrl, setWebsiteUrl] = useState(sponsor.website_url || "");
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const markAsPaid = async () => {
@@ -78,32 +80,59 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
       </button>
       {message && <span className="text-xs text-navy/60">{message}</span>}
       {showEdit && (
-        <div className="w-full mt-2 flex gap-2 items-end">
-          <div className="flex-1">
-            <label className="block text-xs text-gray-500 mb-0.5">Logo URL</label>
-            <input type="url" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)}
-              className="w-full border border-gray-200 rounded px-2 py-1 text-xs" placeholder="https://..." />
+        <div className="w-full mt-2 space-y-2">
+          <div>
+            <label className="block text-xs text-gray-500 mb-0.5">Sponsor Logo</label>
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
+                className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
+                {uploading ? "Uploading..." : "Upload"}
+              </button>
+              <input type="url" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)}
+                className="flex-1 border border-gray-200 rounded px-2 py-1 text-xs" placeholder="or paste URL" />
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setUploading(true);
+                const formData = new FormData();
+                formData.append("file", file);
+                const res = await fetch("/api/upload", { method: "POST", body: formData });
+                const data = await res.json();
+                if (data.url) setLogoUrl(data.url);
+                else setMessage(data.error || "Upload failed");
+                setUploading(false);
+                e.target.value = "";
+              }} />
+            </div>
+            {logoUrl && (
+              <div className="mt-1 flex items-center gap-2">
+                <img src={logoUrl} alt="Logo preview" className="h-10 w-10 object-contain rounded border border-gray-200" />
+                <button type="button" onClick={() => setLogoUrl("")} className="text-red-500 text-xs hover:underline">Remove</button>
+              </div>
+            )}
           </div>
-          <div className="flex-1">
-            <label className="block text-xs text-gray-500 mb-0.5">Website URL</label>
-            <input type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}
-              className="w-full border border-gray-200 rounded px-2 py-1 text-xs" placeholder="https://..." />
+          <div className="flex gap-2 items-end">
+            <div className="flex-1">
+              <label className="block text-xs text-gray-500 mb-0.5">Website URL</label>
+              <input type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}
+                className="w-full border border-gray-200 rounded px-2 py-1 text-xs" placeholder="https://..." />
+            </div>
+            <button onClick={async () => {
+              setLoading("edit");
+              await fetch(`/api/admin/events/sponsors/${sponsor.id}/mark-paid`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ logo_url: logoUrl, website_url: websiteUrl }),
+              });
+              setMessage("Saved");
+              setShowEdit(false);
+              setLoading(null);
+              router.refresh();
+            }} disabled={loading === "edit"}
+              className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
+              Save
+            </button>
           </div>
-          <button onClick={async () => {
-            setLoading("edit");
-            await fetch(`/api/admin/events/sponsors/${sponsor.id}/mark-paid`, {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ logo_url: logoUrl, website_url: websiteUrl }),
-            });
-            setMessage("Saved");
-            setShowEdit(false);
-            setLoading(null);
-            router.refresh();
-          }} disabled={loading === "edit"}
-            className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
-            Save
-          </button>
         </div>
       )}
     </div>
