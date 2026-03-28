@@ -5,7 +5,7 @@ import { generateTicketCode } from "@/lib/events";
 
 export async function POST(request: Request) {
   try {
-    const { eventId, quantity, promoCode } = await request.json();
+    const { eventId, quantity, promoCode, attendeeName, attendeeEmail, attendeePhone } = await request.json();
 
     if (!eventId || !quantity || quantity < 1 || quantity > 4) {
       return NextResponse.json({ error: "Invalid request. Quantity must be between 1 and 4." }, { status: 400 });
@@ -63,11 +63,16 @@ export async function POST(request: Request) {
 
     // If 100% off — skip Stripe, create tickets directly
     if (finalUnitPrice <= 0) {
+      if (!attendeeName || !attendeeEmail) {
+        return NextResponse.json({ error: "Name and email are required for free tickets" }, { status: 400 });
+      }
+
       const tickets = Array.from({ length: quantity }, () => ({
         event_id: event.id,
         ticket_code: generateTicketCode(),
-        purchaser_name: "Promo Ticket",
-        purchaser_email: "",
+        purchaser_name: attendeeName,
+        purchaser_email: attendeeEmail,
+        purchaser_phone: attendeePhone || null,
         quantity: 1,
         amount_paid: 0,
         status: "active",

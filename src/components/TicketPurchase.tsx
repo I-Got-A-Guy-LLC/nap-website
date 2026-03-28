@@ -25,6 +25,10 @@ export default function TicketPurchase({
   const [promoError, setPromoError] = useState("");
   const [finalPrice, setFinalPrice] = useState(ticketPrice);
   const [promoChecking, setPromoChecking] = useState(false);
+  const [attendeeName, setAttendeeName] = useState("");
+  const [attendeeEmail, setAttendeeEmail] = useState("");
+  const [attendeePhone, setAttendeePhone] = useState("");
+  const [attendeeError, setAttendeeError] = useState("");
 
   const maxQuantity = Math.min(4, spotsRemaining);
   const total = quantity * finalPrice;
@@ -61,17 +65,32 @@ export default function TicketPurchase({
   }
 
   async function handlePurchase() {
+    // For free tickets, validate attendee info first
+    if (isFree) {
+      if (!attendeeName.trim() || !attendeeEmail.trim()) {
+        setAttendeeError("Please enter your name and email.");
+        return;
+      }
+      setAttendeeError("");
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/events/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId, quantity, promoCode: promoApplied ? promoCode.trim() : undefined }),
+        body: JSON.stringify({
+          eventId,
+          quantity,
+          promoCode: promoApplied ? promoCode.trim() : undefined,
+          attendeeName: isFree ? attendeeName.trim() : undefined,
+          attendeeEmail: isFree ? attendeeEmail.trim() : undefined,
+          attendeePhone: isFree ? attendeePhone.trim() : undefined,
+        }),
       });
       const data = await res.json();
 
       if (data.free) {
-        // Free ticket — redirect to confirmation
         window.location.href = `/events/${slug}/confirmation?session_id=${data.sessionId}`;
       } else if (data.url) {
         window.location.href = data.url;
@@ -120,6 +139,20 @@ export default function TicketPurchase({
       <p className="text-center text-navy font-bold text-2xl mb-6">
         {isFree ? "FREE" : `$${total.toFixed(2)}`}
       </p>
+
+      {/* Attendee info form for free tickets */}
+      {isFree && (
+        <div className="space-y-3 mb-6">
+          <p className="text-navy text-sm font-bold text-center">Enter your details to claim your free ticket:</p>
+          <input type="text" value={attendeeName} onChange={(e) => { setAttendeeName(e.target.value); setAttendeeError(""); }}
+            placeholder="Your name *" className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+          <input type="email" value={attendeeEmail} onChange={(e) => { setAttendeeEmail(e.target.value); setAttendeeError(""); }}
+            placeholder="Your email *" className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+          <input type="tel" value={attendeePhone} onChange={(e) => setAttendeePhone(e.target.value)}
+            placeholder="Phone (optional)" className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
+          {attendeeError && <p className="text-red-500 text-xs text-center">{attendeeError}</p>}
+        </div>
+      )}
 
       {/* Purchase Button */}
       <button onClick={handlePurchase} disabled={loading}

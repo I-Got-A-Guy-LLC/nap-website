@@ -29,6 +29,7 @@ function formatEventDate(dateStr: string): string {
 }
 
 function formatTime(time: string): string {
+  if (/[AP]M/i.test(time)) return time.trim();
   const [hours, minutes] = time.split(":");
   const h = parseInt(hours, 10);
   const ampm = h >= 12 ? "PM" : "AM";
