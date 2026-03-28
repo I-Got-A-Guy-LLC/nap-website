@@ -173,7 +173,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/40 text-xs italic mb-4">Rachel&apos;s involvement: Onboarding only</p>
+                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: Onboarding only</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -198,7 +198,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/40 text-xs italic mb-4">Rachel&apos;s involvement: Monthly check-ins and active ongoing support</p>
+                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: Monthly check-ins and active ongoing support</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -220,7 +220,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/40 text-xs italic mb-4">Rachel&apos;s involvement: High touch — quarterly strategy sessions</p>
+                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: High touch — quarterly strategy sessions</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -228,7 +228,7 @@ export default function ExpandPage() {
               </div>
             </div>
 
-            <p className="text-navy/40 text-center text-sm italic mt-8">
+            <p className="text-navy/70 text-center text-sm italic mt-8">
               City leaders may upgrade from any tier to a higher tier at any time. Pricing reflects
               the current launch rates — subject to change for future applicants.
             </p>

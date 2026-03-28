@@ -140,7 +140,7 @@ export default async function BlogPostPage({ params }: Props) {
                   >
                     <div className="h-40 relative overflow-hidden">
                       <img
-                        src="/images/business_talk/NAP Website Blog Cover Images Main.jpg"
+                        src="/images/business_talk/blog-cover.jpg"
                         alt="Business Talk"
                         className="w-full h-full object-cover"
                       />

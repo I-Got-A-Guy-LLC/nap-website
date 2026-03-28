@@ -61,7 +61,7 @@ export default function BlogGrid({ posts }: BlogGridProps) {
           >
             <div className="h-48 relative overflow-hidden">
               <img
-                src="/images/business_talk/NAP Website Blog Cover Images Main.jpg"
+                src="/images/business_talk/blog-cover.jpg"
                 alt="Business Talk"
                 className="w-full h-full object-cover"
               />

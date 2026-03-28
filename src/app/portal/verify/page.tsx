@@ -88,7 +88,7 @@ export default function VerifyPage() {
             </div>
           )}
 
-          {loading && <p className="text-navy/40 text-center">Searching...</p>}
+          {loading && <p className="text-navy/70 text-center">Searching...</p>}
 
           {results.length > 0 && (
             <div className="space-y-3">
@@ -127,7 +127,7 @@ export default function VerifyPage() {
           )}
 
           {!loading && results.length === 0 && search && (
-            <p className="text-navy/40 text-center">No members found.</p>
+            <p className="text-navy/70 text-center">No members found.</p>
           )}
         </div>
       </section>

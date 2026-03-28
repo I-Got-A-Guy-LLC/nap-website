@@ -23,7 +23,7 @@ export default function Navigation() {
           <Link href="/" className="flex-shrink-0">
             <Image
               src="/images/nap-logo.png"
-              alt="Networking For Awesome People"
+              alt="Networking For Awesome People logo"
               width={120}
               height={48}
               className="h-[62px] md:h-[75px] w-auto"

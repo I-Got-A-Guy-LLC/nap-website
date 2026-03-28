@@ -125,7 +125,7 @@ export default function ContactPage() {
                     >
                       <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
                       <span className="font-medium group-hover:underline">{c.name}</span>
-                      <span className="text-navy/40 text-sm">{c.detail}</span>
+                      <span className="text-navy/70 text-sm">{c.detail}</span>
                     </Link>
                   ))}
                 </div>

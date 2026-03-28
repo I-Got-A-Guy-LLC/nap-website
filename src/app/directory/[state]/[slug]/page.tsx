@@ -139,7 +139,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
           <div className="flex items-start gap-6">
             {isConnected && listing.logo_url && (
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-white flex-shrink-0 border border-white/10">
-                <img src={listing.logo_url} alt={listing.business_name} className="w-full h-full object-contain" />
+                <img src={listing.logo_url} alt={`${listing.business_name} logo`} className="w-full h-full object-contain" />
               </div>
             )}
             <div>
@@ -149,7 +149,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 {member.is_nap_verified && <span className="text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-700">NAP Verified</span>}
               </div>
               {listing.tagline && <p className="text-gold text-lg italic mb-2">{listing.tagline}</p>}
-              <div className="flex items-center gap-4 text-white/50 text-sm">
+              <div className="flex items-center gap-4 text-white/70 text-sm">
                 {catName && <span>{catName}</span>}
                 {listing.city && <span className="capitalize">{listing.city}</span>}
                 {totalReviews > 0 && <span className="text-gold">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
@@ -235,7 +235,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 <div className="flex items-center gap-4">
                   {listing.logo_url && (
                     <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
-                      <img src={listing.logo_url} alt="" className="w-full h-full object-contain" />
+                      <img src={listing.logo_url} alt={`${listing.business_name} logo`} className="w-full h-full object-contain" />
                     </div>
                   )}
                   <span className="bg-[#FE6651] text-white text-xs font-bold px-3 py-1 rounded-full">SPECIAL OFFER</span>
@@ -254,7 +254,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                     </div>
                   )}
                   {listing.offer_expires_at && (
-                    <p className="text-navy/30 text-xs">Expires {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
+                    <p className="text-navy/60 text-xs">Expires {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                   )}
                 </>
               ) : (
@@ -282,13 +282,13 @@ export default async function DirectoryListingPage({ params }: { params: { state
                   <div className="text-center">
                     <p className="font-heading text-4xl font-bold text-navy">{avgRating.toFixed(1)}</p>
                     <p className="text-gold text-lg">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))}</p>
-                    <p className="text-navy/40 text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
+                    <p className="text-navy/70 text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
                   </div>
                 </div>
                 <ReviewList reviews={reviews} />
               </>
             ) : (
-              <p className="text-navy/40 mb-8">No reviews yet. Be the first to leave one!</p>
+              <p className="text-navy/70 mb-8">No reviews yet. Be the first to leave one!</p>
             )}
             <ReviewForm listingId={listing.id} />
           </div>

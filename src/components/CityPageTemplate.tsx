@@ -224,7 +224,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                         <img src={leader.image} alt={leader.alt} className="w-full h-full object-cover object-top" />
                       ) : (
                         <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                          <span className="text-gray-400 text-xs text-center px-2">{leader.alt}</span>
+                          <span className="text-gray-600 text-xs text-center px-2">{leader.alt}</span>
                         </div>
                       )}
                     </div>
@@ -244,7 +244,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                         <img src={leader.image} alt={leader.alt} className="w-full h-full object-cover object-top" />
                       ) : (
                         <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                          <span className="text-gray-400 text-xs text-center px-2">{leader.alt}</span>
+                          <span className="text-gray-600 text-xs text-center px-2">{leader.alt}</span>
                         </div>
                       )}
                     </div>
@@ -294,7 +294,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                       d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"
                     />
                   </svg>
-                  <span className="text-gray-400 text-sm">
+                  <span className="text-gray-600 text-sm">
                     {city.name} Meeting Photo {i}
                   </span>
                 </div>

@@ -154,11 +154,11 @@ export default function DirectoryBrowser() {
 
       {/* Results */}
       {loading ? (
-        <div className="text-center py-12 text-navy/40">Loading directory...</div>
+        <div className="text-center py-12 text-navy/70">Loading directory...</div>
       ) : listings.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-navy/50 text-lg mb-4">No listings found.</p>
-          <p className="text-navy/40">The directory is just getting started. <Link href="/join" className="text-gold hover:underline">Be one of the first to join.</Link></p>
+          <p className="text-navy/70">The directory is just getting started. <Link href="/join" className="text-gold hover:underline">Be one of the first to join.</Link></p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -185,7 +185,7 @@ export default function DirectoryBrowser() {
                   {/* Logo */}
                   {listing.logo_url && (isTop || isConnected) && (
                     <div className={`${isTop ? "w-16 h-16" : "w-11 h-11"} rounded-lg overflow-hidden flex-shrink-0 bg-white border border-gray-100`}>
-                      <img src={listing.logo_url} alt={listing.business_name} className="w-full h-full object-contain" />
+                      <img src={listing.logo_url} alt={`${listing.business_name} logo`} className="w-full h-full object-contain" />
                     </div>
                   )}
 
@@ -215,7 +215,7 @@ export default function DirectoryBrowser() {
                       <p className="text-navy/50 text-sm line-clamp-2 mb-2">{listing.description}</p>
                     )}
 
-                    <div className="flex items-center gap-3 text-xs text-navy/40">
+                    <div className="flex items-center gap-3 text-xs text-navy/70">
                       {catName && <span>{catName}</span>}
                       {listing.city && <span className="capitalize">{listing.city}</span>}
                       {listing.website_url && (isTop || isConnected) && (
@@ -229,7 +229,7 @@ export default function DirectoryBrowser() {
                     <div className="hidden md:flex gap-1 flex-shrink-0">
                       {listing.photos.slice(0, 3).map((photo, i) => (
                         <div key={i} className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
-                          <img src={photo} alt="" className="w-full h-full object-cover" />
+                          <img src={photo} alt={`${listing.business_name} photo ${i + 1}`} className="w-full h-full object-cover" />
                         </div>
                       ))}
                     </div>

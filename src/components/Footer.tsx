@@ -76,10 +76,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white/30">
+        <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white/60">
           <p>&copy; 2026 I Got A Guy, LLC &mdash; Networking For Awesome People</p>
           <p className="mt-2">
-            <Link href="/accessibility" className="text-white/30 hover:text-white transition-colors">
+            <Link href="/accessibility" className="text-white/60 hover:text-white transition-colors">
               Accessibility
             </Link>
           </p>

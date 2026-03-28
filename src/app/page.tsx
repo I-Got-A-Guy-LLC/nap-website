@@ -338,7 +338,7 @@ export default function Home() {
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100">
                   <div className="h-48 relative overflow-hidden">
-                    <img src="/images/business_talk/NAP Website Blog Cover Images Main.jpg" alt="Business Talk" className="w-full h-full object-cover" />
+                    <img src="/images/business_talk/blog-cover.jpg" alt="Business Talk" className="w-full h-full object-cover" />
                     <span className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
                       Coming Soon
                     </span>

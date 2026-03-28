@@ -310,7 +310,7 @@ export default function AboutPage() {
                       {loc.day} &middot; {loc.time}
                     </p>
                     <p className="text-navy/50 text-sm italic mb-1">{loc.venue}</p>
-                    <p className="text-navy/40 text-xs">{loc.address}</p>
+                    <p className="text-navy/70 text-xs">{loc.address}</p>
                   </div>
                   <span
                     className={`${loc.linkColor} text-sm font-bold mt-5 group-hover:underline`}

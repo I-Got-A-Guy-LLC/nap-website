@@ -549,7 +549,7 @@ export default function EditListingPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-gray-200 border-t-[#c8a951] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-navy/40">Loading your listing...</p>
+          <p className="text-navy/70">Loading your listing...</p>
         </div>
       </div>
     );
@@ -756,7 +756,7 @@ export default function EditListingPage() {
                             return (
                               <span key={catId} className="inline-flex items-center gap-1.5 bg-navy/10 text-navy text-sm font-medium px-3 py-1.5 rounded-full">
                                 {cat.name}
-                                <button type="button" onClick={() => removeAdditional(catId)} className="text-navy/40 hover:text-red-500 transition-colors">&times;</button>
+                                <button type="button" onClick={() => removeAdditional(catId)} className="text-navy/70 hover:text-red-500 transition-colors">&times;</button>
                               </span>
                             );
                           })}
@@ -898,16 +898,16 @@ export default function EditListingPage() {
                 <div>
                   <label className={labelClass}>
                     Tags
-                    <span className="text-gray-400 font-normal ml-1">
+                    <span className="text-gray-600 font-normal ml-1">
                       ({isAmplified
                         ? `${[...tags, ...extraTags].filter((t) => t.trim()).length} of 4 used`
                         : `${tags.filter((t) => t.trim()).length} of 2 used`})
                     </span>
                   </label>
-                  <p className="text-gray-400 text-xs mb-2">
+                  <p className="text-gray-600 text-xs mb-2">
                     Tags are searchable keywords that help people find your listing. Think about how your ideal client would describe what they need.
                   </p>
-                  <p className="text-gray-400 text-xs mb-2">Click to add or type your own:</p>
+                  <p className="text-gray-600 text-xs mb-2">Click to add or type your own:</p>
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {["free consultation", "locally owned", "veteran-owned", "women-owned", "mobile service", "Murfreesboro", "Middle Tennessee", "Nashville area", "licensed & insured", "same-day service", "emergency service", "by appointment"].map((suggestion) => {
                       const allTags = isAmplified ? [...tags, ...extraTags] : [...tags];
@@ -965,7 +965,7 @@ export default function EditListingPage() {
                             {filledTags.map((tag) => (
                               <span key={tag} className="inline-flex items-center gap-1.5 bg-gold/15 text-navy text-sm font-medium px-3 py-1.5 rounded-full">
                                 {tag}
-                                <button type="button" onClick={() => removeTag(tag)} className="text-navy/40 hover:text-red-500 transition-colors">&times;</button>
+                                <button type="button" onClick={() => removeTag(tag)} className="text-navy/70 hover:text-red-500 transition-colors">&times;</button>
                               </span>
                             ))}
                           </div>
@@ -1093,7 +1093,7 @@ export default function EditListingPage() {
                 <div>
                   <label className={labelClass}>
                     Additional Categories
-                    <span className="text-gray-400 font-normal ml-1">
+                    <span className="text-gray-600 font-normal ml-1">
                       (4 total with Amplified)
                     </span>
                   </label>
@@ -1124,7 +1124,7 @@ export default function EditListingPage() {
                 <div>
                   <label className={labelClass}>
                     Additional Tags
-                    <span className="text-gray-400 font-normal ml-1">
+                    <span className="text-gray-600 font-normal ml-1">
                       (
                       {[...tags, ...extraTags].filter((t) => t.trim()).length}/4
                       total)
@@ -1152,7 +1152,7 @@ export default function EditListingPage() {
                 <div>
                   <label className={labelClass}>
                     Photos
-                    <span className="text-gray-400 font-normal ml-1">
+                    <span className="text-gray-600 font-normal ml-1">
                       ({photos.length}/8)
                     </span>
                   </label>
@@ -1198,7 +1198,7 @@ export default function EditListingPage() {
                 <div>
                   <label className={labelClass}>
                     Video URL
-                    <span className="text-gray-400 font-normal ml-1">
+                    <span className="text-gray-600 font-normal ml-1">
                       (YouTube or Vimeo)
                     </span>
                   </label>
@@ -1322,7 +1322,7 @@ export default function EditListingPage() {
                                 }
                                 className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c8a951] text-gray-900 text-sm"
                               />
-                              <span className="text-gray-400 text-sm">to</span>
+                              <span className="text-gray-600 text-sm">to</span>
                               <input
                                 type="time"
                                 value={dayData.closeTime}
@@ -1339,7 +1339,7 @@ export default function EditListingPage() {
                               />
                             </div>
                           ) : (
-                            <span className="text-gray-400 text-sm italic">
+                            <span className="text-gray-600 text-sm italic">
                               Closed
                             </span>
                           )}
@@ -1376,7 +1376,7 @@ export default function EditListingPage() {
                 )}
               </button>
               {!isConnected && (
-                <p className="text-gray-400 text-xs">
+                <p className="text-gray-600 text-xs">
                   Linked listings require admin approval before appearing in the
                   directory.
                 </p>

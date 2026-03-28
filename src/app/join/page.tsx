@@ -102,7 +102,7 @@ export default function JoinPage() {
           <p className="text-gold text-lg md:text-xl italic mb-4">
             Get found. Get referred. Get connected.
           </p>
-          <p className="text-white/50 text-sm">
+          <p className="text-white/70 text-sm">
             Directory membership is coming soon — register your interest below
           </p>
         </div>
@@ -249,6 +249,6 @@ export default function JoinPage() {
 
 function CellValue({ value }: { value: string }) {
   if (value === "✓") return <span className="text-gold font-bold text-lg">&#10003;</span>;
-  if (value === "—") return <span className="text-gray-300">—</span>;
+  if (value === "—") return <span className="text-gray-600">—</span>;
   return <span className="text-navy">{value}</span>;
 }

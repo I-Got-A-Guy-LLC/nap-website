@@ -87,7 +87,7 @@ export default function PricingCards() {
         {annual ? (
           <span className="text-green-600 text-sm font-bold">Save up to $120/yr with annual billing</span>
         ) : (
-          <span className="text-navy/40 text-sm">Switch to annual to save</span>
+          <span className="text-navy/70 text-sm">Switch to annual to save</span>
         )}
       </div>
 
@@ -149,7 +149,7 @@ export default function PricingCards() {
             )}
           </div>
           <div className="p-6">
-            <p className="text-navy/40 text-xs uppercase tracking-wider font-bold mb-3">Everything in Linked, plus:</p>
+            <p className="text-navy/70 text-xs uppercase tracking-wider font-bold mb-3">Everything in Linked, plus:</p>
             <ul className="space-y-3 mb-8">
               {["Full Contact Information", "Website URL", "Business Logo", "2 Categories + 2 Tags", "Embedded Referral Form", "Preferred Facebook Mention", "Quarterly Shoutouts"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -164,7 +164,7 @@ export default function PricingCards() {
             >
               {loading === "connected" ? "Redirecting..." : `Get Started — ${annual ? "$300/yr" : "$30/mo"}`}
             </button>
-            <p className="text-navy/30 text-xs text-center mt-3">
+            <p className="text-navy/60 text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function PricingCards() {
             )}
           </div>
           <div className="p-6">
-            <p className="text-navy/40 text-xs uppercase tracking-wider font-bold mb-3">Everything in Connected, plus:</p>
+            <p className="text-navy/70 text-xs uppercase tracking-wider font-bold mb-3">Everything in Connected, plus:</p>
             <ul className="space-y-3 mb-8">
               {["Photos + Videos", "Business Hours", "Map & Directions", "Special Offers", "Reviews Section", "4 Categories + 4 Tags", "Top Level Facebook Mention", "Monthly Shoutouts", "1 Free Event Ticket per Quarter", "Sponsorship Priority", "Ad Discounts"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -208,7 +208,7 @@ export default function PricingCards() {
             >
               {loading === "amplified" ? "Redirecting..." : `Get Started — ${annual ? "$500/yr" : "$50/mo"}`}
             </button>
-            <p className="text-white/30 text-xs text-center mt-3">
+            <p className="text-white/60 text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function PricingCards() {
         {!showPromo ? (
           <button
             onClick={() => setShowPromo(true)}
-            className="text-navy/40 text-sm hover:text-navy transition-colors"
+            className="text-navy/70 text-sm hover:text-navy transition-colors"
           >
             Have a promo code?
           </button>

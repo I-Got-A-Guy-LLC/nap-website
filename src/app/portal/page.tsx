@@ -68,7 +68,7 @@ export default async function PortalPage() {
               </span>
             )}
             {member.city && (
-              <span className="text-white/40 text-sm capitalize">{member.city}</span>
+              <span className="text-white/70 text-sm capitalize">{member.city}</span>
             )}
           </div>
         </div>
@@ -93,17 +93,17 @@ export default async function PortalPage() {
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Subscription</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                 <div>
-                  <span className="text-navy/40 block mb-0.5">Plan</span>
+                  <span className="text-navy/70 block mb-0.5">Plan</span>
                   <span className="font-bold text-navy">{tierLabels[tier]}</span>
                 </div>
                 <div>
-                  <span className="text-navy/40 block mb-0.5">Status</span>
+                  <span className="text-navy/70 block mb-0.5">Status</span>
                   <span className="font-bold text-navy capitalize">
                     {member.subscription_status || "Active"}
                   </span>
                 </div>
                 <div>
-                  <span className="text-navy/40 block mb-0.5">Next Renewal</span>
+                  <span className="text-navy/70 block mb-0.5">Next Renewal</span>
                   <span className="font-bold text-navy">
                     {member.current_period_end
                       ? new Date(member.current_period_end).toLocaleDateString("en-US", {
@@ -127,25 +127,25 @@ export default async function PortalPage() {
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.views_this_month || 0}
                   </p>
-                  <p className="text-navy/40 text-xs mt-1">Views This Month</p>
+                  <p className="text-navy/70 text-xs mt-1">Views This Month</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 text-center border border-gray-100">
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.views_all_time || 0}
                   </p>
-                  <p className="text-navy/40 text-xs mt-1">Views All Time</p>
+                  <p className="text-navy/70 text-xs mt-1">Views All Time</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 text-center border border-gray-100">
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.website_clicks_this_month || 0}
                   </p>
-                  <p className="text-navy/40 text-xs mt-1">Clicks This Month</p>
+                  <p className="text-navy/70 text-xs mt-1">Clicks This Month</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 text-center border border-gray-100">
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.website_clicks_all_time || 0}
                   </p>
-                  <p className="text-navy/40 text-xs mt-1">Clicks All Time</p>
+                  <p className="text-navy/70 text-xs mt-1">Clicks All Time</p>
                 </div>
               </div>
             </div>

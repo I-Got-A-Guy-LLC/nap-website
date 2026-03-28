@@ -271,7 +271,7 @@ function CalendarView() {
               className={`aspect-square rounded-lg border text-sm flex flex-col items-center justify-center gap-1 transition-all ${
                 day.events.length > 0
                   ? "border-gray-200 hover:border-gold hover:shadow-md cursor-pointer bg-white"
-                  : "border-transparent text-navy/30 cursor-default"
+                  : "border-transparent text-navy/60 cursor-default"
               } ${selectedDay === String(day.date) ? "ring-2 ring-gold shadow-md" : ""}`}
             >
               <span className="font-medium">{day.date}</span>
@@ -341,7 +341,7 @@ function CalendarView() {
               </div>
             </div>
           ))}
-          <button onClick={() => setSelectedDay(null)} className="text-navy/40 text-xs mt-2 hover:text-navy">
+          <button onClick={() => setSelectedDay(null)} className="text-navy/70 text-xs mt-2 hover:text-navy">
             Close
           </button>
         </div>

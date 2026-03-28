@@ -37,7 +37,7 @@ export default function AdminNav() {
             </Link>
           ))}
         </div>
-        <Link href="/" className="text-white/40 text-sm hover:text-white transition-colors">
+        <Link href="/" className="text-white/70 text-sm hover:text-white transition-colors">
           ← Back to Site
         </Link>
       </div>

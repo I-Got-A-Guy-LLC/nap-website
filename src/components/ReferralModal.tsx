@@ -135,11 +135,11 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-navy text-sm font-bold mb-1">Their Phone <span className="font-normal text-navy/40">(optional)</span></label>
+                    <label className="block text-navy text-sm font-bold mb-1">Their Phone <span className="font-normal text-navy/70">(optional)</span></label>
                     <input type="tel" value={referredPhone} onChange={(e) => setReferredPhone(e.target.value)} className={inputClass} placeholder="(615) 555-0123" />
                   </div>
                   <div>
-                    <label className="block text-navy text-sm font-bold mb-1">Their Business <span className="font-normal text-navy/40">(optional)</span></label>
+                    <label className="block text-navy text-sm font-bold mb-1">Their Business <span className="font-normal text-navy/70">(optional)</span></label>
                     <input type="text" value={referredBusiness} onChange={(e) => setReferredBusiness(e.target.value)} className={inputClass} placeholder="Company name" />
                   </div>
                 </div>
@@ -152,7 +152,7 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
                 {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
 
                 <div className="flex items-center justify-between pt-2">
-                  <button type="button" onClick={onClose} className="text-navy/40 text-sm hover:text-navy transition-colors">
+                  <button type="button" onClick={onClose} className="text-navy/70 text-sm hover:text-navy transition-colors">
                     Cancel
                   </button>
                   <button type="submit" disabled={loading}
@@ -160,7 +160,7 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
                     {loading ? "Sending..." : "Send Referral"}
                   </button>
                 </div>
-                <p className="text-navy/30 text-xs text-center">
+                <p className="text-navy/60 text-xs text-center">
                   The business owner will receive your referral by email.
                 </p>
               </form>
