@@ -110,9 +110,15 @@ export default async function EventDetailPage({
 
   const spotsRemaining = event.capacity - event.tickets_sold;
   const isSoldOut = spotsRemaining <= 0;
-  const descriptionLines = event.description
-    .split("\n")
-    .filter((line: string) => line.trim());
+  // What's included items — use newlines if present in description, otherwise default items
+  const rawDesc = (event.description || "").trim();
+  const descriptionLines = rawDesc.includes("\n")
+    ? rawDesc.split("\n").filter((l: string) => l.trim())
+    : [
+        "Range time and a personal target",
+        "Mix and mingle time with fellow professionals",
+        "Come for the networking, stay for the fun",
+      ];
 
   return (
     <>
@@ -163,9 +169,12 @@ export default async function EventDetailPage({
       {/* What's Included */}
       <section className="bg-[#F8F9FA] py-16 px-4">
         <div className="max-w-[800px] mx-auto">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-8">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-4">
             What&apos;s Included
           </h2>
+          {rawDesc && !rawDesc.includes("\n") && (
+            <p className="text-navy/70 text-lg mb-6">{rawDesc}</p>
+          )}
           <ul className="space-y-3">
             {descriptionLines.map((line: string, i: number) => (
               <li key={i} className="flex items-start gap-3 text-navy text-lg">
