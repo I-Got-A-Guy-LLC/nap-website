@@ -77,6 +77,33 @@ export default async function PortalPage() {
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[900px] mx-auto space-y-8">
 
+          {/* Admin Shortcut */}
+          {member?.role === "super_admin" && (
+            <Link href="/admin" className="block bg-navy rounded-xl p-6 hover:shadow-lg transition-shadow group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="inline-block bg-[#FE6651] text-white text-xs font-bold px-2.5 py-1 rounded-full mb-2">Super Admin</span>
+                  <h3 className="font-heading text-xl font-bold text-white">Admin Dashboard</h3>
+                  <p className="text-white/60 text-sm mt-1">Manage members, events, listings, and revenue</p>
+                </div>
+                <span className="text-gold text-2xl group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </div>
+            </Link>
+          )}
+
+          {member?.role === "city_leader" && (
+            <Link href="/portal/verify" className="block bg-manchester rounded-xl p-6 hover:shadow-lg transition-shadow group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="inline-block bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full mb-2">City Leader</span>
+                  <h3 className="font-heading text-xl font-bold text-navy">Leader Dashboard</h3>
+                  <p className="text-navy/60 text-sm mt-1">Manage your chapter and verify members</p>
+                </div>
+                <span className="text-navy text-2xl group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </div>
+            </Link>
+          )}
+
           {/* Pending Approval Banner */}
           {listing && !listing.is_approved && (
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession, signOut } from "next-auth/react";
 
 const cities = [
   { name: "Manchester", href: "/tn/manchester" },
@@ -14,6 +15,12 @@ const cities = [
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [citiesOpen, setCitiesOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const isLoggedIn = !!session?.user;
+  const role = (session as any)?.role || "member";
+  const fullName = (session as any)?.fullName || session?.user?.email?.split("@")[0] || "";
 
   return (
     <nav aria-label="Main navigation" className="bg-manchester text-white sticky top-0 z-50 border-b border-black shadow-lg shadow-black/15">
@@ -79,12 +86,53 @@ export default function Navigation() {
             <Link href="/contact" className="font-medium text-white hover:text-navy transition-colors">
               Contact
             </Link>
-            <Link
-              href="/join"
-              className="bg-gold text-navy font-bold px-6 py-2.5 rounded-full hover:bg-gold/90 hover:shadow-md transition-all"
-            >
-              Join
-            </Link>
+            {isLoggedIn ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  onBlur={() => setTimeout(() => setUserMenuOpen(false), 150)}
+                  className="bg-gold text-navy font-bold px-5 py-2 rounded-full hover:bg-gold/90 transition-all flex items-center gap-2 text-sm"
+                >
+                  {fullName}
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {userMenuOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-52 bg-white rounded-xl shadow-xl py-2 z-50 border border-gray-100">
+                    <Link href="/portal" className="block px-4 py-2.5 text-navy font-medium hover:bg-gray-50 transition-colors" onClick={() => setUserMenuOpen(false)}>
+                      My Portal
+                    </Link>
+                    <Link href="/portal/listing" className="block px-4 py-2.5 text-navy font-medium hover:bg-gray-50 transition-colors" onClick={() => setUserMenuOpen(false)}>
+                      My Listings
+                    </Link>
+                    {role === "super_admin" && (
+                      <Link href="/admin" className="block px-4 py-2.5 text-[#FE6651] font-bold hover:bg-gray-50 transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    {(role === "city_leader" || role === "licensee") && (
+                      <Link href="/portal/verify" className="block px-4 py-2.5 text-navy font-medium hover:bg-gray-50 transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        Leader Dashboard
+                      </Link>
+                    )}
+                    <div className="border-t border-gray-100 my-1" />
+                    <button onClick={() => signOut({ callbackUrl: "/" })} className="block w-full text-left px-4 py-2.5 text-navy/60 hover:bg-gray-50 transition-colors text-sm">
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link href="/login" className="font-medium text-white hover:text-gold transition-colors text-sm">
+                  Login
+                </Link>
+                <Link href="/join" className="bg-gold text-navy font-bold px-6 py-2.5 rounded-full hover:bg-gold/90 hover:shadow-md transition-all">
+                  Join
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Hamburger */}
@@ -143,13 +191,30 @@ export default function Navigation() {
             <Link href="/contact" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
               Contact
             </Link>
-            <Link
-              href="/join"
-              className="block bg-gold text-navy font-bold px-5 py-2.5 rounded-full text-center"
-              onClick={() => setMobileOpen(false)}
-            >
-              Join
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link href="/portal" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
+                  My Portal
+                </Link>
+                {role === "super_admin" && (
+                  <Link href="/admin" className="block font-bold text-[#FE6651]" onClick={() => setMobileOpen(false)}>
+                    Admin Dashboard
+                  </Link>
+                )}
+                <button onClick={() => { signOut({ callbackUrl: "/" }); setMobileOpen(false); }} className="block text-white/60 text-sm">
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
+                  Login
+                </Link>
+                <Link href="/join" className="block bg-gold text-navy font-bold px-5 py-2.5 rounded-full text-center" onClick={() => setMobileOpen(false)}>
+                  Join
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

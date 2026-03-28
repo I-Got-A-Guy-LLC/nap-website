@@ -93,7 +93,7 @@ export const authOptions: NextAuthOptions = {
         const supabase = getSupabaseAdmin();
         const { data: member } = await supabase
           .from("members")
-          .select("id, tier, is_leadership, leadership_city, is_nap_verified")
+          .select("id, tier, is_leadership, leadership_city, is_nap_verified, role, full_name")
           .eq("email", token.email)
           .single();
         if (member) {
@@ -102,6 +102,8 @@ export const authOptions: NextAuthOptions = {
           token.isLeadership = member.is_leadership;
           token.leadershipCity = member.leadership_city;
           token.isNapVerified = member.is_nap_verified;
+          token.role = member.role || "member";
+          token.fullName = member.full_name;
         }
       }
       return token;
@@ -113,6 +115,8 @@ export const authOptions: NextAuthOptions = {
         (session as any).isLeadership = token.isLeadership;
         (session as any).leadershipCity = token.leadershipCity;
         (session as any).isNapVerified = token.isNapVerified;
+        (session as any).role = token.role;
+        (session as any).fullName = token.fullName;
       }
       return session;
     },
