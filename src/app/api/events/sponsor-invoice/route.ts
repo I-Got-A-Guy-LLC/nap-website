@@ -24,90 +24,67 @@ export async function POST(request: Request) {
     } = await request.json();
 
     if (!businessName || !contactName || !email || !tier) {
-      return NextResponse.json(
-        { error: "Missing required fields." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
     }
 
     const supabase = getSupabaseAdmin();
+    const amount = tierPrices[tier] || 0;
 
-    // Save to event_sponsors table
+    // Save to event_sponsors table — use correct column names
     const { error: insertError } = await supabase
       .from("event_sponsors")
       .insert({
         event_id: eventId,
-        business_name: businessName,
-        contact_name: contactName,
-        email,
-        phone: phone || null,
+        sponsor_name: contactName,
+        sponsor_email: email,
+        sponsor_phone: phone || null,
+        sponsor_business: businessName,
         tier,
+        amount,
         notes: notes || null,
-        payment_method: paymentMethod,
-        status: paymentMethod === "invoice" ? "pending_invoice" : "pending_payment",
+        payment_method: paymentMethod === "stripe" ? "stripe" : "invoice",
+        payment_status: "pending",
       });
 
     if (insertError) {
-      console.error("Sponsor insert error:", insertError);
-      return NextResponse.json(
-        { error: "Failed to save sponsorship." },
-        { status: 500 }
-      );
+      console.error("[sponsor] Insert error:", insertError.message, insertError.code, insertError.details);
+      return NextResponse.json({ error: "Failed to save sponsorship: " + insertError.message }, { status: 500 });
     }
 
-    // Send notification email to hello@networkingforawesomepeople.com
-    // Using Supabase edge function or a simple insert into a notifications table
-    try {
-      await supabase.from("notifications").insert({
-        type: "sponsor_signup",
-        recipient: "hello@networkingforawesomepeople.com",
-        subject: `New Sponsor Signup: ${businessName} (${tier})`,
-        body: `Business: ${businessName}\nContact: ${contactName}\nEmail: ${email}\nPhone: ${phone || "N/A"}\nTier: ${tier}\nPayment: ${paymentMethod}\nNotes: ${notes || "None"}`,
-        sent: false,
-      });
-    } catch {
-      // Notification failure should not block the sponsor signup
-      console.error("Failed to queue sponsor notification");
-    }
+    // Notify Rachel
+    const { error: notifError } = await supabase.from("admin_notifications").insert({
+      type: "sponsor_signup",
+      message: `New sponsor: ${businessName} (${tier}) — ${contactName} <${email}>`,
+    });
+    if (notifError) console.error("[sponsor] Notification error:", notifError.message);
 
     // If paying online via Stripe
-    const tierPrice = tierPrices[tier] || 0;
-    if (paymentMethod === "stripe" && tierPrice > 0) {
+    if (paymentMethod === "stripe" && amount > 0) {
       const session = await stripe().checkout.sessions.create({
         mode: "payment",
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: `Event Sponsorship — ${tier.charAt(0).toUpperCase() + tier.slice(1)}`,
-                description: `${tier.charAt(0).toUpperCase() + tier.slice(1)} sponsor for event`,
-              },
-              unit_amount: tierPrice * 100,
+        line_items: [{
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `Event Sponsorship — ${tier.charAt(0).toUpperCase() + tier.slice(1)}`,
             },
-            quantity: 1,
+            unit_amount: amount * 100,
           },
-        ],
+          quantity: 1,
+        }],
         customer_email: email,
         success_url: `${process.env.NEXTAUTH_URL}/events/${slug}/sponsor?success=true`,
         cancel_url: `${process.env.NEXTAUTH_URL}/events/${slug}/sponsor`,
-        metadata: {
-          type: "event_sponsor",
-          eventId: eventId || "",
-          tier,
-          businessName,
-        },
+        metadata: { type: "event_sponsor", eventId: eventId || "", tier, businessName },
       });
 
       return NextResponse.json({ url: session.url });
     }
 
-    // Invoice method — Rachel sends invoice manually
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
-    const message =
-      err instanceof Error ? err.message : "Failed to process sponsorship";
-    console.error("Sponsor signup error:", message);
+    const message = err instanceof Error ? err.message : "Failed to process sponsorship";
+    console.error("[sponsor] Error:", message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
