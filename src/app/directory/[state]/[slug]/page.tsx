@@ -225,23 +225,33 @@ export default async function DirectoryListingPage({ params }: { params: { state
             </div>
           )}
 
-          {/* Coupon / Special Offer */}
+          {/* Special Offer */}
           {isAmplified && (listing.offer_headline || listing.special_offers) && (
-            <div className="relative border-2 border-dashed border-[#F5BE61] rounded-xl p-6 md:p-8 bg-[#FEF8EC]">
-              {/* Scissors icon */}
-              <span className="absolute -left-3 top-6 text-[#F5BE61] text-xl rotate-90">✂</span>
-              {/* NAP Only badge */}
-              {listing.offer_nap_only && (
-                <span className="absolute top-3 right-3 bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full">NAP Members Only</span>
-              )}
-              <p className="text-[#F5BE61] text-xs font-bold uppercase tracking-widest mb-2">Special Offer</p>
+            <div className="bg-white rounded-xl border border-gray-100 border-l-[3px] border-l-[#FE6651] shadow-sm p-6 md:p-8">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  {listing.logo_url && (
+                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
+                      <img src={listing.logo_url} alt="" className="w-full h-full object-contain" />
+                    </div>
+                  )}
+                  <span className="bg-[#FE6651] text-white text-xs font-bold px-3 py-1 rounded-full">SPECIAL OFFER</span>
+                </div>
+                {listing.offer_nap_only && (
+                  <span className="bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full">NAP Members Only</span>
+                )}
+              </div>
               {listing.offer_headline ? (
                 <>
                   <h3 className="font-heading text-xl md:text-2xl font-bold text-navy mb-2">{listing.offer_headline}</h3>
-                  {listing.offer_details && <p className="text-navy/70 mb-4">{listing.offer_details}</p>}
-                  {listing.offer_promo_code && <CouponCode code={listing.offer_promo_code} />}
+                  {listing.offer_details && <p className="text-navy/60 mb-4">{listing.offer_details}</p>}
+                  {listing.offer_promo_code && (
+                    <div className="mb-3">
+                      <CouponCode code={listing.offer_promo_code} />
+                    </div>
+                  )}
                   {listing.offer_expires_at && (
-                    <p className="text-navy/40 text-xs mt-3">Offer expires: {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
+                    <p className="text-navy/30 text-xs">Expires {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                   )}
                 </>
               ) : (

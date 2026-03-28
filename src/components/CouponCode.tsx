@@ -8,8 +8,6 @@ export default function CouponCode({ code }: { code: string }) {
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     } catch {
       const el = document.createElement("textarea");
       el.value = code;
@@ -17,17 +15,17 @@ export default function CouponCode({ code }: { code: string }) {
       el.select();
       document.execCommand("copy");
       document.body.removeChild(el);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="inline-flex items-center gap-2 bg-navy rounded-lg px-4 py-2">
-      <span className="font-mono text-white font-bold tracking-wider">{code}</span>
-      <button onClick={copy} className="text-gold text-xs font-bold hover:underline">
-        {copied ? "Copied!" : "Copy Code"}
+    <span className="inline-flex items-center gap-2 bg-[#1F3149] rounded-full px-4 py-2">
+      <span className="font-mono text-white font-bold text-sm tracking-wider">{code}</span>
+      <button onClick={copy} className="text-[#FBC761] text-xs font-bold hover:text-white transition-colors">
+        {copied ? "Copied!" : "Copy"}
       </button>
-    </div>
+    </span>
   );
 }

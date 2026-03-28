@@ -915,34 +915,34 @@ export default function EditListingPage() {
                   />
                 </div>
 
-                {/* Coupon / Special Offer */}
-                <div className="border border-dashed border-[#F5BE61] rounded-xl p-5 bg-[#FEF8EC]/50">
-                  <label className="block text-sm font-bold text-navy mb-3">✂ Special Offer / Coupon</label>
+                {/* Special Offer */}
+                <div className="bg-white rounded-xl border border-gray-200 p-5">
+                  <label className="block text-sm font-bold text-navy mb-3">Special Offer</label>
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Offer Headline (max 60 chars)</label>
+                      <label className="block text-xs text-gray-500 mb-1">Offer Title *</label>
                       <input type="text" maxLength={60} value={offerHeadline} onChange={(e) => setOfferHeadline(e.target.value)}
-                        className={inputClass} placeholder="e.g. Free 30-Minute Strategy Session" />
+                        className={inputClass} placeholder="e.g. Free Strategy Session" />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Offer Details (max 200 chars)</label>
-                      <textarea rows={2} maxLength={200} value={offerDetails} onChange={(e) => setOfferDetails(e.target.value)}
-                        className={`${inputClass} resize-none`} placeholder="e.g. Book a free consultation and mention NAP to claim." />
+                      <label className="block text-xs text-gray-500 mb-1">Offer Subtitle</label>
+                      <input type="text" maxLength={200} value={offerDetails} onChange={(e) => setOfferDetails(e.target.value)}
+                        className={inputClass} placeholder="e.g. Mention NAP when you book" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs text-gray-500 mb-1">Promo Code (optional)</label>
+                        <label className="block text-xs text-gray-500 mb-1">Coupon Code (optional)</label>
                         <input type="text" maxLength={20} value={offerPromoCode} onChange={(e) => setOfferPromoCode(e.target.value.toUpperCase())}
                           className={`${inputClass} font-mono`} placeholder="e.g. NAP2024" />
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-500 mb-1">Offer Expires (optional)</label>
+                        <label className="block text-xs text-gray-500 mb-1">Expiration Date (optional)</label>
                         <input type="date" value={offerExpires} onChange={(e) => setOfferExpires(e.target.value)} className={inputClass} />
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <input type="checkbox" id="nap-only" checked={offerNapOnly} onChange={(e) => setOfferNapOnly(e.target.checked)} className="w-4 h-4 accent-gold" />
-                      <label htmlFor="nap-only" className="text-sm text-navy">For NAP members only</label>
+                      <label htmlFor="nap-only" className="text-sm text-navy">NAP Members Only</label>
                     </div>
                   </div>
                 </div>
