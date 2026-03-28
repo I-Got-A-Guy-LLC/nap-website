@@ -17,7 +17,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Action Required": "#FE6651",
 };
 
-function buildEmailHtml(category: string, body: string): string {
+function buildEmailHtml(category: string, body: string, unsubscribeUrl: string): string {
   const badgeColor = CATEGORY_COLORS[category] || "#1F3149";
   const bodyHtml = body.replace(/\n/g, "<br />");
 
@@ -42,6 +42,7 @@ function buildEmailHtml(category: string, body: string): string {
         <tr>
           <td style="background-color:#0a1628;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center;">
             <p style="margin:0;color:#8899aa;font-size:12px;">&copy; Networking For Awesome People. All rights reserved.</p>
+            <p style="margin:8px 0 0;"><a href="${unsubscribeUrl}" style="color:#667788;font-size:11px;text-decoration:underline;">Unsubscribe from broadcasts</a></p>
           </td>
         </tr>
       </table>
@@ -80,16 +81,13 @@ export async function POST(request: Request) {
 
   const supabase = getSupabaseAdmin();
 
-  // Query members
-  let query = supabase.from("members").select("email, full_name");
+  // Query members — exclude unsubscribed
+  let query = supabase.from("members").select("email, full_name, unsubscribe_token")
+    .or("email_unsubscribed.is.null,email_unsubscribed.eq.false");
 
   if (audience && audience !== "all") {
     query = query.ilike("city", audience);
   }
-
-  // active_only: filter to members with subscription_status = 'active' or is_comped = true or is_leadership = true
-  // For simplicity, we'll just send to all members in the audience since "active" isn't a simple boolean
-  // If active_only is false, send to everyone in the audience
 
   const { data: members, error: membersError } = await query;
 
@@ -104,9 +102,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No recipients found for this audience" }, { status: 400 });
   }
 
-  // Build email HTML
-  const html = buildEmailHtml(category, body);
   const resend = getResend();
+  const baseUrl = "https://networkingforawesomepeople.com";
 
   // Send in batches of 50 (Resend batch limit)
   const batchSize = 50;
@@ -117,12 +114,17 @@ export async function POST(request: Request) {
 
     try {
       await resend.batch.send(
-        batch.map((member) => ({
-          from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
-          to: member.email,
-          subject,
-          html,
-        }))
+        batch.map((member: any) => {
+          const unsubUrl = member.unsubscribe_token
+            ? `${baseUrl}/unsubscribe?token=${member.unsubscribe_token}`
+            : `${baseUrl}/contact`;
+          return {
+            from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
+            to: member.email,
+            subject,
+            html: buildEmailHtml(category, body, unsubUrl),
+          };
+        })
       );
       sentCount += batch.length;
     } catch (err) {
