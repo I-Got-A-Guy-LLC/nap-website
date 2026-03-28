@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import NotificationPreferences from "@/components/NotificationPreferences";
 
 const tierLabels: Record<string, string> = {
   linked: "Linked",
@@ -201,6 +202,16 @@ export default async function PortalPage() {
               </Link>
             )}
           </div>
+
+          {/* Notification Preferences */}
+          <NotificationPreferences
+            initial={{
+              notif_cancellations: member.notif_cancellations ?? true,
+              notif_events: member.notif_events ?? true,
+              notif_broadcasts: member.notif_broadcasts ?? true,
+              notif_digest: member.notif_digest ?? false,
+            }}
+          />
 
           {/* Linked Upgrade Prompt */}
           {tier === "linked" && (
