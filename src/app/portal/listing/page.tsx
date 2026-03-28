@@ -270,17 +270,23 @@ export default function EditListingPage() {
         // Website
         setWebsiteUrl(l.website_url || "");
 
-        // Additional categories — split stored array into Connected (1) + Amplified (3)
+        // Additional categories — deduplicate and split
         const stored: string[] = Array.isArray(l.additional_category_ids)
-          ? l.additional_category_ids
+          ? Array.from(new Set(l.additional_category_ids.filter(Boolean)))
           : [];
-        setAdditionalCategories([stored[0] || ""]);
-        setExtraCategories([stored[1] || "", stored[2] || "", stored[3] || ""]);
+        setAdditionalCategories(stored.slice(0, 1));
+        setExtraCategories(stored.slice(1, 4));
 
-        // Tags
-        const storedTags: string[] = Array.isArray(l.tags) ? l.tags : [];
-        setTags([storedTags[0] || "", storedTags[1] || ""]);
-        setExtraTags([storedTags[2] || "", storedTags[3] || ""]);
+        // Tags — deduplicate (case-insensitive)
+        const storedTags: string[] = Array.isArray(l.tags) ? l.tags.filter(Boolean) : [];
+        const dedupedTags: string[] = [];
+        const seen = new Set<string>();
+        for (const t of storedTags) {
+          const key = t.trim().toLowerCase();
+          if (!seen.has(key)) { seen.add(key); dedupedTags.push(t); }
+        }
+        setTags(dedupedTags.slice(0, 2));
+        setExtraTags(dedupedTags.slice(2, 4));
 
         // Social — individual columns, not a single object
         setSocialLinks({
@@ -671,44 +677,94 @@ export default function EditListingPage() {
                 </div>
               </div>
 
-              {/* Categories */}
+              {/* Categories — chip-based selection */}
               <div>
                 <label className={labelClass}>
                   Categories
-                  {isAmplified && <span className="text-gray-400 font-normal ml-1">(select up to 4 — Amplified)</span>}
-                  {isConnected && !isAmplified && <span className="text-gray-400 font-normal ml-1">(select up to 2 — Connected)</span>}
-                  {!isConnected && <span className="text-gray-400 font-normal ml-1">(1 category — Linked)</span>}
+                  <span className="text-gray-400 font-normal ml-1">
+                    ({(() => {
+                      const allSelected = [primaryCategoryId, ...additionalCategories, ...(isAmplified ? extraCategories : [])].filter(Boolean);
+                      const max = isAmplified ? 4 : isConnected ? 2 : 1;
+                      return `${allSelected.length} of ${max}`;
+                    })()})
+                  </span>
                 </label>
+
+                {/* Primary category dropdown */}
                 <select
                   value={primaryCategoryId}
                   onChange={(e) => setPrimaryCategoryId(e.target.value)}
                   className={selectClass}
                 >
-                  <option value="">Select primary category</option>
+                  <option value="">Select primary category *</option>
                   {mainCategories.map((cat) => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
                 </select>
-                {isConnected && (
-                  <div className="mt-2 space-y-2">
-                    {additionalCategories.map((val, idx) => (
-                      <select key={`addcat-${idx}`} value={val}
-                        onChange={(e) => { const u = [...additionalCategories]; u[idx] = e.target.value; setAdditionalCategories(u); }}
-                        className={selectClass}>
-                        <option value="">Additional category {idx + 2}</option>
-                        {mainCategories.map((cat) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
-                      </select>
-                    ))}
-                    {isAmplified && extraCategories.map((val, idx) => (
-                      <select key={`extracat-${idx}`} value={val}
-                        onChange={(e) => { const u = [...extraCategories]; u[idx] = e.target.value; setExtraCategories(u); }}
-                        className={selectClass}>
-                        <option value="">Additional category {idx + 3}</option>
-                        {mainCategories.map((cat) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
-                      </select>
-                    ))}
-                  </div>
-                )}
+
+                {/* Additional categories as chips */}
+                {isConnected && (() => {
+                  const allAdditional = [...additionalCategories, ...(isAmplified ? extraCategories : [])].filter(Boolean);
+                  const allSelected = [primaryCategoryId, ...allAdditional].filter(Boolean);
+                  const maxAdditional = isAmplified ? 3 : 1;
+                  const availableCategories = mainCategories.filter((c) => !allSelected.includes(c.id));
+
+                  const removeAdditional = (catId: string) => {
+                    const idx = additionalCategories.indexOf(catId);
+                    if (idx >= 0) {
+                      setAdditionalCategories(additionalCategories.filter((_, i) => i !== idx));
+                      return;
+                    }
+                    if (isAmplified) {
+                      const idx2 = extraCategories.indexOf(catId);
+                      if (idx2 >= 0) setExtraCategories(extraCategories.filter((_, i) => i !== idx2));
+                    }
+                  };
+
+                  const addAdditional = (catId: string) => {
+                    if (!catId || allSelected.includes(catId)) return;
+                    if (additionalCategories.filter(Boolean).length < 1) {
+                      setAdditionalCategories([catId]);
+                    } else if (isAmplified && extraCategories.filter(Boolean).length < 2) {
+                      setExtraCategories([...extraCategories.filter(Boolean), catId]);
+                    }
+                  };
+
+                  return (
+                    <div className="mt-3">
+                      {/* Chips for selected additional categories */}
+                      {allAdditional.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {allAdditional.map((catId) => {
+                            const cat = mainCategories.find((c) => c.id === catId);
+                            if (!cat) return null;
+                            return (
+                              <span key={catId} className="inline-flex items-center gap-1.5 bg-navy/10 text-navy text-sm font-medium px-3 py-1.5 rounded-full">
+                                {cat.name}
+                                <button type="button" onClick={() => removeAdditional(catId)} className="text-navy/40 hover:text-red-500 transition-colors">&times;</button>
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {/* Add more dropdown — only if under limit */}
+                      {allAdditional.length < maxAdditional && availableCategories.length > 0 && (
+                        <select
+                          value=""
+                          onChange={(e) => { addAdditional(e.target.value); }}
+                          className={`${selectClass} text-gray-400`}
+                        >
+                          <option value="">+ Add another category</option>
+                          {availableCategories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
+                  );
+                })()}
+
                 {!isConnected && (
                   <p className="text-gray-400 text-xs mt-2">
                     <Link href="/join" className="text-gold hover:underline">Upgrade to Connected</Link> to add more categories
@@ -844,6 +900,9 @@ export default function EditListingPage() {
                       return (
                         <button key={suggestion} type="button" disabled={alreadyUsed || usedCount >= maxTags}
                           onClick={() => {
+                            // Deduplicate check
+                            const all = isAmplified ? [...tags, ...extraTags] : [...tags];
+                            if (all.some((t) => t.trim().toLowerCase() === suggestion.toLowerCase())) return;
                             // Find first empty slot
                             const idx = tags.findIndex((t) => !t.trim());
                             if (idx >= 0) { const u = [...tags]; u[idx] = suggestion; setTags(u); return; }
@@ -855,22 +914,68 @@ export default function EditListingPage() {
                       );
                     })}
                   </div>
-                  <div className="space-y-2">
-                    {tags.map((val, idx) => (
-                      <input
-                        key={`tag-${idx}`}
-                        type="text"
-                        value={val}
-                        onChange={(e) => {
-                          const updated = [...tags];
-                          updated[idx] = e.target.value;
-                          setTags(updated);
-                        }}
-                        className={inputClass}
-                        placeholder={`Tag ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
+                  {/* Tag chips + input */}
+                  {(() => {
+                    const allTags = isAmplified ? [...tags, ...extraTags] : [...tags];
+                    const filledTags = allTags.filter((t) => t.trim());
+                    const maxTags = isAmplified ? 4 : 2;
+
+                    const removeTag = (tagVal: string) => {
+                      const idx = tags.indexOf(tagVal);
+                      if (idx >= 0) { setTags(tags.filter((_, i) => i !== idx)); return; }
+                      if (isAmplified) {
+                        const idx2 = extraTags.indexOf(tagVal);
+                        if (idx2 >= 0) setExtraTags(extraTags.filter((_, i) => i !== idx2));
+                      }
+                    };
+
+                    const addTag = (val: string) => {
+                      const trimmed = val.trim();
+                      if (!trimmed) return;
+                      if (filledTags.some((t) => t.trim().toLowerCase() === trimmed.toLowerCase())) return;
+                      if (filledTags.length >= maxTags) return;
+                      if (tags.filter(Boolean).length < 2) {
+                        setTags([...tags.filter(Boolean), trimmed]);
+                      } else if (isAmplified) {
+                        setExtraTags([...extraTags.filter(Boolean), trimmed]);
+                      }
+                    };
+
+                    return (
+                      <div>
+                        {filledTags.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {filledTags.map((tag) => (
+                              <span key={tag} className="inline-flex items-center gap-1.5 bg-gold/15 text-navy text-sm font-medium px-3 py-1.5 rounded-full">
+                                {tag}
+                                <button type="button" onClick={() => removeTag(tag)} className="text-navy/40 hover:text-red-500 transition-colors">&times;</button>
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        {filledTags.length < maxTags && (
+                          <input
+                            type="text"
+                            className={inputClass}
+                            placeholder={`Type a tag and press Enter (${filledTags.length}/${maxTags})`}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                addTag((e.target as HTMLInputElement).value);
+                                (e.target as HTMLInputElement).value = "";
+                              }
+                            }}
+                            onBlur={(e) => {
+                              if (e.target.value.trim()) {
+                                addTag(e.target.value);
+                                e.target.value = "";
+                              }
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Social Media */}
