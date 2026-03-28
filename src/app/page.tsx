@@ -112,6 +112,9 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Separator line + shadow between hero and city panels */}
+        <div className="relative z-10 h-0 border-b border-black" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }} />
+
         {/* City panels */}
         <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
           {cityPanels.map((city) => (
