@@ -10,6 +10,7 @@ const links = [
   { href: "/admin/events", label: "Events" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/reviews", label: "Reviews" },
+  { href: "/admin/broadcasts", label: "Broadcasts" },
 ];
 
 export default function AdminNav() {
