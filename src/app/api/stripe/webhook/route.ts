@@ -48,6 +48,66 @@ export async function POST(request: Request) {
           session.customer_details?.email || session.customer_email;
         const metadata = session.metadata || {};
 
+        // --- EVENT SPONSOR PAYMENT (Stripe checkout) ---
+        if (metadata.type === "event_sponsor" && metadata.eventId) {
+          const { SPONSOR_TIER_TICKETS, generateTicketCode } = await import("@/lib/events");
+          const tier = metadata.tier || "";
+          const amount = (session.amount_total || 0) / 100;
+
+          // Create the sponsor record now that payment succeeded
+          const { error: sponsorInsertError } = await supabase
+            .from("event_sponsors")
+            .insert({
+              event_id: metadata.eventId,
+              sponsor_name: metadata.contactName || "",
+              sponsor_email: metadata.email || customerEmail || "",
+              sponsor_phone: metadata.phone || null,
+              sponsor_business: metadata.businessName || "",
+              tier,
+              amount,
+              notes: metadata.notes || null,
+              payment_method: "stripe",
+              payment_status: "paid",
+              paid_at: new Date().toISOString(),
+              stripe_session_id: session.id,
+            });
+
+          if (sponsorInsertError) {
+            console.error("[webhook] Sponsor insert error:", sponsorInsertError);
+          }
+
+          // Issue complimentary tickets for qualifying tiers
+          const ticketCount = SPONSOR_TIER_TICKETS[tier] || 0;
+          if (ticketCount > 0) {
+            const sponsorEmail = metadata.email || customerEmail || "";
+            const sponsorName = metadata.contactName || "";
+            const tickets = Array.from({ length: ticketCount }, () => ({
+              event_id: metadata.eventId,
+              ticket_code: generateTicketCode(),
+              purchaser_name: sponsorName,
+              purchaser_email: sponsorEmail,
+              quantity: 1,
+              amount_paid: 0,
+              status: "active",
+            }));
+            await supabase.from("tickets").insert(tickets);
+
+            const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", metadata.eventId).single();
+            if (evt) {
+              await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + ticketCount }).eq("id", metadata.eventId);
+            }
+          }
+
+          // Notify admin
+          await supabase.from("admin_notifications").insert({
+            type: "sponsor_signup",
+            message: `Sponsor paid (Stripe): ${metadata.businessName} (${tier}) — ${metadata.contactName} <${metadata.email || customerEmail}>`,
+          }).then(() => {}, (err: any) => console.error("[webhook] Notification error:", err));
+
+          console.log(`[webhook] Sponsor ${metadata.businessName} created as paid — ${ticketCount} comp tickets issued`);
+          break;
+        }
+
         // --- EVENT TICKET PURCHASE ---
         if (metadata.eventId) {
           const quantity = parseInt(metadata.quantity || "1");

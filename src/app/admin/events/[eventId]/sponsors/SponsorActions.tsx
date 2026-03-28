@@ -61,7 +61,7 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
     <div className="flex items-center gap-2 flex-wrap">
       {sponsor.payment_status !== "paid" && (
         <button onClick={markAsPaid} disabled={loading === "paid"}
-          className="px-3 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-lg hover:bg-green-200 transition disabled:opacity-50">
+          className="px-3 py-1 text-xs font-bold text-navy bg-[#FBC761] rounded-lg hover:bg-[#FBC761]/80 transition disabled:opacity-50">
           {loading === "paid" ? "..." : "Mark as Paid"}
         </button>
       )}

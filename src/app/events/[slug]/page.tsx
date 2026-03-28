@@ -109,7 +109,7 @@ export default async function EventDetailPage({
     .from("event_sponsors")
     .select("*")
     .eq("event_id", event.id)
-    .in("payment_status", ["paid", "pending"])
+    .eq("payment_status", "paid")
     .order("created_at", { ascending: true });
 
   const spotsRemaining = event.capacity - event.tickets_sold;
