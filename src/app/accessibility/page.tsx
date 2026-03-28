@@ -48,10 +48,7 @@ export default function AccessibilityPage() {
           <p>We are continuously working to improve accessibility. Some third-party content, such as embedded maps, may not fully meet our accessibility standards. We are working to address these limitations.</p>
 
           <h2>Feedback and Contact</h2>
-          <p>We welcome your feedback on the accessibility of the Networking For Awesome People website. If you experience accessibility barriers, please contact us:</p>
-          <ul>
-            <li><strong>Email:</strong> hello@networkingforawesomepeople.com</li>
-          </ul>
+          <p>We welcome your feedback on the accessibility of the Networking For Awesome People website. If you experience accessibility barriers, please <a href="/contact">contact us</a>.</p>
           <p>We aim to respond to accessibility feedback within 2 business days.</p>
 
           <h2>Last Reviewed</h2>
