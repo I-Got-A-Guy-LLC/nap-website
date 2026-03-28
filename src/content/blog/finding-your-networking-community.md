@@ -12,7 +12,7 @@ seriesOrder: 6
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-12-01"
+date: "2026-03-20"
 excerpt: "The best networking doesn't feel like networking. Here's how to find the professional community where you actually belong."
 ---
 

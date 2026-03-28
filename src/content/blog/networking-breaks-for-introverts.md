@@ -12,7 +12,7 @@ seriesOrder: 3
 readTime: "3 min"
 image: ""
 draft: false
-date: "2026-08-01"
+date: "2026-02-27"
 excerpt: "Taking breaks at networking events isn't weakness — it's strategy. Here's how to recharge and come back stronger."
 ---
 

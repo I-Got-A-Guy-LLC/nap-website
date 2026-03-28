@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "5 min"
 image: ""
 draft: false
-date: "2026-04-01"
+date: "2025-12-19"
 excerpt: "Skip the generic advice. These 5 networking tips are built for solopreneurs and small business owners who want real referral relationships."
 ---
 

@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "5 min"
 image: ""
 draft: false
-date: "2026-09-01"
+date: "2026-03-06"
 excerpt: "Good etiquette at a networking event isn't about being formal — it's about making people feel respected."
 ---
 

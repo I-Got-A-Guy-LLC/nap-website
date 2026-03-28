@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-04-15"
+date: "2025-12-26"
 excerpt: "Your 60-second pitch is the foundation of every networking meeting. Here's how to write one that's clear, confident, and actually gets you referrals."
 ---
 

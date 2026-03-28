@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-07-01"
+date: "2026-02-06"
 excerpt: "Exchanging cards is just the start. Here are 6 practical ways to follow up after a networking meeting and turn first conversations into lasting professional relationships."
 ---
 

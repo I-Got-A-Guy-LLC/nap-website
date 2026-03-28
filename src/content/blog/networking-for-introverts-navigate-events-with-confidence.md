@@ -12,7 +12,7 @@ seriesOrder: 7
 readTime: "5 min"
 image: ""
 draft: false
-date: "2027-02-01"
+date: "2026-03-27"
 excerpt: "Networking events don't have to drain you. Here's a practical guide for introverted professionals who want to show up confidently."
 ---
 

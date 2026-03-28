@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-06-01"
+date: "2026-01-30"
 excerpt: "Most networking follow-ups are ignored. Here's how to write one that gets a response — and turns a first meeting into a real professional relationship."
 ---
 

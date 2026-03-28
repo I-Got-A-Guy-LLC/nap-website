@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+import { getAllPosts } from "@/lib/blog";
 
 const cityPanels = [
   {
@@ -81,7 +82,8 @@ const stats = [
   { value: "1", label: "Rule: Don't Be a Jerk" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const recentPosts = getAllPosts().slice(0, 3);
   return (
     <>
       {/* ===== SECTION 1 — HERO ===== */}
@@ -335,21 +337,31 @@ export default function Home() {
               Business Talk
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100">
-                  <div className="h-48 relative overflow-hidden">
-                    <img src="/images/business_talk/blog-cover.jpg" alt="Business Talk" className="w-full h-full object-cover" />
-                    <span className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
-                      Coming Soon
-                    </span>
+              {recentPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+                >
+                  <div className="aspect-video bg-gray-100 overflow-hidden">
+                    <img
+                      src={post.image || "/images/business_talk/blog-cover.jpg"}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
-                  <div className="p-6">
-                    <h3 className="font-heading text-lg font-bold text-navy mb-2">Coming Soon</h3>
-                    <p className="text-navy text-sm leading-relaxed">
-                      Networking tips, community stories, and updates from across Middle Tennessee.
+                  <div className="p-5">
+                    <span className="text-xs font-medium text-navy uppercase tracking-wide">
+                      {post.category}
+                    </span>
+                    <h3 className="mt-1 font-heading font-bold text-navy group-hover:text-gold transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-navy/60">
+                      {new Date(post.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
             <div className="text-center mt-12">

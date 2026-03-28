@@ -12,7 +12,7 @@ seriesOrder: 5
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-10-01"
+date: "2026-03-13"
 excerpt: "Your thoughtful, observant approach to business isn't a liability — it's a lens that sees things others miss."
 ---
 

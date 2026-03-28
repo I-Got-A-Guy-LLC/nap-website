@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "5 min"
 image: ""
 draft: false
-date: "2026-08-01"
+date: "2026-02-20"
 excerpt: "A good elevator pitch isn't about sounding polished — it's about being clear enough that people know exactly who to send your way."
 ---
 

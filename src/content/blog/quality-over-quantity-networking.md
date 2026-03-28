@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-07-01"
+date: "2026-02-13"
 excerpt: "More cards doesn't mean more business. Here's why focused, intentional connections build stronger referral networks."
 ---
 

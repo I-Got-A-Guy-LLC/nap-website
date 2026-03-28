@@ -12,7 +12,7 @@ seriesOrder: 4
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-05-01"
+date: "2026-01-09"
 excerpt: "The best networkers aren't the best talkers. Here's how deep listening builds stronger referral relationships."
 ---
 

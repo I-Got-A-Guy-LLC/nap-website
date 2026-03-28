@@ -12,7 +12,7 @@ seriesOrder: 2
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-06-01"
+date: "2026-01-23"
 excerpt: "Introverted solopreneur? Your listening skills, depth, and follow-through are exactly what builds strong referral networks."
 ---
 

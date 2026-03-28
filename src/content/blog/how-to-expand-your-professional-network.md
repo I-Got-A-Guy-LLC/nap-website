@@ -12,7 +12,7 @@ seriesOrder: null
 readTime: "5 min"
 image: ""
 draft: false
-date: "2026-05-01"
+date: "2026-01-02"
 excerpt: "Ready to grow your professional circle? These 7 strategies help solopreneurs and small business owners build a referral network that actually generates opportunities."
 ---
 

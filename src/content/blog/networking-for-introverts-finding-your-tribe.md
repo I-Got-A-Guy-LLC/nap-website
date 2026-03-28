@@ -12,7 +12,7 @@ seriesOrder: 1
 readTime: "4 min"
 image: ""
 draft: false
-date: "2026-04-01"
+date: "2025-12-12"
 excerpt: "If the phrase 'networking event' makes you want to retreat to your couch — you're not alone. Here's how introverted solopreneurs find their people."
 ---
 
