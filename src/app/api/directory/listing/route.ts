@@ -88,6 +88,28 @@ export async function PATCH(request: Request) {
     delete body.website_clicks_this_month;
     delete body.website_clicks_all_time;
 
+    // Normalize URLs server-side
+    const normalizeUrl = (url: string | undefined | null): string => {
+      if (!url || !url.trim()) return "";
+      const u = url.trim();
+      if (u.startsWith("https://")) return u;
+      if (u.startsWith("http://")) return "https://" + u.slice(7);
+      if (u.startsWith("www.")) return "https://" + u;
+      if (u.includes(".") && !u.startsWith("/")) return "https://" + u;
+      return u;
+    };
+    if (body.website_url) body.website_url = normalizeUrl(body.website_url);
+    if (body.logo_url) body.logo_url = normalizeUrl(body.logo_url);
+    if (body.video_url) body.video_url = normalizeUrl(body.video_url);
+    if (body.referral_form_url) body.referral_form_url = normalizeUrl(body.referral_form_url);
+    if (body.social_facebook) body.social_facebook = normalizeUrl(body.social_facebook);
+    if (body.social_instagram) body.social_instagram = normalizeUrl(body.social_instagram);
+    if (body.social_linkedin) body.social_linkedin = normalizeUrl(body.social_linkedin);
+    if (body.social_twitter) body.social_twitter = normalizeUrl(body.social_twitter);
+    if (body.photos && Array.isArray(body.photos)) {
+      body.photos = body.photos.map((p: string) => normalizeUrl(p)).filter(Boolean);
+    }
+
     // Auto-combine address fields into the legacy address column
     if (body.street_address) {
       const parts = [

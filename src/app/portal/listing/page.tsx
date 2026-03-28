@@ -88,6 +88,21 @@ function parseBusinessHours(raw: any): BusinessHours {
 }
 
 /* ------------------------------------------------------------------ */
+/*  URL normalizer                                                      */
+/* ------------------------------------------------------------------ */
+
+function normalizeUrl(url: string): string {
+  if (!url || !url.trim()) return "";
+  const u = url.trim();
+  if (u.startsWith("https://")) return u;
+  if (u.startsWith("http://")) return "https://" + u.slice(7);
+  if (u.startsWith("www.")) return "https://" + u;
+  // Has a dot but no protocol — likely a domain
+  if (u.includes(".") && !u.startsWith("/")) return "https://" + u;
+  return u;
+}
+
+/* ------------------------------------------------------------------ */
 /*  Upload helper                                                      */
 /* ------------------------------------------------------------------ */
 
@@ -795,6 +810,7 @@ export default function EditListingPage() {
                       type="url"
                       value={logoUrl}
                       onChange={(e) => setLogoUrl(e.target.value)}
+                      onBlur={(e) => setLogoUrl(normalizeUrl(e.target.value))}
                       className={`${inputClass} flex-1`}
                       placeholder="Paste image URL"
                     />
@@ -831,6 +847,7 @@ export default function EditListingPage() {
                     type="url"
                     value={websiteUrl}
                     onChange={(e) => setWebsiteUrl(e.target.value)}
+                    onBlur={(e) => setWebsiteUrl(normalizeUrl(e.target.value))}
                     className={inputClass}
                     placeholder="https://yourbusiness.com"
                   />
@@ -998,6 +1015,12 @@ export default function EditListingPage() {
                             setSocialLinks((prev) => ({
                               ...prev,
                               [platform]: e.target.value,
+                            }))
+                          }
+                          onBlur={(e) =>
+                            setSocialLinks((prev) => ({
+                              ...prev,
+                              [platform]: normalizeUrl(e.target.value),
                             }))
                           }
                           className={inputClass}
