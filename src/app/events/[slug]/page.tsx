@@ -55,23 +55,36 @@ export async function generateMetadata({
   const supabase = getSupabaseAdmin();
   const { data: event } = await supabase
     .from("events")
-    .select("title, description")
+    .select("title, description, image_url, event_date, start_time, end_time, location_name")
     .eq("slug", params.slug)
-    .eq("status", "published")
-    .single();
+    .maybeSingle();
 
   if (!event) return { title: "Event Not Found" };
 
+  const baseUrl = "https://networkingforawesomepeople.com";
+  const eventUrl = `${baseUrl}/events/${params.slug}`;
+  const imageUrl = event.image_url || `${baseUrl}/images/nap-logo.png`;
+  const description = event.description || `${event.title} — ${event.event_date} at ${event.location_name || "TBD"}`;
+
   return {
-    title: event.title,
-    description: event.description,
+    title: `${event.title} | Networking For Awesome People`,
+    description,
     openGraph: {
       title: `${event.title} | Networking For Awesome People`,
-      description: event.description,
-      url: `https://networkingforawesomepeople.com/events/${params.slug}`,
+      description,
+      url: eventUrl,
+      type: "website",
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: event.title }],
+      siteName: "Networking For Awesome People",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${event.title} | Networking For Awesome People`,
+      description,
+      images: [imageUrl],
     },
     alternates: {
-      canonical: `https://networkingforawesomepeople.com/events/${params.slug}`,
+      canonical: eventUrl,
     },
   };
 }
