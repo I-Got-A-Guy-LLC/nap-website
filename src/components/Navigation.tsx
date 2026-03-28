@@ -16,7 +16,7 @@ export default function Navigation() {
   const [citiesOpen, setCitiesOpen] = useState(false);
 
   return (
-    <nav className="bg-manchester text-white sticky top-0 z-50 border-b border-black shadow-lg shadow-black/15">
+    <nav aria-label="Main navigation" className="bg-manchester text-white sticky top-0 z-50 border-b border-black shadow-lg shadow-black/15">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-18">
           {/* Logo */}
@@ -92,6 +92,8 @@ export default function Navigation() {
             className="md:hidden p-2 text-white"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? (
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +110,7 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-manchester border-t border-white/10">
+        <div id="mobile-menu" className="md:hidden bg-manchester border-t border-white/10">
           <div className="px-4 py-4 space-y-3">
             <Link href="/" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
               Home

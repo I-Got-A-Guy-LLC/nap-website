@@ -112,7 +112,7 @@ export default function ReviewForm({ listingId }: ReviewFormProps) {
                 onClick={() => setRating(star)}
                 onMouseEnter={() => setHoverRating(star)}
                 onMouseLeave={() => setHoverRating(0)}
-                className="text-3xl transition-colors focus:outline-none"
+                className="text-3xl transition-colors focus-visible:ring-2 focus-visible:ring-gold focus-visible:rounded"
                 aria-label={`${star} star${star !== 1 ? "s" : ""}`}
               >
                 <span

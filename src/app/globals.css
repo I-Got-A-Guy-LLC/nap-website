@@ -38,3 +38,16 @@ html {
 .reveal-stagger.visible > *:nth-child(2) { transition-delay: 100ms; opacity: 1; transform: translateY(0); }
 .reveal-stagger.visible > *:nth-child(3) { transition-delay: 200ms; opacity: 1; transform: translateY(0); }
 .reveal-stagger.visible > *:nth-child(4) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+
+/* Focus indicators for accessibility */
+*:focus-visible {
+  outline: 2px solid #1F3149;
+  outline-offset: 2px;
+}
+
+/* On dark backgrounds, use gold focus ring */
+.bg-navy *:focus-visible,
+.bg-manchester *:focus-visible,
+.bg-smyrna *:focus-visible {
+  outline-color: #FBC761;
+}

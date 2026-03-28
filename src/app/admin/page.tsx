@@ -169,7 +169,7 @@ export default async function AdminDashboard() {
             <p className="text-sm text-gray-500">
               ~${arr.toLocaleString()} ARR
             </p>
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-gray-600 mt-2">
               Active paying members only
             </p>
           </div>
@@ -186,7 +186,7 @@ export default async function AdminDashboard() {
             <p className="text-sm text-gray-500">
               ~${potentialArr.toLocaleString()} ARR
             </p>
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-gray-600 mt-2">
               If all {tierCounts.linked} Linked members upgraded to Connected
             </p>
           </div>
@@ -263,7 +263,7 @@ export default async function AdminDashboard() {
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-[#1F3149]">{n.message}</p>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-xs text-gray-600 mt-1">
                         {new Date(n.created_at).toLocaleDateString("en-US", {
                           month: "short",
                           day: "numeric",
@@ -277,7 +277,7 @@ export default async function AdminDashboard() {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-400 text-sm">No notifications yet.</p>
+            <p className="text-gray-600 text-sm">No notifications yet.</p>
           )}
         </div>
       </div>

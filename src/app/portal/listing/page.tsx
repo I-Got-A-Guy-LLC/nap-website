@@ -696,7 +696,7 @@ export default function EditListingPage() {
               <div>
                 <label className={labelClass}>
                   Categories
-                  <span className="text-gray-400 font-normal ml-1">
+                  <span className="text-gray-600 font-normal ml-1">
                     ({(() => {
                       const allSelected = [primaryCategoryId, ...additionalCategories, ...(isAmplified ? extraCategories : [])].filter(Boolean);
                       const max = isAmplified ? 4 : isConnected ? 2 : 1;
@@ -768,7 +768,7 @@ export default function EditListingPage() {
                         <select
                           value=""
                           onChange={(e) => { addAdditional(e.target.value); }}
-                          className={`${selectClass} text-gray-400`}
+                          className={`${selectClass} text-gray-600`}
                         >
                           <option value="">+ Add another category</option>
                           {availableCategories.map((cat) => (
@@ -781,7 +781,7 @@ export default function EditListingPage() {
                 })()}
 
                 {!isConnected && (
-                  <p className="text-gray-400 text-xs mt-2">
+                  <p className="text-gray-600 text-xs mt-2">
                     <Link href="/join" className="text-gold hover:underline">Upgrade to Connected</Link> to add more categories
                   </p>
                 )}
@@ -805,7 +805,7 @@ export default function EditListingPage() {
                     >
                       {logoUploading ? "Uploading..." : "Upload Logo"}
                     </button>
-                    <span className="text-gray-400 text-sm">or</span>
+                    <span className="text-gray-600 text-sm">or</span>
                     <input
                       type="url"
                       value={logoUrl}
@@ -858,7 +858,7 @@ export default function EditListingPage() {
                   <div>
                     <label className={labelClass}>
                       Your Listing URL
-                      <span className="text-gray-400 font-normal ml-1" title="Share this link with your network. Visitors can send you referrals from your listing page.">ⓘ</span>
+                      <span className="text-gray-600 font-normal ml-1" title="Share this link with your network. Visitors can send you referrals from your listing page.">ⓘ</span>
                     </label>
                     <div className="flex items-center gap-2">
                       <input
@@ -875,7 +875,7 @@ export default function EditListingPage() {
                         {copied ? "Copied!" : "Copy"}
                       </button>
                     </div>
-                    <p className="text-gray-400 text-xs mt-2">
+                    <p className="text-gray-600 text-xs mt-2">
                       Share this link with your network. Visitors can send you referrals directly from your listing page.
                     </p>
                   </div>

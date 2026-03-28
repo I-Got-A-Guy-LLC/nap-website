@@ -216,7 +216,7 @@ export default function ReferralPage() {
               </div>
               <div>
                 <label htmlFor="referredPhone" className="block text-sm font-medium text-gray-700 mb-1">
-                  Their Phone <span className="text-gray-400">(optional)</span>
+                  Their Phone <span className="text-gray-600">(optional)</span>
                 </label>
                 <input
                   id="referredPhone"
@@ -228,7 +228,7 @@ export default function ReferralPage() {
               </div>
               <div>
                 <label htmlFor="referredBusiness" className="block text-sm font-medium text-gray-700 mb-1">
-                  Their Business <span className="text-gray-400">(optional)</span>
+                  Their Business <span className="text-gray-600">(optional)</span>
                 </label>
                 <input
                   id="referredBusiness"
@@ -244,7 +244,7 @@ export default function ReferralPage() {
           {/* Notes */}
           <div>
             <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">
-              Notes <span className="text-gray-400">(optional)</span>
+              Notes <span className="text-gray-600">(optional)</span>
             </label>
             <textarea
               id="notes"
@@ -270,7 +270,7 @@ export default function ReferralPage() {
           </button>
         </form>
 
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-600 mt-6">
           Powered by Networking For Awesome People
         </p>
       </div>
