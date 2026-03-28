@@ -88,11 +88,16 @@ export default async function Home() {
     <>
       {/* ===== SECTION 1 — HERO ===== */}
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
-        {/* Background image */}
+        {/* Background image — mobile: show faces (center 40%), desktop: centered */}
         <div
-          className="absolute inset-0 bg-cover bg-[center_20%] md:bg-center"
+          className="hero-bg absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/images/hero-bg.png')" }}
         />
+        <style>{`
+          @media (max-width: 767px) {
+            .hero-bg { background-position: center 40% !important; }
+          }
+        `}</style>
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-navy/75" />
 
