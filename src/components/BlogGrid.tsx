@@ -30,20 +30,21 @@ const allCategories = [
 export default function BlogGrid({ posts }: BlogGridProps) {
   const [active, setActive] = useState("All");
 
-  const filtered = active === "All" ? posts : posts.filter((p) => p.category === active);
+  const filtered =
+    active === "All" ? posts : posts.filter((p) => p.category === active);
 
   return (
     <>
-      {/* Category filter */}
-      <div className="flex flex-wrap gap-3 justify-center mb-12">
+      {/* Category filter pills */}
+      <div className="flex flex-wrap gap-2 justify-center mb-12">
         {allCategories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActive(cat)}
-            className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 ${
+            className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${
               active === cat
-                ? "bg-gold text-navy shadow-md"
-                : "bg-white text-navy border border-gray-200 hover:border-gold hover:text-gold"
+                ? "bg-gold text-navy shadow-sm scale-105"
+                : "bg-white text-navy/70 border border-gray-200 hover:border-gold hover:text-gold"
             }`}
           >
             {cat}
@@ -59,31 +60,32 @@ export default function BlogGrid({ posts }: BlogGridProps) {
             href={`/blog/${post.slug}`}
             className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-1"
           >
+            {/* Cover image — no badges on top */}
             <div className="h-48 relative overflow-hidden">
               <img
                 src="/images/business_talk/blog-cover.jpg"
                 alt="Business Talk"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
-              <span className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
+            </div>
+
+            {/* Card body */}
+            <div className="p-5">
+              {/* Single slim category pill */}
+              <span className="inline-block bg-gold/15 text-navy text-xs font-semibold px-3 py-0.5 rounded-full mb-2">
                 {post.category}
               </span>
-              {post.series && (
-                <span className="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">
-                  {post.series}
-                </span>
-              )}
-            </div>
-            <div className="p-6">
-              <h2 className="font-heading text-lg font-bold text-navy mb-2 group-hover:text-gold transition-colors line-clamp-2">
+
+              <h2 className="font-heading text-base font-bold text-navy mb-2 group-hover:text-gold transition-colors line-clamp-2 leading-snug">
                 {post.title}
               </h2>
               <p className="text-navy/60 text-sm leading-relaxed mb-4 line-clamp-2">
                 {post.excerpt}
               </p>
+
               <div className="flex items-center justify-between text-xs text-navy/70">
                 <span className="font-medium">{post.author}</span>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   {post.readTime && (
                     <>
                       <span>{post.readTime}</span>
@@ -92,14 +94,15 @@ export default function BlogGrid({ posts }: BlogGridProps) {
                   )}
                   <span>
                     {new Date(post.date).toLocaleDateString("en-US", {
-                      month: "long",
+                      month: "short",
                       day: "numeric",
                       year: "numeric",
                     })}
                   </span>
                 </div>
               </div>
-              <span className="text-navy text-sm font-bold mt-4 block group-hover:text-gold transition-colors">
+
+              <span className="text-navy text-sm font-bold mt-3 block group-hover:text-gold transition-colors">
                 Read More &rarr;
               </span>
             </div>
