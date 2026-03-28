@@ -88,7 +88,7 @@ export default function Home() {
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
         {/* Background image */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-bottom md:bg-center"
           style={{ backgroundImage: "url('/images/hero-bg.png')" }}
         />
         {/* Dark overlay */}
