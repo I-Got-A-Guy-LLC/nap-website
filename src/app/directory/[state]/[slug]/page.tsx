@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import { getSupabaseAdmin } from "@/lib/supabase";
 import ReviewForm from "@/components/ReviewForm";
 import ReviewList from "@/components/ReviewList";

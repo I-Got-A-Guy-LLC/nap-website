@@ -141,6 +141,10 @@ export async function PATCH(request: Request) {
       body.slug = existing ? `${baseSlug}-${Date.now().toString(36).slice(-4)}` : baseSlug;
     }
 
+    console.log("[listing] Save payload keys:", Object.keys(body).join(", "));
+    console.log("[listing] description:", body.description ? `"${body.description.substring(0, 50)}..."` : "EMPTY");
+    console.log("[listing] tagline:", body.tagline ? `"${body.tagline.substring(0, 50)}..."` : "EMPTY");
+
     // Set approval based on tier
     const isPaid = member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
 
