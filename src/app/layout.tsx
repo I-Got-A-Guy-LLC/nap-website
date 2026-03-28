@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
+import NotificationBanner from "@/components/NotificationBanner";
 
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],
@@ -380,6 +381,7 @@ export default function RootLayout({
           <Navigation />
           <main id="main-content">{children}</main>
           <Footer />
+          <NotificationBanner />
         </Providers>
       </body>
     </html>
