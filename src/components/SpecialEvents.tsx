@@ -58,13 +58,18 @@ export default function SpecialEvents() {
             <p className="text-navy text-sm font-medium mb-1">{dateStr}</p>
             <p className="text-navy/60 text-sm mb-1">{evt.start_time} – {evt.end_time}</p>
             <p className="text-navy/60 text-sm mb-3">{evt.location_name}{evt.city ? `, ${evt.city}` : ""}</p>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-4">
               <span className="text-navy font-bold">
                 {evt.is_free ? "Free" : `$${Number(evt.ticket_price).toFixed(2)}`}
               </span>
-              {spotsLeft !== null && !isSoldOut && (
-                <span className="text-navy/60 text-sm">{spotsLeft} spots left</span>
-              )}
+              <div className="flex items-center gap-3">
+                {spotsLeft !== null && !isSoldOut && (
+                  <span className="text-navy/60 text-sm">{spotsLeft} spots left</span>
+                )}
+                <span className="bg-[#FE6651] text-white font-bold text-sm px-5 py-2 rounded-full">
+                  {isSoldOut ? "Sold Out" : "Get Tickets →"}
+                </span>
+              </div>
             </div>
           </Link>
         );

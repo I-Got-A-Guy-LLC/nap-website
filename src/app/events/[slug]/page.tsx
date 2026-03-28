@@ -115,8 +115,6 @@ export default async function EventDetailPage({
 
   const spotsRemaining = event.capacity - event.tickets_sold;
   const isSoldOut = spotsRemaining <= 0;
-  const rawDesc = (event.description || "").trim();
-
   // What's included — use included_items JSON array from DB if available
   let includedItems: string[] = [];
   try {
@@ -188,9 +186,6 @@ export default async function EventDetailPage({
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-4">
             What&apos;s Included
           </h2>
-          {rawDesc && !rawDesc.includes("\n") && (
-            <p className="text-navy/70 text-lg mb-6">{rawDesc}</p>
-          )}
           <ul className="space-y-3">
             {includedItems.map((line: string, i: number) => (
               <li key={i} className="flex items-start gap-3 text-navy text-lg">
