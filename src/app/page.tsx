@@ -90,7 +90,7 @@ export default async function Home() {
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
         {/* Background image */}
         <div
-          className="absolute inset-0 bg-cover bg-bottom md:bg-center"
+          className="absolute inset-0 bg-cover bg-[center_30%] md:bg-center"
           style={{ backgroundImage: "url('/images/hero-bg.png')" }}
         />
         {/* Dark overlay */}
@@ -116,6 +116,17 @@ export default async function Home() {
 
         {/* Separator line + shadow between hero and city panels */}
         <div className="relative z-10 h-0 border-b border-black" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }} />
+
+        {/* Announcement bar */}
+        <Link
+          href="/events/range-night-2026"
+          className="relative z-10 block bg-[#E8614D] hover:bg-[#d9553f] transition-colors"
+        >
+          <div className="flex items-center justify-center gap-2 px-4 py-3 text-white text-sm sm:text-base font-bold text-center">
+            <span>🎯 3rd Annual Range Night — Presenting Sponsor: Connell Law, PLLC → Get Your Tickets</span>
+            <svg className="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" /></svg>
+          </div>
+        </Link>
 
         {/* City panels */}
         <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
