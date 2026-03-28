@@ -147,18 +147,20 @@ export async function GET(request: Request) {
       );
     }
 
-    // Check if presenting sponsor slot is filled
-    const { data: presentingSponsor } = await supabase
+    // Get sponsor counts per tier
+    const { data: sponsors } = await supabase
       .from("event_sponsors")
-      .select("id")
-      .eq("event_id", event.id)
-      .eq("tier", "presenting")
-      .eq("status", "confirmed")
-      .single();
+      .select("tier")
+      .eq("event_id", event.id);
+
+    const tierCounts: Record<string, number> = {};
+    (sponsors || []).forEach((s) => {
+      tierCounts[s.tier] = (tierCounts[s.tier] || 0) + 1;
+    });
 
     return NextResponse.json({
       event,
-      presentingFilled: !!presentingSponsor,
+      tierCounts,
     });
   } catch (err: unknown) {
     const message =
