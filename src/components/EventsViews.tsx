@@ -15,6 +15,7 @@ interface CityEvent {
   color: string;
   textOnColor: string;
   href: string;
+  leaders: string;
 }
 
 const events: CityEvent[] = [
@@ -29,6 +30,7 @@ const events: CityEvent[] = [
     color: "#71D4D1",
     textOnColor: "white",
     href: "/tn/manchester",
+    leaders: "Caleb Barrett & Raphael Trull",
   },
   {
     city: "Murfreesboro",
@@ -41,6 +43,7 @@ const events: CityEvent[] = [
     color: "#2A4A6B",
     textOnColor: "white",
     href: "/tn/murfreesboro",
+    leaders: "Rachel Albertson & Lance Chandler",
   },
   {
     city: "Nolensville",
@@ -53,6 +56,7 @@ const events: CityEvent[] = [
     color: "#F5BE61",
     textOnColor: "#1F3149",
     href: "/tn/nolensville",
+    leaders: "Mike Dotson & Tony Lane",
   },
   {
     city: "Smyrna",
@@ -65,6 +69,7 @@ const events: CityEvent[] = [
     color: "#FE6651",
     textOnColor: "white",
     href: "/tn/smyrna",
+    leaders: "Katie Clark & Meg Mueller",
   },
 ];
 
@@ -124,6 +129,7 @@ function CardsView() {
           </h3>
           <p className="text-navy font-medium mb-1">{e.timeRange}</p>
           <p className="text-navy mb-1">{e.venue}</p>
+          {e.leaders && <p className="text-navy/50 text-sm">Led by {e.leaders}</p>}
           <p className="text-navy/50 text-sm mb-4">{e.address}</p>
           <div className="flex items-center justify-between">
             <span className="text-green-600 text-xs font-bold bg-green-50 px-3 py-1 rounded-full">
