@@ -6,6 +6,7 @@ import Link from "next/link";
 import SponsorActions from "./SponsorActions";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminSponsorsPage({
   params,
@@ -126,10 +127,10 @@ export default async function AdminSponsorsPage({
                 {allSponsors.map((sponsor) => (
                   <tr key={sponsor.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm font-medium text-[#1F3149]">
-                      {sponsor.contact_name || "—"}
+                      {sponsor.sponsor_name || "—"}
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-600">
-                      {sponsor.business_name || "—"}
+                      {sponsor.sponsor_business || "—"}
                     </td>
                     <td className="px-4 py-3">
                       <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-[#FBC761]/20 text-[#1F3149]">
