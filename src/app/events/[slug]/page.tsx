@@ -26,13 +26,6 @@ interface EventRow {
   included_items?: string[] | string | null;
 }
 
-interface Sponsor {
-  id: string;
-  business_name: string;
-  tier: "presenting" | "supporting" | "community" | "in-kind";
-  status: string;
-}
-
 function formatEventDate(dateStr: string): string {
   const date = new Date(dateStr + "T12:00:00");
   return date.toLocaleDateString("en-US", {
@@ -53,13 +46,6 @@ function formatTime(time: string): string {
   const h12 = h % 12 || 12;
   return `${h12}:${minutes} ${ampm}`;
 }
-
-const tierColors: Record<string, string> = {
-  presenting: "bg-smyrna text-white",
-  supporting: "bg-gold text-navy",
-  community: "bg-navy text-white",
-  "in-kind": "bg-light-gray text-navy",
-};
 
 export async function generateMetadata({
   params,
@@ -277,54 +263,26 @@ export default async function EventDetailPage({
         </section>
       )}
 
-      {/* Sponsors */}
-      {sponsors && sponsors.length > 0 && (
-        <section className="bg-[#F8F9FA] py-16 px-4">
-          <div className="max-w-[800px] mx-auto">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-8 text-center">
-              Event Sponsors
+      {/* Become a Sponsor CTA — only show if no sponsors section above */}
+      {(!sponsors || sponsors.length === 0) && (
+        <section className="bg-navy py-16 px-4">
+          <div className="max-w-[600px] mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+              Want to Sponsor This Event?
             </h2>
-            <div className="flex flex-wrap justify-center gap-4">
-              {(sponsors as Sponsor[]).map((sponsor) => (
-                <div
-                  key={sponsor.id}
-                  className="bg-white rounded-xl px-6 py-4 shadow-sm flex items-center gap-3"
-                >
-                  <span className="font-bold text-navy text-lg">
-                    {sponsor.business_name}
-                  </span>
-                  <span
-                    className={`text-xs font-bold uppercase px-3 py-1 rounded-full ${
-                      tierColors[sponsor.tier] || "bg-light-gray text-navy"
-                    }`}
-                  >
-                    {sponsor.tier}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <p className="text-white/70 text-lg mb-8">
+              Put your business in front of Middle Tennessee&apos;s most connected
+              professionals.
+            </p>
+            <Link
+              href={`/events/${event.slug}/sponsor`}
+              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
+            >
+              Become a Sponsor
+            </Link>
           </div>
         </section>
       )}
-
-      {/* Become a Sponsor CTA */}
-      <section className="bg-navy py-16 px-4">
-        <div className="max-w-[600px] mx-auto text-center">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
-            Want to Sponsor This Event?
-          </h2>
-          <p className="text-white/70 text-lg mb-8">
-            Put your business in front of Middle Tennessee&apos;s most connected
-            professionals.
-          </p>
-          <Link
-            href={`/events/${event.slug}/sponsor`}
-            className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
-          >
-            Become a Sponsor
-          </Link>
-        </div>
-      </section>
     </>
   );
 }
