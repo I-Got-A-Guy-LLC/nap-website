@@ -138,10 +138,12 @@ export default async function BlogPostPage({ params }: Props) {
                     href={`/blog/${rp.slug}`}
                     className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-1"
                   >
-                    <div className="bg-gradient-to-br from-navy to-navy/80 h-40 flex items-center justify-center relative">
-                      <span className="text-white/10 font-heading text-2xl font-bold">
-                        Networking For Awesome People
-                      </span>
+                    <div className="h-40 relative overflow-hidden">
+                      <img
+                        src="/images/business_talk/NAP Website Blog Cover Images Main.jpg"
+                        alt="Business Talk"
+                        className="w-full h-full object-cover"
+                      />
                       <span className="absolute top-3 right-3 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
                         {rp.category}
                       </span>

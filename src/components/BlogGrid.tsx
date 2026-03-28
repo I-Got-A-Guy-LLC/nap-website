@@ -59,10 +59,12 @@ export default function BlogGrid({ posts }: BlogGridProps) {
             href={`/blog/${post.slug}`}
             className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-1"
           >
-            <div className="bg-gradient-to-br from-navy to-navy/80 h-48 flex items-center justify-center relative">
-              <span className="text-white/10 font-heading text-3xl font-bold">
-                Networking For Awesome People
-              </span>
+            <div className="h-48 relative overflow-hidden">
+              <img
+                src="/images/business_talk/NAP Website Blog Cover Images Main.jpg"
+                alt="Business Talk"
+                className="w-full h-full object-cover"
+              />
               <span className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
                 {post.category}
               </span>
@@ -79,7 +81,7 @@ export default function BlogGrid({ posts }: BlogGridProps) {
               <p className="text-navy/60 text-sm leading-relaxed mb-4 line-clamp-2">
                 {post.excerpt}
               </p>
-              <div className="flex items-center justify-between text-xs text-navy/40">
+              <div className="flex items-center justify-between text-xs text-navy/70">
                 <span className="font-medium">{post.author}</span>
                 <div className="flex items-center gap-2">
                   {post.readTime && (

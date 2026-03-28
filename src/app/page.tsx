@@ -337,8 +337,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100">
-                  <div className="bg-gradient-to-br from-navy to-navy/80 h-48 flex items-center justify-center relative">
-                    <span className="text-white/10 font-heading text-3xl font-bold">Networking For Awesome People</span>
+                  <div className="h-48 relative overflow-hidden">
+                    <img src="/images/business_talk/NAP Website Blog Cover Images Main.jpg" alt="Business Talk" className="w-full h-full object-cover" />
                     <span className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">
                       Coming Soon
                     </span>
