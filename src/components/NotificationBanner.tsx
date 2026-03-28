@@ -52,7 +52,7 @@ export default function NotificationBanner() {
   if (!visible) return null;
 
   return (
-    <div className="sticky top-16 md:top-[4.5rem] left-0 right-0 z-30 bg-gold border-b border-gold/80 shadow-md">
+    <div className="bg-gold border-b border-gold/80">
       <div className="max-w-[1200px] mx-auto px-4 py-3 flex flex-col sm:flex-row items-center gap-3">
         {success ? (
           <p className="text-navy font-bold text-sm flex-1 text-center sm:text-left">

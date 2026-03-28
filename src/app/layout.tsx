@@ -379,9 +379,9 @@ export default function RootLayout({
         </a>
         <Providers>
           <Navigation />
+          <NotificationBanner />
           <main id="main-content">{children}</main>
           <Footer />
-          <NotificationBanner />
         </Providers>
       </body>
     </html>
