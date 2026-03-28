@@ -6,6 +6,7 @@ import Link from "next/link";
 import CheckInDashboard from "./CheckInDashboard";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminCheckInPage({
   params,
@@ -26,7 +27,7 @@ export default async function AdminCheckInPage({
   // Fetch event
   const { data: event } = await supabase
     .from("events")
-    .select("id, title, date, capacity")
+    .select("id, title, event_date, capacity, tickets_sold")
     .eq("id", eventId)
     .single();
 
@@ -50,10 +51,10 @@ export default async function AdminCheckInPage({
 
   // Fetch all tickets for this event
   const { data: tickets } = await supabase
-    .from("event_tickets")
+    .from("tickets")
     .select("*")
     .eq("event_id", eventId)
-    .order("attendee_name");
+    .order("purchaser_name");
 
   const allTickets = tickets || [];
   const checkedInCount = allTickets.filter((t) => t.checked_in_at).length;
