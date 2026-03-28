@@ -46,11 +46,47 @@ export async function POST(request: Request) {
         const session = event.data.object;
         const customerEmail =
           session.customer_details?.email || session.customer_email;
-        const { tier, city, name, billingInterval } = session.metadata || {};
+        const metadata = session.metadata || {};
+
+        // --- EVENT TICKET PURCHASE ---
+        if (metadata.eventId) {
+          const quantity = parseInt(metadata.quantity || "1");
+          const eventId = metadata.eventId;
+
+          // Generate ticket codes
+          const tickets = [];
+          for (let i = 0; i < quantity; i++) {
+            const code = Array.from({ length: 8 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]).join("");
+            tickets.push({
+              event_id: eventId,
+              ticket_code: code,
+              purchaser_name: session.customer_details?.name || customerEmail || "",
+              purchaser_email: customerEmail || "",
+              quantity: 1,
+              amount_paid: (session.amount_total || 0) / 100 / quantity,
+              stripe_session_id: session.id,
+              status: "active",
+            });
+          }
+
+          const { error: ticketError } = await supabase.from("tickets").insert(tickets);
+          if (ticketError) console.error("Error creating tickets:", ticketError);
+
+          // Increment tickets_sold
+          const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", eventId).single();
+          if (evt) {
+            await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + quantity }).eq("id", eventId);
+          }
+
+          console.log(`[webhook] Created ${quantity} tickets for event ${eventId}`);
+          break;
+        }
+
+        // --- MEMBERSHIP PURCHASE ---
+        const { tier, city, name, billingInterval } = metadata;
         const stripeCustomerId = session.customer as string;
         const stripeSubscriptionId = session.subscription as string;
 
-        // Upsert member record
         const { data: member, error: memberError } = await supabase
           .from("members")
           .upsert(
@@ -74,7 +110,6 @@ export async function POST(request: Request) {
           console.error("Error upserting member:", memberError);
         }
 
-        // Create blank directory listing
         const isPaidTier = tier === "connected" || tier === "amplified";
         const { error: listingError } = await supabase
           .from("directory_listings")
@@ -91,7 +126,6 @@ export async function POST(request: Request) {
           console.error("Error creating directory listing:", listingError);
         }
 
-        // Send welcome email based on tier
         if (customerEmail) {
           if (tier === "connected") {
             await sendConnectedWelcome(customerEmail, name || "");

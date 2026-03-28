@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ScrollReveal from "@/components/ScrollReveal";
 import FAQAccordion from "@/components/FAQAccordion";
 import EventsViews from "@/components/EventsViews";
+import SpecialEvents from "@/components/SpecialEvents";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -119,9 +120,18 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Events Views */}
+      {/* Special Events */}
+      <section className="bg-[#F8F9FA] py-12 md:py-16 px-4">
+        <div className="w-[90%] max-w-[1200px] mx-auto">
+          <h2 className="font-heading text-2xl md:text-4xl font-bold text-navy mb-6">Special Events</h2>
+          <SpecialEvents />
+        </div>
+      </section>
+
+      {/* Weekly Meetings */}
       <section className="bg-white py-16 md:py-24 px-4">
         <div className="w-[90%] max-w-[1200px] mx-auto">
+          <h2 className="font-heading text-2xl md:text-4xl font-bold text-navy mb-4">Weekly Meetings</h2>
           <p className="text-navy text-lg text-center mb-10 max-w-3xl mx-auto">
             Networking For Awesome People meets every week across four Middle Tennessee cities.
             Find your city below and show up — no registration required.
