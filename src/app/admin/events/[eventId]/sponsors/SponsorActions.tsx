@@ -7,14 +7,20 @@ interface Sponsor {
   id: string;
   sponsor_name: string;
   sponsor_email: string;
+  sponsor_business: string | null;
   tier: string;
   payment_status: string;
   stripe_invoice_id: string | null;
+  logo_url: string | null;
+  website_url: string | null;
 }
 
 export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
   const [loading, setLoading] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+  const [logoUrl, setLogoUrl] = useState(sponsor.logo_url || "");
+  const [websiteUrl, setWebsiteUrl] = useState(sponsor.website_url || "");
   const router = useRouter();
 
   const markAsPaid = async () => {
@@ -66,7 +72,40 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
       {sponsor.payment_status === "paid" && (
         <span className="text-green-600 text-xs font-bold">✓ Paid</span>
       )}
+      <button onClick={() => setShowEdit(!showEdit)}
+        className="px-3 py-1 text-xs font-medium text-navy bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+        {showEdit ? "Close" : "Edit"}
+      </button>
       {message && <span className="text-xs text-navy/60">{message}</span>}
+      {showEdit && (
+        <div className="w-full mt-2 flex gap-2 items-end">
+          <div className="flex-1">
+            <label className="block text-xs text-gray-500 mb-0.5">Logo URL</label>
+            <input type="url" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)}
+              className="w-full border border-gray-200 rounded px-2 py-1 text-xs" placeholder="https://..." />
+          </div>
+          <div className="flex-1">
+            <label className="block text-xs text-gray-500 mb-0.5">Website URL</label>
+            <input type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}
+              className="w-full border border-gray-200 rounded px-2 py-1 text-xs" placeholder="https://..." />
+          </div>
+          <button onClick={async () => {
+            setLoading("edit");
+            await fetch(`/api/admin/events/sponsors/${sponsor.id}/mark-paid`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ logo_url: logoUrl, website_url: websiteUrl }),
+            });
+            setMessage("Saved");
+            setShowEdit(false);
+            setLoading(null);
+            router.refresh();
+          }} disabled={loading === "edit"}
+            className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
+            Save
+          </button>
+        </div>
+      )}
     </div>
   );
 }

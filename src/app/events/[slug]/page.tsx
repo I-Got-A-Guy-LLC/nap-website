@@ -108,10 +108,10 @@ export default async function EventDetailPage({
 
   const { data: sponsors } = await supabase
     .from("event_sponsors")
-    .select("id, business_name, tier, status")
+    .select("*")
     .eq("event_id", event.id)
-    .eq("status", "confirmed")
-    .order("tier", { ascending: true });
+    .in("payment_status", ["paid", "pending"])
+    .order("created_at", { ascending: true });
 
   const spotsRemaining = event.capacity - event.tickets_sold;
   const isSoldOut = spotsRemaining <= 0;
@@ -196,6 +196,68 @@ export default async function EventDetailPage({
           </ul>
         </div>
       </section>
+
+      {/* Sponsors */}
+      {sponsors && sponsors.length > 0 && (
+        <section className="bg-white py-16 px-4">
+          <div className="max-w-[800px] mx-auto">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-8 text-center">
+              Thank You to Our Sponsors
+            </h2>
+
+            {/* Presenting sponsors — large, centered */}
+            {sponsors.filter((s: any) => s.tier === "presenting").map((s: any) => (
+              <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-8 mb-6 text-center">
+                {s.logo_url ? (
+                  <img src={s.logo_url} alt={`${s.sponsor_business || s.sponsor_name} logo`} className="h-20 mx-auto mb-4 object-contain" />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-[#FE6651]/10 mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-[#FE6651] font-heading text-2xl font-bold">
+                      {(s.sponsor_business || s.sponsor_name || "?").split(" ").map((w: string) => w[0]).join("").slice(0, 2)}
+                    </span>
+                  </div>
+                )}
+                <h3 className="font-heading text-xl font-bold text-navy mb-2">{s.sponsor_business || s.sponsor_name}</h3>
+                <span className="inline-block bg-[#FE6651] text-white text-xs font-bold px-3 py-1 rounded-full">Presenting Sponsor</span>
+                {s.website_url && (
+                  <p className="mt-3"><a href={s.website_url} target="_blank" rel="noopener noreferrer" className="text-gold text-sm hover:underline">{s.website_url.replace(/^https?:\/\//, "")}</a></p>
+                )}
+              </div>
+            ))}
+
+            {/* Supporting + Community sponsors — grid */}
+            {sponsors.filter((s: any) => s.tier !== "presenting").length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {sponsors.filter((s: any) => s.tier !== "presenting").map((s: any) => {
+                  const tierLabel = s.tier === "supporting" ? "Supporting Sponsor" : s.tier === "community" ? "Community Sponsor" : "Sponsor";
+                  const tierColor = s.tier === "supporting" ? "bg-[#F5BE61] text-navy" : "bg-[#71D4D1] text-navy";
+                  return (
+                    <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center">
+                      {s.logo_url ? (
+                        <img src={s.logo_url} alt={`${s.sponsor_business || s.sponsor_name} logo`} className="h-12 mx-auto mb-3 object-contain" />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center">
+                          <span className="text-navy font-heading text-sm font-bold">
+                            {(s.sponsor_business || s.sponsor_name || "?").split(" ").map((w: string) => w[0]).join("").slice(0, 2)}
+                          </span>
+                        </div>
+                      )}
+                      <h3 className="font-heading text-sm font-bold text-navy mb-1">{s.sponsor_business || s.sponsor_name}</h3>
+                      <span className={`inline-block text-xs font-bold px-2.5 py-0.5 rounded-full ${tierColor}`}>{tierLabel}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            <div className="text-center mt-8">
+              <Link href={`/events/${event.slug}/sponsor`} className="text-gold text-sm font-bold hover:underline">
+                Become a Sponsor →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Ticket Purchase */}
       {!event.is_free && (

@@ -63,3 +63,30 @@ export async function POST(
 
   return NextResponse.json({ success: true, ticketsIssued: ticketCount });
 }
+
+// PATCH — update sponsor fields (logo_url, website_url, etc.)
+export async function PATCH(
+  request: Request,
+  { params }: { params: { sponsorId: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email || session.user.email !== "hello@networkingforawesomepeople.com") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await request.json();
+  const allowed = ["logo_url", "website_url", "sponsor_name", "sponsor_email", "sponsor_phone", "sponsor_business", "notes"];
+  const updates: Record<string, unknown> = {};
+  for (const key of allowed) {
+    if (key in body) updates[key] = body[key];
+  }
+
+  if (Object.keys(updates).length === 0) {
+    return NextResponse.json({ error: "No valid fields" }, { status: 400 });
+  }
+
+  const supabase = getSupabaseAdmin();
+  await supabase.from("event_sponsors").update(updates).eq("id", params.sponsorId);
+
+  return NextResponse.json({ success: true });
+}
