@@ -78,6 +78,20 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
         className="px-3 py-1 text-xs font-medium text-navy bg-gray-100 rounded-lg hover:bg-gray-200 transition">
         {showEdit ? "Close" : "Edit"}
       </button>
+      <button onClick={async () => {
+        if (!confirm(`Are you sure you want to remove this sponsor?`)) return;
+        setLoading("delete");
+        const res = await fetch(`/api/admin/sponsors/${sponsor.id}`, { method: "DELETE" });
+        if (res.ok) {
+          router.refresh();
+        } else {
+          setMessage("Failed to delete");
+          setLoading(null);
+        }
+      }} disabled={loading === "delete"}
+        className="px-3 py-1 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200 transition disabled:opacity-50">
+        {loading === "delete" ? "..." : "Delete"}
+      </button>
       {message && <span className="text-xs text-navy/60">{message}</span>}
       {showEdit && (
         <div className="w-full mt-2 space-y-2">
