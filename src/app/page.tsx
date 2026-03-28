@@ -90,7 +90,7 @@ export default async function Home() {
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
         {/* Background image */}
         <div
-          className="absolute inset-0 bg-cover bg-[center_30%] md:bg-center"
+          className="absolute inset-0 bg-cover bg-[center_20%] md:bg-center"
           style={{ backgroundImage: "url('/images/hero-bg.png')" }}
         />
         {/* Dark overlay */}
@@ -107,7 +107,7 @@ export default async function Home() {
             </p>
             <a
               href="#cities"
-              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
+              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 md:hover:bg-white hover:shadow-xl transition-all duration-300"
             >
               Find Your City
             </a>
