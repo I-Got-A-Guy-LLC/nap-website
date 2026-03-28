@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import QRCode from "qrcode";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
@@ -434,19 +435,30 @@ export async function sendTicketConfirmation(
     year: "numeric",
   });
 
-  // Generate QR code
+  // Generate QR code and upload to Supabase storage (Gmail blocks base64 images)
   let qrHtml = "";
   try {
     const checkinUrl = `https://networkingforawesomepeople.com/checkin/${ticketCode}`;
-    const qrDataUrl = await QRCode.toDataURL(checkinUrl, { width: 200, margin: 2 });
+    const qrBuffer = await QRCode.toBuffer(checkinUrl, { width: 200, margin: 2, type: "png" });
+    const fileName = `tickets/qr-${ticketCode}.png`;
+
+    const supabase = getSupabaseAdmin();
+    await supabase.storage.from("directory-images").upload(fileName, qrBuffer, {
+      contentType: "image/png",
+      upsert: true,
+    });
+
+    const { data: { publicUrl } } = supabase.storage.from("directory-images").getPublicUrl(fileName);
+
     qrHtml = `
       <div style="text-align:center;margin:16px 0;">
-        <img src="${qrDataUrl}" alt="Ticket QR Code" width="180" height="180" style="display:inline-block;" />
+        <img src="${publicUrl}" alt="Ticket QR Code" width="180" height="180" style="display:inline-block;" />
         <p style="color:#666;font-size:13px;margin:8px 0 0;">Show this QR code at the door for fast check-in</p>
       </div>
     `;
-  } catch {
-    console.log("[email] QR code generation failed — skipping");
+    console.log("[email] QR code uploaded to", publicUrl);
+  } catch (err) {
+    console.log("[email] QR code generation/upload failed — skipping:", err);
   }
 
   await getResend().emails.send({

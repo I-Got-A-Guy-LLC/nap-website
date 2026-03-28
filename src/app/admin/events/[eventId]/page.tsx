@@ -51,7 +51,7 @@ export default async function AdminEventDetailPage({
 
   // Ticket stats
   const { data: tickets } = await supabase
-    .from("event_tickets")
+    .from("tickets")
     .select("id, amount_paid, checked_in_at")
     .eq("event_id", eventId);
 
@@ -74,8 +74,8 @@ export default async function AdminEventDetailPage({
     0
   );
 
-  const eventDate = event.date
-    ? new Date(event.date).toLocaleDateString("en-US", {
+  const eventDate = event.event_date
+    ? new Date(event.event_date + "T12:00:00").toLocaleDateString("en-US", {
         weekday: "long",
         month: "long",
         day: "numeric",
