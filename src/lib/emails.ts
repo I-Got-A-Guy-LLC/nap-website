@@ -408,3 +408,56 @@ export async function sendReferralNotification(
     `),
   });
 }
+
+// ---------------------------------------------------------------------------
+// Ticket confirmation
+// ---------------------------------------------------------------------------
+
+export async function sendTicketConfirmation(
+  email: string,
+  name: string,
+  eventTitle: string,
+  eventDate: string,
+  startTime: string,
+  endTime: string,
+  locationName: string,
+  ticketCode: string,
+  quantity: number
+) {
+  console.log(`[email] Sending ticket confirmation to ${email} for ${eventTitle}, code: ${ticketCode}`);
+
+  const formattedDate = new Date(eventDate + "T12:00:00").toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: `You're going to ${eventTitle}! Here's your ticket 🎯`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">You're in! 🎉</h2>
+      <p>Hey ${name},</p>
+      <p>Your ${quantity > 1 ? `${quantity} tickets` : "ticket"} for <strong>${eventTitle}</strong> ${quantity > 1 ? "are" : "is"} confirmed!</p>
+
+      <div style="background:#1F3149;color:white;border-radius:12px;padding:24px;text-align:center;margin:24px 0;">
+        <p style="color:#FBC761;font-size:12px;text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;">Your Ticket Code</p>
+        <p style="font-family:monospace;font-size:32px;font-weight:bold;margin:0;letter-spacing:4px;">${ticketCode}</p>
+        <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:8px 0 0;">Show this code at the door</p>
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;width:100px;">Date:</td><td style="padding:8px 0;font-weight:bold;">${formattedDate}</td></tr>
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;">Time:</td><td style="padding:8px 0;font-weight:bold;">${startTime} – ${endTime}</td></tr>
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;">Location:</td><td style="padding:8px 0;font-weight:bold;">${locationName}</td></tr>
+      </table>
+
+      <p style="color:#666;font-size:14px;">Questions? Reply to this email or contact us at the link below.</p>
+      ${goldButton("https://networkingforawesomepeople.com/contact", "Contact Us")}
+    `),
+  });
+
+  console.log(`[email] Ticket confirmation sent to ${email}`);
+}

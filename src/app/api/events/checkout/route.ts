@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { generateTicketCode } from "@/lib/events";
+import { sendTicketConfirmation } from "@/lib/emails";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     const supabase = getSupabaseAdmin();
     const { data: event, error } = await supabase
       .from("events")
-      .select("id, slug, title, ticket_price, capacity, tickets_sold, status")
+      .select("id, slug, title, ticket_price, capacity, tickets_sold, status, event_date, start_time, end_time, location_name")
       .eq("id", eventId)
       .single();
 
@@ -94,6 +95,20 @@ export async function POST(request: Request) {
           await supabase.from("event_promo_codes").update({ uses_count: (pc.uses_count || 0) + 1 }).eq("id", promoId);
         }
       }
+
+      // Send confirmation email
+      console.log("[checkout] Sending free ticket confirmation to", attendeeEmail);
+      await sendTicketConfirmation(
+        attendeeEmail,
+        attendeeName,
+        event.title,
+        event.event_date || "",
+        event.start_time || "",
+        event.end_time || "",
+        event.location_name || "",
+        tickets[0].ticket_code,
+        quantity
+      ).catch((err) => console.error("[checkout] Email send error:", err));
 
       return NextResponse.json({
         free: true,
