@@ -197,6 +197,44 @@ export async function POST(request: Request) {
           await sendReceipt(customerEmail, customerEmail.split("@")[0], `$${amount}`, date);
         }
 
+        // Check if this is a sponsor invoice — issue comp tickets
+        if (invoice.id) {
+          const { data: sponsor } = await supabase
+            .from("event_sponsors")
+            .select("id, event_id, sponsor_name, sponsor_email, tier")
+            .eq("stripe_invoice_id", invoice.id)
+            .maybeSingle();
+
+          if (sponsor) {
+            const { SPONSOR_TIER_TICKETS, generateTicketCode } = await import("@/lib/events");
+            const ticketCount = SPONSOR_TIER_TICKETS[sponsor.tier] || 0;
+
+            await supabase.from("event_sponsors").update({
+              payment_status: "paid",
+              paid_at: new Date().toISOString(),
+            }).eq("id", sponsor.id);
+
+            if (ticketCount > 0) {
+              const tickets = Array.from({ length: ticketCount }, () => ({
+                event_id: sponsor.event_id,
+                ticket_code: generateTicketCode(),
+                purchaser_name: sponsor.sponsor_name,
+                purchaser_email: sponsor.sponsor_email,
+                quantity: 1,
+                amount_paid: 0,
+                status: "active",
+              }));
+              await supabase.from("tickets").insert(tickets);
+
+              const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", sponsor.event_id).single();
+              if (evt) {
+                await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + ticketCount }).eq("id", sponsor.event_id);
+              }
+            }
+            console.log(`[webhook] Sponsor ${sponsor.sponsor_name} paid — ${ticketCount} comp tickets issued`);
+          }
+        }
+
         break;
       }
 
