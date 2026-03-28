@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import QRCode from "qrcode";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
@@ -433,6 +434,21 @@ export async function sendTicketConfirmation(
     year: "numeric",
   });
 
+  // Generate QR code
+  let qrHtml = "";
+  try {
+    const checkinUrl = `https://networkingforawesomepeople.com/checkin/${ticketCode}`;
+    const qrDataUrl = await QRCode.toDataURL(checkinUrl, { width: 200, margin: 2 });
+    qrHtml = `
+      <div style="text-align:center;margin:16px 0;">
+        <img src="${qrDataUrl}" alt="Ticket QR Code" width="180" height="180" style="display:inline-block;" />
+        <p style="color:#666;font-size:13px;margin:8px 0 0;">Show this QR code at the door for fast check-in</p>
+      </div>
+    `;
+  } catch {
+    console.log("[email] QR code generation failed — skipping");
+  }
+
   await getResend().emails.send({
     from: FROM,
     to: email,
@@ -447,6 +463,8 @@ export async function sendTicketConfirmation(
         <p style="font-family:monospace;font-size:32px;font-weight:bold;margin:0;letter-spacing:4px;">${ticketCode}</p>
         <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:8px 0 0;">Show this code at the door</p>
       </div>
+
+      ${qrHtml}
 
       <table style="width:100%;border-collapse:collapse;margin:16px 0;">
         <tr><td style="padding:8px 0;color:#666;font-size:14px;width:100px;">Date:</td><td style="padding:8px 0;font-weight:bold;">${formattedDate}</td></tr>

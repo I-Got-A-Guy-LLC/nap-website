@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import QRCode from "qrcode";
 
 interface TicketData {
   ticket_code: string;
@@ -61,6 +62,7 @@ export default function ConfirmationPage() {
   const [ticket, setTicket] = useState<TicketData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [qrDataUrl, setQrDataUrl] = useState("");
 
   useEffect(() => {
     if (!sessionId) {
@@ -71,11 +73,17 @@ export default function ConfirmationPage() {
 
     fetch(`/api/events/ticket?session_id=${sessionId}`)
       .then((res) => res.json())
-      .then((data) => {
+      .then(async (data) => {
         if (data.error) {
           setError(data.error);
         } else {
           setTicket(data);
+          // Generate QR code
+          try {
+            const url = `https://networkingforawesomepeople.com/checkin/${data.ticket_code}`;
+            const qr = await QRCode.toDataURL(url, { width: 200, margin: 2 });
+            setQrDataUrl(qr);
+          } catch { /* QR generation failed — non-critical */ }
         }
         setLoading(false);
       })
@@ -147,6 +155,14 @@ export default function ConfirmationPage() {
               {ticket.quantity} {ticket.quantity === 1 ? "ticket" : "tickets"}
             </p>
           </div>
+
+          {/* QR Code */}
+          {qrDataUrl && (
+            <div className="text-center mb-8">
+              <img src={qrDataUrl} alt="Ticket QR Code" className="mx-auto w-48 h-48" />
+              <p className="text-navy/60 text-sm mt-2">Show this QR code at the door for fast check-in</p>
+            </div>
+          )}
 
           {/* Event Details */}
           <div className="space-y-3 mb-8">
