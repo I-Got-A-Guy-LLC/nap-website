@@ -12,14 +12,14 @@ export default function AccessibilityPage() {
   return (
     <>
       <section className="bg-navy py-16 md:py-24 px-4">
-        <div className="w-[90%] max-w-[800px] mx-auto text-center">
+        <div className="w-[90%] max-w-[1200px] mx-auto text-center">
           <h1 className="font-heading text-4xl md:text-6xl font-bold text-white mb-4">Accessibility Statement</h1>
           <p className="text-gold text-lg italic">Our commitment to digital accessibility for everyone</p>
         </div>
       </section>
 
       <section className="bg-white py-16 md:py-24 px-4">
-        <div className="w-[90%] max-w-[800px] mx-auto prose prose-lg prose-navy prose-headings:font-heading">
+        <div className="w-[90%] max-w-[1200px] mx-auto prose prose-lg prose-navy prose-headings:font-heading">
           <p>Networking For Awesome People is committed to ensuring digital accessibility for people with disabilities. We continually improve the user experience for everyone and apply relevant accessibility standards.</p>
 
           <h2>Our Commitment</h2>
