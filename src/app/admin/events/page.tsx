@@ -21,7 +21,7 @@ export default async function AdminEventsPage() {
   const { data: events, error: eventsError } = await supabase
     .from("events")
     .select("*")
-    .order("date", { ascending: false });
+    .order("event_date", { ascending: false });
 
   if (eventsError) {
     console.error("Admin events query error:", eventsError);
@@ -29,7 +29,7 @@ export default async function AdminEventsPage() {
 
   // Fetch ticket counts and revenue per event
   const { data: tickets } = await supabase
-    .from("event_tickets")
+    .from("tickets")
     .select("event_id, amount_paid");
 
   // Fetch sponsor counts per event
@@ -91,8 +91,8 @@ export default async function AdminEventsPage() {
                     revenue: 0,
                   };
                   const sponsorCount = sponsorCounts[event.id] || 0;
-                  const eventDate = event.date
-                    ? new Date(event.date).toLocaleDateString("en-US", {
+                  const eventDate = event.event_date
+                    ? new Date(event.event_date + "T12:00:00").toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",
