@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import Link from "next/link";
 import EventEditForm from "./EventEditForm";
+import PromoCodeManager from "./PromoCodeManager";
 
 export const dynamic = "force-dynamic";
 
@@ -195,6 +196,8 @@ export default async function AdminEventDetailPage({
           </div>
 
           <EventEditForm event={event} />
+
+          <PromoCodeManager eventId={event.id} />
         </div>
       </div>
     </div>
