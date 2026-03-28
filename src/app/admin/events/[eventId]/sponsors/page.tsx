@@ -50,11 +50,20 @@ export default async function AdminSponsorsPage({
   }
 
   // Fetch sponsors
-  const { data: sponsors } = await supabase
+  const { data: sponsors, error: sponsorError } = await supabase
     .from("event_sponsors")
     .select("*")
     .eq("event_id", eventId)
     .order("created_at", { ascending: false });
+
+  if (sponsorError) {
+    console.error("[admin/sponsors] Query error:", sponsorError.message);
+  }
+  console.log("[admin/sponsors] eventId:", eventId, "sponsors found:", sponsors?.length || 0);
+  if (sponsors?.[0]) {
+    console.log("[admin/sponsors] First sponsor keys:", Object.keys(sponsors[0]).join(", "));
+    console.log("[admin/sponsors] sponsor_name:", sponsors[0].sponsor_name, "sponsor_business:", sponsors[0].sponsor_business);
+  }
 
   const allSponsors = sponsors || [];
 
