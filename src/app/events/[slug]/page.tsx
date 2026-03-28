@@ -22,6 +22,7 @@ interface EventRow {
   tickets_sold: number;
   is_free: boolean;
   status: string;
+  included_items?: string[] | string | null;
 }
 
 interface Sponsor {
@@ -113,15 +114,26 @@ export default async function EventDetailPage({
 
   const spotsRemaining = event.capacity - event.tickets_sold;
   const isSoldOut = spotsRemaining <= 0;
-  // What's included items — use newlines if present in description, otherwise default items
   const rawDesc = (event.description || "").trim();
-  const descriptionLines = rawDesc.includes("\n")
-    ? rawDesc.split("\n").filter((l: string) => l.trim())
-    : [
-        "Range time and a personal target",
-        "Mix and mingle time with fellow professionals",
-        "Come for the networking, stay for the fun",
-      ];
+
+  // What's included — use included_items JSON array from DB if available
+  let includedItems: string[] = [];
+  try {
+    const items = event.included_items;
+    if (Array.isArray(items)) {
+      includedItems = items.filter(Boolean);
+    } else if (typeof items === "string") {
+      includedItems = JSON.parse(items).filter(Boolean);
+    }
+  } catch { /* ignore parse errors */ }
+  // Fallback if no included_items set
+  if (includedItems.length === 0) {
+    includedItems = [
+      "Range time and a personal target",
+      "Mix and mingle time with fellow professionals",
+      "Come for the networking, stay for the fun",
+    ];
+  }
 
   return (
     <>
@@ -179,7 +191,7 @@ export default async function EventDetailPage({
             <p className="text-navy/70 text-lg mb-6">{rawDesc}</p>
           )}
           <ul className="space-y-3">
-            {descriptionLines.map((line: string, i: number) => (
+            {includedItems.map((line: string, i: number) => (
               <li key={i} className="flex items-start gap-3 text-navy text-lg">
                 <span className="text-gold mt-1 shrink-0">&#10003;</span>
                 <span>{line}</span>
