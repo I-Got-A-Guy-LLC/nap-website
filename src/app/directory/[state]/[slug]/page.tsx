@@ -5,6 +5,7 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 import ReviewForm from "@/components/ReviewForm";
 import ReviewList from "@/components/ReviewList";
 import ListingReferralButton from "@/components/ListingReferralButton";
+import CouponCode from "@/components/CouponCode";
 
 const dayLabels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -224,10 +225,28 @@ export default async function DirectoryListingPage({ params }: { params: { state
             </div>
           )}
 
-          {isAmplified && listing.special_offers && (
-            <div className="bg-gold/10 border border-gold/30 rounded-xl p-6 md:p-8">
-              <h2 className="font-heading text-xl font-bold text-navy mb-3">Special Offers</h2>
-              <p className="text-navy/70 whitespace-pre-line">{listing.special_offers}</p>
+          {/* Coupon / Special Offer */}
+          {isAmplified && (listing.offer_headline || listing.special_offers) && (
+            <div className="relative border-2 border-dashed border-[#F5BE61] rounded-xl p-6 md:p-8 bg-[#FEF8EC]">
+              {/* Scissors icon */}
+              <span className="absolute -left-3 top-6 text-[#F5BE61] text-xl rotate-90">✂</span>
+              {/* NAP Only badge */}
+              {listing.offer_nap_only && (
+                <span className="absolute top-3 right-3 bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full">NAP Members Only</span>
+              )}
+              <p className="text-[#F5BE61] text-xs font-bold uppercase tracking-widest mb-2">Special Offer</p>
+              {listing.offer_headline ? (
+                <>
+                  <h3 className="font-heading text-xl md:text-2xl font-bold text-navy mb-2">{listing.offer_headline}</h3>
+                  {listing.offer_details && <p className="text-navy/70 mb-4">{listing.offer_details}</p>}
+                  {listing.offer_promo_code && <CouponCode code={listing.offer_promo_code} />}
+                  {listing.offer_expires_at && (
+                    <p className="text-navy/40 text-xs mt-3">Offer expires: {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
+                  )}
+                </>
+              ) : (
+                <p className="text-navy/70 whitespace-pre-line">{listing.special_offers}</p>
+              )}
             </div>
           )}
 

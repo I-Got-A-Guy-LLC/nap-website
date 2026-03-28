@@ -186,6 +186,11 @@ export default function EditListingPage() {
   });
   const [description, setDescription] = useState("");
   const [specialOffers, setSpecialOffers] = useState("");
+  const [offerHeadline, setOfferHeadline] = useState("");
+  const [offerDetails, setOfferDetails] = useState("");
+  const [offerPromoCode, setOfferPromoCode] = useState("");
+  const [offerExpires, setOfferExpires] = useState("");
+  const [offerNapOnly, setOfferNapOnly] = useState(false);
   const [categorySuggestion, setCategorySuggestion] = useState("");
 
   /* ---- State: Amplified fields ---- */
@@ -253,6 +258,11 @@ export default function EditListingPage() {
         setPrimaryCategoryId(l.primary_category_id || "");
         setDescription(l.description || "");
         setSpecialOffers(l.special_offers || "");
+        setOfferHeadline(l.offer_headline || "");
+        setOfferDetails(l.offer_details || "");
+        setOfferPromoCode(l.offer_promo_code || "");
+        setOfferExpires(l.offer_expires_at || "");
+        setOfferNapOnly(l.offer_nap_only || false);
 
         // Logo
         setLogoUrl(l.logo_url || "");
@@ -439,6 +449,11 @@ export default function EditListingPage() {
         payload.website_url = websiteUrl;
         payload.description = description;
         payload.special_offers = specialOffers;
+        payload.offer_headline = offerHeadline;
+        payload.offer_details = offerDetails;
+        payload.offer_promo_code = offerPromoCode;
+        payload.offer_expires_at = offerExpires || null;
+        payload.offer_nap_only = offerNapOnly;
         payload.category_suggestion = categorySuggestion || null;
 
         // Merge additional categories: Connected gets 1, Amplified gets 1+3
@@ -656,21 +671,49 @@ export default function EditListingPage() {
                 </div>
               </div>
 
-              {/* Primary Category */}
+              {/* Categories */}
               <div>
-                <label className={labelClass}>Primary Category</label>
+                <label className={labelClass}>
+                  Categories
+                  {isAmplified && <span className="text-gray-400 font-normal ml-1">(select up to 4 — Amplified)</span>}
+                  {isConnected && !isAmplified && <span className="text-gray-400 font-normal ml-1">(select up to 2 — Connected)</span>}
+                  {!isConnected && <span className="text-gray-400 font-normal ml-1">(1 category — Linked)</span>}
+                </label>
                 <select
                   value={primaryCategoryId}
                   onChange={(e) => setPrimaryCategoryId(e.target.value)}
                   className={selectClass}
                 >
-                  <option value="">Select a category</option>
+                  <option value="">Select primary category</option>
                   {mainCategories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
                 </select>
+                {isConnected && (
+                  <div className="mt-2 space-y-2">
+                    {additionalCategories.map((val, idx) => (
+                      <select key={`addcat-${idx}`} value={val}
+                        onChange={(e) => { const u = [...additionalCategories]; u[idx] = e.target.value; setAdditionalCategories(u); }}
+                        className={selectClass}>
+                        <option value="">Additional category {idx + 2}</option>
+                        {mainCategories.map((cat) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
+                      </select>
+                    ))}
+                    {isAmplified && extraCategories.map((val, idx) => (
+                      <select key={`extracat-${idx}`} value={val}
+                        onChange={(e) => { const u = [...extraCategories]; u[idx] = e.target.value; setExtraCategories(u); }}
+                        className={selectClass}>
+                        <option value="">Additional category {idx + 3}</option>
+                        {mainCategories.map((cat) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
+                      </select>
+                    ))}
+                  </div>
+                )}
+                {!isConnected && (
+                  <p className="text-gray-400 text-xs mt-2">
+                    <Link href="/join" className="text-gold hover:underline">Upgrade to Connected</Link> to add more categories
+                  </p>
+                )}
               </div>
             </Section>
 
@@ -765,34 +808,18 @@ export default function EditListingPage() {
                   </div>
                 )}
 
-                {/* Additional Category */}
-                <div>
-                  <label className={labelClass}>
-                    Additional {isAmplified ? "Categories" : "Category"}
-                    <span className="text-gray-400 font-normal ml-1">
-                      ({isAmplified ? "4 total with Amplified" : "2 total with Connected"})
-                    </span>
-                  </label>
-                  {additionalCategories.map((val, idx) => (
-                    <select
-                      key={`addcat-${idx}`}
-                      value={val}
-                      onChange={(e) => {
-                        const updated = [...additionalCategories];
-                        updated[idx] = e.target.value;
-                        setAdditionalCategories(updated);
-                      }}
-                      className={`${selectClass} ${idx > 0 ? "mt-2" : ""}`}
-                    >
-                      <option value="">Select a category</option>
-                      {mainCategories.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                          {cat.name}
-                        </option>
-                      ))}
-                    </select>
-                  ))}
-                </div>
+                {/* Category suggestion — only if not maxed */}
+                {(() => {
+                  const allCats = [primaryCategoryId, ...additionalCategories, ...(isAmplified ? extraCategories : [])].filter(Boolean);
+                  const maxCats = isAmplified ? 4 : 2;
+                  return allCats.length < maxCats ? (
+                    <div>
+                      <label className={labelClass}>Don&apos;t see your category? Suggest one.</label>
+                      <input type="text" value={categorySuggestion} onChange={(e) => setCategorySuggestion(e.target.value)}
+                        className={inputClass} placeholder="Suggest a new category" />
+                    </div>
+                  ) : null;
+                })()}
 
                 {/* Tags */}
                 <div>
@@ -805,8 +832,29 @@ export default function EditListingPage() {
                     </span>
                   </label>
                   <p className="text-gray-400 text-xs mb-2">
-                    Tags help people find your listing. Add keywords for your specialty, service area, or what makes you unique. Example: mobile, affordable, emergency service, pet-friendly
+                    Tags are searchable keywords that help people find your listing. Think about how your ideal client would describe what they need.
                   </p>
+                  <p className="text-gray-400 text-xs mb-2">Click to add or type your own:</p>
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {["free consultation", "locally owned", "veteran-owned", "women-owned", "mobile service", "Murfreesboro", "Middle Tennessee", "Nashville area", "licensed & insured", "same-day service", "emergency service", "by appointment"].map((suggestion) => {
+                      const allTags = isAmplified ? [...tags, ...extraTags] : [...tags];
+                      const maxTags = isAmplified ? 4 : 2;
+                      const usedCount = allTags.filter((t) => t.trim()).length;
+                      const alreadyUsed = allTags.some((t) => t.trim().toLowerCase() === suggestion.toLowerCase());
+                      return (
+                        <button key={suggestion} type="button" disabled={alreadyUsed || usedCount >= maxTags}
+                          onClick={() => {
+                            // Find first empty slot
+                            const idx = tags.findIndex((t) => !t.trim());
+                            if (idx >= 0) { const u = [...tags]; u[idx] = suggestion; setTags(u); return; }
+                            if (isAmplified) { const idx2 = extraTags.findIndex((t) => !t.trim()); if (idx2 >= 0) { const u = [...extraTags]; u[idx2] = suggestion; setExtraTags(u); } }
+                          }}
+                          className={`px-2.5 py-1 rounded-full text-xs transition-colors ${alreadyUsed ? "bg-green-100 text-green-600" : "bg-gray-100 text-navy/60 hover:bg-gold/20 hover:text-navy"} disabled:opacity-40`}>
+                          {alreadyUsed ? "✓ " : "+ "}{suggestion}
+                        </button>
+                      );
+                    })}
+                  </div>
                   <div className="space-y-2">
                     {tags.map((val, idx) => (
                       <input
@@ -867,29 +915,40 @@ export default function EditListingPage() {
                   />
                 </div>
 
-                {/* Special Offers */}
-                <div>
-                  <label className={labelClass}>Special Offers</label>
-                  <textarea
-                    rows={3}
-                    value={specialOffers}
-                    onChange={(e) => setSpecialOffers(e.target.value)}
-                    className={`${inputClass} resize-none`}
-                    placeholder="10% off for NAP members..."
-                  />
+                {/* Coupon / Special Offer */}
+                <div className="border border-dashed border-[#F5BE61] rounded-xl p-5 bg-[#FEF8EC]/50">
+                  <label className="block text-sm font-bold text-navy mb-3">✂ Special Offer / Coupon</label>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Offer Headline (max 60 chars)</label>
+                      <input type="text" maxLength={60} value={offerHeadline} onChange={(e) => setOfferHeadline(e.target.value)}
+                        className={inputClass} placeholder="e.g. Free 30-Minute Strategy Session" />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Offer Details (max 200 chars)</label>
+                      <textarea rows={2} maxLength={200} value={offerDetails} onChange={(e) => setOfferDetails(e.target.value)}
+                        className={`${inputClass} resize-none`} placeholder="e.g. Book a free consultation and mention NAP to claim." />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Promo Code (optional)</label>
+                        <input type="text" maxLength={20} value={offerPromoCode} onChange={(e) => setOfferPromoCode(e.target.value.toUpperCase())}
+                          className={`${inputClass} font-mono`} placeholder="e.g. NAP2024" />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Offer Expires (optional)</label>
+                        <input type="date" value={offerExpires} onChange={(e) => setOfferExpires(e.target.value)} className={inputClass} />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input type="checkbox" id="nap-only" checked={offerNapOnly} onChange={(e) => setOfferNapOnly(e.target.checked)} className="w-4 h-4 accent-gold" />
+                      <label htmlFor="nap-only" className="text-sm text-navy">For NAP members only</label>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Category Suggestion */}
-                <div>
-                  <label className={labelClass}>Suggest a New Category</label>
-                  <input
-                    type="text"
-                    value={categorySuggestion}
-                    onChange={(e) => setCategorySuggestion(e.target.value)}
-                    className={inputClass}
-                    placeholder="Don't see your category? Suggest one here."
-                  />
-                </div>
+                {/* Legacy special offers field hidden but still saved */}
+                <input type="hidden" value={specialOffers} />
               </Section>
             ) : (
               <Section title="Enhanced Profile">
