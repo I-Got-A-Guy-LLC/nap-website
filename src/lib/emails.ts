@@ -269,7 +269,7 @@ export async function notifyNewLinkedListing(memberName: string, businessName: s
       <h2 style="margin:0 0 16px;color:#0a1628;">New Listing Pending Approval</h2>
       <p><strong>${memberName}</strong> submitted a new Linked listing for <strong>${businessName}</strong>.</p>
       <p>Log in to the admin dashboard to review and approve or reject it.</p>
-      ${goldButton("https://networkingforawesomepeople.com/admin/listings", "Review Listing")}
+      ${goldButton("https://networkingforawesomepeople.com/admin/approvals", "Review Listing")}
     `),
   });
 }
