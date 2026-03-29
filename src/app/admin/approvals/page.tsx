@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import ApprovalsClient from "./ApprovalsClient";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function ApprovalsPage() {
   const session = await getServerSession(authOptions);
   if (
