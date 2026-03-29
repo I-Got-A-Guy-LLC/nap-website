@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 import RangeNightBanner from "@/components/RangeNightBanner";
 import { getAllPosts } from "@/lib/blog";
@@ -89,16 +90,15 @@ export default async function Home() {
     <>
       {/* ===== SECTION 1  -  HERO ===== */}
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
-        {/* Background image  -  mobile: show faces (center 40%), desktop: centered */}
-        <div
-          className="hero-bg absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+        {/* Background image  -  Next.js Image for reliable object-position on iOS Safari */}
+        <Image
+          src="/images/hero-bg.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-[center_25%] md:object-center"
+          sizes="100vw"
         />
-        <style>{`
-          @media (max-width: 767px) {
-            .hero-bg { background-position: center 40% !important; }
-          }
-        `}</style>
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-navy/75" />
 
