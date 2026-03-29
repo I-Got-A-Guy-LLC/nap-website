@@ -383,7 +383,7 @@ export default async function Home() {
       </section>
 
       {/* ===== SECTION 7 — FAQ ===== */}
-      <section className="bg-white py-16 md:py-24 px-4">
+      <section className="bg-white pt-8 md:pt-12 pb-16 md:pb-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-4">
