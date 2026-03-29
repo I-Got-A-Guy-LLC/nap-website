@@ -17,13 +17,16 @@ export default async function ApprovalsPage() {
   }
 
   const supabase = getSupabaseAdmin();
-  const { data: listings } = await supabase
+  const { data: listings, error } = await supabase
     .from("directory_listings")
-    .select(
-      "id, business_name, contact_name, contact_email, city, category, created_at, approval_status"
-    )
-    .eq("is_approved", false)
+    .select("*")
+    .or("is_approved.eq.false,is_approved.is.null")
     .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[approvals] Query error:", error.message);
+  }
+  console.log("[approvals] Found listings:", listings?.length);
 
   return (
     <div className="min-h-screen bg-gray-50">
