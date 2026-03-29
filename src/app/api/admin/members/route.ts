@@ -97,6 +97,7 @@ export async function POST(request: Request) {
         business_name: business_name || null,
         city: city || null,
         tier: tier || "linked",
+        subscription_status: "active",
         is_comped: is_comped || false,
         comp_reason: comp_reason || null,
         comp_expires_at: comp_expires_at || null,

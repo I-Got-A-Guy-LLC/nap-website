@@ -117,6 +117,9 @@ export default function MembersClient() {
     if (member.subscription_status === "active" && !member.is_comped) {
       return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">PAID</span>;
     }
+    if (member.tier === "linked") {
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">ACTIVE</span>;
+    }
     return null;
   };
 

@@ -38,6 +38,7 @@ export async function POST(request: Request) {
           business_name: business,
           city,
           tier: "linked",
+          subscription_status: "active",
         })
         .select("id")
         .single();

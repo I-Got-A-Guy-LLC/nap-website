@@ -8,9 +8,11 @@ interface Listing {
   contact_name: string;
   contact_email: string;
   city: string;
-  category: string | null;
+  primary_category_id: string | null;
   created_at: string;
   approval_status: string;
+  is_approved: boolean;
+  [key: string]: unknown;
 }
 
 export default function ApprovalsClient({
@@ -81,7 +83,7 @@ export default function ApprovalsClient({
                 <td className="px-4 py-3">{l.contact_name}</td>
                 <td className="px-4 py-3 text-gray-500">{l.contact_email}</td>
                 <td className="px-4 py-3">{l.city}</td>
-                <td className="px-4 py-3">{l.category || "—"}</td>
+                <td className="px-4 py-3">{(l.primary_category_id as string) || "—"}</td>
                 <td className="px-4 py-3 text-gray-500">
                   {new Date(l.created_at).toLocaleDateString()}
                 </td>
