@@ -223,7 +223,7 @@ export default function RootLayout({
           name: "How does Networking For Awesome People work?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Each city holds a weekly meeting where local professionals gather to build relationships, exchange referrals, and support each other's businesses. Meetings are informal, welcoming, and run about an hour. Our one rule: Don't Be a Jerk™.",
+            text: "Each meeting starts with a welcome, then visitors give their one-minute pitch and answer the Question of the Week. We discuss upcoming events, then close out. Meetings are about an hour. Our one rule: Don't Be a Jerk™.",
           },
         },
         {

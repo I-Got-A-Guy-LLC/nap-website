@@ -424,7 +424,7 @@ export default async function Home() {
                   How does a typical networking meeting work?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  Each city holds a weekly meeting where local professionals gather to build relationships, exchange referrals, and support each other&apos;s businesses. Meetings are informal, welcoming, and run about an hour.
+                  Each meeting starts with a welcome and overview, then visitors give their one-minute pitch and answer the Question of the Week. We discuss upcoming events in the next 6 days, then close out. Simple, welcoming, and about an hour.
                 </p>
               </div>
               <div>

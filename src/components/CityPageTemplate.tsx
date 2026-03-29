@@ -169,23 +169,23 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
               {[
                 {
                   step: "1",
-                  title: "Arrive and Connect",
-                  body: "Doors open a few minutes early. Grab a seat, introduce yourself to whoever's nearby, and get comfortable. Everyone here was new once.",
+                  title: "Welcome & Overview",
+                  body: "We kick off with a welcome and a quick overview of what to expect — whether it's your first time or your fiftieth.",
                 },
                 {
                   step: "2",
-                  title: "60-Second Introductions",
-                  body: "Every person gets 60 seconds to introduce themselves and their business. No long speeches — just your name, what you do, and who you're looking to meet.",
+                  title: "One-Minute Pitches",
+                  body: "Visitors give their one-minute pitch and answer the Question of the Week (posted in our Facebook Group ahead of time).",
                 },
                 {
                   step: "3",
-                  title: "One-on-One Connections",
-                  body: "After introductions, members pair up for focused one-on-one conversations to explore referral opportunities and collaboration.",
+                  title: "Upcoming Events",
+                  body: "Group discussion of upcoming events in the next 6 days — what's happening, who's going, and how to get involved.",
                 },
                 {
                   step: "4",
-                  title: "Leave Inspired",
-                  body: "Meetings close with announcements, shoutouts, and a group photo. You'll leave with new contacts, potential referrals, and a reason to come back next week.",
+                  title: "Close Out",
+                  body: "We wrap up and you're on your way. Simple, efficient, and you'll leave with new connections and a reason to come back next week.",
                 },
               ].map((item) => (
                 <div key={item.step} className="flex gap-5">
