@@ -23,7 +23,7 @@ export default function DirectoryPage() {
           <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4">
             Business Directory
           </h1>
-          <p className="text-gold text-lg md:text-xl italic">
+          <p className="text-white text-lg md:text-xl italic">
             Find trusted professionals across Middle Tennessee
           </p>
         </div>

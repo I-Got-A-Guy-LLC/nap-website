@@ -219,7 +219,7 @@ export default function DirectoryBrowser() {
                       {catName && <span>{catName}</span>}
                       {listing.city && <span className="capitalize">{listing.city}</span>}
                       {listing.website_url && (isTop || isConnected) && (
-                        <span className="text-gold">Website</span>
+                        <span className="text-navy">Website</span>
                       )}
                     </div>
                   </div>
