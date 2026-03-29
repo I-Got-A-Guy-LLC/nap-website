@@ -462,8 +462,8 @@ export default async function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 8 — STATS ===== */}
-      <section className="bg-navy py-8 md:py-12 px-4">
+      {/* ===== STATS + FACEBOOK ===== */}
+      <section className="bg-navy py-12 md:py-16 px-4">
         <ScrollReveal stagger>
           <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
             {stats.map((stat) => (
@@ -474,28 +474,27 @@ export default async function Home() {
             ))}
           </div>
         </ScrollReveal>
-      </section>
 
-      {/* ===== FACEBOOK / QUESTION OF THE WEEK ===== */}
-      <section className="bg-navy py-16 md:py-24 px-4">
-        <ScrollReveal>
-          <div className="max-w-[700px] mx-auto text-center">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
-              Join the Conversation
-            </h2>
-            <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
-              Every week we post a Question of the Week in our Facebook Group &mdash; it&apos;s where the real networking happens between meetings.
-            </p>
-            <a
-              href="https://www.facebook.com/groups/networkingforawesomepeople"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 hover:shadow-xl transition-all duration-300"
-            >
-              Join Our Facebook Group &rarr;
-            </a>
-          </div>
-        </ScrollReveal>
+        <div className="max-w-[700px] mx-auto border-t border-white/10 mt-12 md:mt-16 pt-12 md:pt-16">
+          <ScrollReveal>
+            <div className="text-center">
+              <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
+                Join the Conversation
+              </h2>
+              <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+                Every week we post a Question of the Week in our Facebook Group &mdash; it&apos;s where the real networking happens between meetings.
+              </p>
+              <a
+                href="https://www.facebook.com/groups/networkingforawesomepeople"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 hover:shadow-xl transition-all duration-300"
+              >
+                Join Our Facebook Group &rarr;
+              </a>
+            </div>
+          </ScrollReveal>
+        </div>
       </section>
 
       {/* ===== SECTION 8 — JOIN CTA ===== */}
