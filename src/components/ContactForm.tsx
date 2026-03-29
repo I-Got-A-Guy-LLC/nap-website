@@ -5,20 +5,13 @@ import { useSearchParams } from "next/navigation";
 
 const subjectOptions = [
   "General Question",
-  "Membership Interest — Linked",
-  "Membership Interest — Connected",
-  "Membership Interest — Amplified",
   "Sponsorship Inquiry",
   "Bring Networking For Awesome People to My City",
   "Media or Press Inquiry",
   "Other",
 ];
 
-const subjectMap: Record<string, string> = {
-  "Linked Membership Interest": "Membership Interest — Linked",
-  "Connected Membership Interest": "Membership Interest — Connected",
-  "Amplified Membership Interest": "Membership Interest — Amplified",
-};
+const subjectMap: Record<string, string> = {};
 
 export default function ContactForm() {
   const searchParams = useSearchParams();

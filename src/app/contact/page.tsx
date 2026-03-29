@@ -35,9 +35,9 @@ const helpCards = [
   },
   {
     title: "Membership & Directory",
-    body: "Interested in joining the Networking For Awesome People business directory? Register your interest and we'll reach out when the directory launches.",
-    link: "See Membership Tiers →",
-    href: "/join",
+    body: "Join the Networking For Awesome People business directory — the Linked tier is free. Connected and Amplified tiers offer enhanced visibility and additional benefits.",
+    link: "Join as a Linked Member →",
+    href: "/join/linked",
   },
   {
     title: "Sponsorship Opportunities",
