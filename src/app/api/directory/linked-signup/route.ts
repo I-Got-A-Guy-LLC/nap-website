@@ -50,6 +50,20 @@ export async function POST(request: Request) {
       memberId = newMember.id;
     }
 
+    // Auto-generate slug from business name
+    const baseSlug = business
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .trim();
+    const { data: slugExists } = await supabase
+      .from("directory_listings")
+      .select("slug")
+      .eq("slug", baseSlug)
+      .maybeSingle();
+    const slug = slugExists ? `${baseSlug}-${Date.now().toString(36).slice(-4)}` : baseSlug;
+
     // Create directory listing (pending approval)
     const { error: listingError } = await supabase.from("directory_listings").insert({
       member_id: memberId,
@@ -57,6 +71,8 @@ export async function POST(request: Request) {
       contact_name: name,
       contact_email: email,
       city,
+      slug,
+      listing_state: "TN",
       is_approved: false,
       approval_status: "pending",
     });
