@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+import RangeNightBanner from "@/components/RangeNightBanner";
 import { getAllPosts } from "@/lib/blog";
 
 const cityPanels = [
@@ -11,7 +12,7 @@ const cityPanels = [
     href: "/tn/manchester",
     bg: "bg-manchester",
     text: "text-white",
-    linkText: "text-white/80 hover:text-white",
+    btnClass: "bg-white/20 text-white border-white/30 hover:bg-white hover:text-manchester",
   },
   {
     name: "Murfreesboro",
@@ -21,7 +22,7 @@ const cityPanels = [
     href: "/tn/murfreesboro",
     bg: "bg-[#2A4A6B]",
     text: "text-white",
-    linkText: "text-white/80 hover:text-white",
+    btnClass: "bg-white/20 text-white border-white/30 hover:bg-white hover:text-[#2A4A6B]",
   },
   {
     name: "Nolensville",
@@ -31,7 +32,7 @@ const cityPanels = [
     href: "/tn/nolensville",
     bg: "bg-nolensville",
     text: "text-navy",
-    linkText: "text-navy/70 hover:text-navy",
+    btnClass: "bg-navy/10 text-navy border-navy/20 hover:bg-navy hover:text-white",
   },
   {
     name: "Smyrna",
@@ -41,7 +42,7 @@ const cityPanels = [
     href: "/tn/smyrna",
     bg: "bg-smyrna",
     text: "text-white",
-    linkText: "text-white/80 hover:text-white",
+    btnClass: "bg-white/20 text-white border-white/30 hover:bg-white hover:text-smyrna",
   },
 ];
 
@@ -123,15 +124,7 @@ export default async function Home() {
         <div className="relative z-10 h-0 border-b border-black" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }} />
 
         {/* Announcement bar */}
-        <Link
-          href="/events/range-night-2026"
-          className="relative z-10 block bg-[#E8614D] hover:bg-[#d9553f] transition-colors"
-        >
-          <div className="flex items-center justify-center gap-2 px-4 py-3 text-white text-sm sm:text-base font-bold text-center">
-            <span>🎯 3rd Annual Range Night — Presenting Sponsor: Connell Law, PLLC → Get Your Tickets</span>
-            <svg className="w-4 h-4 flex-shrink-0 hidden sm:block" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" /></svg>
-          </div>
-        </Link>
+        <RangeNightBanner />
 
         {/* City panels */}
         <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
@@ -148,12 +141,64 @@ export default async function Home() {
                 </p>
                 <p className="opacity-70 italic">{city.location}</p>
               </div>
-              <span className={`${city.linkText} text-sm font-bold uppercase tracking-wider mt-6 transition-colors`}>
-                Learn More &rarr;
+              <span className={`${city.btnClass} inline-block text-sm font-bold px-5 py-2 rounded-full border mt-6 transition-all`}>
+                See Meeting Details &rarr;
               </span>
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* ===== UPCOMING EVENTS ===== */}
+      <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
+        <ScrollReveal>
+          <div className="max-w-[1200px] mx-auto">
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12">
+              What&apos;s Coming Up
+            </h2>
+
+            {/* Featured: Range Night */}
+            <Link href="/events/range-night-2026" className="block bg-white rounded-2xl shadow-md border-l-[6px] border-[#FE6651] p-8 md:p-10 mb-10 hover:shadow-xl transition-shadow group">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <span className="inline-block bg-[#FE6651] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">Special Event</span>
+                  <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-2 group-hover:text-navy/80 transition-colors">🎯 3rd Annual Range Night</h3>
+                  <p className="text-navy/70 text-lg">Monday, April 20, 2026 &middot; 5:30 PM &ndash; 8:30 PM</p>
+                  <p className="text-navy/50 mt-1">Manchester, TN &middot; $30 per ticket</p>
+                </div>
+                <span className="inline-block bg-[#FE6651] text-white font-bold px-8 py-3 rounded-full text-center hover:bg-[#FE6651]/90 transition-colors flex-shrink-0">
+                  Get Tickets &rarr;
+                </span>
+              </div>
+            </Link>
+
+            {/* Weekly meetings grid */}
+            <h3 className="font-heading text-xl font-bold text-navy mb-6">Weekly Meetings</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {cityPanels.map((city) => (
+                <Link
+                  key={city.name}
+                  href={city.href}
+                  className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all group"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: city.bg === "bg-manchester" ? "#71D4D1" : city.bg === "bg-[#2A4A6B]" ? "#2A4A6B" : city.bg === "bg-nolensville" ? "#F5BE61" : "#FE6651" }} />
+                    <div>
+                      <h4 className="font-heading font-bold text-navy">{city.name}</h4>
+                      <p className="text-navy/70 text-sm">{city.day} &middot; {city.time}</p>
+                      <p className="text-navy/50 text-sm">{city.location}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link href="/events" className="text-navy font-bold text-sm hover:text-navy/70 transition-colors">
+                See All Meetings &rarr;
+              </Link>
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* ===== SECTION 2 — WHAT IS NAP ===== */}
@@ -211,7 +256,7 @@ export default async function Home() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-3">
               Meet the Founder
             </h2>
-            <p className="text-gold text-lg md:text-xl italic mb-12 md:mb-16">
+            <p className="text-navy/60 text-lg md:text-xl italic mb-12 md:mb-16">
               The person behind Networking For Awesome People
             </p>
 
@@ -220,7 +265,7 @@ export default async function Home() {
               {/* Content */}
               <div className="flex-1 bg-white rounded-xl shadow-md border border-gray-100 p-8 md:p-10 text-left flex flex-col justify-center">
                 <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-1">Rachel Albertson</h3>
-                <p className="text-gold font-medium mb-6">Founder, Networking For Awesome People</p>
+                <p className="text-navy/60 font-medium mb-6">Founder, Networking For Awesome People</p>
                 <p className="text-navy leading-relaxed mb-8">
                   Rachel founded Networking For Awesome People in Murfreesboro, Tennessee with a simple belief &mdash; that
                   networking should feel like belonging, not a chore. What started as one weekly
@@ -370,7 +415,7 @@ export default async function Home() {
                     <span className="text-xs font-medium text-navy uppercase tracking-wide">
                       {post.category}
                     </span>
-                    <h3 className="mt-1 font-heading font-bold text-navy group-hover:text-gold transition-colors line-clamp-2">
+                    <h3 className="mt-1 font-heading font-bold text-navy group-hover:text-navy/70 transition-colors line-clamp-2">
                       {post.title}
                     </h3>
                     <p className="mt-1 text-sm text-navy/60">
@@ -482,6 +527,28 @@ export default async function Home() {
                 <p className="text-gold text-xs sm:text-sm font-bold uppercase tracking-widest">{stat.label}</p>
               </div>
             ))}
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ===== FACEBOOK / QUESTION OF THE WEEK ===== */}
+      <section className="bg-navy py-16 md:py-24 px-4">
+        <ScrollReveal>
+          <div className="max-w-[700px] mx-auto text-center">
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
+              Join the Conversation
+            </h2>
+            <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+              Every week we post a Question of the Week in our Facebook Group &mdash; it&apos;s where the real networking happens between meetings.
+            </p>
+            <a
+              href="https://www.facebook.com/groups/networkingforawesomepeople"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 hover:shadow-xl transition-all duration-300"
+            >
+              Join Our Facebook Group &rarr;
+            </a>
           </div>
         </ScrollReveal>
       </section>
