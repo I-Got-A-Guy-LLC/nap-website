@@ -22,7 +22,7 @@ export default function ExpandForm() {
       return;
     }
 
-    const subject = encodeURIComponent(`Licensing Interest — ${cityState}`);
+    const subject = encodeURIComponent(`Licensing Interest  -  ${cityState}`);
     const body = encodeURIComponent(
       `Name: ${name}\nEmail: ${email}\nPhone: ${phone || "Not provided"}\nCity/State: ${cityState}\nTier Interest: ${tier}\nHow they heard about NAP: ${source || "Not specified"}\n\nAbout themselves:\n${about}`
     );
@@ -163,7 +163,7 @@ export default function ExpandForm() {
         Send My Interest to Rachel
       </button>
       <p className="text-center text-navy/70 text-sm">
-        No commitment required — this is just a conversation starter
+        No commitment required  -  this is just a conversation starter
       </p>
     </form>
   );

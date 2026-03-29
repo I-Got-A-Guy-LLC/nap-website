@@ -37,7 +37,7 @@ function parseHours(raw: any): Record<string, any> {
 async function getListing(state: string, slug: string) {
   const supabase = getSupabaseAdmin();
 
-  // UUID pattern check — if state looks like a UUID, it's an old /directory/[id] link
+  // UUID pattern check  -  if state looks like a UUID, it's an old /directory/[id] link
   const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   if (uuidPattern.test(state)) {
     const { data } = await supabase
@@ -168,7 +168,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
             </div>
           )}
 
-          {/* Referral button — Connected + Amplified */}
+          {/* Referral button  -  Connected + Amplified */}
           {isConnected && (
             <ListingReferralButton listingId={listing.id} businessName={listing.business_name} />
           )}

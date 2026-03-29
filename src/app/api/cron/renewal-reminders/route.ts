@@ -87,7 +87,7 @@ export async function GET(request: Request) {
     results.compReminders30++;
   }
 
-  // Comp expired today — send notice, set is_comped = false
+  // Comp expired today  -  send notice, set is_comped = false
   const compToday = dayRange(0);
   const { data: compTodayMembers } = await supabase
     .from("members")
@@ -111,7 +111,7 @@ export async function GET(request: Request) {
     results.compExpired++;
   }
 
-  // 7 days after comp expired — grace period end, downgrade to linked
+  // 7 days after comp expired  -  grace period end, downgrade to linked
   const graceEnd = dayRange(-7); // 7 days ago
   const { data: gracePeriodMembers } = await supabase
     .from("members")

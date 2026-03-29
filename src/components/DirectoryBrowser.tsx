@@ -45,7 +45,7 @@ const cityOptions = [
 ];
 
 function getMemberInfo(listing: Listing): MemberInfo {
-  // Supabase may return members as object or array — handle both
+  // Supabase may return members as object or array  -  handle both
   try {
     if (!listing.members) return { tier: "linked", is_leadership: false, is_nap_verified: false };
     if (Array.isArray(listing.members)) return listing.members[0] || { tier: "linked", is_leadership: false, is_nap_verified: false };

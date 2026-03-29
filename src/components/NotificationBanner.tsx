@@ -63,7 +63,7 @@ export default function NotificationBanner() {
             <div className="flex-1 text-center sm:text-left">
               <p className="text-navy font-heading font-bold text-base">🔔 Never miss a cancellation.</p>
               <p className="text-navy/70 text-xs">
-                Get notified if your NAP meeting is cancelled or rescheduled — plus event updates and community news.
+                Get notified if your NAP meeting is cancelled or rescheduled  -  plus event updates and community news.
               </p>
             </div>
             <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full sm:w-auto">

@@ -6,19 +6,19 @@ category: "Connections & Collaboration"
 tags: ["networking follow-up", "follow-up message", "referral networking", "relationship building", "solopreneur networking", "networking tips"]
 focusKeyword: "networking follow-up"
 metaTitle: "How to Follow Up After a Networking Event (And Actually Get Results) | NAP"
-metaDescription: "Most networking follow-ups are ignored. Here's how to write one that gets a response — and turns a first meeting into a real professional relationship."
+metaDescription: "Most networking follow-ups are ignored. Here's how to write one that gets a response  -  and turns a first meeting into a real professional relationship."
 series: null
 seriesOrder: null
 readTime: "4 min"
 image: ""
 draft: false
 date: "2026-01-30"
-excerpt: "Most networking follow-ups are ignored. Here's how to write one that gets a response — and turns a first meeting into a real professional relationship."
+excerpt: "Most networking follow-ups are ignored. Here's how to write one that gets a response  -  and turns a first meeting into a real professional relationship."
 ---
 
 ## How to Follow Up After a Networking Meeting (And Actually Get Results)
 
-Attending a networking meeting is the easy part. Following up is where most people drop the ball — and where most of the real value gets left on the table.
+Attending a networking meeting is the easy part. Following up is where most people drop the ball  -  and where most of the real value gets left on the table.
 
 A good follow-up turns a first conversation into a relationship. A bad one (or no follow-up at all) makes the meeting a waste of both people's time. Here's how to do it well.
 
@@ -36,7 +36,7 @@ The conversation is fresh, and so is the impression you made. Waiting a week sig
 
 ### 2. Reference something specific
 
-Name something from your conversation — a challenge they mentioned, a project they're working on, a referral that came to mind since you talked. This is the difference between a follow-up that gets read and one that gets archived.
+Name something from your conversation  -  a challenge they mentioned, a project they're working on, a referral that came to mind since you talked. This is the difference between a follow-up that gets read and one that gets archived.
 
 ### 3. Offer something, don't just ask
 
@@ -48,19 +48,19 @@ If you want a coffee chat, a call, or an introduction, say so directly. "Would y
 
 ### 5. Keep it short
 
-Three to five sentences. This isn't a proposal — it's the bridge between a first conversation and a second one. Long follow-ups feel like homework.
+Three to five sentences. This isn't a proposal  -  it's the bridge between a first conversation and a second one. Long follow-ups feel like homework.
 
 ## What a Good Follow-Up Looks Like
 
 **Before:** "Hey, great meeting you today! Hope we can connect again soon."
 
-**After:** "Hey [Name] — really enjoyed our conversation this morning. What you said about [specific thing] stuck with me — I actually know someone who might be useful for that exact problem. Would it be helpful if I made an intro? Happy to either way. Let me know."
+**After:** "Hey [Name]  -  really enjoyed our conversation this morning. What you said about [specific thing] stuck with me  -  I actually know someone who might be useful for that exact problem. Would it be helpful if I made an intro? Happy to either way. Let me know."
 
 Same goal, completely different result.
 
 ## For Introverts: This Is Your Strength Zone
 
-Follow-up is one of the places where introverts have a natural edge. The inclination toward thoughtfulness, specificity, and genuine engagement translates directly into better written communication. You're not trying to be charismatic in a crowded room — you're crafting a message at your own pace, with time to think about what you actually want to say.
+Follow-up is one of the places where introverts have a natural edge. The inclination toward thoughtfulness, specificity, and genuine engagement translates directly into better written communication. You're not trying to be charismatic in a crowded room  -  you're crafting a message at your own pace, with time to think about what you actually want to say.
 
 Most people don't follow up at all. Most of those who do send generic messages. Showing up in someone's inbox with something specific and useful the day after a meeting is genuinely rare. It's worth doing.
 
@@ -78,11 +78,11 @@ Within 24 hours, reference something specific from your conversation, offer valu
 
 **What should I say in a networking follow-up message?**
 
-Something specific to your conversation. Mention a challenge they raised, a project they mentioned, or a referral that came to mind. Add a clear offer or ask. Avoid generic phrases like "great to meet you" without anything attached to them — those are the messages that get filed and forgotten.
+Something specific to your conversation. Mention a challenge they raised, a project they mentioned, or a referral that came to mind. Add a clear offer or ask. Avoid generic phrases like "great to meet you" without anything attached to them  -  those are the messages that get filed and forgotten.
 
 **How soon should you follow up after networking?**
 
-Within 24 hours, ideally same day. The longer you wait, the colder the connection gets. A prompt follow-up signals that the conversation was worth your time — and that you're someone who follows through.
+Within 24 hours, ideally same day. The longer you wait, the colder the connection gets. A prompt follow-up signals that the conversation was worth your time  -  and that you're someone who follows through.
 
 **How do introverts follow up after networking events?**
 

@@ -60,7 +60,7 @@ export default function BlogGrid({ posts }: BlogGridProps) {
             href={`/blog/${post.slug}`}
             className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-1"
           >
-            {/* Cover image — no badges on top */}
+            {/* Cover image  -  no badges on top */}
             <div className="h-48 relative overflow-hidden">
               <img
                 src="/images/business_talk/blog-cover.jpg"

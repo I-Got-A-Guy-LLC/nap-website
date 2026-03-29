@@ -83,7 +83,7 @@ export default function ConfirmationPage() {
             const url = `https://networkingforawesomepeople.com/checkin/${data.ticket_code}`;
             const qr = await QRCode.toDataURL(url, { width: 200, margin: 2 });
             setQrDataUrl(qr);
-          } catch { /* QR generation failed — non-critical */ }
+          } catch { /* QR generation failed  -  non-critical */ }
         }
         setLoading(false);
       })

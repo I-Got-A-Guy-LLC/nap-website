@@ -119,7 +119,7 @@ export async function sendAmplifiedWelcome(email: string, name: string) {
     subject: "Welcome to Amplified! Your listing is live.",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to Amplified, ${name}!</h2>
-      <p>Your Amplified membership is active — you now have the top-tier NAP experience.</p>
+      <p>Your Amplified membership is active  -  you now have the top-tier NAP experience.</p>
       <p>Enjoy featured placement, maximum visibility, premium profile options, and everything NAP has to offer.</p>
       ${goldButton("https://networkingforawesomepeople.com/portal", "Go to Your Portal")}
     `),
@@ -130,7 +130,7 @@ export async function sendReceipt(email: string, name: string, amount: string, d
   await getResend().emails.send({
     from: FROM,
     to: email,
-    subject: "Payment confirmation — Networking For Awesome People",
+    subject: "Payment confirmation  -  Networking For Awesome People",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Payment Received</h2>
       <p>Hi ${name}, thanks for your payment!</p>
@@ -165,7 +165,7 @@ export async function sendCancellationConfirmed(email: string, name: string) {
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">We're sorry to see you go, ${name}.</h2>
       <p>Your paid membership has been cancelled. Your listing will revert to the free Linked tier at the end of your current billing period.</p>
-      <p>You can rejoin anytime — we'd love to have you back.</p>
+      <p>You can rejoin anytime  -  we'd love to have you back.</p>
       ${goldButton("https://networkingforawesomepeople.com/portal", "Visit Your Portal")}
     `),
   });
@@ -236,7 +236,7 @@ export async function sendRenewalReminder30(email: string, name: string, renewal
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Heads up, ${name}!</h2>
       <p>Your NAP membership will automatically renew on <strong>${renewalDate}</strong>.</p>
-      <p>No action is needed — just a friendly reminder. If you'd like to make any changes to your plan or payment method, you can do so in your portal.</p>
+      <p>No action is needed  -  just a friendly reminder. If you'd like to make any changes to your plan or payment method, you can do so in your portal.</p>
       ${goldButton("https://networkingforawesomepeople.com/portal/billing", "Manage Billing")}
     `),
   });
@@ -249,7 +249,7 @@ export async function sendRenewalReminder7(email: string, name: string, renewalD
     subject: "Your NAP membership renews in 7 days",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Final reminder, ${name}</h2>
-      <p>Your NAP membership will renew on <strong>${renewalDate}</strong> — that's just 7 days away.</p>
+      <p>Your NAP membership will renew on <strong>${renewalDate}</strong>  -  that's just 7 days away.</p>
       <p>Make sure your payment method is up to date to avoid any interruption.</p>
       ${goldButton("https://networkingforawesomepeople.com/portal/billing", "Manage Billing")}
     `),
@@ -337,7 +337,7 @@ export async function sendCompExpiryReminder30(email: string, name: string, tier
     subject: "Your founding membership is ending soon",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Hey ${name} 👋</h2>
-      <p>Thank you for being one of our earliest Networking For Awesome People members. Your grandfathered <strong>${tier}</strong> membership expires on <strong>${new Date(expiryDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong> — that's about 30 days from now.</p>
+      <p>Thank you for being one of our earliest Networking For Awesome People members. Your grandfathered <strong>${tier}</strong> membership expires on <strong>${new Date(expiryDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>  -  that's about 30 days from now.</p>
       <p>To keep your ${tier} listing active with all its features, you'll need to subscribe at the current rate before your comp period ends.</p>
       ${goldButton("https://networkingforawesomepeople.com/join", "View Membership Options")}
       <p style="color:#666;font-size:14px;">Your listing will remain visible during and after the transition. We just want to make sure you have plenty of time to decide.</p>
@@ -349,11 +349,11 @@ export async function sendCompExpiryNotice(email: string, name: string, tier: st
   await getResend().emails.send({
     from: FROM,
     to: email,
-    subject: "Your NAP founding membership has ended — renew today",
+    subject: "Your NAP founding membership has ended  -  renew today",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Hi ${name},</h2>
       <p>Your grandfathered <strong>${tier}</strong> membership with Networking For Awesome People has ended.</p>
-      <p>Your listing will stay visible for 7 more days while you renew — so you won't lose your spot. After that, it will be downgraded to a free Linked listing.</p>
+      <p>Your listing will stay visible for 7 more days while you renew  -  so you won't lose your spot. After that, it will be downgraded to a free Linked listing.</p>
       ${goldButton("https://networkingforawesomepeople.com/join", "Renew Your Membership")}
       <p style="color:#666;font-size:14px;">Questions? Just reply to this email.</p>
     `),
@@ -368,7 +368,7 @@ export async function sendCompGracePeriodEnd(email: string, name: string, tier: 
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Hi ${name},</h2>
       <p>Your <strong>${tier}</strong> listing with Networking For Awesome People has been downgraded to a free <strong>Linked</strong> listing because your founding membership expired and no renewal was received.</p>
-      <p>Your basic listing is still visible in the directory — but the enhanced features (logo, photos, referral form, etc.) are no longer active.</p>
+      <p>Your basic listing is still visible in the directory  -  but the enhanced features (logo, photos, referral form, etc.) are no longer active.</p>
       <p>You can upgrade back anytime:</p>
       ${goldButton("https://networkingforawesomepeople.com/join", "Upgrade Your Listing")}
     `),
@@ -458,7 +458,7 @@ export async function sendTicketConfirmation(
     `;
     console.log("[email] QR code uploaded to", publicUrl);
   } catch (err) {
-    console.log("[email] QR code generation/upload failed — skipping:", err);
+    console.log("[email] QR code generation/upload failed  -  skipping:", err);
   }
 
   await getResend().emails.send({

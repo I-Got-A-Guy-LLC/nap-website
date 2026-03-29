@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 
 const faqs = [
   { question: "Is there a cost to license a Networking For Awesome People chapter?", answer: "Yes. Licensing fees start at $500 for the Starter Chapter tier, which includes a $300 annual renewal or $35 monthly option. Growth and Founding tiers are available at higher investment levels with more support and higher directory revenue share. Full pricing is discussed during your conversation with Rachel." },
-  { question: "Do I need networking experience to become a city leader?", answer: "You do not need to be a professional networking expert — but you do need to be comfortable in a room full of people, capable of facilitating a one-hour meeting, and genuinely invested in your local professional community. Rachel Albertson provides full onboarding training and ongoing support." },
-  { question: "Can I bring Networking For Awesome People to a city outside Tennessee?", answer: "Yes — Networking For Awesome People is designed to expand beyond Tennessee. The URL structure is already built for multi-state growth. If you are outside Tennessee and interested, fill out the interest form and Rachel will be in touch." },
+  { question: "Do I need networking experience to become a city leader?", answer: "You do not need to be a professional networking expert  -  but you do need to be comfortable in a room full of people, capable of facilitating a one-hour meeting, and genuinely invested in your local professional community. Rachel Albertson provides full onboarding training and ongoing support." },
+  { question: "Can I bring Networking For Awesome People to a city outside Tennessee?", answer: "Yes  -  Networking For Awesome People is designed to expand beyond Tennessee. The URL structure is already built for multi-state growth. If you are outside Tennessee and interested, fill out the interest form and Rachel will be in touch." },
   { question: "How many members do I need to launch?", answer: "You do not need an existing membership base to launch. You need a venue, a consistent weekly time, and the commitment to show up and build the community from the ground up. Networking For Awesome People will support your launch with the full brand asset package and Rachel's guidance." },
-  { question: "How much time does running a chapter require?", answer: "At minimum, city leaders commit to hosting one weekly meeting of approximately one hour. City leaders are required to host a minimum of 45 of 52 meetings per year. Beyond the meeting itself, most city leaders spend additional time on community building, social media engagement, and member outreach — the more you invest, the faster your chapter grows." },
+  { question: "How much time does running a chapter require?", answer: "At minimum, city leaders commit to hosting one weekly meeting of approximately one hour. City leaders are required to host a minimum of 45 of 52 meetings per year. Beyond the meeting itself, most city leaders spend additional time on community building, social media engagement, and member outreach  -  the more you invest, the faster your chapter grows." },
   { question: "Will I have exclusive rights to my city?", answer: "Yes. Every licensed city leader holds exclusive rights to operate a Networking For Awesome People chapter in their designated city. Networking For Awesome People will not license a second chapter in the same city while an active license is in good standing." },
   { question: "What happens if I want to stop running the chapter?", answer: "City leaders may voluntarily surrender their license at any time. Upon surrender, brand usage must cease within 30 days and the city page will be deactivated. The setup fee is non-refundable. Prorated annual fees may be refunded at Rachel's discretion." },
   { question: "How does the directory revenue share get paid?", answer: "Directory revenue share is paid out monthly based on active paid memberships in your city. Payment details and schedule are outlined in the formal license agreement." },
@@ -44,7 +44,7 @@ export default function ExpandPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ===== SECTION 1 — HERO ===== */}
+      {/* ===== SECTION 1  -  HERO ===== */}
       <section className="bg-navy py-16 md:py-24 px-4">
         <div className="max-w-[1200px] mx-auto text-center">
           <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4">
@@ -64,7 +64,7 @@ export default function ExpandPage() {
         </div>
       </section>
 
-      {/* ===== SECTION 2 — THE OPPORTUNITY ===== */}
+      {/* ===== SECTION 2  -  THE OPPORTUNITY ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto mb-16">
@@ -74,7 +74,7 @@ export default function ExpandPage() {
             <p className="text-navy text-lg leading-relaxed mb-10">
               Networking For Awesome People is a free weekly networking organization that started in
               Murfreesboro, Tennessee and has grown to four active Middle Tennessee cities. We are now
-              expanding through a licensed chapter model — giving community-minded professionals the
+              expanding through a licensed chapter model  -  giving community-minded professionals the
               tools, brand, and support to launch their own Networking For Awesome People chapter in
               their city.
             </p>
@@ -85,7 +85,7 @@ export default function ExpandPage() {
               A Networking For Awesome People city leader hosts and facilitates a free weekly
               networking meeting in their city. You show up every week, lead the meeting format,
               build relationships with local professionals, and grow a community that reflects
-              Networking For Awesome People values — genuine connection, mutual support, and of
+              Networking For Awesome People values  -  genuine connection, mutual support, and of
               course, Don&apos;t Be a Jerk&trade;.
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 3 — WHAT'S PROVIDED ===== */}
+      {/* ===== SECTION 3  -  WHAT'S PROVIDED ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -140,7 +140,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 4 — LICENSE TIERS ===== */}
+      {/* ===== SECTION 4  -  LICENSE TIERS ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -151,7 +151,7 @@ export default function ExpandPage() {
               Three tiers designed for different levels of commitment and support
             </p>
             <p className="text-navy/60 text-center text-sm mb-12 max-w-2xl mx-auto">
-              All city leaders receive exclusive territory rights — no two Networking For Awesome
+              All city leaders receive exclusive territory rights  -  no two Networking For Awesome
               People chapters in the same city.
             </p>
 
@@ -220,7 +220,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: High touch — quarterly strategy sessions</p>
+                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: High touch  -  quarterly strategy sessions</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -230,13 +230,13 @@ export default function ExpandPage() {
 
             <p className="text-navy/70 text-center text-sm italic mt-8">
               City leaders may upgrade from any tier to a higher tier at any time. Pricing reflects
-              the current launch rates — subject to change for future applicants.
+              the current launch rates  -  subject to change for future applicants.
             </p>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 5 — DIRECTORY REVENUE EXPLAINED ===== */}
+      {/* ===== SECTION 5  -  DIRECTORY REVENUE EXPLAINED ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -246,13 +246,13 @@ export default function ExpandPage() {
             <p className="text-navy text-lg leading-relaxed mb-10">
               As a licensed city leader, you earn a percentage of all paid directory memberships
               generated in your city. The Networking For Awesome People business directory has three
-              tiers — Linked (always free), Connected ($300/yr), and Amplified ($500/yr). You earn
+              tiers  -  Linked (always free), Connected ($300/yr), and Amplified ($500/yr). You earn
               your revenue share percentage on every Connected and Amplified member in your city.
             </p>
 
             <div className="bg-white rounded-xl border-l-4 border-gold p-6 md:p-8 shadow-sm">
               <h3 className="font-heading text-xl font-bold text-navy mb-4">
-                Example: Growth Chapter City — 20 Directory Members
+                Example: Growth Chapter City  -  20 Directory Members
               </h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
@@ -290,7 +290,7 @@ export default function ExpandPage() {
               </div>
               <p className="text-navy/50 text-sm mt-4 italic">
                 The bigger your directory grows, the more you earn. City leaders are motivated to
-                recruit Connected and Amplified members because it directly benefits them — and
+                recruit Connected and Amplified members because it directly benefits them  -  and
                 Networking For Awesome People.
               </p>
             </div>
@@ -298,7 +298,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 6 — WHAT WE'RE LOOKING FOR ===== */}
+      {/* ===== SECTION 6  -  WHAT WE'RE LOOKING FOR ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -306,14 +306,14 @@ export default function ExpandPage() {
               What Makes a Great Networking For Awesome People City Leader?
             </h2>
             <p className="text-navy text-lg text-center mb-12 max-w-2xl mx-auto">
-              We are selective about who we license the Networking For Awesome People name to —
+              We are selective about who we license the Networking For Awesome People name to  - 
               because the brand only works if every chapter reflects our values.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { title: "Genuinely Community-Minded", body: "You care about your local professional community for its own sake — not just as a sales opportunity. You show up to give, not just to get.", border: "border-l-manchester" },
-                { title: "Consistent and Reliable", body: "Weekly meetings only work if the leader shows up every week. We need city leaders who are committed to the rhythm of a recurring meeting — minimum 45 meetings per year.", border: "border-l-nolensville" },
-                { title: "Connected Locally", body: "You have existing relationships in your city and a reputation people trust. You do not need to be famous — you just need to be known and respected.", border: "border-l-smyrna" },
+                { title: "Genuinely Community-Minded", body: "You care about your local professional community for its own sake  -  not just as a sales opportunity. You show up to give, not just to get.", border: "border-l-manchester" },
+                { title: "Consistent and Reliable", body: "Weekly meetings only work if the leader shows up every week. We need city leaders who are committed to the rhythm of a recurring meeting  -  minimum 45 meetings per year.", border: "border-l-nolensville" },
+                { title: "Connected Locally", body: "You have existing relationships in your city and a reputation people trust. You do not need to be famous  -  you just need to be known and respected.", border: "border-l-smyrna" },
                 { title: "Aligned With Our Values", body: "You get the Don't Be a Jerk™ rule. You believe networking should feel like belonging. You want to build something real.", border: "border-l-navy" },
               ].map((card) => (
                 <div key={card.title} className={`bg-white rounded-xl shadow-sm border border-gray-100 border-l-[6px] ${card.border} p-7`}>
@@ -326,7 +326,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 7 — THE PROCESS ===== */}
+      {/* ===== SECTION 7  -  THE PROCESS ===== */}
       <section id="process" className="bg-[#F8F9FA] py-16 md:py-24 px-4 scroll-mt-16">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -355,7 +355,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 8 — INTEREST FORM ===== */}
+      {/* ===== SECTION 8  -  INTEREST FORM ===== */}
       <section id="interest-form" className="bg-navy py-16 md:py-24 px-4 scroll-mt-16">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -370,7 +370,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 9 — FAQ ===== */}
+      {/* ===== SECTION 9  -  FAQ ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -382,7 +382,7 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 10 — FINAL CTA ===== */}
+      {/* ===== SECTION 10  -  FINAL CTA ===== */}
       <section className="bg-gold py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[800px] mx-auto text-center">

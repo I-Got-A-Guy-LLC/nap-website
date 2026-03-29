@@ -6,14 +6,14 @@ category: "Networking Tips"
 tags: ["elevator pitch", "elevator pitch examples", "networking introduction", "referral networking", "pitch writing", "solopreneur networking"]
 focusKeyword: "how to write an elevator pitch"
 metaTitle: "How to Write an Elevator Pitch That Gets You Referrals | Networking For Awesome People"
-metaDescription: "A good elevator pitch isn't about sounding polished — it's about being clear enough that people know exactly who to send your way. Here's how to write one that works."
+metaDescription: "A good elevator pitch isn't about sounding polished  -  it's about being clear enough that people know exactly who to send your way. Here's how to write one that works."
 series: null
 seriesOrder: null
 readTime: "5 min"
 image: ""
 draft: false
 date: "2026-02-20"
-excerpt: "A good elevator pitch isn't about sounding polished — it's about being clear enough that people know exactly who to send your way."
+excerpt: "A good elevator pitch isn't about sounding polished  -  it's about being clear enough that people know exactly who to send your way."
 ---
 
 ## How to Write an Elevator Pitch That Actually Gets You Referrals
@@ -26,7 +26,7 @@ A pitch that gets you referrals does one thing: it makes it easy for someone to 
 
 An elevator pitch is a 30- to 60-second introduction designed to communicate who you are, what you do, who you help, and what someone should do next. That's it.
 
-It's not a sales presentation. It's not a biography. It's not a chance to demonstrate the full complexity of your business. It's a referral brief — a short, clear signal that helps the people in the room know whether they can send business your way and how.
+It's not a sales presentation. It's not a biography. It's not a chance to demonstrate the full complexity of your business. It's a referral brief  -  a short, clear signal that helps the people in the room know whether they can send business your way and how.
 
 The goal is not to be impressive. The goal is to be memorable and specific.
 
@@ -34,7 +34,7 @@ The goal is not to be impressive. The goal is to be memorable and specific.
 
 ### 1. Who you are
 
-Your name and your business name. One sentence, no embellishment. This is not the place to be clever. Clarity beats personality here — people need to remember your name, not your wordplay.
+Your name and your business name. One sentence, no embellishment. This is not the place to be clever. Clarity beats personality here  -  people need to remember your name, not your wordplay.
 
 **Example:** "I'm Jordan, and I run Milestone Marketing."
 
@@ -46,7 +46,7 @@ The more specific you are about who you help, the easier you make it for someone
 
 ### 3. The problem you solve (or the outcome you create)
 
-What does someone's situation look like before they work with you? What does it look like after? The gap between those two things is your value proposition — and it's the most persuasive part of your pitch.
+What does someone's situation look like before they work with you? What does it look like after? The gap between those two things is your value proposition  -  and it's the most persuasive part of your pitch.
 
 **Before:** "I do bookkeeping."
 
@@ -68,13 +68,13 @@ Give people something to say yes to. "Let me know if you know anyone" is too vag
 
 **After:**
 
-"Hi, I'm Sarah with Clear Books Co. I do bookkeeping for service-based solopreneurs — coaches, consultants, and freelancers who are profitable but financially disorganized. Most of my clients come to me dreading tax season and leave knowing exactly where their money is going. If you know a solopreneur who's been putting off getting their books in order, I'd love an introduction."
+"Hi, I'm Sarah with Clear Books Co. I do bookkeeping for service-based solopreneurs  -  coaches, consultants, and freelancers who are profitable but financially disorganized. Most of my clients come to me dreading tax season and leave knowing exactly where their money is going. If you know a solopreneur who's been putting off getting their books in order, I'd love an introduction."
 
 Same person. Same experience. The second pitch generates referrals. The first one gets nodded at and forgotten.
 
 ## How to Write Yours: A Step-by-Step Process
 
-**Step 1: Write the long version first.** Don't start by trying to be concise. Write out everything — who you are, what you do, who you help, what problems you solve, what outcomes you create, what you need. Get it all on paper without editing.
+**Step 1: Write the long version first.** Don't start by trying to be concise. Write out everything  -  who you are, what you do, who you help, what problems you solve, what outcomes you create, what you need. Get it all on paper without editing.
 
 **Step 2: Identify the one client type that generates the most referrals.** You probably help multiple types of clients. For pitch purposes, pick the most specific, most referrable one. You can always mention others in conversation. Your pitch needs one clear target.
 
@@ -92,12 +92,12 @@ Same person. Same experience. The second pitch generates referrals. The first on
 - Leading with your credentials instead of who you help
 - Using industry jargon the room doesn't share
 - Ending without a referral ask
-- Changing your pitch every week — repetition builds recognition over time
-- Going over 60 seconds — brevity signals preparation and confidence
+- Changing your pitch every week  -  repetition builds recognition over time
+- Going over 60 seconds  -  brevity signals preparation and confidence
 
 ## At NAP, Your Pitch Gets a Live Testing Ground
 
-Every Networking For Awesome People meeting gives everyone in the room 60 seconds to introduce themselves. Week after week, in front of the same group. That repetition is invaluable — you'll quickly learn which version of your pitch generates the most questions, the most referrals, and the most "Oh, I know someone" responses.
+Every Networking For Awesome People meeting gives everyone in the room 60 seconds to introduce themselves. Week after week, in front of the same group. That repetition is invaluable  -  you'll quickly learn which version of your pitch generates the most questions, the most referrals, and the most "Oh, I know someone" responses.
 
 Most people refine their pitch significantly within the first month of consistent attendance. The group tells you, through their reactions, what's working and what isn't.
 
@@ -123,7 +123,7 @@ Specificity. A pitch that names a very specific type of person with a very speci
 
 **How do I practice my elevator pitch?**
 
-Say it out loud — not in your head, actually out loud — until the words feel natural. Record yourself and listen back. Practice in front of a trusted colleague or friend and ask them: "Do you know exactly who to send me?" If they can't answer clearly, the pitch needs more specificity. Then bring it to a weekly networking meeting and refine it based on real reactions.
+Say it out loud  -  not in your head, actually out loud  -  until the words feel natural. Record yourself and listen back. Practice in front of a trusted colleague or friend and ask them: "Do you know exactly who to send me?" If they can't answer clearly, the pitch needs more specificity. Then bring it to a weekly networking meeting and refine it based on real reactions.
 
 ## Write It This Week
 

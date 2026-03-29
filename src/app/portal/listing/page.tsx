@@ -97,7 +97,7 @@ function normalizeUrl(url: string): string {
   if (u.startsWith("https://")) return u;
   if (u.startsWith("http://")) return "https://" + u.slice(7);
   if (u.startsWith("www.")) return "https://" + u;
-  // Has a dot but no protocol — likely a domain
+  // Has a dot but no protocol  -  likely a domain
   if (u.includes(".") && !u.startsWith("/")) return "https://" + u;
   return u;
 }
@@ -285,14 +285,14 @@ export default function EditListingPage() {
         // Website
         setWebsiteUrl(l.website_url || "");
 
-        // Additional categories — deduplicate and split
+        // Additional categories  -  deduplicate and split
         const stored: string[] = Array.isArray(l.additional_category_ids)
           ? Array.from(new Set(l.additional_category_ids.filter(Boolean)))
           : [];
         setAdditionalCategories(stored.slice(0, 1));
         setExtraCategories(stored.slice(1, 4));
 
-        // Tags — deduplicate (case-insensitive)
+        // Tags  -  deduplicate (case-insensitive)
         const storedTags: string[] = Array.isArray(l.tags) ? l.tags.filter(Boolean) : [];
         const dedupedTags: string[] = [];
         const seen = new Set<string>();
@@ -303,7 +303,7 @@ export default function EditListingPage() {
         setTags(dedupedTags.slice(0, 2));
         setExtraTags(dedupedTags.slice(2, 4));
 
-        // Social — individual columns, not a single object
+        // Social  -  individual columns, not a single object
         setSocialLinks({
           facebook: l.social_facebook || "",
           instagram: l.social_instagram || "",
@@ -614,7 +614,7 @@ export default function EditListingPage() {
 
           <form onSubmit={handleSave} className="space-y-8">
             {/* ============================================================ */}
-            {/*  BASIC INFORMATION — ALL TIERS                                */}
+            {/*  BASIC INFORMATION  -  ALL TIERS                                */}
             {/* ============================================================ */}
             <Section title="Basic Information" border={false}>
               {/* Business Name */}
@@ -692,7 +692,7 @@ export default function EditListingPage() {
                 </div>
               </div>
 
-              {/* Categories — chip-based selection */}
+              {/* Categories  -  chip-based selection */}
               <div>
                 <label className={labelClass}>
                   Categories
@@ -763,7 +763,7 @@ export default function EditListingPage() {
                         </div>
                       )}
 
-                      {/* Add more dropdown — only if under limit */}
+                      {/* Add more dropdown  -  only if under limit */}
                       {allAdditional.length < maxAdditional && availableCategories.length > 0 && (
                         <select
                           value=""
@@ -789,7 +789,7 @@ export default function EditListingPage() {
             </Section>
 
             {/* ============================================================ */}
-            {/*  ENHANCED PROFILE — CONNECTED + AMPLIFIED                     */}
+            {/*  ENHANCED PROFILE  -  CONNECTED + AMPLIFIED                     */}
             {/* ============================================================ */}
             {isConnected ? (
               <Section title="Enhanced Profile">
@@ -881,7 +881,7 @@ export default function EditListingPage() {
                   </div>
                 )}
 
-                {/* Category suggestion — only if not maxed */}
+                {/* Category suggestion  -  only if not maxed */}
                 {(() => {
                   const allCats = [primaryCategoryId, ...additionalCategories, ...(isAmplified ? extraCategories : [])].filter(Boolean);
                   const maxCats = isAmplified ? 4 : 2;
@@ -1085,7 +1085,7 @@ export default function EditListingPage() {
             )}
 
             {/* ============================================================ */}
-            {/*  PREMIUM PROFILE — AMPLIFIED ONLY                             */}
+            {/*  PREMIUM PROFILE  -  AMPLIFIED ONLY                             */}
             {/* ============================================================ */}
             {isAmplified ? (
               <Section title="Premium Profile">

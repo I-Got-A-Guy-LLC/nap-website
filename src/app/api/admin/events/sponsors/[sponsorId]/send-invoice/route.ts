@@ -60,7 +60,7 @@ export async function POST(
       invoice: invoice.id,
       amount: Math.round((sponsor.amount || 0) * 100),
       currency: "usd",
-      description: `${eventTitle || "NAP Event"} — ${tierLabel} Sponsorship`,
+      description: `${eventTitle || "NAP Event"}  -  ${tierLabel} Sponsorship`,
     });
 
     // Send the invoice

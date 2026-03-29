@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Networking For Awesome People",
   },
   description:
-    "Join free weekly business networking meetings in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee. No fees, no contracts — just real professionals building real relationships. Networking For Awesome People meets every week across four Middle Tennessee cities.",
+    "Join free weekly business networking meetings in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee. No fees, no contracts  -  just real professionals building real relationships. Networking For Awesome People meets every week across four Middle Tennessee cities.",
   keywords: [
     "free networking Middle Tennessee",
     "business networking Murfreesboro TN",
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
     siteName: "Networking For Awesome People",
     title: "Free Weekly Networking in Middle Tennessee | Networking For Awesome People",
     description:
-      "Join free weekly business networking in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee. No fees, no contracts — build real relationships that generate referrals and partnerships.",
+      "Join free weekly business networking in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee. No fees, no contracts  -  build real relationships that generate referrals and partnerships.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Free Weekly Networking in Middle Tennessee",
     description:
-      "Join free weekly business networking across four Middle Tennessee cities. No fees, no contracts — just real professionals building real relationships.",
+      "Join free weekly business networking across four Middle Tennessee cities. No fees, no contracts  -  just real professionals building real relationships.",
   },
   robots: {
     index: true,
@@ -77,7 +77,7 @@ export default function RootLayout({
       url: "https://networkingforawesomepeople.com",
       logo: "https://networkingforawesomepeople.com/images/nap-logo.png",
       description:
-        "Free weekly professional networking across four Middle Tennessee cities — Manchester, Murfreesboro, Nolensville, and Smyrna. No fees, no contracts.",
+        "Free weekly professional networking across four Middle Tennessee cities  -  Manchester, Murfreesboro, Nolensville, and Smyrna. No fees, no contracts.",
       founder: {
         "@type": "Person",
         name: "Rachel Albertson",
@@ -96,11 +96,11 @@ export default function RootLayout({
         "https://www.facebook.com/groups/networkingforawesomepeople",
       ],
     },
-    // LocalBusiness schemas — one per city
+    // LocalBusiness schemas  -  one per city
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: "Networking For Awesome People — Manchester",
+      name: "Networking For Awesome People  -  Manchester",
       description: "Free weekly business networking in Manchester, Tennessee. Meets every Tuesday at 9:00am at FirstBank.",
       url: "https://networkingforawesomepeople.com/tn/manchester",
       address: {
@@ -125,7 +125,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: "Networking For Awesome People — Murfreesboro",
+      name: "Networking For Awesome People  -  Murfreesboro",
       description: "Free weekly business networking in Murfreesboro, Tennessee. Meets every Wednesday at 9:00am at Achieve.",
       url: "https://networkingforawesomepeople.com/tn/murfreesboro",
       address: {
@@ -150,7 +150,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: "Networking For Awesome People — Nolensville",
+      name: "Networking For Awesome People  -  Nolensville",
       description: "Free weekly business networking in Nolensville, Tennessee. Meets every Thursday at 9:00am at Waldo's.",
       url: "https://networkingforawesomepeople.com/tn/nolensville",
       address: {
@@ -175,7 +175,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: "Networking For Awesome People — Smyrna",
+      name: "Networking For Awesome People  -  Smyrna",
       description: "Free weekly business networking in Smyrna, Tennessee. Meets every Friday at 9:15am at Smyrna Public Library.",
       url: "https://networkingforawesomepeople.com/tn/smyrna",
       address: {
@@ -263,16 +263,16 @@ export default function RootLayout({
           name: "Can I attend networking meetings in multiple cities?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Absolutely. Each city meets on a different day — Manchester on Tuesdays, Murfreesboro on Wednesdays, Nolensville on Thursdays, and Smyrna on Fridays — so you can attend as many as you like each week.",
+            text: "Absolutely. Each city meets on a different day  -  Manchester on Tuesdays, Murfreesboro on Wednesdays, Nolensville on Thursdays, and Smyrna on Fridays  -  so you can attend as many as you like each week.",
           },
         },
       ],
     },
-    // Event schemas — recurring weekly meetings
+    // Event schemas  -  recurring weekly meetings
     {
       "@context": "https://schema.org",
       "@type": "Event",
-      name: "Free Weekly Networking — Manchester",
+      name: "Free Weekly Networking  -  Manchester",
       description: "Free weekly professional networking meeting in Manchester, Tennessee at FirstBank.",
       startDate: "2026-04-07T09:00:00-05:00",
       endDate: "2026-04-07T10:00:00-05:00",
@@ -285,7 +285,7 @@ export default function RootLayout({
       },
       location: {
         "@type": "Place",
-        name: "FirstBank — Manchester",
+        name: "FirstBank  -  Manchester",
         address: { "@type": "PostalAddress", addressLocality: "Manchester", addressRegion: "TN" },
       },
       isAccessibleForFree: true,
@@ -295,7 +295,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "Event",
-      name: "Free Weekly Networking — Murfreesboro",
+      name: "Free Weekly Networking  -  Murfreesboro",
       description: "Free weekly professional networking meeting in Murfreesboro, Tennessee at Achieve.",
       startDate: "2026-04-01T09:00:00-05:00",
       endDate: "2026-04-01T10:00:00-05:00",
@@ -308,7 +308,7 @@ export default function RootLayout({
       },
       location: {
         "@type": "Place",
-        name: "Achieve — Murfreesboro",
+        name: "Achieve  -  Murfreesboro",
         address: { "@type": "PostalAddress", addressLocality: "Murfreesboro", addressRegion: "TN" },
       },
       isAccessibleForFree: true,
@@ -318,7 +318,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "Event",
-      name: "Free Weekly Networking — Nolensville",
+      name: "Free Weekly Networking  -  Nolensville",
       description: "Free weekly professional networking meeting in Nolensville, Tennessee at Waldo's.",
       startDate: "2026-04-02T09:00:00-05:00",
       endDate: "2026-04-02T10:00:00-05:00",
@@ -331,7 +331,7 @@ export default function RootLayout({
       },
       location: {
         "@type": "Place",
-        name: "Waldo's — Nolensville",
+        name: "Waldo's  -  Nolensville",
         address: { "@type": "PostalAddress", addressLocality: "Nolensville", addressRegion: "TN" },
       },
       isAccessibleForFree: true,
@@ -341,7 +341,7 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "Event",
-      name: "Free Weekly Networking — Smyrna",
+      name: "Free Weekly Networking  -  Smyrna",
       description: "Free weekly professional networking meeting in Smyrna, Tennessee at Smyrna Public Library.",
       startDate: "2026-04-03T09:15:00-05:00",
       endDate: "2026-04-03T10:15:00-05:00",

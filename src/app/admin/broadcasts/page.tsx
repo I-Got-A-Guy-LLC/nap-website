@@ -160,7 +160,7 @@ export default function BroadcastsPage() {
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="e.g. Range Night is almost here — grab your spot!"
+            placeholder="e.g. Range Night is almost here  -  grab your spot!"
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-gold/50"
           />
         </div>

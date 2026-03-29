@@ -293,7 +293,7 @@ function CalendarView() {
         </div>
       </div>
 
-      {/* Mobile calendar — list of dates with events */}
+      {/* Mobile calendar  -  list of dates with events */}
       <div className="md:hidden space-y-2">
         {calendarDays
           .filter((d) => d.events.length > 0)
@@ -339,7 +339,7 @@ function CalendarView() {
             <div key={e.city} className="flex items-start gap-3 mb-4 last:mb-0">
               <span className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: e.color }} />
               <div>
-                <p className="font-bold text-navy">{e.city} — {e.time}</p>
+                <p className="font-bold text-navy">{e.city}  -  {e.time}</p>
                 <p className="text-navy/60 text-sm">{e.venue}</p>
                 <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="text-gold text-sm font-bold hover:underline">
                   RSVP on Facebook &rarr;
@@ -358,7 +358,7 @@ function CalendarView() {
         {events.map((e) => (
           <div key={e.city} className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full" style={{ backgroundColor: e.color }} />
-            <span className="text-navy">{e.city} — {e.day}s {e.time}</span>
+            <span className="text-navy">{e.city}  -  {e.day}s {e.time}</span>
           </div>
         ))}
       </div>

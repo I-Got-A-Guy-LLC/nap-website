@@ -113,7 +113,7 @@ export default function BillingPage() {
                   <div>
                     <span className="text-[#1F3149]/40 block mb-0.5">Billing</span>
                     <span className="font-bold text-[#1F3149] capitalize">
-                      {member?.billing_interval || "—"}
+                      {member?.billing_interval || " - "}
                     </span>
                   </div>
                   <div>
@@ -125,7 +125,7 @@ export default function BillingPage() {
                             month: "long",
                             day: "numeric",
                           })
-                        : "—"}
+                        : " - "}
                     </span>
                   </div>
                 </>

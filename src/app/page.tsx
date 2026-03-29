@@ -87,9 +87,9 @@ export default async function Home() {
   const recentPosts = getAllPosts().slice(0, 3);
   return (
     <>
-      {/* ===== SECTION 1 — HERO ===== */}
+      {/* ===== SECTION 1  -  HERO ===== */}
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
-        {/* Background image — mobile: show faces (center 40%), desktop: centered */}
+        {/* Background image  -  mobile: show faces (center 40%), desktop: centered */}
         <div
           className="hero-bg absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/images/hero-bg.png')" }}
@@ -149,7 +149,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 2 — WHAT IS NAP ===== */}
+      {/* ===== SECTION 2  -  WHAT IS NAP ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] mx-auto text-center">
@@ -157,7 +157,7 @@ export default async function Home() {
               More Than Networking. It&apos;s a Community.
             </h2>
             <p className="text-navy text-lg md:text-xl leading-relaxed mx-auto mb-16 md:mb-20">
-              Networking For Awesome People is where Middle Tennessee professionals build real relationships &mdash; the kind
+              Networking For Awesome People is where Middle Tennessee professionals build real relationships  -  the kind
               that generate referrals, create partnerships, and make every week worth showing up for.
             </p>
           </div>
@@ -177,7 +177,7 @@ export default async function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 3 — WE LOVE GETTING PEOPLE TOGETHER ===== */}
+      {/* ===== SECTION 3  -  WE LOVE GETTING PEOPLE TOGETHER ===== */}
       <section className="bg-navy py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[800px] mx-auto text-center">
@@ -197,7 +197,7 @@ export default async function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 4 — MEET THE FOUNDER ===== */}
+      {/* ===== SECTION 4  -  MEET THE FOUNDER ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] mx-auto text-center">
@@ -242,7 +242,7 @@ export default async function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 5 — COMMUNITY SUPPORTERS ===== */}
+      {/* ===== SECTION 5  -  COMMUNITY SUPPORTERS ===== */}
       <section className="relative py-16 md:py-24 px-4">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/community-bg.png')" }} />
         <div className="absolute inset-0 bg-navy/80" />
@@ -337,7 +337,7 @@ export default async function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 6 — BLOG ===== */}
+      {/* ===== SECTION 6  -  BLOG ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[1200px] mx-auto">
@@ -384,7 +384,7 @@ export default async function Home() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 7 — FAQ ===== */}
+      {/* ===== SECTION 7  -  FAQ ===== */}
       <section className="bg-white pt-8 md:pt-12 pb-16 md:pb-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] mx-auto">
@@ -432,7 +432,7 @@ export default async function Home() {
                   Can I attend meetings in multiple cities?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  Absolutely. Each city meets on a different day of the week &mdash; Manchester on Tuesdays, Murfreesboro on Wednesdays, Nolensville on Thursdays, and Smyrna on Fridays &mdash; so you can attend as many as you like.
+                  Absolutely. Each city meets on a different day of the week  -  Manchester on Tuesdays, Murfreesboro on Wednesdays, Nolensville on Thursdays, and Smyrna on Fridays  -  so you can attend as many as you like.
                 </p>
               </div>
               <div>
@@ -484,7 +484,7 @@ export default async function Home() {
                 Join the Conversation
               </h2>
               <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
-                Every week we post a Question of the Week in our Facebook Group &mdash; it&apos;s where the real networking happens between meetings.
+                Every week we post a Question of the Week in our Facebook Group  -  it&apos;s where the real networking happens between meetings.
               </p>
               <a
                 href="https://www.facebook.com/groups/networkingforawesomepeople"
@@ -499,7 +499,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION 8 — JOIN CTA ===== */}
+      {/* ===== SECTION 8  -  JOIN CTA ===== */}
       <section className="bg-gold py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[800px] mx-auto text-center">

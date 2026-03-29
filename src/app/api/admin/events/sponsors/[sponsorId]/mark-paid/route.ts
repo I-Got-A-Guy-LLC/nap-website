@@ -64,7 +64,7 @@ export async function POST(
   return NextResponse.json({ success: true, ticketsIssued: ticketCount });
 }
 
-// PATCH — update sponsor fields (logo_url, website_url, etc.)
+// PATCH  -  update sponsor fields (logo_url, website_url, etc.)
 export async function PATCH(
   request: Request,
   { params }: { params: { sponsorId: string } }

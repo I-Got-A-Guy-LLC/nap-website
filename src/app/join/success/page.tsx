@@ -18,7 +18,7 @@ function SuccessContent() {
         </h1>
         <p className="text-navy text-lg leading-relaxed mb-8">
           {isLinked
-            ? "Check your email. Your listing will go live once approved — usually within 1 business day."
+            ? "Check your email. Your listing will go live once approved  -  usually within 1 business day."
             : `Your ${tier === "connected" ? "Connected" : "Amplified"} membership is active. Complete your listing in your member portal.`}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

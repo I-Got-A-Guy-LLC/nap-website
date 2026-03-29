@@ -64,7 +64,7 @@ export async function generateMetadata({
   const baseUrl = "https://networkingforawesomepeople.com";
   const eventUrl = `${baseUrl}/events/${params.slug}`;
   const imageUrl = event.image_url || `${baseUrl}/images/nap-logo.png`;
-  const description = event.description || `${event.title} — ${event.event_date} at ${event.location_name || "TBD"}`;
+  const description = event.description || `${event.title}  -  ${event.event_date} at ${event.location_name || "TBD"}`;
 
   return {
     title: `${event.title} | Networking For Awesome People`,
@@ -114,7 +114,7 @@ export default async function EventDetailPage({
 
   const spotsRemaining = event.capacity - event.tickets_sold;
   const isSoldOut = spotsRemaining <= 0;
-  // What's included — use included_items JSON array from DB if available
+  // What's included  -  use included_items JSON array from DB if available
   let includedItems: string[] = [];
   try {
     const items = event.included_items;
@@ -204,7 +204,7 @@ export default async function EventDetailPage({
               Thank You to Our Sponsors
             </h2>
 
-            {/* Presenting sponsors — large, centered */}
+            {/* Presenting sponsors  -  large, centered */}
             {sponsors.filter((s: any) => s.tier === "presenting").map((s: any) => (
               <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-8 mb-6 text-center">
                 {s.logo_url ? (
@@ -224,7 +224,7 @@ export default async function EventDetailPage({
               </div>
             ))}
 
-            {/* Supporting + Community sponsors — grid */}
+            {/* Supporting + Community sponsors  -  grid */}
             {sponsors.filter((s: any) => s.tier !== "presenting").length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {sponsors.filter((s: any) => s.tier !== "presenting").map((s: any) => {
@@ -276,7 +276,7 @@ export default async function EventDetailPage({
         </section>
       )}
 
-      {/* Become a Sponsor CTA — only show if no sponsors section above */}
+      {/* Become a Sponsor CTA  -  only show if no sponsors section above */}
       {(!sponsors || sponsors.length === 0) && (
         <section className="bg-navy py-16 px-4">
           <div className="max-w-[600px] mx-auto text-center">

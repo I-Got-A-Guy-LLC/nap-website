@@ -106,15 +106,15 @@ export default function MemberDetailClient({
           </div>
           <div>
             <span className="text-gray-500">Business:</span>{" "}
-            {member.business_name || "—"}
+            {member.business_name || " - "}
           </div>
           <div>
             <span className="text-gray-500">City:</span>{" "}
-            {member.city || "—"}
+            {member.city || " - "}
           </div>
           <div>
             <span className="text-gray-500">Status:</span>{" "}
-            {member.status || "—"}
+            {member.status || " - "}
           </div>
           <div>
             <span className="text-gray-500">Joined:</span>{" "}
@@ -358,7 +358,7 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
             <div><span className="text-gray-500">Contact:</span> {listing.contact_name}</div>
-            <div><span className="text-gray-500">City:</span> {listing.city || "—"}</div>
+            <div><span className="text-gray-500">City:</span> {listing.city || " - "}</div>
             <div><span className="text-gray-500">Approved:</span> {listing.is_approved ? "Yes" : "No"}</div>
           </div>
           <div className="flex gap-3">

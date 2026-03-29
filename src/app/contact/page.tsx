@@ -7,11 +7,11 @@ import ContactForm from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contact Networking For Awesome People | Middle Tennessee Networking",
   description:
-    "Get in touch with Networking For Awesome People — free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
+    "Get in touch with Networking For Awesome People  -  free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
   openGraph: {
     title: "Contact Networking For Awesome People | Middle Tennessee Networking",
     description:
-      "Get in touch with Networking For Awesome People — free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
+      "Get in touch with Networking For Awesome People  -  free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
     url: "https://networkingforawesomepeople.com/contact",
   },
   alternates: {
@@ -35,7 +35,7 @@ const helpCards = [
   },
   {
     title: "Membership & Directory",
-    body: "Join the Networking For Awesome People business directory — the Linked tier is free. Connected and Amplified tiers offer enhanced visibility and additional benefits.",
+    body: "Join the Networking For Awesome People business directory  -  the Linked tier is free. Connected and Amplified tiers offer enhanced visibility and additional benefits.",
     link: "Join as a Linked Member →",
     href: "/join/linked",
   },
@@ -72,7 +72,7 @@ export default function ContactPage() {
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-            {/* Form — left */}
+            {/* Form  -  left */}
             <div className="lg:col-span-3">
               <h2 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-6">
                 Send Us a Message
@@ -82,7 +82,7 @@ export default function ContactPage() {
               </Suspense>
             </div>
 
-            {/* Info — right */}
+            {/* Info  -  right */}
             <div className="lg:col-span-2">
               <h2 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-6">
                 Get in Touch
@@ -166,7 +166,7 @@ export default function ContactPage() {
             </h2>
             <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
               You don&apos;t need to contact us to attend a meeting. Just find your city and walk
-              through the door — it&apos;s free and no registration required.
+              through the door  -  it&apos;s free and no registration required.
             </p>
             <Link
               href="/events"

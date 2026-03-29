@@ -168,7 +168,7 @@ export default function TicketPurchase({
         ) : isFree ? (
           "Get Free Ticket"
         ) : (
-          `Get Tickets — $${total.toFixed(2)}`
+          `Get Tickets  -  $${total.toFixed(2)}`
         )}
       </button>
 

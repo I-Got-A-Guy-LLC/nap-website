@@ -27,10 +27,10 @@ export default function AccessibilityPage() {
 
           <h2>Standards We Follow</h2>
           <p>Our website works toward meeting WCAG 2.1 Level AA success criteria, which covers:</p>
-          <p><strong>Perceivable</strong> — Information and interface components are presentable in ways all users can perceive, including text alternatives for images and sufficient color contrast.</p>
-          <p><strong>Operable</strong> — All functionality is available from a keyboard, and users have enough time to read and use content.</p>
-          <p><strong>Understandable</strong> — Content and operation of the interface is understandable, with readable text and predictable navigation.</p>
-          <p><strong>Robust</strong> — Content is robust enough to be interpreted by a wide variety of assistive technologies, including screen readers.</p>
+          <p><strong>Perceivable</strong>  -  Information and interface components are presentable in ways all users can perceive, including text alternatives for images and sufficient color contrast.</p>
+          <p><strong>Operable</strong>  -  All functionality is available from a keyboard, and users have enough time to read and use content.</p>
+          <p><strong>Understandable</strong>  -  Content and operation of the interface is understandable, with readable text and predictable navigation.</p>
+          <p><strong>Robust</strong>  -  Content is robust enough to be interpreted by a wide variety of assistive technologies, including screen readers.</p>
 
           <h2>What We Have Done</h2>
           <ul>

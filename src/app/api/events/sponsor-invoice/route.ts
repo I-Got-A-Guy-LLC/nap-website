@@ -32,14 +32,14 @@ export async function POST(request: Request) {
 
     // --- STRIPE (pay online now) ---
     if (paymentMethod === "stripe" && amount > 0) {
-      // Do NOT save to event_sponsors yet — webhook will handle it after payment
+      // Do NOT save to event_sponsors yet  -  webhook will handle it after payment
       const session = await stripe().checkout.sessions.create({
         mode: "payment",
         line_items: [{
           price_data: {
             currency: "usd",
             product_data: {
-              name: `Event Sponsorship — ${tier.charAt(0).toUpperCase() + tier.slice(1)}`,
+              name: `Event Sponsorship  -  ${tier.charAt(0).toUpperCase() + tier.slice(1)}`,
             },
             unit_amount: amount * 100,
           },
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     // Notify admin
     await supabase.from("admin_notifications").insert({
       type: "sponsor_signup",
-      message: `New sponsor (invoice): ${businessName} (${tier}) — ${contactName} <${email}>`,
+      message: `New sponsor (invoice): ${businessName} (${tier})  -  ${contactName} <${email}>`,
     }).then(() => {}, (err) => console.error("[sponsor] Notification error:", err));
 
     return NextResponse.json({ success: true });

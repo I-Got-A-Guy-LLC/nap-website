@@ -62,7 +62,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // If 100% off — skip Stripe, create tickets directly
+    // If 100% off  -  skip Stripe, create tickets directly
     if (finalUnitPrice <= 0) {
       if (!attendeeName || !attendeeEmail) {
         return NextResponse.json({ error: "Name and email are required for free tickets" }, { status: 400 });
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
         price_data: {
           currency: "usd",
           product_data: {
-            name: `${event.title} — Ticket`,
+            name: `${event.title}  -  Ticket`,
             description: `${quantity} ticket${quantity === 1 ? "" : "s"} to ${event.title}${promoCode ? ` (code: ${promoCode})` : ""}`,
           },
           unit_amount: unitAmount,

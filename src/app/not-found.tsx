@@ -18,7 +18,7 @@ export default function NotFound() {
           Well, This Is Awkward.
         </h1>
         <p className="text-white/70 text-lg leading-relaxed max-w-[500px] mx-auto mb-8">
-          The page you&apos;re looking for doesn&apos;t exist — but don&apos;t let that stop you.
+          The page you&apos;re looking for doesn&apos;t exist  -  but don&apos;t let that stop you.
           Networking For Awesome People meets every week across four Middle Tennessee cities and
           we&apos;d love to see you there.
         </p>

@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { notifyCategorySuggestion, sendCategorySuggestionReceived } from "@/lib/emails";
 
-// GET — Fetch current member's listing + categories for the edit form
+// GET  -  Fetch current member's listing + categories for the edit form
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
@@ -54,7 +54,7 @@ export async function GET() {
   }
 }
 
-// PATCH — Create or update the member's listing (upsert)
+// PATCH  -  Create or update the member's listing (upsert)
 export async function PATCH(request: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -179,7 +179,7 @@ export async function PATCH(request: Request) {
       console.log("[listing] Updated listing:", existingListing.id);
     } else {
       // INSERT new listing
-      console.log("[listing] No existing listing — creating new one");
+      console.log("[listing] No existing listing  -  creating new one");
       body.member_id = member.id;
       body.is_approved = isPaid;
       body.approval_status = isPaid ? "approved" : "pending";

@@ -24,7 +24,7 @@ const eventSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "EventSeries",
-    name: "Networking For Awesome People — Manchester Weekly Meeting",
+    name: "Networking For Awesome People  -  Manchester Weekly Meeting",
     description: "Free weekly networking meeting in Manchester, Tennessee",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
@@ -37,7 +37,7 @@ const eventSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "EventSeries",
-    name: "Networking For Awesome People — Murfreesboro Weekly Meeting",
+    name: "Networking For Awesome People  -  Murfreesboro Weekly Meeting",
     description: "Free weekly networking meeting in Murfreesboro, Tennessee",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
@@ -50,7 +50,7 @@ const eventSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "EventSeries",
-    name: "Networking For Awesome People — Nolensville Weekly Meeting",
+    name: "Networking For Awesome People  -  Nolensville Weekly Meeting",
     description: "Free weekly networking meeting in Nolensville, Tennessee",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
@@ -63,7 +63,7 @@ const eventSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "EventSeries",
-    name: "Networking For Awesome People — Smyrna Weekly Meeting",
+    name: "Networking For Awesome People  -  Smyrna Weekly Meeting",
     description: "Free weekly networking meeting in Smyrna, Tennessee",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
@@ -78,10 +78,10 @@ const eventSchemas = [
 const faqs = [
   { question: "How often does Networking For Awesome People meet?", answer: "Networking For Awesome People meets every single week across four Middle Tennessee cities. Manchester meets every Tuesday, Murfreesboro meets every Wednesday, Nolensville meets every Thursday, and Smyrna meets every Friday. That's four networking opportunities every week." },
   { question: "Do I need to register for a Networking For Awesome People event?", answer: "No registration is required for any Networking For Awesome People meeting. You can walk in as a first-time visitor with no advance sign-up. Just show up at the time and location for your city." },
-  { question: "Are Networking For Awesome People events really free?", answer: "Yes — every Networking For Awesome People meeting is completely free to attend. There are no event fees, no membership requirements, and no hidden costs. Networking For Awesome People will always be free to attend." },
-  { question: "Can I attend events in more than one city?", answer: "Absolutely. Since each city meets on a different day — Manchester on Tuesdays, Murfreesboro on Wednesdays, Nolensville on Thursdays, and Smyrna on Fridays — you can attend multiple cities in the same week if you choose." },
+  { question: "Are Networking For Awesome People events really free?", answer: "Yes  -  every Networking For Awesome People meeting is completely free to attend. There are no event fees, no membership requirements, and no hidden costs. Networking For Awesome People will always be free to attend." },
+  { question: "Can I attend events in more than one city?", answer: "Absolutely. Since each city meets on a different day  -  Manchester on Tuesdays, Murfreesboro on Wednesdays, Nolensville on Thursdays, and Smyrna on Fridays  -  you can attend multiple cities in the same week if you choose." },
   { question: "How do I RSVP for a Networking For Awesome People event?", answer: "RSVP is not required, but you can let us know you're coming through the Networking For Awesome People Facebook group at facebook.com/groups/networkingforawesomepeople. This also keeps you updated on any schedule changes or special events." },
-  { question: "Does Networking For Awesome People hold any special events beyond weekly meetings?", answer: "Yes — in addition to weekly meetings, Networking For Awesome People occasionally hosts special events, workshops, and community gatherings. These are announced in the Facebook group and listed on this events page when scheduled." },
+  { question: "Does Networking For Awesome People hold any special events beyond weekly meetings?", answer: "Yes  -  in addition to weekly meetings, Networking For Awesome People occasionally hosts special events, workshops, and community gatherings. These are announced in the Facebook group and listed on this events page when scheduled." },
   { question: "How can my business sponsor a Networking For Awesome People event?", answer: "Sponsorship opportunities are available to Connected and Amplified directory members. Visit our Join page to learn about membership tiers, or contact us directly to discuss sponsorship options." },
 ];
 
@@ -134,7 +134,7 @@ export default function EventsPage() {
           <h2 className="font-heading text-2xl md:text-4xl font-bold text-navy mb-4">Weekly Meetings</h2>
           <p className="text-navy text-lg text-center mb-10 max-w-3xl mx-auto">
             Networking For Awesome People meets every week across four Middle Tennessee cities.
-            Find your city below and show up — no registration required.
+            Find your city below and show up  -  no registration required.
           </p>
           <EventsViews />
         </div>
@@ -150,7 +150,7 @@ export default function EventsPage() {
             <p className="text-gold text-lg italic text-center mb-12">
               A glimpse into what Networking For Awesome People looks like in action
             </p>
-            {/* REPLACE WITH ACTUAL EVENT PHOTOS — update after each monthly meeting */}
+            {/* REPLACE WITH ACTUAL EVENT PHOTOS  -  update after each monthly meeting */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {photoPlaceholders.map((label, i) => (
                 <div key={i} className="aspect-[4/3] rounded-xl bg-gradient-to-br from-navy to-navy/80 flex flex-col items-center justify-center gap-2">
@@ -158,7 +158,7 @@ export default function EventsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
                   </svg>
-                  <span className="text-white/60 text-sm">Event Photo — {label}</span>
+                  <span className="text-white/60 text-sm">Event Photo  -  {label}</span>
                 </div>
               ))}
             </div>

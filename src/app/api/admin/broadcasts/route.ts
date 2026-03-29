@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 
   const supabase = getSupabaseAdmin();
 
-  // Query members — exclude unsubscribed
+  // Query members  -  exclude unsubscribed
   let query = supabase.from("members").select("email, full_name, unsubscribe_token")
     .or("email_unsubscribed.is.null,email_unsubscribed.eq.false");
 

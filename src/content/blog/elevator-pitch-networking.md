@@ -18,7 +18,7 @@ excerpt: "Your 60-second pitch is the foundation of every networking meeting. He
 
 ## How to Craft a 60-Second Pitch That Actually Works
 
-At every NAP meeting, everyone gets 60 seconds to introduce themselves to the group. That's it — one minute to tell a room full of potential referral partners who you are, what you do, and who you help.
+At every NAP meeting, everyone gets 60 seconds to introduce themselves to the group. That's it  -  one minute to tell a room full of potential referral partners who you are, what you do, and who you help.
 
 Most people wing it. Most people's pitches don't generate referrals.
 
@@ -26,7 +26,7 @@ Here's how to be the exception.
 
 ## Why Your Pitch Matters More Than You Think
 
-Your 60-second pitch isn't just an introduction. It's a referral brief. Every person in that room is a potential connector — someone who might mention your name to a client, a colleague, or a friend this week. But they can only do that if they actually understand what you do and who you help.
+Your 60-second pitch isn't just an introduction. It's a referral brief. Every person in that room is a potential connector  -  someone who might mention your name to a client, a colleague, or a friend this week. But they can only do that if they actually understand what you do and who you help.
 
 Vague pitches generate vague referrals. Specific pitches generate specific ones.
 
@@ -64,21 +64,21 @@ Same person. Same job. Completely different referral potential.
 
 One of the best things about the 60-second pitch format is that it rewards preparation over improvisation. You don't have to be quick on your feet. You have to do the work beforehand.
 
-Write your pitch. Say it out loud — not in your head, actually out loud. Refine it. Time it. Say it until it sounds like you, not like a script. When you walk into the room with it fully internalized, you can stop thinking about what you're going to say and start paying attention to everyone else.
+Write your pitch. Say it out loud  -  not in your head, actually out loud. Refine it. Time it. Say it until it sounds like you, not like a script. When you walk into the room with it fully internalized, you can stop thinking about what you're going to say and start paying attention to everyone else.
 
 ## Common Mistakes to Avoid
 
 - Trying to explain everything you do instead of the one thing that generates referrals
 - Using industry jargon that the room might not share
-- Ending without an ask — give people a specific way to help you
-- Going over 60 seconds — brevity signals confidence and respect
-- Changing your pitch every week — repetition builds recognition over time
+- Ending without an ask  -  give people a specific way to help you
+- Going over 60 seconds  -  brevity signals confidence and respect
+- Changing your pitch every week  -  repetition builds recognition over time
 
 ## Frequently Asked Questions
 
 **What should be in a 60-second elevator pitch?**
 
-Your name, what you do, who you help, the problem you solve, and a specific referral ask. Keep it jargon-free and end with something actionable. The goal isn't to explain your whole business — it's to give people enough to send you the right referral.
+Your name, what you do, who you help, the problem you solve, and a specific referral ask. Keep it jargon-free and end with something actionable. The goal isn't to explain your whole business  -  it's to give people enough to send you the right referral.
 
 **How do I write an elevator pitch for networking?**
 
@@ -86,7 +86,7 @@ Start by answering four questions: Who am I? What do I do? Who do I help? What p
 
 **How long should a networking introduction be?**
 
-60 seconds or less. That's roughly 120 to 150 words spoken at a comfortable pace. Shorter is generally better — a crisp 45-second pitch leaves room for the room to absorb it. Going over signals that you haven't done the work to edit it down.
+60 seconds or less. That's roughly 120 to 150 words spoken at a comfortable pace. Shorter is generally better  -  a crisp 45-second pitch leaves room for the room to absorb it. Going over signals that you haven't done the work to edit it down.
 
 **How do introverts deliver a pitch confidently?**
 
@@ -94,7 +94,7 @@ By over-preparing. Introverts generally perform better when there's less improvi
 
 ## Write It This Week
 
-Your pitch is the foundation of every referral you'll get from your networking group. It's worth spending an hour on. Write it, practice it, bring it to your next meeting — and then keep refining it as you see what generates the best conversations.
+Your pitch is the foundation of every referral you'll get from your networking group. It's worth spending an hour on. Write it, practice it, bring it to your next meeting  -  and then keep refining it as you see what generates the best conversations.
 
 Find your city and RSVP at [networkingforawesomepeople.com](https://networkingforawesomepeople.com).
 

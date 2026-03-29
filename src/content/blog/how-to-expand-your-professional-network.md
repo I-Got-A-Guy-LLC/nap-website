@@ -26,7 +26,7 @@ The good news: you don't have to do all of this at once. Pick one or two strateg
 
 ### 1. Find a weekly structured group and show up consistently
 
-This is the highest-leverage networking activity available to most solopreneurs, and it's underrated precisely because it sounds unglamorous. No big event, no room to work — just the same group of professionals, every week, building real familiarity over time.
+This is the highest-leverage networking activity available to most solopreneurs, and it's underrated precisely because it sounds unglamorous. No big event, no room to work  -  just the same group of professionals, every week, building real familiarity over time.
 
 Consistency is the multiplier. The first few meetings feel like introductions. By the tenth, you're part of a professional community that knows what you do, trusts your work, and thinks of you when the right opportunity comes up. That's how referral networks actually form.
 
@@ -34,9 +34,9 @@ If you're in Middle Tennessee, Networking For Awesome People meets every week in
 
 ### 2. Attend industry-specific events with a purpose
 
-Conferences, seminars, and trade events are worth attending when you go in with a goal. Not "network more" — something specific. Two or three people you genuinely want to meet. A panel you want to engage with. A conversation you've been meaning to have with someone in a particular role or field.
+Conferences, seminars, and trade events are worth attending when you go in with a goal. Not "network more"  -  something specific. Two or three people you genuinely want to meet. A panel you want to engage with. A conversation you've been meaning to have with someone in a particular role or field.
 
-Purpose-driven attendance changes the experience entirely. You're not aimlessly circulating — you're executing a plan. And you leave with two or three real connections instead of twenty forgettable ones.
+Purpose-driven attendance changes the experience entirely. You're not aimlessly circulating  -  you're executing a plan. And you leave with two or three real connections instead of twenty forgettable ones.
 
 ### 3. Join professional associations in your field
 
@@ -46,19 +46,19 @@ The key is participation, not just membership. Show up to events, contribute to 
 
 ### 4. Build your LinkedIn presence with intention
 
-LinkedIn works as a networking tool when you treat it like one — not as a resume repository, but as an ongoing professional conversation. That means sharing your own thinking occasionally, engaging genuinely with other people's content, and following up in-person connections with a personalized connection request the same day you meet.
+LinkedIn works as a networking tool when you treat it like one  -  not as a resume repository, but as an ongoing professional conversation. That means sharing your own thinking occasionally, engaging genuinely with other people's content, and following up in-person connections with a personalized connection request the same day you meet.
 
 You don't need to post daily or build a personal brand. You need your profile to clearly communicate what you do and who you help, and you need to show up often enough that your connections remember you exist.
 
 ### 5. Volunteer at events in your community
 
-Volunteering for events — whether industry conferences, local business gatherings, or community initiatives — puts you in a different kind of contact with people. You're working alongside them, not pitching at them. That shared context builds trust faster than almost any formal networking interaction.
+Volunteering for events  -  whether industry conferences, local business gatherings, or community initiatives  -  puts you in a different kind of contact with people. You're working alongside them, not pitching at them. That shared context builds trust faster than almost any formal networking interaction.
 
 It also signals something useful about you: that you contribute, not just consume. That reputation compounds in professional communities, especially tight-knit ones.
 
 ### 6. Invest in genuine one-to-one relationships
 
-The most durable professional relationships aren't built at events — they're built in the coffee chats, calls, and conversations that happen between events. If you meet someone at a meeting who seems like a real fit — complementary work, shared clients, genuine mutual interest — propose a one-to-one.
+The most durable professional relationships aren't built at events  -  they're built in the coffee chats, calls, and conversations that happen between events. If you meet someone at a meeting who seems like a real fit  -  complementary work, shared clients, genuine mutual interest  -  propose a one-to-one.
 
 A 20-minute call or coffee is where referral partnerships actually get established. The group meeting opens the door; the one-to-one is how you walk through it. Prioritize these over trying to maximize contact volume at any single event.
 
@@ -66,7 +66,7 @@ A 20-minute call or coffee is where referral partnerships actually get establish
 
 The fastest way to become someone people want in their professional network is to be the person who sends them business. Pay attention to what people need. Make introductions when you see a fit. Share leads when they come across your radar.
 
-This isn't just generosity — it's strategy. Referral networks are reciprocal, and the people who give most freely tend to receive most reliably. Starting with generosity also removes the awkwardness of asking for referrals — by the time you do, you've already demonstrated that you operate that way.
+This isn't just generosity  -  it's strategy. Referral networks are reciprocal, and the people who give most freely tend to receive most reliably. Starting with generosity also removes the awkwardness of asking for referrals  -  by the time you do, you've already demonstrated that you operate that way.
 
 ## How to Put This Into Practice
 
@@ -78,13 +78,13 @@ You don't need to implement all seven strategies at once. A more sustainable app
 - Make one referral or introduction per week, regardless of whether you've received any
 - Add one additional strategy (LinkedIn, industry events, one-to-ones) once the weekly habit is established
 
-The compound effect of these behaviors over three to six months is a professional network that generates real opportunities — not just a bigger contact list.
+The compound effect of these behaviors over three to six months is a professional network that generates real opportunities  -  not just a bigger contact list.
 
 ## Frequently Asked Questions
 
 **How do I expand my professional network?**
 
-Start by finding a consistent environment to show up in — ideally a weekly structured group with recurring attendees. Add intentional follow-up after every meaningful conversation, and make a habit of giving referrals and introductions before you ask for them. Over time, those behaviors build a network organically. Trying to expand a network through sporadic large events is less effective than consistent, smaller touchpoints over months.
+Start by finding a consistent environment to show up in  -  ideally a weekly structured group with recurring attendees. Add intentional follow-up after every meaningful conversation, and make a habit of giving referrals and introductions before you ask for them. Over time, those behaviors build a network organically. Trying to expand a network through sporadic large events is less effective than consistent, smaller touchpoints over months.
 
 **What is the fastest way to grow your professional network?**
 

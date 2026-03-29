@@ -139,14 +139,14 @@ export default async function PortalPage() {
                           month: "long",
                           day: "numeric",
                         })
-                      : "—"}
+                      : " - "}
                   </span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Analytics — Amplified/Leadership */}
+          {/* Analytics  -  Amplified/Leadership */}
           {showAnalytics && listing && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Listing Analytics</h2>

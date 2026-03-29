@@ -101,10 +101,10 @@ export async function POST(request: Request) {
           // Notify admin
           await supabase.from("admin_notifications").insert({
             type: "sponsor_signup",
-            message: `Sponsor paid (Stripe): ${metadata.businessName} (${tier}) — ${metadata.contactName} <${metadata.email || customerEmail}>`,
+            message: `Sponsor paid (Stripe): ${metadata.businessName} (${tier})  -  ${metadata.contactName} <${metadata.email || customerEmail}>`,
           }).then(() => {}, (err: any) => console.error("[webhook] Notification error:", err));
 
-          console.log(`[webhook] Sponsor ${metadata.businessName} created as paid — ${ticketCount} comp tickets issued`);
+          console.log(`[webhook] Sponsor ${metadata.businessName} created as paid  -  ${ticketCount} comp tickets issued`);
           break;
         }
 
@@ -257,7 +257,7 @@ export async function POST(request: Request) {
           await sendReceipt(customerEmail, customerEmail.split("@")[0], `$${amount}`, date);
         }
 
-        // Check if this is a sponsor invoice — issue comp tickets
+        // Check if this is a sponsor invoice  -  issue comp tickets
         if (invoice.id) {
           const { data: sponsor } = await supabase
             .from("event_sponsors")
@@ -291,7 +291,7 @@ export async function POST(request: Request) {
                 await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + ticketCount }).eq("id", sponsor.event_id);
               }
             }
-            console.log(`[webhook] Sponsor ${sponsor.sponsor_name} paid — ${ticketCount} comp tickets issued`);
+            console.log(`[webhook] Sponsor ${sponsor.sponsor_name} paid  -  ${ticketCount} comp tickets issued`);
           }
         }
 

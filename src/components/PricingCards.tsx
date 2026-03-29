@@ -162,7 +162,7 @@ export default function PricingCards() {
               disabled={loading === "connected"}
               className="block w-full text-center bg-navy text-white font-bold py-3 rounded-full hover:bg-navy/90 transition-colors disabled:opacity-50"
             >
-              {loading === "connected" ? "Redirecting..." : `Get Started — ${annual ? "$300/yr" : "$30/mo"}`}
+              {loading === "connected" ? "Redirecting..." : `Get Started  -  ${annual ? "$300/yr" : "$30/mo"}`}
             </button>
             <p className="text-navy/60 text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime
@@ -206,7 +206,7 @@ export default function PricingCards() {
               disabled={loading === "amplified"}
               className="block w-full text-center bg-smyrna text-white font-bold py-3 rounded-full hover:bg-smyrna/90 transition-colors disabled:opacity-50"
             >
-              {loading === "amplified" ? "Redirecting..." : `Get Started — ${annual ? "$500/yr" : "$50/mo"}`}
+              {loading === "amplified" ? "Redirecting..." : `Get Started  -  ${annual ? "$500/yr" : "$50/mo"}`}
             </button>
             <p className="text-white/60 text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime

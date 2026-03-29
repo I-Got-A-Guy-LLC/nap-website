@@ -259,13 +259,13 @@ export default function MembersClient() {
                         {m.full_name}
                       </Link>
                     </td>
-                    <td className="px-4 py-3">{m.business_name || "—"}</td>
+                    <td className="px-4 py-3">{m.business_name || " - "}</td>
                     <td className="px-4 py-3 text-gray-500">{m.email}</td>
-                    <td className="px-4 py-3 capitalize">{m.city || "—"}</td>
+                    <td className="px-4 py-3 capitalize">{m.city || " - "}</td>
                     <td className="px-4 py-3">{tierBadge(m.tier)}</td>
                     <td className="px-4 py-3">{statusBadge(m)}</td>
                     <td className="px-4 py-3 text-center">
-                      {m.is_nap_verified ? <span className="text-[#FBC761]" title="Verified">★</span> : "—"}
+                      {m.is_nap_verified ? <span className="text-[#FBC761]" title="Verified">★</span> : " - "}
                     </td>
                   </tr>
                 ))}

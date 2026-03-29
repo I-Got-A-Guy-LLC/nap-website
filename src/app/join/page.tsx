@@ -7,11 +7,11 @@ import PricingCards from "@/components/PricingCards";
 export const metadata: Metadata = {
   title: "Join the Directory | Networking For Awesome People Membership",
   description:
-    "Join the Networking For Awesome People business directory. Choose from three membership tiers — Linked (free), Connected ($300/yr), or Amplified ($500/yr) — and get found by Middle Tennessee professionals.",
+    "Join the Networking For Awesome People business directory. Choose from three membership tiers  -  Linked (free), Connected ($300/yr), or Amplified ($500/yr)  -  and get found by Middle Tennessee professionals.",
   openGraph: {
     title: "Join the Directory | Networking For Awesome People Membership",
     description:
-      "Join the Networking For Awesome People business directory. Choose from three membership tiers — Linked (free), Connected ($300/yr), or Amplified ($500/yr) — and get found by Middle Tennessee professionals.",
+      "Join the Networking For Awesome People business directory. Choose from three membership tiers  -  Linked (free), Connected ($300/yr), or Amplified ($500/yr)  -  and get found by Middle Tennessee professionals.",
     url: "https://networkingforawesomepeople.com/join",
   },
   alternates: {
@@ -23,21 +23,21 @@ const productSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Linked — Networking For Awesome People Directory Membership",
+    name: "Linked  -  Networking For Awesome People Directory Membership",
     description: "Free basic listing in the Networking For Awesome People business directory with business name, contact info, and one category.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/ComingSoon" },
   },
   {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Connected — Networking For Awesome People Directory Membership",
+    name: "Connected  -  Networking For Awesome People Directory Membership",
     description: "Enhanced directory listing with logo, website, referral form, preferred Facebook mentions, and quarterly shoutouts.",
     offers: { "@type": "Offer", price: "300", priceCurrency: "USD", availability: "https://schema.org/ComingSoon" },
   },
   {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Amplified — Networking For Awesome People Directory Membership",
+    name: "Amplified  -  Networking For Awesome People Directory Membership",
     description: "Full-featured directory listing with photos, videos, reviews, map, special offers, monthly shoutouts, event tickets, and sponsorship priority.",
     offers: { "@type": "Offer", price: "500", priceCurrency: "USD", availability: "https://schema.org/ComingSoon" },
   },
@@ -45,9 +45,9 @@ const productSchemas = [
 
 const faqs = [
   { question: "Is Networking For Awesome People free to join?", answer: "Attending any Networking For Awesome People meeting is always completely free. The Networking For Awesome People business directory has a free Linked tier that gives you a basic listing at no cost. Connected and Amplified paid tiers offer enhanced visibility and additional benefits." },
-  { question: "What is the difference between Linked, Connected, and Amplified?", answer: "Linked is the free tier — it includes a basic directory listing with your business name, contact info, and one category. Connected at $300/year adds your logo, website, referral form, and preferred Facebook mentions. Amplified at $500/year is the full-featured listing with photos, videos, reviews, map, special offers, monthly shoutouts, and sponsorship priority." },
-  { question: "Can I pay monthly instead of annually?", answer: "Yes — Connected is available at $30/month and Amplified at $50/month. Annual plans save you $60/year on Connected and $120/year on Amplified. Most members choose the annual plan for the savings." },
-  { question: "Do free Linked members need to renew?", answer: "Yes — Linked members go through a simple annual confirmation to keep their listing active. This keeps the directory current and gives us a chance to reconnect with you once a year. It takes about 30 seconds." },
+  { question: "What is the difference between Linked, Connected, and Amplified?", answer: "Linked is the free tier  -  it includes a basic directory listing with your business name, contact info, and one category. Connected at $300/year adds your logo, website, referral form, and preferred Facebook mentions. Amplified at $500/year is the full-featured listing with photos, videos, reviews, map, special offers, monthly shoutouts, and sponsorship priority." },
+  { question: "Can I pay monthly instead of annually?", answer: "Yes  -  Connected is available at $30/month and Amplified at $50/month. Annual plans save you $60/year on Connected and $120/year on Amplified. Most members choose the annual plan for the savings." },
+  { question: "Do free Linked members need to renew?", answer: "Yes  -  Linked members go through a simple annual confirmation to keep their listing active. This keeps the directory current and gives us a chance to reconnect with you once a year. It takes about 30 seconds." },
   { question: "When does the directory launch?", answer: "The Networking For Awesome People directory is coming soon. Register your interest now and you'll be the first to know when membership opens and your listing goes live." },
   { question: "Can I upgrade my membership later?", answer: "Absolutely. You can upgrade from Linked to Connected or Amplified, or from Connected to Amplified, at any time. Your billing will be prorated when you upgrade." },
   { question: "What happens to my listing if I cancel?", answer: "If you cancel a paid membership, your listing will be downgraded to the Linked free tier rather than removed entirely. You'll keep basic visibility in the directory. If you cancel Linked, your listing will be removed after a short grace period." },
@@ -67,20 +67,20 @@ const comparisonRows = [
   { feature: "Business Name", linked: "✓", connected: "✓", amplified: "✓" },
   { feature: "Your Name", linked: "✓", connected: "✓", amplified: "✓" },
   { feature: "Contact Info", linked: "Basic", connected: "Full", amplified: "Full" },
-  { feature: "Website URL", linked: "—", connected: "✓", amplified: "✓" },
-  { feature: "Business Logo", linked: "—", connected: "✓", amplified: "✓" },
-  { feature: "Photos + Videos", linked: "—", connected: "—", amplified: "✓" },
-  { feature: "Business Hours", linked: "—", connected: "—", amplified: "✓" },
-  { feature: "Map & Directions", linked: "—", connected: "—", amplified: "✓" },
-  { feature: "Special Offers", linked: "—", connected: "—", amplified: "✓" },
-  { feature: "Reviews Section", linked: "—", connected: "—", amplified: "✓" },
+  { feature: "Website URL", linked: " - ", connected: "✓", amplified: "✓" },
+  { feature: "Business Logo", linked: " - ", connected: "✓", amplified: "✓" },
+  { feature: "Photos + Videos", linked: " - ", connected: " - ", amplified: "✓" },
+  { feature: "Business Hours", linked: " - ", connected: " - ", amplified: "✓" },
+  { feature: "Map & Directions", linked: " - ", connected: " - ", amplified: "✓" },
+  { feature: "Special Offers", linked: " - ", connected: " - ", amplified: "✓" },
+  { feature: "Reviews Section", linked: " - ", connected: " - ", amplified: "✓" },
   { feature: "Categories", linked: "1", connected: "2 + 2 tags", amplified: "4 + 4 tags" },
-  { feature: "Embedded Referral Form", linked: "—", connected: "✓", amplified: "✓" },
+  { feature: "Embedded Referral Form", linked: " - ", connected: "✓", amplified: "✓" },
   { feature: "Facebook Mention", linked: "Standard", connected: "Preferred", amplified: "Top Level" },
-  { feature: "Shoutouts", linked: "—", connected: "Quarterly", amplified: "Monthly" },
-  { feature: "Free Event Ticket", linked: "—", connected: "—", amplified: "1/quarter" },
-  { feature: "Sponsorship Priority", linked: "—", connected: "—", amplified: "✓" },
-  { feature: "Ad Discounts", linked: "—", connected: "—", amplified: "✓" },
+  { feature: "Shoutouts", linked: " - ", connected: "Quarterly", amplified: "Monthly" },
+  { feature: "Free Event Ticket", linked: " - ", connected: " - ", amplified: "1/quarter" },
+  { feature: "Sponsorship Priority", linked: " - ", connected: " - ", amplified: "✓" },
+  { feature: "Ad Discounts", linked: " - ", connected: " - ", amplified: "✓" },
   { feature: "Annual Price", linked: "Free", connected: "$300/yr", amplified: "$500/yr" },
   { feature: "Monthly Price", linked: "Free", connected: "$30/mo", amplified: "$50/mo" },
 ];
@@ -103,7 +103,7 @@ export default function JoinPage() {
             Get found. Get referred. Get connected.
           </p>
           <p className="text-white/70 text-sm">
-            Directory membership is coming soon — register your interest below
+            Directory membership is coming soon  -  register your interest below
           </p>
         </div>
       </section>
@@ -249,6 +249,6 @@ export default function JoinPage() {
 
 function CellValue({ value }: { value: string }) {
   if (value === "✓") return <span className="text-gold font-bold text-lg">&#10003;</span>;
-  if (value === "—") return <span className="text-gray-600">—</span>;
+  if (value === " - ") return <span className="text-gray-600"> - </span>;
   return <span className="text-navy">{value}</span>;
 }

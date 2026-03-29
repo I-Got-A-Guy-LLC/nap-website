@@ -4,7 +4,7 @@ import DirectoryBrowser from "@/components/DirectoryBrowser";
 export const metadata: Metadata = {
   title: "Business Directory | Networking For Awesome People",
   description:
-    "Browse the Networking For Awesome People business directory. Find trusted professionals across Middle Tennessee — Manchester, Murfreesboro, Nolensville, and Smyrna.",
+    "Browse the Networking For Awesome People business directory. Find trusted professionals across Middle Tennessee  -  Manchester, Murfreesboro, Nolensville, and Smyrna.",
   openGraph: {
     title: "Business Directory | Networking For Awesome People",
     description: "Browse the Networking For Awesome People business directory. Find trusted professionals across Middle Tennessee.",

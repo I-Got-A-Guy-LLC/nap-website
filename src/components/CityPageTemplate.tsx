@@ -13,7 +13,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: `Networking For Awesome People — ${city.name} Chapter`,
+    name: `Networking For Awesome People  -  ${city.name} Chapter`,
     url: `https://networkingforawesomepeople.com/tn/${city.slug}`,
     telephone: "",
     address: {
@@ -40,7 +40,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
   const eventSchema = {
     "@context": "https://schema.org",
     "@type": "Event",
-    name: `Networking For Awesome People — ${city.name} Weekly Meeting`,
+    name: `Networking For Awesome People  -  ${city.name} Weekly Meeting`,
     description: `Free weekly networking meeting in ${city.name}, Tennessee`,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
@@ -86,7 +86,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* ===== SECTION 1 — HERO ===== */}
+      {/* ===== SECTION 1  -  HERO ===== */}
       <section className={`${city.bgClass} py-20 md:py-28 px-4`}>
         <div className="max-w-[1200px] mx-auto text-center">
           <h1
@@ -106,12 +106,12 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
             RSVP on Facebook
           </a>
           <p className={`${city.textOnBg === "text-white" ? "text-white/60" : "text-navy/50"} text-sm mt-4`}>
-            Free to attend — no registration required
+            Free to attend  -  no registration required
           </p>
         </div>
       </section>
 
-      {/* ===== SECTION 2 — MEETING DETAILS ===== */}
+      {/* ===== SECTION 2  -  MEETING DETAILS ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -147,14 +147,14 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
               >
                 <div className="text-2xl mb-3">💰</div>
                 <h3 className="font-heading text-lg font-bold text-navy mb-2">Cost</h3>
-                <p className="text-navy">Free — always</p>
+                <p className="text-navy">Free  -  always</p>
               </div>
             </div>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 3 — WHAT TO EXPECT ===== */}
+      {/* ===== SECTION 3  -  WHAT TO EXPECT ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -170,7 +170,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                 {
                   step: "1",
                   title: "Welcome & Overview",
-                  body: "We kick off with a welcome and a quick overview of what to expect — whether it's your first time or your fiftieth.",
+                  body: "We kick off with a welcome and a quick overview of what to expect  -  whether it's your first time or your fiftieth.",
                 },
                 {
                   step: "2",
@@ -180,7 +180,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                 {
                   step: "3",
                   title: "Upcoming Events",
-                  body: "Group discussion of upcoming events in the next 6 days — what's happening, who's going, and how to get involved.",
+                  body: "Group discussion of upcoming events in the next 6 days  -  what's happening, who's going, and how to get involved.",
                 },
                 {
                   step: "4",
@@ -206,7 +206,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 4 — LEADERSHIP TEAM ===== */}
+      {/* ===== SECTION 4  -  LEADERSHIP TEAM ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1100px] mx-auto">
@@ -261,7 +261,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 5 — PHOTO GALLERY ===== */}
+      {/* ===== SECTION 5  -  PHOTO GALLERY ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -304,7 +304,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 6 — FAQ ===== */}
+      {/* ===== SECTION 6  -  FAQ ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[900px] mx-auto">
@@ -316,7 +316,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 7 — CTA ===== */}
+      {/* ===== SECTION 7  -  CTA ===== */}
       <section className="bg-navy py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[800px] mx-auto text-center">

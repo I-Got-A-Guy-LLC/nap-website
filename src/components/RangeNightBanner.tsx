@@ -22,7 +22,7 @@ export default function RangeNightBanner() {
       <div className="flex items-center justify-center gap-3 px-4 py-5 sm:py-6 text-white text-center">
         <div>
           <p className="text-lg sm:text-xl md:text-2xl font-bold leading-tight">
-            🎯 3rd Annual Range Night — Presenting Sponsor: Connell Law, PLLC
+            🎯 3rd Annual Range Night  -  Presenting Sponsor: Connell Law, PLLC
           </p>
           <p className="text-sm sm:text-base font-medium mt-1 text-white/90">
             Get Your Tickets

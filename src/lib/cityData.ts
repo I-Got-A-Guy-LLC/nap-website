@@ -66,10 +66,10 @@ export const cities: Record<string, CityData> = {
     lng: -86.0886,
     metaTitle: "Free Weekly Networking in Manchester TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Manchester, Tennessee — free weekly networking every Tuesday at 9:00am at FirstBank. No fees, no registration required.",
-    chapterHeading: "About NAPSTER — Manchester's Networking For Awesome People Chapter",
+      "Join Networking For Awesome People in Manchester, Tennessee  -  free weekly networking every Tuesday at 9:00am at FirstBank. No fees, no registration required.",
+    chapterHeading: "About NAPSTER  -  Manchester's Networking For Awesome People Chapter",
     chapterBody:
-      "The Manchester chapter of Networking For Awesome People — known locally as NAPSTER — meets every Tuesday at 9:00am at FirstBank. This is a free, weekly, one-hour meeting designed for Manchester and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
+      "The Manchester chapter of Networking For Awesome People  -  known locally as NAPSTER  -  meets every Tuesday at 9:00am at FirstBank. This is a free, weekly, one-hour meeting designed for Manchester and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
     leaders: [
       {
         name: "Caleb Barrett",
@@ -102,7 +102,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "Is the Manchester networking meeting free?",
         answer:
-          "Yes — the Manchester chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
+          "Yes  -  the Manchester chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
       },
       {
         question: "Where does Networking For Awesome People meet in Manchester?",
@@ -117,7 +117,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "What should I bring to my first Networking For Awesome People meeting in Manchester?",
         answer:
-          "Just bring yourself, a positive attitude, and business cards if you have them — though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
+          "Just bring yourself, a positive attitude, and business cards if you have them  -  though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
       },
     ],
   },
@@ -145,11 +145,11 @@ export const cities: Record<string, CityData> = {
     lng: -86.4138,
     metaTitle: "Free Weekly Networking in Murfreesboro TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Murfreesboro, Tennessee — free weekly networking every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. No fees, no registration required.",
+      "Join Networking For Awesome People in Murfreesboro, Tennessee  -  free weekly networking every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. No fees, no registration required.",
     chapterHeading:
-      "About BORO NAP — Murfreesboro's Networking For Awesome People Chapter",
+      "About BORO NAP  -  Murfreesboro's Networking For Awesome People Chapter",
     chapterBody:
-      "The Murfreesboro chapter of Networking For Awesome People — known locally as BORO NAP — meets every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. This is a free, weekly, one-hour meeting designed for Murfreesboro and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
+      "The Murfreesboro chapter of Networking For Awesome People  -  known locally as BORO NAP  -  meets every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. This is a free, weekly, one-hour meeting designed for Murfreesboro and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
     leaders: [
       {
         name: "Rachel Albertson",
@@ -177,12 +177,12 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Murfreesboro?",
         answer:
-          "The Murfreesboro chapter of Networking For Awesome People — also known as BORO NAP — meets every Wednesday from 9:00am to 10:00am at Achieve Entrepreneur & CoWorking Center, 1630 S Church St #100, Murfreesboro, TN 37130.",
+          "The Murfreesboro chapter of Networking For Awesome People  -  also known as BORO NAP  -  meets every Wednesday from 9:00am to 10:00am at Achieve Entrepreneur & CoWorking Center, 1630 S Church St #100, Murfreesboro, TN 37130.",
       },
       {
         question: "Is the Murfreesboro networking meeting free?",
         answer:
-          "Yes — the Murfreesboro chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
+          "Yes  -  the Murfreesboro chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
       },
       {
         question: "Where does Networking For Awesome People meet in Murfreesboro?",
@@ -198,7 +198,7 @@ export const cities: Record<string, CityData> = {
         question:
           "What should I bring to my first Networking For Awesome People meeting in Murfreesboro?",
         answer:
-          "Just bring yourself, a positive attitude, and business cards if you have them — though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
+          "Just bring yourself, a positive attitude, and business cards if you have them  -  though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
       },
     ],
   },
@@ -226,11 +226,11 @@ export const cities: Record<string, CityData> = {
     lng: -86.6691,
     metaTitle: "Free Weekly Networking in Nolensville TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Nolensville, Tennessee — free weekly networking every Thursday at 9:00am at Waldo's Chicken and Beer. No fees, no registration required.",
+      "Join Networking For Awesome People in Nolensville, Tennessee  -  free weekly networking every Thursday at 9:00am at Waldo's Chicken and Beer. No fees, no registration required.",
     chapterHeading:
-      "About N\u00B2 — Nolensville's Networking For Awesome People Chapter",
+      "About N\u00B2  -  Nolensville's Networking For Awesome People Chapter",
     chapterBody:
-      "The Nolensville chapter of Networking For Awesome People — known locally as N\u00B2 — meets every Thursday at 9:00am at Waldo's Chicken and Beer. This is a free, weekly, one-hour meeting designed for Nolensville and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
+      "The Nolensville chapter of Networking For Awesome People  -  known locally as N\u00B2  -  meets every Thursday at 9:00am at Waldo's Chicken and Beer. This is a free, weekly, one-hour meeting designed for Nolensville and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
     leaders: [
       {
         name: "Mike Dotson",
@@ -251,12 +251,12 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Nolensville?",
         answer:
-          "The Nolensville chapter of Networking For Awesome People — also known as N\u00B2 — meets every Thursday from 9:00am to 10:00am at Waldo's Chicken and Beer, 7238 Nolensville Road, Nolensville, TN 37135.",
+          "The Nolensville chapter of Networking For Awesome People  -  also known as N\u00B2  -  meets every Thursday from 9:00am to 10:00am at Waldo's Chicken and Beer, 7238 Nolensville Road, Nolensville, TN 37135.",
       },
       {
         question: "Is the Nolensville networking meeting free?",
         answer:
-          "Yes — the Nolensville chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
+          "Yes  -  the Nolensville chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
       },
       {
         question: "Where does Networking For Awesome People meet in Nolensville?",
@@ -272,7 +272,7 @@ export const cities: Record<string, CityData> = {
         question:
           "What should I bring to my first Networking For Awesome People meeting in Nolensville?",
         answer:
-          "Just bring yourself, a positive attitude, and business cards if you have them — though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
+          "Just bring yourself, a positive attitude, and business cards if you have them  -  though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
       },
     ],
   },
@@ -300,11 +300,11 @@ export const cities: Record<string, CityData> = {
     lng: -86.5186,
     metaTitle: "Free Weekly Networking in Smyrna TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Smyrna, Tennessee — free weekly networking every Friday at 9:15am at Smyrna Public Library. No fees, no registration required.",
+      "Join Networking For Awesome People in Smyrna, Tennessee  -  free weekly networking every Friday at 9:15am at Smyrna Public Library. No fees, no registration required.",
     chapterHeading:
-      "About SNAP — Smyrna's Networking For Awesome People Chapter",
+      "About SNAP  -  Smyrna's Networking For Awesome People Chapter",
     chapterBody:
-      "The Smyrna chapter of Networking For Awesome People — known locally as SNAP — meets every Friday at 9:15am at Smyrna Public Library. This is a free, weekly, one-hour meeting designed for Smyrna and Middle Tennessee professionals who want to build real referral relationships — not just collect business cards.",
+      "The Smyrna chapter of Networking For Awesome People  -  known locally as SNAP  -  meets every Friday at 9:15am at Smyrna Public Library. This is a free, weekly, one-hour meeting designed for Smyrna and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
     leaders: [
       {
         name: "Katie Clark",
@@ -325,12 +325,12 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Smyrna?",
         answer:
-          "The Smyrna chapter of Networking For Awesome People — also known as SNAP — meets every Friday from 9:15am to 10:15am at Smyrna Public Library, 400 Enon Springs Rd W, Smyrna, TN 37167.",
+          "The Smyrna chapter of Networking For Awesome People  -  also known as SNAP  -  meets every Friday from 9:15am to 10:15am at Smyrna Public Library, 400 Enon Springs Rd W, Smyrna, TN 37167.",
       },
       {
         question: "Is the Smyrna networking meeting free?",
         answer:
-          "Yes — the Smyrna chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
+          "Yes  -  the Smyrna chapter of Networking For Awesome People is completely free to attend. There are no membership fees, no registration costs, and no RSVP required. Just show up.",
       },
       {
         question: "Where does Networking For Awesome People meet in Smyrna?",
@@ -346,7 +346,7 @@ export const cities: Record<string, CityData> = {
         question:
           "What should I bring to my first Networking For Awesome People meeting in Smyrna?",
         answer:
-          "Just bring yourself, a positive attitude, and business cards if you have them — though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
+          "Just bring yourself, a positive attitude, and business cards if you have them  -  though they're not required. Come ready to introduce yourself in 60 seconds and be genuinely curious about the people around you.",
       },
     ],
   },

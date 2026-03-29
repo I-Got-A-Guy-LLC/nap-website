@@ -136,14 +136,14 @@ export default async function AdminSponsorsPage({
                 {allSponsors.map((sponsor) => (
                   <tr key={sponsor.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm font-medium text-[#1F3149]">
-                      {sponsor.sponsor_name || "—"}
+                      {sponsor.sponsor_name || " - "}
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-600">
-                      {sponsor.sponsor_business || "—"}
+                      {sponsor.sponsor_business || " - "}
                     </td>
                     <td className="px-4 py-3">
                       <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-[#FBC761]/20 text-[#1F3149]">
-                        {sponsor.tier || "—"}
+                        {sponsor.tier || " - "}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-sm text-right font-medium text-[#1F3149]">

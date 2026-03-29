@@ -6,11 +6,11 @@ import FAQAccordion from "@/components/FAQAccordion";
 export const metadata: Metadata = {
   title: "About Networking For Awesome People | Free Weekly Networking in Middle Tennessee",
   description:
-    "Learn about Networking For Awesome People — a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
+    "Learn about Networking For Awesome People  -  a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
   openGraph: {
     title: "About Networking For Awesome People | Free Weekly Networking in Middle Tennessee",
     description:
-      "Learn about Networking For Awesome People — a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
+      "Learn about Networking For Awesome People  -  a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
     url: "https://networkingforawesomepeople.com/about",
     images: ["/images/hero-bg.png"],
   },
@@ -66,22 +66,22 @@ const faqs = [
   {
     question: "How is Networking For Awesome People different from BNI?",
     answer:
-      "Networking For Awesome People is free to attend and has no mandatory membership fees, annual dues, or category exclusivity requirements. BNI chapters typically charge hundreds to thousands of dollars per year in membership fees and require exclusive industry representation. Networking For Awesome People is open to all industries, all professionals, and all budgets — including zero.",
+      "Networking For Awesome People is free to attend and has no mandatory membership fees, annual dues, or category exclusivity requirements. BNI chapters typically charge hundreds to thousands of dollars per year in membership fees and require exclusive industry representation. Networking For Awesome People is open to all industries, all professionals, and all budgets  -  including zero.",
   },
   {
     question: "How is Networking For Awesome People different from a chamber of commerce?",
     answer:
-      "Chambers of commerce are membership organizations that advocate for local business at a policy and community level. Networking For Awesome People is a weekly referral-focused networking group — we exist specifically to help members build relationships and generate business referrals. The two can complement each other well, and many Networking For Awesome People members are also chamber members.",
+      "Chambers of commerce are membership organizations that advocate for local business at a policy and community level. Networking For Awesome People is a weekly referral-focused networking group  -  we exist specifically to help members build relationships and generate business referrals. The two can complement each other well, and many Networking For Awesome People members are also chamber members.",
   },
   {
     question: "Can Networking For Awesome People come to my city?",
     answer:
-      "Yes — Networking For Awesome People is actively expanding across Tennessee and beyond through a licensed chapter model. If you're interested in launching and leading a Networking For Awesome People chapter in your city, visit our Bring Networking For Awesome People to Your City page to learn what's involved and express your interest.",
+      "Yes  -  Networking For Awesome People is actively expanding across Tennessee and beyond through a licensed chapter model. If you're interested in launching and leading a Networking For Awesome People chapter in your city, visit our Bring Networking For Awesome People to Your City page to learn what's involved and express your interest.",
   },
   {
     question: "Is there a business directory for Networking For Awesome People members?",
     answer:
-      "Yes. Networking For Awesome People has a member business directory with three tiers: Linked (free), Connected ($300/year or $30/month), and Amplified ($500/year or $50/month). Each tier offers increasing visibility, profile features, and community benefits. The directory is coming soon — visit our Join page to learn more.",
+      "Yes. Networking For Awesome People has a member business directory with three tiers: Linked (free), Connected ($300/year or $30/month), and Amplified ($500/year or $50/month). Each tier offers increasing visibility, profile features, and community benefits. The directory is coming soon  -  visit our Join page to learn more.",
   },
   {
     question: "How do I become a city leader for Networking For Awesome People?",
@@ -101,7 +101,7 @@ const faqs = [
   {
     question: "What is the Meetup group for Networking For Awesome People?",
     answer:
-      "Networking For Awesome People uses the Network Middle Tennessee Meetup group as a top-of-funnel discovery tool. If you found us through Meetup, welcome — the Meetup group is the front door, and Networking For Awesome People is the community inside.",
+      "Networking For Awesome People uses the Network Middle Tennessee Meetup group as a top-of-funnel discovery tool. If you found us through Meetup, welcome  -  the Meetup group is the front door, and Networking For Awesome People is the community inside.",
   },
 ];
 
@@ -144,7 +144,7 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
 
-      {/* ===== SECTION 1 — HERO ===== */}
+      {/* ===== SECTION 1  -  HERO ===== */}
       <section className="bg-navy relative">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -157,14 +157,14 @@ export default function AboutPage() {
               About Networking For Awesome People
             </h1>
             <p className="text-gold text-lg sm:text-xl md:text-2xl italic max-w-3xl mx-auto">
-              Free weekly networking across four Middle Tennessee cities — built for real people who
+              Free weekly networking across four Middle Tennessee cities  -  built for real people who
               want real connections.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ===== SECTION 2 — OUR STORY ===== */}
+      {/* ===== SECTION 2  -  OUR STORY ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[900px] mx-auto">
@@ -174,7 +174,7 @@ export default function AboutPage() {
             <p className="text-navy text-lg leading-relaxed mb-12">
               Networking For Awesome People is a free weekly networking organization built for Middle
               Tennessee professionals who believe that real relationships drive real business. We meet
-              every week across four cities — Murfreesboro, Manchester, Nolensville, and Smyrna —
+              every week across four cities  -  Murfreesboro, Manchester, Nolensville, and Smyrna  - 
               with no membership fees, no contracts, and no pressure. Just genuine people showing up
               to connect, collaborate, and refer business to each other.
             </p>
@@ -184,7 +184,7 @@ export default function AboutPage() {
             </h3>
             <p className="text-navy text-lg leading-relaxed">
               Networking For Awesome People was founded by Rachel Albertson in Murfreesboro,
-              Tennessee. Rachel saw a gap — most networking groups were either too expensive, too
+              Tennessee. Rachel saw a gap  -  most networking groups were either too expensive, too
               transactional, or too rigid for the kind of community she wanted to build. So she built
               her own. What started as one weekly meeting at Achieve Entrepreneur &amp; Coworking
               Space has grown into four active cities and hundreds of Middle Tennessee professionals
@@ -194,7 +194,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 3 — WHAT MAKES NAP DIFFERENT ===== */}
+      {/* ===== SECTION 3  -  WHAT MAKES NAP DIFFERENT ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -215,7 +215,7 @@ export default function AboutPage() {
                   Consistent Weekly Meetings
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  Networking For Awesome People meets every single week — Tuesdays in Manchester,
+                  Networking For Awesome People meets every single week  -  Tuesdays in Manchester,
                   Wednesdays in Murfreesboro, Thursdays in Nolensville, and Fridays in Smyrna.
                   Consistency is what builds real relationships.
                 </p>
@@ -235,7 +235,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 4 — MEET THE FOUNDER ===== */}
+      {/* ===== SECTION 4  -  MEET THE FOUNDER ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto text-center">
@@ -256,7 +256,7 @@ export default function AboutPage() {
                 </p>
                 <p className="text-navy leading-relaxed mb-8">
                   Rachel Albertson is the founder of Networking For Awesome People and owner of I Got
-                  A Guy, LLC — a Middle Tennessee business network. Rachel built Networking For
+                  A Guy, LLC  -  a Middle Tennessee business network. Rachel built Networking For
                   Awesome People on the belief that networking should feel like belonging, not a
                   transaction. She co-leads the Murfreesboro chapter every Wednesday at Achieve
                   Entrepreneur &amp; CoWorking Center and oversees city leaders across all four
@@ -286,7 +286,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 5 — WHERE WE MEET ===== */}
+      {/* ===== SECTION 5  -  WHERE WE MEET ===== */}
       <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
@@ -295,7 +295,7 @@ export default function AboutPage() {
             </h2>
             <p className="text-navy text-lg text-center mb-12 md:mb-16 max-w-2xl mx-auto">
               Networking For Awesome People currently meets weekly across four Middle Tennessee
-              cities. All meetings are free to attend — just show up.
+              cities. All meetings are free to attend  -  just show up.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {locations.map((loc) => (
@@ -324,7 +324,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 6 — FAQ ===== */}
+      {/* ===== SECTION 6  -  FAQ ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="w-[90%] max-w-[900px] mx-auto">
@@ -332,7 +332,7 @@ export default function AboutPage() {
               More Questions About Networking For Awesome People
             </h2>
             <p className="text-navy/50 text-center mb-12 md:mb-16">
-              These questions go deeper — for the basics visit our{" "}
+              These questions go deeper  -  for the basics visit our{" "}
               <Link href="/" className="text-gold hover:underline">
                 homepage FAQ
               </Link>
@@ -342,7 +342,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== SECTION 7 — CTA ===== */}
+      {/* ===== SECTION 7  -  CTA ===== */}
       <section className="bg-navy py-16 md:py-24 px-4">
         <ScrollReveal>
           <div className="max-w-[800px] mx-auto text-center">
@@ -351,7 +351,7 @@ export default function AboutPage() {
             </h2>
             <p className="text-white/80 text-lg md:text-xl leading-relaxed mb-10">
               Networking For Awesome People is free, weekly, and genuinely welcoming. Find your city
-              and show up — that&apos;s all it takes.
+              and show up  -  that&apos;s all it takes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

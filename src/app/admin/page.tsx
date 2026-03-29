@@ -115,7 +115,7 @@ export default async function AdminDashboard() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {/* Card 1 — Members by Tier */}
+          {/* Card 1  -  Members by Tier */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               Members by Tier
@@ -157,7 +157,7 @@ export default async function AdminDashboard() {
             </div>
           </div>
 
-          {/* Card 2 — Actual Revenue */}
+          {/* Card 2  -  Actual Revenue */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               Actual Revenue
@@ -174,7 +174,7 @@ export default async function AdminDashboard() {
             </p>
           </div>
 
-          {/* Card 3 — Potential Revenue */}
+          {/* Card 3  -  Potential Revenue */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               Potential Revenue
@@ -191,7 +191,7 @@ export default async function AdminDashboard() {
             </p>
           </div>
 
-          {/* Card 4 — Pending Approvals */}
+          {/* Card 4  -  Pending Approvals */}
           <Link
             href="/admin/approvals"
             className="bg-white rounded-xl shadow p-6 hover:ring-2 hover:ring-[#FBC761] transition"
@@ -204,7 +204,7 @@ export default async function AdminDashboard() {
             </p>
           </Link>
 
-          {/* Card 5 — Unread Notifications */}
+          {/* Card 5  -  Unread Notifications */}
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               Unread Notifications
