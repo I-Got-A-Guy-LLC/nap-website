@@ -259,17 +259,19 @@ export default async function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-8">
               {/* Reed & Associates */}
               <div className="flex flex-col items-center">
-                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border border-gray-200 flex items-center justify-center shadow-sm p-4">
+                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border-2 border-gold flex items-center justify-center shadow-md p-4 ring-2 ring-gold/30">
                   <img src="/images/supporters/reed-associates.jpg" alt="Reed & Associates" className="w-full h-full object-contain" />
                 </div>
                 <p className="text-white text-sm mt-3 font-medium">Reed &amp; Associates</p>
+                <span className="text-gold text-xs font-bold mt-1">&#9733; Featured Supporter</span>
               </div>
               {/* Stillman Signing & Notary */}
               <div className="flex flex-col items-center">
-                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border border-gray-200 flex items-center justify-center shadow-sm p-4">
+                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border-2 border-gold flex items-center justify-center shadow-md p-4 ring-2 ring-gold/30">
                   <img src="/images/supporters/stillman-signing.webp" alt="Stillman Signing & Mobile Notary" className="w-full object-contain" />
                 </div>
                 <p className="text-white text-sm mt-3 font-medium">Stillman Signing &amp; Notary</p>
+                <span className="text-gold text-xs font-bold mt-1">&#9733; Featured Supporter</span>
               </div>
               {/* Inforule Social Media */}
               <div className="flex flex-col items-center">
