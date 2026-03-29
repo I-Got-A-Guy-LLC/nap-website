@@ -149,58 +149,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ===== UPCOMING EVENTS ===== */}
-      <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
-        <ScrollReveal>
-          <div className="max-w-[1200px] mx-auto">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-12">
-              What&apos;s Coming Up
-            </h2>
-
-            {/* Featured: Range Night */}
-            <Link href="/events/range-night-2026" className="block bg-white rounded-2xl shadow-md border-l-[6px] border-[#FE6651] p-8 md:p-10 mb-10 hover:shadow-xl transition-shadow group">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                  <span className="inline-block bg-[#FE6651] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">Special Event</span>
-                  <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-2 group-hover:text-navy/80 transition-colors">🎯 3rd Annual Range Night</h3>
-                  <p className="text-navy/70 text-lg">Monday, April 20, 2026 &middot; 5:30 PM &ndash; 8:30 PM</p>
-                  <p className="text-navy/50 mt-1">Manchester, TN &middot; $30 per ticket</p>
-                </div>
-                <span className="inline-block bg-[#FE6651] text-white font-bold px-8 py-3 rounded-full text-center hover:bg-[#FE6651]/90 transition-colors flex-shrink-0">
-                  Get Tickets &rarr;
-                </span>
-              </div>
-            </Link>
-
-            {/* Weekly meetings grid */}
-            <h3 className="font-heading text-xl font-bold text-navy mb-6">Weekly Meetings</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {cityPanels.map((city) => (
-                <Link
-                  key={city.name}
-                  href={city.href}
-                  className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all group"
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: city.bg === "bg-manchester" ? "#71D4D1" : city.bg === "bg-[#2A4A6B]" ? "#2A4A6B" : city.bg === "bg-nolensville" ? "#F5BE61" : "#FE6651" }} />
-                    <div>
-                      <h4 className="font-heading font-bold text-navy">{city.name}</h4>
-                      <p className="text-navy/70 text-sm">{city.day} &middot; {city.time}</p>
-                      <p className="text-navy/50 text-sm">{city.location}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            <div className="text-center mt-8">
-              <Link href="/events" className="text-navy font-bold text-sm hover:text-navy/70 transition-colors">
-                See All Meetings &rarr;
-              </Link>
-            </div>
-          </div>
-        </ScrollReveal>
-      </section>
-
       {/* ===== SECTION 2 — WHAT IS NAP ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
@@ -256,7 +204,7 @@ export default async function Home() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-3">
               Meet the Founder
             </h2>
-            <p className="text-navy/60 text-lg md:text-xl italic mb-12 md:mb-16">
+            <p className="text-navy text-lg md:text-xl italic mb-12 md:mb-16">
               The person behind Networking For Awesome People
             </p>
 
@@ -265,12 +213,9 @@ export default async function Home() {
               {/* Content */}
               <div className="flex-1 bg-white rounded-xl shadow-md border border-gray-100 p-8 md:p-10 text-left flex flex-col justify-center">
                 <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-1">Rachel Albertson</h3>
-                <p className="text-navy/60 font-medium mb-6">Founder, Networking For Awesome People</p>
+                <p className="text-navy font-medium mb-6">Founder, Networking For Awesome People</p>
                 <p className="text-navy leading-relaxed mb-8">
-                  Rachel founded Networking For Awesome People in Murfreesboro, Tennessee with a simple belief &mdash; that
-                  networking should feel like belonging, not a chore. What started as one weekly
-                  meeting has grown into four cities and a community of hundreds of Middle Tennessee
-                  professionals.
+                  Rachel founded Networking For Awesome People in Murfreesboro, Tennessee with a simple belief - that networking should feel like belonging, not a chore. As an introvert, Rachel struggled with large, open networking events that drained her social battery. She believed that one quality connection was a better fit for her than working a room of one hundred people. What started as one weekly meeting has grown into four cities and a community of thousands of Middle Tennessee professionals.
                 </p>
                 <a
                   href="https://www.facebook.com/groups/networkingforawesomepeople"
@@ -418,7 +363,7 @@ export default async function Home() {
                     <h3 className="mt-1 font-heading font-bold text-navy group-hover:text-navy/70 transition-colors line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="mt-1 text-sm text-navy/60">
+                    <p className="mt-1 text-sm text-navy">
                       {new Date(post.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                     </p>
                   </div>
@@ -444,7 +389,7 @@ export default async function Home() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-4">
               Frequently Asked Questions
             </h2>
-            <p className="text-navy/60 text-lg text-center mb-12 md:mb-16">
+            <p className="text-navy text-lg text-center mb-12 md:mb-16">
               Everything you need to know about free networking in Middle Tennessee
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -518,7 +463,7 @@ export default async function Home() {
       </section>
 
       {/* ===== SECTION 8 — STATS ===== */}
-      <section className="bg-navy py-16 md:py-24 px-4">
+      <section className="bg-navy py-8 md:py-12 px-4">
         <ScrollReveal stagger>
           <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
             {stats.map((stat) => (
@@ -560,7 +505,7 @@ export default async function Home() {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-navy mb-6">
               Ready to Find Your People?
             </h2>
-            <p className="text-navy/70 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-navy text-lg md:text-xl leading-relaxed mb-10">
               Join the directory, get found by your community, and start building the network you
               actually want.
             </p>

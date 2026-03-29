@@ -74,9 +74,6 @@ export default function Navigation() {
             <Link href="/events" className="font-medium text-white hover:text-navy transition-colors">
               Events
             </Link>
-            <Link href="/events/range-night-2026" className="bg-[#FE6651] text-white text-xs font-bold px-3 py-1 rounded-full hover:bg-[#FE6651]/80 transition-colors whitespace-nowrap">
-              🎯 Range Night Apr 20
-            </Link>
             <Link href="/directory" className="font-medium text-white hover:text-navy transition-colors">
               Directory
             </Link>
