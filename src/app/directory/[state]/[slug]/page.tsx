@@ -26,6 +26,17 @@ function safeCategoryName(listing: any): string {
   } catch { return ""; }
 }
 
+function toEmbedUrl(url: string): string {
+  // youtu.be/ID or youtu.be/ID?si=...
+  const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+  if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+  // youtube.com/watch?v=ID
+  const longMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
+  if (longMatch) return `https://www.youtube.com/embed/${longMatch[1]}`;
+  // already an embed URL or other video
+  return url;
+}
+
 function parseHours(raw: any): Record<string, any> {
   if (!raw) return {};
   let data = raw;
@@ -137,7 +148,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
 
       <section className="bg-navy py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[900px] mx-auto">
-          <Link href="/directory" className="text-gold hover:underline text-sm mb-6 inline-block">&larr; Back to Directory</Link>
+          <Link href="/directory" className="text-white hover:underline text-sm mb-6 inline-block">&larr; Back to Directory</Link>
           <div className="flex items-start gap-6">
             {isConnected && listing.logo_url && (
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-white flex-shrink-0 border border-white/10">
@@ -150,11 +161,11 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ backgroundColor: badge.color, color: badge.textColor }}>{badge.label}</span>
                 {member.is_nap_verified && <span className="text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-700">NAP Verified</span>}
               </div>
-              {listing.tagline && <p className="text-gold text-lg italic mb-2">{listing.tagline}</p>}
+              {listing.tagline && <p className="text-white text-lg italic mb-2">{listing.tagline}</p>}
               <div className="flex items-center gap-4 text-white text-sm">
                 {catName && <span>{catName}</span>}
                 {listing.city && <span className="capitalize">{listing.city}</span>}
-                {totalReviews > 0 && <span className="text-gold">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
+                {totalReviews > 0 && <span className="text-white">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
               </div>
             </div>
           </div>
@@ -176,13 +187,13 @@ export default async function DirectoryListingPage({ params }: { params: { state
           )}
 
           {isConnected && (
-            <div className="bg-gray-50 rounded-xl p-6 md:p-8">
+            <div className="bg-gray-200 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Contact Information</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-navy">
                 {listing.contact_name && <div><span className="font-bold text-navy block mb-0.5">Contact</span>{listing.contact_name}</div>}
-                {listing.contact_email && <div><span className="font-bold text-navy block mb-0.5">Email</span><a href={`mailto:${listing.contact_email}`} className="text-gold hover:underline">{listing.contact_email}</a></div>}
-                {listing.contact_phone && <div><span className="font-bold text-navy block mb-0.5">Phone</span><a href={`tel:${listing.contact_phone}`} className="text-gold hover:underline">{listing.contact_phone}</a></div>}
-                {listing.website_url && <div><span className="font-bold text-navy block mb-0.5">Website</span><a href={listing.website_url} target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">{listing.website_url.replace(/^https?:\/\//, "").replace(/\/$/, "")}</a></div>}
+                {listing.contact_email && <div><span className="font-bold text-navy block mb-0.5">Email</span><a href={`mailto:${listing.contact_email}`} className="text-navy underline hover:text-navy/70">{listing.contact_email}</a></div>}
+                {listing.contact_phone && <div><span className="font-bold text-navy block mb-0.5">Phone</span><a href={`tel:${listing.contact_phone}`} className="text-navy underline hover:text-navy/70">{listing.contact_phone}</a></div>}
+                {listing.website_url && <div><span className="font-bold text-navy block mb-0.5">Website</span><a href={listing.website_url} target="_blank" rel="noopener noreferrer" className="text-navy underline hover:text-navy/70">{listing.website_url.replace(/^https?:\/\//, "").replace(/\/$/, "")}</a></div>}
               </div>
             </div>
           )}
@@ -205,7 +216,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
           {isAmplified && listing.video_url && (
             <div>
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Video</h2>
-              <div className="rounded-xl overflow-hidden aspect-video bg-gray-100"><iframe src={listing.video_url} className="w-full h-full" allowFullScreen title={`${listing.business_name} video`} /></div>
+              <div className="rounded-xl overflow-hidden aspect-video bg-gray-100"><iframe src={toEmbedUrl(listing.video_url)} className="w-full h-full" allowFullScreen title={`${listing.business_name} video`} /></div>
             </div>
           )}
 
@@ -283,7 +294,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 <div className="bg-gray-50 rounded-xl p-6 mb-8 flex items-center gap-6">
                   <div className="text-center">
                     <p className="font-heading text-4xl font-bold text-navy">{avgRating.toFixed(1)}</p>
-                    <p className="text-gold text-lg">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))}</p>
+                    <p className="text-navy text-lg">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))}</p>
                     <p className="text-navy text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
                   </div>
                 </div>
