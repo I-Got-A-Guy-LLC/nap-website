@@ -184,7 +184,7 @@ export default async function Home() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
               We Love Getting People Together
             </h2>
-            <p className="text-gold text-lg md:text-xl italic mb-10">
+            <p className="text-white/80 text-lg md:text-xl italic mb-10">
               It&apos;s the essence of what we do
             </p>
             <Link
@@ -328,7 +328,7 @@ export default async function Home() {
                 <p className="text-white text-sm mt-3 font-medium">Affi Pest &amp; Wildlife</p>
               </div>
             </div>
-            <p className="text-white/60 text-sm italic">
+            <p className="text-white text-sm italic">
               Connected and Amplified members featured here
             </p>
           </div>
