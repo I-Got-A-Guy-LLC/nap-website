@@ -158,7 +158,7 @@ export default async function Home() {
             </h2>
             <p className="text-navy text-lg md:text-xl leading-relaxed mx-auto mb-16 md:mb-20">
               Networking For Awesome People is where Middle Tennessee professionals build real relationships &mdash; the kind
-              that generate referrals, create partnerships, and make Mondays worth showing up for.
+              that generate referrals, create partnerships, and make every week worth showing up for.
             </p>
           </div>
         </ScrollReveal>
