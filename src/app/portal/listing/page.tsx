@@ -198,7 +198,10 @@ export default function EditListingPage() {
     instagram: "",
     linkedin: "",
     twitter: "",
+    tiktok: "",
   });
+  const [socialOtherLabel, setSocialOtherLabel] = useState("");
+  const [socialOtherUrl, setSocialOtherUrl] = useState("");
   const [description, setDescription] = useState("");
   const [specialOffers, setSpecialOffers] = useState("");
   const [offerHeadline, setOfferHeadline] = useState("");
@@ -309,7 +312,10 @@ export default function EditListingPage() {
           instagram: l.social_instagram || "",
           linkedin: l.social_linkedin || "",
           twitter: l.social_twitter || "",
+          tiktok: l.social_tiktok || "",
         });
+        setSocialOtherLabel(l.social_other_label || "");
+        setSocialOtherUrl(l.social_other_url || "");
 
         // Photos
         setPhotos(Array.isArray(l.photos) ? l.photos : []);
@@ -493,6 +499,9 @@ export default function EditListingPage() {
         payload.social_instagram = socialLinks.instagram;
         payload.social_linkedin = socialLinks.linkedin;
         payload.social_twitter = socialLinks.twitter;
+        payload.social_tiktok = socialLinks.tiktok;
+        payload.social_other_label = socialOtherLabel;
+        payload.social_other_url = socialOtherUrl;
       }
 
       if (isAmplified) {
@@ -1028,6 +1037,30 @@ export default function EditListingPage() {
                         />
                       </div>
                     ))}
+                  </div>
+                  {/* Other social link */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                    <div>
+                      <label className="block text-xs text-gray-900 mb-1">Other Label (e.g. Podcast, YouTube)</label>
+                      <input
+                        type="text"
+                        value={socialOtherLabel}
+                        onChange={(e) => setSocialOtherLabel(e.target.value)}
+                        className={inputClass}
+                        placeholder="YouTube"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-900 mb-1">Other URL</label>
+                      <input
+                        type="url"
+                        value={socialOtherUrl}
+                        onChange={(e) => setSocialOtherUrl(e.target.value)}
+                        onBlur={(e) => setSocialOtherUrl(normalizeUrl(e.target.value))}
+                        className={inputClass}
+                        placeholder="https://..."
+                      />
+                    </div>
                   </div>
                 </div>
 

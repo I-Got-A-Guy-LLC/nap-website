@@ -193,15 +193,25 @@ export default async function PortalPage() {
             >
               Manage Billing
             </Link>
-            {listing && listing.is_approved && (
+            {listing && listing.is_approved && listing.slug && (
               <Link
-                href={`/directory/${listing.id}`}
+                href={`/directory/${(listing.listing_state || "tn").toLowerCase()}/${listing.slug}`}
                 className="bg-gray-100 text-navy font-bold py-4 px-6 rounded-xl text-center hover:bg-gray-200 transition-colors"
               >
                 View My Listing
               </Link>
             )}
           </div>
+
+          {/* Add Another Listing - Amplified only */}
+          {tier === "amplified" && (
+            <Link
+              href="/portal/listing?new=true"
+              className="block text-center bg-navy/10 text-navy font-bold py-4 px-6 rounded-xl hover:bg-navy/20 transition-colors"
+            >
+              Add Another Listing &rarr;
+            </Link>
+          )}
 
           {/* Notification Preferences */}
           <NotificationPreferences

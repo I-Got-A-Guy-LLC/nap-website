@@ -117,6 +117,8 @@ export default async function DirectoryListingPage({ params }: { params: { state
   if (listing.social_instagram) socialLinks.push({ platform: "Instagram", url: listing.social_instagram });
   if (listing.social_linkedin) socialLinks.push({ platform: "LinkedIn", url: listing.social_linkedin });
   if (listing.social_twitter) socialLinks.push({ platform: "Twitter", url: listing.social_twitter });
+  if (listing.social_tiktok) socialLinks.push({ platform: "TikTok", url: listing.social_tiktok });
+  if (listing.social_other_url) socialLinks.push({ platform: listing.social_other_label || "Other", url: listing.social_other_url });
   const addressParts = [listing.street_address, listing.suite, listing.listing_city, listing.listing_state, listing.zip_code].filter(Boolean);
   const fullAddress = addressParts.length > 0 ? addressParts.join(", ") : listing.address;
 

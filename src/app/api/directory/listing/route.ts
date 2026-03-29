@@ -106,6 +106,8 @@ export async function PATCH(request: Request) {
     if (body.social_instagram) body.social_instagram = normalizeUrl(body.social_instagram);
     if (body.social_linkedin) body.social_linkedin = normalizeUrl(body.social_linkedin);
     if (body.social_twitter) body.social_twitter = normalizeUrl(body.social_twitter);
+    if (body.social_tiktok) body.social_tiktok = normalizeUrl(body.social_tiktok);
+    if (body.social_other_url) body.social_other_url = normalizeUrl(body.social_other_url);
     if (body.photos && Array.isArray(body.photos)) {
       body.photos = body.photos.map((p: string) => normalizeUrl(p)).filter(Boolean);
     }
