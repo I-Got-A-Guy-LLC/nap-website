@@ -133,6 +133,10 @@ export default async function DirectoryListingPage({ params }: { params: { state
   const addressParts = [listing.street_address, listing.suite, listing.listing_city, listing.listing_state, listing.zip_code].filter(Boolean);
   const fullAddress = addressParts.length > 0 ? addressParts.join(", ") : listing.address;
 
+  // Tags  -  Connected gets 2, Amplified gets 4
+  const rawTags: string[] = Array.isArray(listing.tags) ? listing.tags.filter(Boolean) : [];
+  const visibleTags = isAmplified ? rawTags.slice(0, 4) : isConnected ? rawTags.slice(0, 2) : [];
+
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org", "@type": "LocalBusiness",
     name: listing.business_name, description: listing.description || listing.tagline || "",
@@ -161,12 +165,19 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ backgroundColor: badge.color, color: badge.textColor }}>{badge.label}</span>
                 {member.is_nap_verified && <span className="text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-700">NAP Verified</span>}
               </div>
-              {listing.tagline && <p className="text-white text-lg italic mb-2">{listing.tagline}</p>}
-              <div className="flex items-center gap-4 text-white text-sm">
+              {isConnected && listing.tagline && <p className="text-white text-lg italic mb-2">{listing.tagline}</p>}
+              <div className="flex items-center gap-4 text-white text-sm flex-wrap">
                 {catName && <span>{catName}</span>}
                 {listing.city && <span className="capitalize">{listing.city}</span>}
-                {totalReviews > 0 && <span className="text-white">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
+                {isAmplified && totalReviews > 0 && <span className="text-white">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
               </div>
+              {visibleTags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {visibleTags.map((tag: string) => (
+                    <span key={tag} className="bg-white/15 text-white text-xs font-medium px-3 py-1 rounded-full">{tag}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -174,7 +185,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
 
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[900px] mx-auto space-y-10">
-          {listing.description && (
+          {isConnected && listing.description && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-3">About</h2>
               <p className="text-navy leading-relaxed whitespace-pre-line">{listing.description}</p>
@@ -198,8 +209,12 @@ export default async function DirectoryListingPage({ params }: { params: { state
             </div>
           )}
 
-          {!isConnected && listing.contact_name && (
-            <div className="bg-gray-50 rounded-xl p-6"><h2 className="font-heading text-xl font-bold text-navy mb-3">Contact</h2><p className="text-navy">{listing.contact_name}</p></div>
+          {!isConnected && (
+            <div className="bg-gray-50 rounded-xl p-6">
+              <h2 className="font-heading text-xl font-bold text-navy mb-3">Contact</h2>
+              {listing.contact_name && <p className="text-navy">{listing.contact_name}</p>}
+              {listing.city && <p className="text-navy text-sm capitalize mt-1">{listing.city}</p>}
+            </div>
           )}
 
           {isAmplified && listing.photos && Array.isArray(listing.photos) && listing.photos.length > 0 && (
@@ -287,24 +302,26 @@ export default async function DirectoryListingPage({ params }: { params: { state
             </div>
           )}
 
-          <div className="border-t border-gray-200 pt-10">
-            <h2 className="font-heading text-2xl font-bold text-navy mb-6">Reviews</h2>
-            {totalReviews > 0 ? (
-              <>
-                <div className="bg-gray-50 rounded-xl p-6 mb-8 flex items-center gap-6">
-                  <div className="text-center">
-                    <p className="font-heading text-4xl font-bold text-navy">{avgRating.toFixed(1)}</p>
-                    <p className="text-navy text-lg">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))}</p>
-                    <p className="text-navy text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
+          {isAmplified && (
+            <div className="border-t border-gray-200 pt-10">
+              <h2 className="font-heading text-2xl font-bold text-navy mb-6">Reviews</h2>
+              {totalReviews > 0 ? (
+                <>
+                  <div className="bg-gray-50 rounded-xl p-6 mb-8 flex items-center gap-6">
+                    <div className="text-center">
+                      <p className="font-heading text-4xl font-bold text-navy">{avgRating.toFixed(1)}</p>
+                      <p className="text-navy text-lg">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))}</p>
+                      <p className="text-navy text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
+                    </div>
                   </div>
-                </div>
-                <ReviewList reviews={reviews} />
-              </>
-            ) : (
-              <p className="text-navy mb-8">No reviews yet. Be the first to leave one!</p>
-            )}
-            <ReviewForm listingId={listing.id} />
-          </div>
+                  <ReviewList reviews={reviews} />
+                </>
+              ) : (
+                <p className="text-navy mb-8">No reviews yet. Be the first to leave one!</p>
+              )}
+              <ReviewForm listingId={listing.id} />
+            </div>
+          )}
         </div>
       </section>
     </>
