@@ -66,7 +66,7 @@ export default async function AdminCheckInPage({
         <div className="flex items-center gap-4 mb-6">
           <Link
             href={`/admin/events/${eventId}`}
-            className="text-gray-500 hover:text-[#1F3149] transition"
+            className="text-gray-900 hover:text-[#1F3149] transition"
           >
             &larr; Event
           </Link>
@@ -80,7 +80,7 @@ export default async function AdminCheckInPage({
           <div className="text-center">
             <p className="text-5xl font-bold text-[#1F3149]">
               {checkedInCount}
-              <span className="text-2xl font-normal text-gray-500">
+              <span className="text-2xl font-normal text-gray-900">
                 {" "}
                 of {allTickets.length}
               </span>

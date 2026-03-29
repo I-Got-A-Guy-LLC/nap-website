@@ -87,7 +87,7 @@ export default function CheckInDashboard({
                   <td className="px-4 py-3 text-sm text-gray-600">
                     {ticket.attendee_email}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-500 font-mono">
+                  <td className="px-4 py-3 text-sm text-gray-900 font-mono">
                     {ticket.ticket_code}
                   </td>
                   <td className="px-4 py-3">
@@ -131,7 +131,7 @@ export default function CheckInDashboard({
               <tr>
                 <td
                   colSpan={5}
-                  className="px-4 py-8 text-center text-gray-500"
+                  className="px-4 py-8 text-center text-gray-900"
                 >
                   {search
                     ? "No tickets match your search."

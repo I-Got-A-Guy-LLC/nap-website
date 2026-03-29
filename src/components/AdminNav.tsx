@@ -32,14 +32,14 @@ export default function AdminNav() {
               className={`px-4 py-3 text-sm font-medium transition-colors ${
                 isActive(link.href)
                   ? "text-gold border-b-2 border-gold"
-                  : "text-white/60 hover:text-white"
+                  : "text-white hover:text-white"
               }`}
             >
               {link.label}
             </Link>
           ))}
         </div>
-        <Link href="/" className="text-white/70 text-sm hover:text-white transition-colors">
+        <Link href="/" className="text-white text-sm hover:text-white transition-colors">
           ← Back to Site
         </Link>
       </div>

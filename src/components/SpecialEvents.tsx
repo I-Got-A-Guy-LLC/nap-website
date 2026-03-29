@@ -31,8 +31,8 @@ export default function SpecialEvents() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="text-navy/60 text-sm">Loading events...</p>;
-  if (events.length === 0) return <p className="text-navy/60 text-sm">No upcoming special events right now. Check back soon!</p>;
+  if (loading) return <p className="text-navy text-sm">Loading events...</p>;
+  if (events.length === 0) return <p className="text-navy text-sm">No upcoming special events right now. Check back soon!</p>;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,15 +56,15 @@ export default function SpecialEvents() {
               )}
             </div>
             <p className="text-navy text-sm font-medium mb-1">{dateStr}</p>
-            <p className="text-navy/60 text-sm mb-1">{evt.start_time} – {evt.end_time}</p>
-            <p className="text-navy/60 text-sm mb-3">{evt.location_name}{evt.city ? `, ${evt.city}` : ""}</p>
+            <p className="text-navy text-sm mb-1">{evt.start_time} – {evt.end_time}</p>
+            <p className="text-navy text-sm mb-3">{evt.location_name}{evt.city ? `, ${evt.city}` : ""}</p>
             <div className="flex items-center justify-between mt-4">
               <span className="text-navy font-bold">
                 {evt.is_free ? "Free" : `$${Number(evt.ticket_price).toFixed(2)}`}
               </span>
               <div className="flex items-center gap-3">
                 {spotsLeft !== null && !isSoldOut && (
-                  <span className="text-navy/60 text-sm">{spotsLeft} spots left</span>
+                  <span className="text-navy text-sm">{spotsLeft} spots left</span>
                 )}
                 <span className="bg-[#FE6651] text-white font-bold text-sm px-5 py-2 rounded-full">
                   {isSoldOut ? "Sold Out" : "Get Tickets →"}

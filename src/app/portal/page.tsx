@@ -69,7 +69,7 @@ export default async function PortalPage() {
               </span>
             )}
             {member.city && (
-              <span className="text-white/70 text-sm capitalize">{member.city}</span>
+              <span className="text-white text-sm capitalize">{member.city}</span>
             )}
           </div>
         </div>
@@ -85,7 +85,7 @@ export default async function PortalPage() {
                 <div>
                   <span className="inline-block bg-[#FE6651] text-white text-xs font-bold px-2.5 py-1 rounded-full mb-2">Super Admin</span>
                   <h3 className="font-heading text-xl font-bold text-white">Admin Dashboard</h3>
-                  <p className="text-white/60 text-sm mt-1">Manage members, events, listings, and revenue</p>
+                  <p className="text-white text-sm mt-1">Manage members, events, listings, and revenue</p>
                 </div>
                 <span className="text-gold text-2xl group-hover:translate-x-1 transition-transform">&rarr;</span>
               </div>
@@ -98,7 +98,7 @@ export default async function PortalPage() {
                 <div>
                   <span className="inline-block bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full mb-2">City Leader</span>
                   <h3 className="font-heading text-xl font-bold text-navy">Leader Dashboard</h3>
-                  <p className="text-navy/60 text-sm mt-1">Manage your chapter and verify members</p>
+                  <p className="text-navy text-sm mt-1">Manage your chapter and verify members</p>
                 </div>
                 <span className="text-navy text-2xl group-hover:translate-x-1 transition-transform">&rarr;</span>
               </div>
@@ -121,17 +121,17 @@ export default async function PortalPage() {
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Subscription</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                 <div>
-                  <span className="text-navy/70 block mb-0.5">Plan</span>
+                  <span className="text-navy block mb-0.5">Plan</span>
                   <span className="font-bold text-navy">{tierLabels[tier]}</span>
                 </div>
                 <div>
-                  <span className="text-navy/70 block mb-0.5">Status</span>
+                  <span className="text-navy block mb-0.5">Status</span>
                   <span className="font-bold text-navy capitalize">
                     {member.subscription_status || "Active"}
                   </span>
                 </div>
                 <div>
-                  <span className="text-navy/70 block mb-0.5">Next Renewal</span>
+                  <span className="text-navy block mb-0.5">Next Renewal</span>
                   <span className="font-bold text-navy">
                     {member.current_period_end
                       ? new Date(member.current_period_end).toLocaleDateString("en-US", {
@@ -155,25 +155,25 @@ export default async function PortalPage() {
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.views_this_month || 0}
                   </p>
-                  <p className="text-navy/70 text-xs mt-1">Views This Month</p>
+                  <p className="text-navy text-xs mt-1">Views This Month</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 text-center border border-gray-100">
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.views_all_time || 0}
                   </p>
-                  <p className="text-navy/70 text-xs mt-1">Views All Time</p>
+                  <p className="text-navy text-xs mt-1">Views All Time</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 text-center border border-gray-100">
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.website_clicks_this_month || 0}
                   </p>
-                  <p className="text-navy/70 text-xs mt-1">Clicks This Month</p>
+                  <p className="text-navy text-xs mt-1">Clicks This Month</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 text-center border border-gray-100">
                   <p className="font-heading text-2xl font-bold text-navy">
                     {listing.website_clicks_all_time || 0}
                   </p>
-                  <p className="text-navy/70 text-xs mt-1">Clicks All Time</p>
+                  <p className="text-navy text-xs mt-1">Clicks All Time</p>
                 </div>
               </div>
             </div>
@@ -219,7 +219,7 @@ export default async function PortalPage() {
               <h3 className="font-heading text-lg font-bold text-navy mb-2">
                 Want more visibility?
               </h3>
-              <p className="text-navy/60 text-sm mb-4">
+              <p className="text-navy text-sm mb-4">
                 Upgrade to Connected or Amplified for enhanced features, more categories, and priority placement.
               </p>
               <Link

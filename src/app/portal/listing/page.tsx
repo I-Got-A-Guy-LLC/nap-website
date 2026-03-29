@@ -122,7 +122,7 @@ async function handleUpload(file: File): Promise<string> {
 function UpgradePrompt({ tierName }: { tierName: string }) {
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
-      <p className="text-navy/50 text-sm mb-2">
+      <p className="text-navy text-sm mb-2">
         Available with {tierName} membership
       </p>
       <Link
@@ -549,7 +549,7 @@ export default function EditListingPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-gray-200 border-t-[#c8a951] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-navy/70">Loading your listing...</p>
+          <p className="text-navy">Loading your listing...</p>
         </div>
       </div>
     );
@@ -582,12 +582,12 @@ export default function EditListingPage() {
               {isAmplified ? (member?.is_leadership ? "Leadership (Amplified)" : "Amplified") :
                isConnected ? "Connected" : "Linked"}
             </span>
-            <span className="text-white/60 text-sm">
+            <span className="text-white text-sm">
               You are editing your {isAmplified ? "Amplified" : isConnected ? "Connected" : "Linked"} listing
             </span>
           </div>
           {!listingId && (
-            <p className="text-white/60 mt-2 text-sm">
+            <p className="text-white mt-2 text-sm">
               Fill out the details below to add your business to the NAP
               Directory.
             </p>
@@ -756,7 +756,7 @@ export default function EditListingPage() {
                             return (
                               <span key={catId} className="inline-flex items-center gap-1.5 bg-navy/10 text-navy text-sm font-medium px-3 py-1.5 rounded-full">
                                 {cat.name}
-                                <button type="button" onClick={() => removeAdditional(catId)} className="text-navy/70 hover:text-red-500 transition-colors">&times;</button>
+                                <button type="button" onClick={() => removeAdditional(catId)} className="text-navy hover:text-red-500 transition-colors">&times;</button>
                               </span>
                             );
                           })}
@@ -865,7 +865,7 @@ export default function EditListingPage() {
                         type="text"
                         readOnly
                         value={listingUrl}
-                        className={`${inputClass} bg-gray-50 text-gray-500 flex-1`}
+                        className={`${inputClass} bg-gray-50 text-gray-900 flex-1`}
                       />
                       <button
                         type="button"
@@ -925,7 +925,7 @@ export default function EditListingPage() {
                             if (idx >= 0) { const u = [...tags]; u[idx] = suggestion; setTags(u); return; }
                             if (isAmplified) { const idx2 = extraTags.findIndex((t) => !t.trim()); if (idx2 >= 0) { const u = [...extraTags]; u[idx2] = suggestion; setExtraTags(u); } }
                           }}
-                          className={`px-2.5 py-1 rounded-full text-xs transition-colors ${alreadyUsed ? "bg-green-100 text-green-600" : "bg-gray-100 text-navy/60 hover:bg-gold/20 hover:text-navy"} disabled:opacity-40`}>
+                          className={`px-2.5 py-1 rounded-full text-xs transition-colors ${alreadyUsed ? "bg-green-100 text-green-600" : "bg-gray-100 text-navy hover:bg-gold/20 hover:text-navy"} disabled:opacity-40`}>
                           {alreadyUsed ? "✓ " : "+ "}{suggestion}
                         </button>
                       );
@@ -965,7 +965,7 @@ export default function EditListingPage() {
                             {filledTags.map((tag) => (
                               <span key={tag} className="inline-flex items-center gap-1.5 bg-gold/15 text-navy text-sm font-medium px-3 py-1.5 rounded-full">
                                 {tag}
-                                <button type="button" onClick={() => removeTag(tag)} className="text-navy/70 hover:text-red-500 transition-colors">&times;</button>
+                                <button type="button" onClick={() => removeTag(tag)} className="text-navy hover:text-red-500 transition-colors">&times;</button>
                               </span>
                             ))}
                           </div>
@@ -1005,7 +1005,7 @@ export default function EditListingPage() {
                       >
                     ).map((platform) => (
                       <div key={platform}>
-                        <label className="block text-xs text-gray-500 mb-1 capitalize">
+                        <label className="block text-xs text-gray-900 mb-1 capitalize">
                           {platform}
                         </label>
                         <input
@@ -1048,23 +1048,23 @@ export default function EditListingPage() {
                   <label className="block text-sm font-bold text-navy mb-3">Special Offer</label>
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Offer Title *</label>
+                      <label className="block text-xs text-gray-900 mb-1">Offer Title *</label>
                       <input type="text" maxLength={60} value={offerHeadline} onChange={(e) => setOfferHeadline(e.target.value)}
                         className={inputClass} placeholder="e.g. Free Strategy Session" />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Offer Subtitle</label>
+                      <label className="block text-xs text-gray-900 mb-1">Offer Subtitle</label>
                       <input type="text" maxLength={200} value={offerDetails} onChange={(e) => setOfferDetails(e.target.value)}
                         className={inputClass} placeholder="e.g. Mention NAP when you book" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs text-gray-500 mb-1">Coupon Code (optional)</label>
+                        <label className="block text-xs text-gray-900 mb-1">Coupon Code (optional)</label>
                         <input type="text" maxLength={20} value={offerPromoCode} onChange={(e) => setOfferPromoCode(e.target.value.toUpperCase())}
                           className={`${inputClass} font-mono`} placeholder="e.g. NAP2024" />
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-500 mb-1">Expiration Date (optional)</label>
+                        <label className="block text-xs text-gray-900 mb-1">Expiration Date (optional)</label>
                         <input type="date" value={offerExpires} onChange={(e) => setOfferExpires(e.target.value)} className={inputClass} />
                       </div>
                     </div>

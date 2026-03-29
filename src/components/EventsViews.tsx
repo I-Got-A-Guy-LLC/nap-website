@@ -129,8 +129,8 @@ function CardsView() {
           </h3>
           <p className="text-navy font-medium mb-1">{e.timeRange}</p>
           <p className="text-navy mb-1">{e.venue}</p>
-          {e.leaders && <p className="text-navy/50 text-sm">Led by {e.leaders}</p>}
-          <p className="text-navy/50 text-sm mb-4">{e.address}</p>
+          {e.leaders && <p className="text-navy text-sm">Led by {e.leaders}</p>}
+          <p className="text-navy text-sm mb-4">{e.address}</p>
           <div className="flex items-center justify-between">
             <span className="text-green-600 text-xs font-bold bg-green-50 px-3 py-1 rounded-full">
               Free to Attend
@@ -177,7 +177,7 @@ function ListView() {
                 <td className="px-5 py-4 text-navy">{e.day}</td>
                 <td className="px-5 py-4 text-navy">{e.timeRange}</td>
                 <td className="px-5 py-4 text-navy">{e.venue}</td>
-                <td className="px-5 py-4 text-navy/60 text-sm">{e.address}</td>
+                <td className="px-5 py-4 text-navy text-sm">{e.address}</td>
                 <td className="px-5 py-4">
                   <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy font-bold text-xs px-4 py-1.5 rounded-full hover:bg-gold/90 transition-colors">
                     RSVP
@@ -199,7 +199,7 @@ function ListView() {
             </div>
             <p className="text-navy text-sm">{e.day} &middot; {e.timeRange}</p>
             <p className="text-navy text-sm">{e.venue}</p>
-            <p className="text-navy/50 text-xs mb-3">{e.address}</p>
+            <p className="text-navy text-xs mb-3">{e.address}</p>
             <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy font-bold text-xs px-4 py-1.5 rounded-full hover:bg-gold/90 transition-colors">
               RSVP
             </a>
@@ -261,7 +261,7 @@ function CalendarView() {
 
       {/* Desktop calendar grid */}
       <div className="hidden md:block">
-        <div className="grid grid-cols-7 text-center text-xs font-bold text-navy/50 uppercase tracking-wider mb-2">
+        <div className="grid grid-cols-7 text-center text-xs font-bold text-navy uppercase tracking-wider mb-2">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
             <div key={d} className="py-2">{d}</div>
           ))}
@@ -277,7 +277,7 @@ function CalendarView() {
               className={`aspect-square rounded-lg border text-sm flex flex-col items-center justify-center gap-1 transition-all ${
                 day.events.length > 0
                   ? "border-gray-200 hover:border-gold hover:shadow-md cursor-pointer bg-white"
-                  : "border-transparent text-navy/60 cursor-default"
+                  : "border-transparent text-navy cursor-default"
               } ${selectedDay === String(day.date) ? "ring-2 ring-gold shadow-md" : ""}`}
             >
               <span className="font-medium">{day.date}</span>
@@ -320,7 +320,7 @@ function CalendarView() {
                   {day.events.map((e) => (
                     <div key={e.city} className="text-sm">
                       <span className="font-bold text-navy">{e.city}</span>
-                      <span className="text-navy/60"> · {e.time} · {e.venue}</span>
+                      <span className="text-navy"> · {e.time} · {e.venue}</span>
                     </div>
                   ))}
                 </div>
@@ -340,14 +340,14 @@ function CalendarView() {
               <span className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: e.color }} />
               <div>
                 <p className="font-bold text-navy">{e.city}  -  {e.time}</p>
-                <p className="text-navy/60 text-sm">{e.venue}</p>
+                <p className="text-navy text-sm">{e.venue}</p>
                 <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="text-gold text-sm font-bold hover:underline">
                   RSVP on Facebook &rarr;
                 </a>
               </div>
             </div>
           ))}
-          <button onClick={() => setSelectedDay(null)} className="text-navy/70 text-xs mt-2 hover:text-navy">
+          <button onClick={() => setSelectedDay(null)} className="text-navy text-xs mt-2 hover:text-navy">
             Close
           </button>
         </div>

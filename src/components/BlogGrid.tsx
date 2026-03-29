@@ -44,7 +44,7 @@ export default function BlogGrid({ posts }: BlogGridProps) {
             className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${
               active === cat
                 ? "bg-gold text-navy shadow-sm scale-105"
-                : "bg-white text-navy/70 border border-gray-200 hover:border-gold hover:text-gold"
+                : "bg-white text-navy border border-gray-200 hover:border-gold hover:text-gold"
             }`}
           >
             {cat}
@@ -79,11 +79,11 @@ export default function BlogGrid({ posts }: BlogGridProps) {
               <h2 className="font-heading text-base font-bold text-navy mb-2 group-hover:text-gold transition-colors line-clamp-2 leading-snug">
                 {post.title}
               </h2>
-              <p className="text-navy/60 text-sm leading-relaxed mb-4 line-clamp-2">
+              <p className="text-navy text-sm leading-relaxed mb-4 line-clamp-2">
                 {post.excerpt}
               </p>
 
-              <div className="flex items-center justify-between text-xs text-navy/70">
+              <div className="flex items-center justify-between text-xs text-navy">
                 <span className="font-medium">{post.author}</span>
                 <div className="flex items-center gap-1.5">
                   {post.readTime && (
@@ -111,7 +111,7 @@ export default function BlogGrid({ posts }: BlogGridProps) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="text-center text-navy/50 py-12">
+        <p className="text-center text-navy py-12">
           No posts in this category yet. Check back soon!
         </p>
       )}

@@ -184,7 +184,7 @@ export default async function Home() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
               We Love Getting People Together
             </h2>
-            <p className="text-white/80 text-lg md:text-xl italic mb-10">
+            <p className="text-white text-lg md:text-xl italic mb-10">
               It&apos;s the essence of what we do
             </p>
             <Link
@@ -362,7 +362,7 @@ export default async function Home() {
                     <span className="text-xs font-medium text-navy uppercase tracking-wide">
                       {post.category}
                     </span>
-                    <h3 className="mt-1 font-heading font-bold text-navy group-hover:text-navy/70 transition-colors line-clamp-2">
+                    <h3 className="mt-1 font-heading font-bold text-navy group-hover:text-navy transition-colors line-clamp-2">
                       {post.title}
                     </h3>
                     <p className="mt-1 text-sm text-navy">
@@ -483,7 +483,7 @@ export default async function Home() {
               <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-4">
                 Join the Conversation
               </h2>
-              <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+              <p className="text-white text-lg md:text-xl leading-relaxed mb-10">
                 Every week we post a Question of the Week in our Facebook Group  -  it&apos;s where the real networking happens between meetings.
               </p>
               <a

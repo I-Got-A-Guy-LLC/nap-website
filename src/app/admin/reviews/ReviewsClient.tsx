@@ -49,19 +49,19 @@ export default function ReviewsClient() {
     return (
       <span className="text-[#FBC761]">
         {"★".repeat(rating)}
-        <span className="text-gray-300">{"★".repeat(5 - rating)}</span>
+        <span className="text-gray-900">{"★".repeat(5 - rating)}</span>
       </span>
     );
   }
 
   if (loading) {
-    return <div className="text-gray-500">Loading...</div>;
+    return <div className="text-gray-900">Loading...</div>;
   }
 
   if (reviews.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow p-8 text-center">
-        <p className="text-gray-500">No reviews yet.</p>
+        <p className="text-gray-900">No reviews yet.</p>
       </div>
     );
   }
@@ -91,7 +91,7 @@ export default function ReviewsClient() {
                 <td className="px-4 py-3 max-w-xs truncate text-gray-600">
                   {r.text}
                 </td>
-                <td className="px-4 py-3 text-gray-500">
+                <td className="px-4 py-3 text-gray-900">
                   {new Date(r.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">

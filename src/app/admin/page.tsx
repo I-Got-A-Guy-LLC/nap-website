@@ -117,7 +117,7 @@ export default async function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {/* Card 1  -  Members by Tier */}
           <div className="bg-white rounded-xl shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
               Members by Tier
             </h3>
             <div className="mt-3 space-y-1 text-sm">
@@ -132,7 +132,7 @@ export default async function AdminDashboard() {
                 <span className="font-bold text-[#1F3149]">
                   {tierCounts.connected}
                 </span>
-                <span className="text-xs text-gray-500 ml-1">
+                <span className="text-xs text-gray-900 ml-1">
                   (paid: {paidCounts.connected} | comped: {compedCounts.connected})
                 </span>
               </p>
@@ -141,7 +141,7 @@ export default async function AdminDashboard() {
                 <span className="font-bold text-[#1F3149]">
                   {tierCounts.amplified}
                 </span>
-                <span className="text-xs text-gray-500 ml-1">
+                <span className="text-xs text-gray-900 ml-1">
                   (paid: {paidCounts.amplified} | comped: {compedCounts.amplified})
                 </span>
               </p>
@@ -150,7 +150,7 @@ export default async function AdminDashboard() {
                 <span className="font-bold text-[#1F3149]">
                   {leadershipCount}
                 </span>
-                <span className="text-xs text-gray-500 ml-1">
+                <span className="text-xs text-gray-900 ml-1">
                   (always comped)
                 </span>
               </p>
@@ -159,14 +159,14 @@ export default async function AdminDashboard() {
 
           {/* Card 2  -  Actual Revenue */}
           <div className="bg-white rounded-xl shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
               Actual Revenue
             </h3>
             <p className="mt-3 text-2xl font-bold text-[#1F3149]">
               ${mrr.toLocaleString()}
-              <span className="text-sm font-normal text-gray-500"> /mo MRR</span>
+              <span className="text-sm font-normal text-gray-900"> /mo MRR</span>
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-900">
               ~${arr.toLocaleString()} ARR
             </p>
             <p className="text-xs text-gray-600 mt-2">
@@ -176,14 +176,14 @@ export default async function AdminDashboard() {
 
           {/* Card 3  -  Potential Revenue */}
           <div className="bg-white rounded-xl shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
               Potential Revenue
             </h3>
             <p className="mt-3 text-2xl font-bold text-[#FBC761]">
               +${potentialMrr.toLocaleString()}
-              <span className="text-sm font-normal text-gray-500"> /mo</span>
+              <span className="text-sm font-normal text-gray-900"> /mo</span>
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-900">
               ~${potentialArr.toLocaleString()} ARR
             </p>
             <p className="text-xs text-gray-600 mt-2">
@@ -196,7 +196,7 @@ export default async function AdminDashboard() {
             href="/admin/approvals"
             className="bg-white rounded-xl shadow p-6 hover:ring-2 hover:ring-[#FBC761] transition"
           >
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
               Pending Approvals
             </h3>
             <p className="mt-3 text-3xl font-bold text-[#FBC761]">
@@ -206,7 +206,7 @@ export default async function AdminDashboard() {
 
           {/* Card 5  -  Unread Notifications */}
           <div className="bg-white rounded-xl shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
               Unread Notifications
             </h3>
             <p className="mt-3 text-3xl font-bold text-[#1F3149]">

@@ -84,7 +84,7 @@ export default function PromoCodeManager({ eventId }: { eventId: string }) {
         <div className="overflow-x-auto mb-4">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-gray-500 border-b">
+              <tr className="text-left text-gray-900 border-b">
                 <th className="pb-2 font-medium">Code</th>
                 <th className="pb-2 font-medium">Discount</th>
                 <th className="pb-2 font-medium">Uses</th>
@@ -118,12 +118,12 @@ export default function PromoCodeManager({ eventId }: { eventId: string }) {
         <p className="text-sm font-bold text-navy">Create New Code</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div>
-            <label className="block text-xs text-gray-500 mb-0.5">Code</label>
+            <label className="block text-xs text-gray-900 mb-0.5">Code</label>
             <input type="text" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())}
               className="w-full border border-gray-200 rounded px-2 py-1.5 text-sm font-mono" placeholder="FREETICKET" required />
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-0.5">Type</label>
+            <label className="block text-xs text-gray-900 mb-0.5">Type</label>
             <select value={discountType} onChange={(e) => setDiscountType(e.target.value as "percent" | "fixed")}
               className="w-full border border-gray-200 rounded px-2 py-1.5 text-sm bg-white">
               <option value="percent">% Off</option>
@@ -131,19 +131,19 @@ export default function PromoCodeManager({ eventId }: { eventId: string }) {
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-0.5">Value</label>
+            <label className="block text-xs text-gray-900 mb-0.5">Value</label>
             <input type="number" value={discountValue} onChange={(e) => setDiscountValue(e.target.value)}
               className="w-full border border-gray-200 rounded px-2 py-1.5 text-sm" placeholder="100" required />
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-0.5">Max Uses</label>
+            <label className="block text-xs text-gray-900 mb-0.5">Max Uses</label>
             <input type="number" value={maxUses} onChange={(e) => setMaxUses(e.target.value)}
               className="w-full border border-gray-200 rounded px-2 py-1.5 text-sm" />
           </div>
         </div>
         <div className="flex gap-3 items-end">
           <div>
-            <label className="block text-xs text-gray-500 mb-0.5">Expires (optional)</label>
+            <label className="block text-xs text-gray-900 mb-0.5">Expires (optional)</label>
             <input type="date" value={expires} onChange={(e) => setExpires(e.target.value)}
               className="border border-gray-200 rounded px-2 py-1.5 text-sm" />
           </div>

@@ -125,7 +125,7 @@ export default function ContactPage() {
                     >
                       <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
                       <span className="font-medium group-hover:underline">{c.name}</span>
-                      <span className="text-navy/70 text-sm">{c.detail}</span>
+                      <span className="text-navy text-sm">{c.detail}</span>
                     </Link>
                   ))}
                 </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6">
               Rather Just Show Up?
             </h2>
-            <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-white text-lg md:text-xl leading-relaxed mb-10">
               You don&apos;t need to contact us to attend a meeting. Just find your city and walk
               through the door  -  it&apos;s free and no registration required.
             </p>

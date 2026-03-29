@@ -102,22 +102,22 @@ export default function MemberDetailClient({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-gray-500">Email:</span> {member.email}
+            <span className="text-gray-900">Email:</span> {member.email}
           </div>
           <div>
-            <span className="text-gray-500">Business:</span>{" "}
+            <span className="text-gray-900">Business:</span>{" "}
             {member.business_name || " - "}
           </div>
           <div>
-            <span className="text-gray-500">City:</span>{" "}
+            <span className="text-gray-900">City:</span>{" "}
             {member.city || " - "}
           </div>
           <div>
-            <span className="text-gray-500">Status:</span>{" "}
+            <span className="text-gray-900">Status:</span>{" "}
             {member.status || " - "}
           </div>
           <div>
-            <span className="text-gray-500">Joined:</span>{" "}
+            <span className="text-gray-900">Joined:</span>{" "}
             {new Date(member.created_at).toLocaleDateString()}
           </div>
         </div>
@@ -219,7 +219,7 @@ export default function MemberDetailClient({
           </label>
 
           <div>
-            <label className="block text-sm text-gray-500 mb-1">
+            <label className="block text-sm text-gray-900 mb-1">
               Comp reason
             </label>
             <input
@@ -232,7 +232,7 @@ export default function MemberDetailClient({
           </div>
 
           <div>
-            <label className="block text-sm text-gray-500 mb-1">
+            <label className="block text-sm text-gray-900 mb-1">
               Comp expires (optional)
             </label>
             <input
@@ -357,9 +357,9 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
             <span className="text-navy text-sm font-medium">{listing.business_name}</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
-            <div><span className="text-gray-500">Contact:</span> {listing.contact_name}</div>
-            <div><span className="text-gray-500">City:</span> {listing.city || " - "}</div>
-            <div><span className="text-gray-500">Approved:</span> {listing.is_approved ? "Yes" : "No"}</div>
+            <div><span className="text-gray-900">Contact:</span> {listing.contact_name}</div>
+            <div><span className="text-gray-900">City:</span> {listing.city || " - "}</div>
+            <div><span className="text-gray-900">Approved:</span> {listing.is_approved ? "Yes" : "No"}</div>
           </div>
           <div className="flex gap-3">
             {listing.is_approved && listingSlug && (
@@ -377,7 +377,7 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
       ) : (
         <>
           {/* No listing yet */}
-          <p className="text-gray-500 text-sm mb-4">No listing created yet for this member.</p>
+          <p className="text-gray-900 text-sm mb-4">No listing created yet for this member.</p>
           <div className="flex gap-3 mb-4">
             <button onClick={() => setShowCreateForm(!showCreateForm)}
               className="bg-gold text-navy font-bold px-5 py-2 rounded-full text-sm hover:bg-gold/90 transition-colors">
@@ -392,12 +392,12 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
           {showCreateForm && (
             <form onSubmit={createListing} className="border border-gray-200 rounded-xl p-4 space-y-3">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Business Name *</label>
+                <label className="block text-xs text-gray-900 mb-1">Business Name *</label>
                 <input type="text" required value={createBiz} onChange={(e) => setCreateBiz(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">City</label>
+                <label className="block text-xs text-gray-900 mb-1">City</label>
                 <select value={createCity} onChange={(e) => setCreateCity(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gold">
                   <option value="">Select...</option>
@@ -408,7 +408,7 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Tagline (optional)</label>
+                <label className="block text-xs text-gray-900 mb-1">Tagline (optional)</label>
                 <input type="text" value={createTagline} onChange={(e) => setCreateTagline(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold" placeholder="Short description" />
               </div>

@@ -158,7 +158,7 @@ export default function EventsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
                   </svg>
-                  <span className="text-white/60 text-sm">Event Photo  -  {label}</span>
+                  <span className="text-white text-sm">Event Photo  -  {label}</span>
                 </div>
               ))}
             </div>
@@ -173,7 +173,7 @@ export default function EventsPage() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">
               Put Your Business in Front of Middle Tennessee&apos;s Most Connected Professionals
             </h2>
-            <p className="text-white/70 text-lg leading-relaxed mb-12">
+            <p className="text-white text-lg leading-relaxed mb-12">
               Networking For Awesome People hosts 15+ free networking events every month across four
               Middle Tennessee cities. Our members are business owners, entrepreneurs, and
               professionals actively looking to refer and be referred. Sponsorship opportunities are
@@ -224,7 +224,7 @@ export default function EventsPage() {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-navy mb-6">
               Ready to Show Up?
             </h2>
-            <p className="text-navy/70 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-navy text-lg md:text-xl leading-relaxed mb-10">
               Pick your city, pick your day, and walk through the door. Networking For Awesome People
               is free, weekly, and genuinely welcoming.
             </p>

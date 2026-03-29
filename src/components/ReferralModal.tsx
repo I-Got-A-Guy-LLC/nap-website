@@ -92,7 +92,7 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
             <div className="text-center py-8">
               <div className="text-5xl mb-4">🎉</div>
               <h2 className="font-heading text-2xl font-bold text-navy mb-2">Referral Sent!</h2>
-              <p className="text-navy/60 mb-6">
+              <p className="text-navy mb-6">
                 {businessName} will be in touch with {referredName} soon.
               </p>
               <button onClick={onClose} className="bg-gold text-navy font-bold px-8 py-3 rounded-full hover:bg-gold/90 transition-colors">
@@ -105,7 +105,7 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
                 <h2 className="font-heading text-xl font-bold text-navy mb-1">
                   Refer someone to {businessName}
                 </h2>
-                <p className="text-navy/50 text-sm">
+                <p className="text-navy text-sm">
                   Know someone who could benefit from their services? Let them know!
                 </p>
               </div>
@@ -135,11 +135,11 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-navy text-sm font-bold mb-1">Their Phone <span className="font-normal text-navy/70">(optional)</span></label>
+                    <label className="block text-navy text-sm font-bold mb-1">Their Phone <span className="font-normal text-navy">(optional)</span></label>
                     <input type="tel" value={referredPhone} onChange={(e) => setReferredPhone(e.target.value)} className={inputClass} placeholder="(615) 555-0123" />
                   </div>
                   <div>
-                    <label className="block text-navy text-sm font-bold mb-1">Their Business <span className="font-normal text-navy/70">(optional)</span></label>
+                    <label className="block text-navy text-sm font-bold mb-1">Their Business <span className="font-normal text-navy">(optional)</span></label>
                     <input type="text" value={referredBusiness} onChange={(e) => setReferredBusiness(e.target.value)} className={inputClass} placeholder="Company name" />
                   </div>
                 </div>
@@ -152,7 +152,7 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
                 {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
 
                 <div className="flex items-center justify-between pt-2">
-                  <button type="button" onClick={onClose} className="text-navy/70 text-sm hover:text-navy transition-colors">
+                  <button type="button" onClick={onClose} className="text-navy text-sm hover:text-navy transition-colors">
                     Cancel
                   </button>
                   <button type="submit" disabled={loading}
@@ -160,7 +160,7 @@ export default function ReferralModal({ listingId, businessName, isOpen, onClose
                     {loading ? "Sending..." : "Send Referral"}
                   </button>
                 </div>
-                <p className="text-navy/60 text-xs text-center">
+                <p className="text-navy text-xs text-center">
                   The business owner will receive your referral by email.
                 </p>
               </form>

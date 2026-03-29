@@ -97,7 +97,7 @@ export default function BroadcastsPage() {
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold text-navy mb-2">Email Broadcasts</h1>
-      <p className="text-navy/60 mb-8">Send a message to your members. All emails are sent via Resend with NAP branding.</p>
+      <p className="text-navy mb-8">Send a message to your members. All emails are sent via Resend with NAP branding.</p>
 
       {/* Composer */}
       <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm mb-10">
@@ -114,14 +114,14 @@ export default function BroadcastsPage() {
                 className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
                   category === cat
                     ? "bg-navy text-white shadow-sm"
-                    : "bg-gray-100 text-navy/70 hover:bg-gray-200"
+                    : "bg-gray-100 text-navy hover:bg-gray-200"
                 }`}
               >
                 {cat}
               </button>
             ))}
           </div>
-          <p className="text-xs text-navy/50 mt-2">{CATEGORY_DESCRIPTIONS[category]}</p>
+          <p className="text-xs text-navy mt-2">{CATEGORY_DESCRIPTIONS[category]}</p>
         </div>
 
         {/* Audience */}
@@ -135,14 +135,14 @@ export default function BroadcastsPage() {
                 className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all capitalize ${
                   audience === city
                     ? "bg-gold text-navy shadow-sm"
-                    : "bg-gray-100 text-navy/70 hover:bg-gray-200"
+                    : "bg-gray-100 text-navy hover:bg-gray-200"
                 }`}
               >
                 {city === "all" ? "All Cities" : city}
               </button>
             ))}
           </div>
-          <label className="flex items-center gap-2 text-sm text-navy/70 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-navy cursor-pointer">
             <input
               type="checkbox"
               checked={activeOnly}
@@ -175,7 +175,7 @@ export default function BroadcastsPage() {
             placeholder="Write your message here. Keep it real, keep it NAP."
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none"
           />
-          <p className="text-xs text-navy/40 mt-1">Plain text. Line breaks are preserved in the email.</p>
+          <p className="text-xs text-navy mt-1">Plain text. Line breaks are preserved in the email.</p>
         </div>
 
         {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
@@ -194,9 +194,9 @@ export default function BroadcastsPage() {
       <div>
         <h2 className="text-xl font-bold text-navy mb-4">Sent History</h2>
         {loading ? (
-          <p className="text-navy/50 text-sm">Loading...</p>
+          <p className="text-navy text-sm">Loading...</p>
         ) : broadcasts.length === 0 ? (
-          <p className="text-navy/50 text-sm">No broadcasts sent yet.</p>
+          <p className="text-navy text-sm">No broadcasts sent yet.</p>
         ) : (
           <div className="space-y-3">
             {broadcasts.map((b) => (
@@ -204,11 +204,11 @@ export default function BroadcastsPage() {
                 <div>
                   <span className="text-xs font-bold text-gold uppercase tracking-wide">{b.category}</span>
                   <p className="font-semibold text-navy text-sm mt-0.5">{b.subject}</p>
-                  <p className="text-xs text-navy/50 mt-0.5">
+                  <p className="text-xs text-navy mt-0.5">
                     {b.audience === "all" ? "All cities" : b.audience} · {b.recipient_count} recipients
                   </p>
                 </div>
-                <div className="text-right text-xs text-navy/50">
+                <div className="text-right text-xs text-navy">
                   {new Date(b.sent_at).toLocaleDateString("en-US", {
                     month: "short", day: "numeric", year: "numeric"
                   })}

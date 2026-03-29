@@ -77,7 +77,7 @@ export default function ExpandForm() {
 
       <div>
         <label htmlFor="expand-phone" className="block text-navy text-sm font-bold mb-1">
-          Phone Number <span className="text-navy/60 font-normal">(optional)</span>
+          Phone Number <span className="text-navy font-normal">(optional)</span>
         </label>
         <input
           id="expand-phone"
@@ -162,7 +162,7 @@ export default function ExpandForm() {
       >
         Send My Interest to Rachel
       </button>
-      <p className="text-center text-navy/70 text-sm">
+      <p className="text-center text-navy text-sm">
         No commitment required  -  this is just a conversation starter
       </p>
     </form>

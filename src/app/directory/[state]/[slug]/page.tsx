@@ -149,7 +149,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 {member.is_nap_verified && <span className="text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-700">NAP Verified</span>}
               </div>
               {listing.tagline && <p className="text-gold text-lg italic mb-2">{listing.tagline}</p>}
-              <div className="flex items-center gap-4 text-white/70 text-sm">
+              <div className="flex items-center gap-4 text-white text-sm">
                 {catName && <span>{catName}</span>}
                 {listing.city && <span className="capitalize">{listing.city}</span>}
                 {totalReviews > 0 && <span className="text-gold">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
@@ -164,7 +164,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
           {listing.description && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-3">About</h2>
-              <p className="text-navy/70 leading-relaxed whitespace-pre-line">{listing.description}</p>
+              <p className="text-navy leading-relaxed whitespace-pre-line">{listing.description}</p>
             </div>
           )}
 
@@ -176,7 +176,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
           {isConnected && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Contact Information</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-navy/70">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-navy">
                 {listing.contact_name && <div><span className="font-bold text-navy block mb-0.5">Contact</span>{listing.contact_name}</div>}
                 {listing.contact_email && <div><span className="font-bold text-navy block mb-0.5">Email</span><a href={`mailto:${listing.contact_email}`} className="text-gold hover:underline">{listing.contact_email}</a></div>}
                 {listing.contact_phone && <div><span className="font-bold text-navy block mb-0.5">Phone</span><a href={`tel:${listing.contact_phone}`} className="text-gold hover:underline">{listing.contact_phone}</a></div>}
@@ -186,7 +186,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
           )}
 
           {!isConnected && listing.contact_name && (
-            <div className="bg-gray-50 rounded-xl p-6"><h2 className="font-heading text-xl font-bold text-navy mb-3">Contact</h2><p className="text-navy/70">{listing.contact_name}</p></div>
+            <div className="bg-gray-50 rounded-xl p-6"><h2 className="font-heading text-xl font-bold text-navy mb-3">Contact</h2><p className="text-navy">{listing.contact_name}</p></div>
           )}
 
           {isAmplified && listing.photos && Array.isArray(listing.photos) && listing.photos.length > 0 && (
@@ -214,7 +214,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
                 {dayLabels.map((day) => {
                   const h = hours[day.toLowerCase()];
                   const isOpen = h && typeof h === "object" && h.open;
-                  return <div key={day} className="flex justify-between text-navy/70"><span className="font-medium text-navy">{day}</span><span>{isOpen ? `${h.openTime || "9:00"} – ${h.closeTime || "17:00"}` : "Closed"}</span></div>;
+                  return <div key={day} className="flex justify-between text-navy"><span className="font-medium text-navy">{day}</span><span>{isOpen ? `${h.openTime || "9:00"} – ${h.closeTime || "17:00"}` : "Closed"}</span></div>;
                 })}
               </div>
             </div>
@@ -223,7 +223,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
           {isAmplified && fullAddress && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Location</h2>
-              <p className="text-navy/70 text-sm mb-4">{fullAddress}</p>
+              <p className="text-navy text-sm mb-4">{fullAddress}</p>
               <div className="rounded-xl overflow-hidden"><iframe src={`https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`} width="100%" height="300" style={{ border: 0 }} loading="lazy" title="Location" /></div>
             </div>
           )}
@@ -247,18 +247,18 @@ export default async function DirectoryListingPage({ params }: { params: { state
               {listing.offer_headline ? (
                 <>
                   <h3 className="font-heading text-xl md:text-2xl font-bold text-navy mb-2">{listing.offer_headline}</h3>
-                  {listing.offer_details && <p className="text-navy/60 mb-4">{listing.offer_details}</p>}
+                  {listing.offer_details && <p className="text-navy mb-4">{listing.offer_details}</p>}
                   {listing.offer_promo_code && (
                     <div className="mb-3">
                       <CouponCode code={listing.offer_promo_code} />
                     </div>
                   )}
                   {listing.offer_expires_at && (
-                    <p className="text-navy/60 text-xs">Expires {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
+                    <p className="text-navy text-xs">Expires {new Date(listing.offer_expires_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                   )}
                 </>
               ) : (
-                <p className="text-navy/70 whitespace-pre-line">{listing.special_offers}</p>
+                <p className="text-navy whitespace-pre-line">{listing.special_offers}</p>
               )}
             </div>
           )}
@@ -282,13 +282,13 @@ export default async function DirectoryListingPage({ params }: { params: { state
                   <div className="text-center">
                     <p className="font-heading text-4xl font-bold text-navy">{avgRating.toFixed(1)}</p>
                     <p className="text-gold text-lg">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))}</p>
-                    <p className="text-navy/70 text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
+                    <p className="text-navy text-sm">{totalReviews} review{totalReviews !== 1 ? "s" : ""}</p>
                   </div>
                 </div>
                 <ReviewList reviews={reviews} />
               </>
             ) : (
-              <p className="text-navy/70 mb-8">No reviews yet. Be the first to leave one!</p>
+              <p className="text-navy mb-8">No reviews yet. Be the first to leave one!</p>
             )}
             <ReviewForm listingId={listing.id} />
           </div>

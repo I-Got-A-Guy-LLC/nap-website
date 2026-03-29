@@ -309,8 +309,8 @@ export default function AboutPage() {
                     <p className="text-navy font-medium text-sm mb-1">
                       {loc.day} &middot; {loc.time}
                     </p>
-                    <p className="text-navy/50 text-sm italic mb-1">{loc.venue}</p>
-                    <p className="text-navy/70 text-xs">{loc.address}</p>
+                    <p className="text-navy text-sm italic mb-1">{loc.venue}</p>
+                    <p className="text-navy text-xs">{loc.address}</p>
                   </div>
                   <span
                     className={`${loc.linkColor} text-sm font-bold mt-5 group-hover:underline`}
@@ -331,7 +331,7 @@ export default function AboutPage() {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-3">
               More Questions About Networking For Awesome People
             </h2>
-            <p className="text-navy/50 text-center mb-12 md:mb-16">
+            <p className="text-navy text-center mb-12 md:mb-16">
               These questions go deeper  -  for the basics visit our{" "}
               <Link href="/" className="text-gold hover:underline">
                 homepage FAQ
@@ -349,7 +349,7 @@ export default function AboutPage() {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6">
               Come As You Are
             </h2>
-            <p className="text-white/80 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-white text-lg md:text-xl leading-relaxed mb-10">
               Networking For Awesome People is free, weekly, and genuinely welcoming. Find your city
               and show up  -  that&apos;s all it takes.
             </p>

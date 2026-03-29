@@ -150,7 +150,7 @@ export default async function CheckInPage({
           {ticket.attendee_name}
         </p>
         <p className="text-gray-600 mb-1">{event?.title}</p>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-gray-900 mb-6">
           Ticket: {ticket.ticket_code}
         </p>
         <CheckInButton ticketCode={ticketCode} action="checkin" />

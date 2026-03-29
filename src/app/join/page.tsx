@@ -102,7 +102,7 @@ export default function JoinPage() {
           <p className="text-gold text-lg md:text-xl italic mb-4">
             Get found. Get referred. Get connected.
           </p>
-          <p className="text-white/70 text-sm">
+          <p className="text-white text-sm">
             Directory membership is coming soon  -  register your interest below
           </p>
         </div>
@@ -222,7 +222,7 @@ export default function JoinPage() {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6">
               Ready to Get Found?
             </h2>
-            <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-white text-lg md:text-xl leading-relaxed mb-10">
               Register your interest now and be first in line when the Networking For Awesome People
               directory launches.
             </p>

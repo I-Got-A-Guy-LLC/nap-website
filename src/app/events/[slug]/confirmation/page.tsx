@@ -113,7 +113,7 @@ export default function ConfirmationPage() {
           <h1 className="font-heading text-3xl font-bold text-navy mb-4">
             Something went wrong
           </h1>
-          <p className="text-navy/60 text-lg mb-8">
+          <p className="text-navy text-lg mb-8">
             {error || "Could not find your ticket."}
           </p>
           <Link
@@ -135,7 +135,7 @@ export default function ConfirmationPage() {
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">
             You&apos;re going to {ticket.event.title}!
           </h1>
-          <p className="text-white/70 text-lg">
+          <p className="text-white text-lg">
             Your tickets are confirmed. See you there!
           </p>
         </div>
@@ -145,13 +145,13 @@ export default function ConfirmationPage() {
         <div className="max-w-[500px] mx-auto">
           {/* Ticket Code */}
           <div className="bg-[#F8F9FA] rounded-2xl p-8 text-center mb-8">
-            <p className="text-navy/60 text-sm uppercase tracking-widest mb-2">
+            <p className="text-navy text-sm uppercase tracking-widest mb-2">
               Your Ticket Code
             </p>
             <p className="font-mono text-4xl sm:text-5xl font-bold text-navy tracking-wider">
               {ticket.ticket_code}
             </p>
-            <p className="text-navy/50 text-sm mt-3">
+            <p className="text-navy text-sm mt-3">
               {ticket.quantity} {ticket.quantity === 1 ? "ticket" : "tickets"}
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function ConfirmationPage() {
           {qrDataUrl && (
             <div className="text-center mb-8">
               <img src={qrDataUrl} alt="Ticket QR Code" className="mx-auto w-48 h-48" />
-              <p className="text-navy/60 text-sm mt-2">Show this QR code at the door for fast check-in</p>
+              <p className="text-navy text-sm mt-2">Show this QR code at the door for fast check-in</p>
             </div>
           )}
 
@@ -184,7 +184,7 @@ export default function ConfirmationPage() {
               <span className="text-navy">
                 {ticket.event.location_name}
                 <br />
-                <span className="text-navy/60 text-sm">
+                <span className="text-navy text-sm">
                   {ticket.event.location_address}
                 </span>
               </span>
@@ -214,7 +214,7 @@ export default function ConfirmationPage() {
             <p className="text-navy font-bold text-lg mb-1">
               Show this ticket code at the door
             </p>
-            <p className="text-navy/60 text-sm">
+            <p className="text-navy text-sm">
               Save this page or take a screenshot for easy access at the event.
             </p>
           </div>

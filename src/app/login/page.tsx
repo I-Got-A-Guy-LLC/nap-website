@@ -43,7 +43,7 @@ export default function LoginPage() {
           <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2">
             Sign In
           </h1>
-          <p className="text-white/60">
+          <p className="text-white">
             Networking For Awesome People Member Portal
           </p>
         </div>

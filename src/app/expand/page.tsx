@@ -150,7 +150,7 @@ export default function ExpandPage() {
             <p className="text-gold text-lg italic text-center mb-4">
               Three tiers designed for different levels of commitment and support
             </p>
-            <p className="text-navy/60 text-center text-sm mb-12 max-w-2xl mx-auto">
+            <p className="text-navy text-center text-sm mb-12 max-w-2xl mx-auto">
               All city leaders receive exclusive territory rights  -  no two Networking For Awesome
               People chapters in the same city.
             </p>
@@ -161,8 +161,8 @@ export default function ExpandPage() {
                 <div className="bg-manchester p-6 text-center">
                   <h3 className="font-heading text-2xl font-bold text-navy mb-2">Starter Chapter</h3>
                   <p className="font-heading text-4xl md:text-5xl font-bold text-navy">$500</p>
-                  <p className="text-navy/70 text-sm mt-1">one-time setup fee</p>
-                  <p className="text-navy/60 text-xs mt-2">$300/year or $35/month recurring</p>
+                  <p className="text-navy text-sm mt-1">one-time setup fee</p>
+                  <p className="text-navy text-xs mt-2">$300/year or $35/month recurring</p>
                 </div>
                 <div className="p-6">
                   <p className="text-green-600 font-bold text-sm mb-4">35% of your city&apos;s directory revenue</p>
@@ -173,7 +173,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: Onboarding only</p>
+                  <p className="text-navy text-xs italic mb-4">Rachel&apos;s involvement: Onboarding only</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -187,7 +187,7 @@ export default function ExpandPage() {
                 </div>
                 <div className="bg-navy p-6 pt-8 text-center rounded-t-[10px]">
                   <h3 className="font-heading text-2xl font-bold text-white mb-2">Growth Chapter</h3>
-                  <p className="text-white/80 italic mt-2">Pricing discussed during your conversation with Rachel</p>
+                  <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
                 </div>
                 <div className="p-6">
                   <p className="text-gold font-bold text-sm mb-4">40% of your city&apos;s directory revenue</p>
@@ -198,7 +198,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: Monthly check-ins and active ongoing support</p>
+                  <p className="text-navy text-xs italic mb-4">Rachel&apos;s involvement: Monthly check-ins and active ongoing support</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -209,7 +209,7 @@ export default function ExpandPage() {
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="bg-smyrna p-6 text-center">
                   <h3 className="font-heading text-2xl font-bold text-white mb-2">Founding Chapter</h3>
-                  <p className="text-white/80 italic mt-2">Pricing discussed during your conversation with Rachel</p>
+                  <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
                 </div>
                 <div className="p-6">
                   <p className="text-gold font-bold text-sm mb-4">45% of your city&apos;s directory revenue</p>
@@ -220,7 +220,7 @@ export default function ExpandPage() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-navy/70 text-xs italic mb-4">Rachel&apos;s involvement: High touch  -  quarterly strategy sessions</p>
+                  <p className="text-navy text-xs italic mb-4">Rachel&apos;s involvement: High touch  -  quarterly strategy sessions</p>
                   <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
                     Express Your Interest
                   </a>
@@ -228,7 +228,7 @@ export default function ExpandPage() {
               </div>
             </div>
 
-            <p className="text-navy/70 text-center text-sm italic mt-8">
+            <p className="text-navy text-center text-sm italic mt-8">
               City leaders may upgrade from any tier to a higher tier at any time. Pricing reflects
               the current launch rates  -  subject to change for future applicants.
             </p>
@@ -259,7 +259,7 @@ export default function ExpandPage() {
                   <tbody>
                     <tr className="border-b border-gray-100">
                       <td className="py-2 text-navy">8 Linked members</td>
-                      <td className="py-2 text-navy/50 text-right">$0</td>
+                      <td className="py-2 text-navy text-right">$0</td>
                     </tr>
                     <tr className="border-b border-gray-100">
                       <td className="py-2 text-navy">7 Connected members &times; $300/yr</td>
@@ -278,8 +278,8 @@ export default function ExpandPage() {
                       <td className="py-2 text-green-600 text-right font-bold">$1,840/yr</td>
                     </tr>
                     <tr className="border-b border-gray-100">
-                      <td className="py-2 text-navy/60">Your annual license fee</td>
-                      <td className="py-2 text-navy/60 text-right">-$997/yr</td>
+                      <td className="py-2 text-navy">Your annual license fee</td>
+                      <td className="py-2 text-navy text-right">-$997/yr</td>
                     </tr>
                     <tr>
                       <td className="py-2 text-navy font-bold text-lg">Net to you from directory alone</td>
@@ -288,7 +288,7 @@ export default function ExpandPage() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-navy/50 text-sm mt-4 italic">
+              <p className="text-navy text-sm mt-4 italic">
                 The bigger your directory grows, the more you earn. City leaders are motivated to
                 recruit Connected and Amplified members because it directly benefits them  -  and
                 Networking For Awesome People.
@@ -389,7 +389,7 @@ export default function ExpandPage() {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-navy mb-6">
               Ready to Build Something Real?
             </h2>
-            <p className="text-navy/70 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-navy text-lg md:text-xl leading-relaxed mb-10">
               Networking For Awesome People is looking for community leaders who want to make a
               difference in their city. If that is you, Rachel wants to hear from you.
             </p>
@@ -399,7 +399,7 @@ export default function ExpandPage() {
             >
               Express Your Interest
             </a>
-            <p className="text-navy/50 text-sm mt-4">
+            <p className="text-navy text-sm mt-4">
               Starter licenses from $500 &middot; Exclusive city territory &middot; Real revenue share
             </p>
           </div>

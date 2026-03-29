@@ -154,11 +154,11 @@ export default function DirectoryBrowser() {
 
       {/* Results */}
       {loading ? (
-        <div className="text-center py-12 text-navy/70">Loading directory...</div>
+        <div className="text-center py-12 text-navy">Loading directory...</div>
       ) : listings.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-navy/50 text-lg mb-4">No listings found.</p>
-          <p className="text-navy/70">The directory is just getting started. <Link href="/join" className="text-gold hover:underline">Be one of the first to join.</Link></p>
+          <p className="text-navy text-lg mb-4">No listings found.</p>
+          <p className="text-navy">The directory is just getting started. <Link href="/join" className="text-gold hover:underline">Be one of the first to join.</Link></p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -208,14 +208,14 @@ export default function DirectoryBrowser() {
                     </div>
 
                     {isTop && listing.tagline && (
-                      <p className="text-navy/60 text-sm mb-2">{listing.tagline}</p>
+                      <p className="text-navy text-sm mb-2">{listing.tagline}</p>
                     )}
 
                     {(isTop || isConnected) && listing.description && (
-                      <p className="text-navy/50 text-sm line-clamp-2 mb-2">{listing.description}</p>
+                      <p className="text-navy text-sm line-clamp-2 mb-2">{listing.description}</p>
                     )}
 
-                    <div className="flex items-center gap-3 text-xs text-navy/70">
+                    <div className="flex items-center gap-3 text-xs text-navy">
                       {catName && <span>{catName}</span>}
                       {listing.city && <span className="capitalize">{listing.city}</span>}
                       {listing.website_url && (isTop || isConnected) && (

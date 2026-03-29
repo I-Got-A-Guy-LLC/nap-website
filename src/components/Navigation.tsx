@@ -117,7 +117,7 @@ export default function Navigation() {
                       </Link>
                     )}
                     <div className="border-t border-gray-100 my-1" />
-                    <button onClick={() => signOut({ callbackUrl: "/" })} className="block w-full text-left px-4 py-2.5 text-navy/60 hover:bg-gray-50 transition-colors text-sm">
+                    <button onClick={() => signOut({ callbackUrl: "/" })} className="block w-full text-left px-4 py-2.5 text-navy hover:bg-gray-50 transition-colors text-sm">
                       Sign Out
                     </button>
                   </div>
@@ -201,7 +201,7 @@ export default function Navigation() {
                     Admin Dashboard
                   </Link>
                 )}
-                <button onClick={() => { signOut({ callbackUrl: "/" }); setMobileOpen(false); }} className="block text-white/60 text-sm">
+                <button onClick={() => { signOut({ callbackUrl: "/" }); setMobileOpen(false); }} className="block text-white text-sm">
                   Sign Out
                 </button>
               </>

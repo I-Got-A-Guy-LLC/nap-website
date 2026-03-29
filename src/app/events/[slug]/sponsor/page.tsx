@@ -80,7 +80,7 @@ export default function SponsorPage() {
   }
 
   if (loading) {
-    return <section className="bg-white py-24 px-4"><div className="w-[90%] max-w-[900px] mx-auto text-center"><p className="text-navy/60">Loading...</p></div></section>;
+    return <section className="bg-white py-24 px-4"><div className="w-[90%] max-w-[900px] mx-auto text-center"><p className="text-navy">Loading...</p></div></section>;
   }
 
   if (success) {
@@ -89,7 +89,7 @@ export default function SponsorPage() {
         <div className="w-[90%] max-w-[600px] mx-auto text-center">
           <p className="text-5xl mb-4">🎉</p>
           <h1 className="font-heading text-4xl font-bold text-navy mb-4">Thank You for Sponsoring!</h1>
-          <p className="text-navy/60 text-lg mb-8">
+          <p className="text-navy text-lg mb-8">
             {paymentMethod === "invoice" ? "We'll send you an invoice shortly." : "Your sponsorship is confirmed."} Thank you for supporting our community!
           </p>
           <Link href={`/events/${slug}`} className="inline-block bg-navy text-white font-bold px-8 py-3 rounded-full hover:bg-navy/80 transition-colors">Back to Event</Link>
@@ -141,11 +141,11 @@ export default function SponsorPage() {
                       </p>
                     </div>
                     {soldOut && <span className="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded-full">FILLED</span>}
-                    {!soldOut && t.max < 10 && <span className="text-xs text-navy/60">{t.max - count} of {t.max} available</span>}
+                    {!soldOut && t.max < 10 && <span className="text-xs text-navy">{t.max - count} of {t.max} available</span>}
                   </div>
                   <ul className="space-y-1 mt-3">
                     {t.benefits.map((b, i) => (
-                      <li key={i} className="text-navy/70 text-sm flex items-start gap-2">
+                      <li key={i} className="text-navy text-sm flex items-start gap-2">
                         <span className="text-gold mt-0.5">✓</span>{b}
                       </li>
                     ))}
@@ -214,7 +214,7 @@ export default function SponsorPage() {
           )}
 
           {!selectedTier && (
-            <p className="text-navy/60 text-center py-8">Select a sponsorship tier above to continue.</p>
+            <p className="text-navy text-center py-8">Select a sponsorship tier above to continue.</p>
           )}
         </div>
       </section>

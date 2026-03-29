@@ -94,7 +94,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
           >
             Free Weekly Networking in {city.name}, Tennessee
           </h1>
-          <p className={`${city.textOnBg === "text-white" ? "text-white/80" : "text-navy/70"} text-lg md:text-xl mb-10`}>
+          <p className={`${city.textOnBg === "text-white" ? "text-white" : "text-navy"} text-lg md:text-xl mb-10`}>
             {city.dayPlural} at {city.time} &middot; {city.venue} &middot; {city.city}, TN
           </p>
           <a
@@ -105,7 +105,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
           >
             RSVP on Facebook
           </a>
-          <p className={`${city.textOnBg === "text-white" ? "text-white/60" : "text-navy/50"} text-sm mt-4`}>
+          <p className={`${city.textOnBg === "text-white" ? "text-white" : "text-navy"} text-sm mt-4`}>
             Free to attend  -  no registration required
           </p>
         </div>
@@ -139,7 +139,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                 <div className="text-2xl mb-3">📍</div>
                 <h3 className="font-heading text-lg font-bold text-navy mb-2">Where</h3>
                 <p className="text-navy">{city.venue}</p>
-                <p className="text-navy/60 text-sm mt-1">{fullAddress}</p>
+                <p className="text-navy text-sm mt-1">{fullAddress}</p>
               </div>
               <div
                 className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 p-7"
@@ -230,7 +230,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                     </div>
                     <h3 className="font-heading text-lg font-bold text-navy">{leader.name}</h3>
                     <p className="font-medium text-sm mb-3" style={{ color: city.color }}>{leader.title}</p>
-                    <p className="text-navy/70 text-sm leading-relaxed text-left">{leader.bio}</p>
+                    <p className="text-navy text-sm leading-relaxed text-left">{leader.bio}</p>
                   </div>
                 ))}
               </div>
@@ -251,7 +251,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                     <div className="flex-1">
                       <h3 className="font-heading text-lg font-bold text-navy">{leader.name}</h3>
                       <p className="font-medium text-sm mb-2" style={{ color: city.color }}>{leader.title}</p>
-                      <p className="text-navy/70 text-sm leading-relaxed">{leader.bio}</p>
+                      <p className="text-navy text-sm leading-relaxed">{leader.bio}</p>
                     </div>
                   </div>
                 ))}
@@ -323,7 +323,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6">
               Ready to Show Up in {city.name}?
             </h2>
-            <p className="text-white/80 text-lg md:text-xl leading-relaxed mb-10">
+            <p className="text-white text-lg md:text-xl leading-relaxed mb-10">
               Networking For Awesome People in {city.name} meets every {city.day} at {city.time}.
               It&apos;s free, it&apos;s weekly, and it might just change your business.
             </p>

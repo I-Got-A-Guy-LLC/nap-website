@@ -82,7 +82,7 @@ export default async function AdminSponsorsPage({
         <div className="flex items-center gap-4 mb-6">
           <Link
             href={`/admin/events/${eventId}`}
-            className="text-gray-500 hover:text-[#1F3149] transition"
+            className="text-gray-900 hover:text-[#1F3149] transition"
           >
             &larr; Event
           </Link>
@@ -94,23 +94,23 @@ export default async function AdminSponsorsPage({
         {/* Revenue Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Total Sponsors</p>
+            <p className="text-sm text-gray-900">Total Sponsors</p>
             <p className="text-2xl font-bold text-[#1F3149]">
               {allSponsors.length}
             </p>
           </div>
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Total Committed</p>
+            <p className="text-sm text-gray-900">Total Committed</p>
             <p className="text-2xl font-bold text-[#1F3149]">
               ${totalCommitted.toLocaleString()}
             </p>
           </div>
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Total Collected</p>
+            <p className="text-sm text-gray-900">Total Collected</p>
             <p className="text-2xl font-bold text-green-600">
               ${totalCollected.toLocaleString()}
               {totalCommitted > 0 && (
-                <span className="text-sm font-normal text-gray-500 ml-1">
+                <span className="text-sm font-normal text-gray-900 ml-1">
                   ({Math.round((totalCollected / totalCommitted) * 100)}%)
                 </span>
               )}

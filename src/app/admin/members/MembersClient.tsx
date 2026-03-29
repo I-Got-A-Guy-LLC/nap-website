@@ -234,9 +234,9 @@ export default function MembersClient() {
       {/* Table */}
       <div className="bg-white rounded-xl shadow overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-500">Loading...</div>
+          <div className="p-8 text-center text-gray-900">Loading...</div>
         ) : members.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">No members found.</div>
+          <div className="p-8 text-center text-gray-900">No members found.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -260,7 +260,7 @@ export default function MembersClient() {
                       </Link>
                     </td>
                     <td className="px-4 py-3">{m.business_name || " - "}</td>
-                    <td className="px-4 py-3 text-gray-500">{m.email}</td>
+                    <td className="px-4 py-3 text-gray-900">{m.email}</td>
                     <td className="px-4 py-3 capitalize">{m.city || " - "}</td>
                     <td className="px-4 py-3">{tierBadge(m.tier)}</td>
                     <td className="px-4 py-3">{statusBadge(m)}</td>

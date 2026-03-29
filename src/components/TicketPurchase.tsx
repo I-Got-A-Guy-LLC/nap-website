@@ -107,7 +107,7 @@ export default function TicketPurchase({
   if (isSoldOut) {
     return (
       <div className="text-center">
-        <button disabled className="w-full bg-gray-300 text-gray-500 font-bold text-lg px-8 py-4 rounded-full cursor-not-allowed">
+        <button disabled className="w-full bg-gray-300 text-gray-900 font-bold text-lg px-8 py-4 rounded-full cursor-not-allowed">
           SOLD OUT
         </button>
       </div>
@@ -130,10 +130,10 @@ export default function TicketPurchase({
       </div>
 
       {/* Total */}
-      <p className="text-center text-navy/60 text-sm mb-1">
+      <p className="text-center text-navy text-sm mb-1">
         {quantity} {quantity === 1 ? "ticket" : "tickets"} &times; ${finalPrice.toFixed(2)}
         {promoApplied && finalPrice < ticketPrice && (
-          <span className="line-through text-navy/30 ml-2">${ticketPrice.toFixed(2)}</span>
+          <span className="line-through text-navy ml-2">${ticketPrice.toFixed(2)}</span>
         )}
       </p>
       <p className="text-center text-navy font-bold text-2xl mb-6">
@@ -172,14 +172,14 @@ export default function TicketPurchase({
         )}
       </button>
 
-      <p className="text-center text-navy/60 text-sm mt-4">
+      <p className="text-center text-navy text-sm mt-4">
         {isFree ? "" : "🔒 Secure checkout via Stripe"}
       </p>
 
       {/* Promo Code */}
       <div className="text-center mt-3">
         {!showPromo && !promoApplied ? (
-          <button onClick={() => setShowPromo(true)} className="text-navy/60 text-sm hover:text-navy transition-colors">
+          <button onClick={() => setShowPromo(true)} className="text-navy text-sm hover:text-navy transition-colors">
             Have a promo code?
           </button>
         ) : promoApplied ? (

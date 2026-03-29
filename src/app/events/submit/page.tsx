@@ -80,7 +80,7 @@ export default function SubmitEventPage() {
           <h1 className="font-heading text-4xl font-bold text-navy mb-4">
             Event Submitted!
           </h1>
-          <p className="text-navy/60 text-lg mb-8">
+          <p className="text-navy text-lg mb-8">
             Thank you for submitting your event. Our team will review it and
             publish it shortly.
           </p>

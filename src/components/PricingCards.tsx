@@ -70,7 +70,7 @@ export default function PricingCards() {
           <button
             onClick={() => setAnnual(false)}
             className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 ${
-              !annual ? "bg-navy text-white shadow-md" : "text-navy/50 hover:text-navy"
+              !annual ? "bg-navy text-white shadow-md" : "text-navy hover:text-navy"
             }`}
           >
             Monthly
@@ -78,7 +78,7 @@ export default function PricingCards() {
           <button
             onClick={() => setAnnual(true)}
             className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 ${
-              annual ? "bg-gold text-navy shadow-md" : "text-navy/50 hover:text-navy"
+              annual ? "bg-gold text-navy shadow-md" : "text-navy hover:text-navy"
             }`}
           >
             Annual
@@ -87,7 +87,7 @@ export default function PricingCards() {
         {annual ? (
           <span className="text-green-600 text-sm font-bold">Save up to $120/yr with annual billing</span>
         ) : (
-          <span className="text-navy/70 text-sm">Switch to annual to save</span>
+          <span className="text-navy text-sm">Switch to annual to save</span>
         )}
       </div>
 
@@ -134,22 +134,22 @@ export default function PricingCards() {
               <p className="font-heading text-5xl font-bold text-navy">
                 {annual ? "$300" : "$30"}
               </p>
-              <p className="text-navy/70 text-lg font-bold">
+              <p className="text-navy text-lg font-bold">
                 {annual ? "/yr" : "/mo"}
               </p>
             </div>
             {annual ? (
-              <p className="text-navy/60 text-sm mt-2">
+              <p className="text-navy text-sm mt-2">
                 That&apos;s just $25/month &middot; <span className="text-green-700 font-bold">Save $60/yr vs monthly</span>
               </p>
             ) : (
-              <p className="text-navy/60 text-sm mt-2">
+              <p className="text-navy text-sm mt-2">
                 $360/yr monthly &middot; <span className="font-bold">Switch to annual for $300/yr</span>
               </p>
             )}
           </div>
           <div className="p-6">
-            <p className="text-navy/70 text-xs uppercase tracking-wider font-bold mb-3">Everything in Linked, plus:</p>
+            <p className="text-navy text-xs uppercase tracking-wider font-bold mb-3">Everything in Linked, plus:</p>
             <ul className="space-y-3 mb-8">
               {["Full Contact Information", "Website URL", "Business Logo", "2 Categories + 2 Tags", "Embedded Referral Form", "Preferred Facebook Mention", "Quarterly Shoutouts"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -164,7 +164,7 @@ export default function PricingCards() {
             >
               {loading === "connected" ? "Redirecting..." : `Get Started  -  ${annual ? "$300/yr" : "$30/mo"}`}
             </button>
-            <p className="text-navy/60 text-xs text-center mt-3">
+            <p className="text-navy text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime
             </p>
           </div>
@@ -178,22 +178,22 @@ export default function PricingCards() {
               <p className="font-heading text-5xl font-bold text-white">
                 {annual ? "$500" : "$50"}
               </p>
-              <p className="text-white/70 text-lg font-bold">
+              <p className="text-white text-lg font-bold">
                 {annual ? "/yr" : "/mo"}
               </p>
             </div>
             {annual ? (
-              <p className="text-white/60 text-sm mt-2">
+              <p className="text-white text-sm mt-2">
                 That&apos;s just $42/month &middot; <span className="text-green-200 font-bold">Save $120/yr vs monthly</span>
               </p>
             ) : (
-              <p className="text-white/60 text-sm mt-2">
-                $600/yr monthly &middot; <span className="font-bold text-white/80">Switch to annual for $500/yr</span>
+              <p className="text-white text-sm mt-2">
+                $600/yr monthly &middot; <span className="font-bold text-white">Switch to annual for $500/yr</span>
               </p>
             )}
           </div>
           <div className="p-6">
-            <p className="text-navy/70 text-xs uppercase tracking-wider font-bold mb-3">Everything in Connected, plus:</p>
+            <p className="text-navy text-xs uppercase tracking-wider font-bold mb-3">Everything in Connected, plus:</p>
             <ul className="space-y-3 mb-8">
               {["Photos + Videos", "Business Hours", "Map & Directions", "Special Offers", "Reviews Section", "4 Categories + 4 Tags", "Top Level Facebook Mention", "Monthly Shoutouts", "1 Free Event Ticket per Quarter", "Sponsorship Priority", "Ad Discounts"].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -208,7 +208,7 @@ export default function PricingCards() {
             >
               {loading === "amplified" ? "Redirecting..." : `Get Started  -  ${annual ? "$500/yr" : "$50/mo"}`}
             </button>
-            <p className="text-white/60 text-xs text-center mt-3">
+            <p className="text-white text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function PricingCards() {
         {!showPromo ? (
           <button
             onClick={() => setShowPromo(true)}
-            className="text-navy/70 text-sm hover:text-navy transition-colors"
+            className="text-navy text-sm hover:text-navy transition-colors"
           >
             Have a promo code?
           </button>

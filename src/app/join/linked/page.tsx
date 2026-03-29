@@ -143,7 +143,7 @@ export default function LinkedSignupPage() {
               {loading ? "Submitting..." : "Join Free"}
             </button>
 
-            <p className="text-center text-navy/70 text-sm">
+            <p className="text-center text-navy text-sm">
               Your listing will go live once approved  -  usually within 1 business day.
             </p>
           </form>

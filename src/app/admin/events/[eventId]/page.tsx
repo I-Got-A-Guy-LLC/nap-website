@@ -90,7 +90,7 @@ export default async function AdminEventDetailPage({
         <div className="flex items-center gap-4 mb-8">
           <Link
             href="/admin/events"
-            className="text-gray-500 hover:text-[#1F3149] transition"
+            className="text-gray-900 hover:text-[#1F3149] transition"
           >
             &larr; Events
           </Link>
@@ -113,36 +113,36 @@ export default async function AdminEventDetailPage({
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Tickets Sold</p>
+            <p className="text-sm text-gray-900">Tickets Sold</p>
             <p className="text-2xl font-bold text-[#1F3149]">
               {ticketsSold}
               {event.capacity && (
-                <span className="text-sm font-normal text-gray-500">
+                <span className="text-sm font-normal text-gray-900">
                   /{event.capacity}
                 </span>
               )}
             </p>
           </div>
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Checked In</p>
+            <p className="text-sm text-gray-900">Checked In</p>
             <p className="text-2xl font-bold text-[#1F3149]">
               {checkedIn}
-              <span className="text-sm font-normal text-gray-500">
+              <span className="text-sm font-normal text-gray-900">
                 /{ticketsSold}
               </span>
             </p>
           </div>
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Ticket Revenue</p>
+            <p className="text-sm text-gray-900">Ticket Revenue</p>
             <p className="text-2xl font-bold text-[#1F3149]">
               ${revenue.toLocaleString()}
             </p>
           </div>
           <div className="bg-white rounded-xl shadow p-4">
-            <p className="text-sm text-gray-500">Sponsors</p>
+            <p className="text-sm text-gray-900">Sponsors</p>
             <p className="text-2xl font-bold text-[#1F3149]">
               {sponsorCount}
-              <span className="text-sm font-normal text-gray-500 ml-1">
+              <span className="text-sm font-normal text-gray-900 ml-1">
                 (${sponsorRevenue.toLocaleString()})
               </span>
             </p>

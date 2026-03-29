@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="max-w-[750px] mx-auto">
           <Link
             href="/blog"
-            className="text-navy/50 hover:text-navy text-sm font-medium transition-colors"
+            className="text-navy hover:text-navy text-sm font-medium transition-colors"
           >
             &larr; Back to Business Talk
           </Link>
@@ -94,14 +94,14 @@ export default async function BlogPostPage({ params }: Props) {
             {post.category}
           </span>
           {post.series && (
-            <p className="text-navy/50 text-sm font-medium mb-2">
+            <p className="text-navy text-sm font-medium mb-2">
               Part {post.seriesOrder || 1} of {post.series}
             </p>
           )}
           <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight mb-4">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-navy/50">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-navy">
             <span className="font-medium text-navy">{post.author}</span>
             <span>&middot;</span>
             <span>{formattedDate}</span>
@@ -152,7 +152,7 @@ export default async function BlogPostPage({ params }: Props) {
                       <h3 className="font-heading text-base font-bold text-navy mb-2 group-hover:text-gold transition-colors line-clamp-2">
                         {rp.title}
                       </h3>
-                      <p className="text-navy/50 text-sm line-clamp-2">{rp.excerpt}</p>
+                      <p className="text-navy text-sm line-clamp-2">{rp.excerpt}</p>
                     </div>
                   </Link>
                 ))}
@@ -169,7 +169,7 @@ export default async function BlogPostPage({ params }: Props) {
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">
               Ready to Network in Middle Tennessee?
             </h2>
-            <p className="text-white/70 text-lg leading-relaxed mb-10">
+            <p className="text-white text-lg leading-relaxed mb-10">
               Networking For Awesome People meets every week across four cities. It&apos;s free,
               it&apos;s welcoming, and it&apos;s waiting for you.
             </p>

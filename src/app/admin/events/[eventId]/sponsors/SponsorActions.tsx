@@ -92,11 +92,11 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
         className="px-3 py-1 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200 transition disabled:opacity-50">
         {loading === "delete" ? "..." : "Delete"}
       </button>
-      {message && <span className="text-xs text-navy/60">{message}</span>}
+      {message && <span className="text-xs text-navy">{message}</span>}
       {showEdit && (
         <div className="w-full mt-2 space-y-2">
           <div>
-            <label className="block text-xs text-gray-500 mb-0.5">Sponsor Logo</label>
+            <label className="block text-xs text-gray-900 mb-0.5">Sponsor Logo</label>
             <div className="flex items-center gap-2">
               <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
                 className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
@@ -127,7 +127,7 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
           </div>
           <div className="flex gap-2 items-end">
             <div className="flex-1">
-              <label className="block text-xs text-gray-500 mb-0.5">Website URL</label>
+              <label className="block text-xs text-gray-900 mb-0.5">Website URL</label>
               <input type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)}
                 className="w-full border border-gray-200 rounded px-2 py-1 text-xs" placeholder="https://..." />
             </div>

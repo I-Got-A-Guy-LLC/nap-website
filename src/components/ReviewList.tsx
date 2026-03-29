@@ -25,7 +25,7 @@ export default function ReviewList({ reviews }: { reviews: Review[] }) {
           <div key={review.id} className="bg-gray-50 rounded-xl p-5">
             <div className="flex items-center justify-between mb-1">
               <span className="font-bold text-navy">{review.reviewer_name}</span>
-              <span className="text-navy/60 text-sm">
+              <span className="text-navy text-sm">
                 {new Date(review.created_at).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
@@ -41,7 +41,7 @@ export default function ReviewList({ reviews }: { reviews: Review[] }) {
               <>
                 <button
                   onClick={() => toggle(review.id)}
-                  className="text-navy/70 text-xs font-medium mt-2 hover:text-navy transition-colors"
+                  className="text-navy text-xs font-medium mt-2 hover:text-navy transition-colors"
                 >
                   {isOpen ? "Hide review ▲" : "Read review ▼"}
                 </button>
@@ -50,7 +50,7 @@ export default function ReviewList({ reviews }: { reviews: Review[] }) {
                     isOpen ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="text-navy/70 text-sm leading-relaxed">
+                  <p className="text-navy text-sm leading-relaxed">
                     {review.review_text}
                   </p>
                 </div>

@@ -62,7 +62,7 @@ export default function NotificationBanner() {
           <>
             <div className="flex-1 text-center sm:text-left">
               <p className="text-navy font-heading font-bold text-base">🔔 Never miss a cancellation.</p>
-              <p className="text-navy/70 text-xs">
+              <p className="text-navy text-xs">
                 Get notified if your NAP meeting is cancelled or rescheduled  -  plus event updates and community news.
               </p>
             </div>
@@ -88,7 +88,7 @@ export default function NotificationBanner() {
         )}
         <button
           onClick={dismiss}
-          className="text-navy/40 hover:text-navy transition-colors absolute top-2 right-3 sm:static"
+          className="text-navy hover:text-navy transition-colors absolute top-2 right-3 sm:static"
           aria-label="Close"
         >
           ✕

@@ -43,7 +43,7 @@ export default function NotificationPreferences({ initial }: Props) {
   return (
     <div className="bg-gray-50 rounded-xl p-6 md:p-8">
       <h2 className="font-heading text-xl font-bold text-navy mb-1">Notification Preferences</h2>
-      <p className="text-navy/50 text-sm mb-5">Choose which emails you&apos;d like to receive.</p>
+      <p className="text-navy text-sm mb-5">Choose which emails you&apos;d like to receive.</p>
       <div className="space-y-4">
         {PREFS.map(({ key, label }) => (
           <div key={key} className="flex items-center justify-between">

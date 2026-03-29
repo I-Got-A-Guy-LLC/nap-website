@@ -54,7 +54,7 @@ export default function ApprovalsClient({
   if (listings.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow p-8 text-center">
-        <p className="text-gray-500">No listings pending approval.</p>
+        <p className="text-gray-900">No listings pending approval.</p>
       </div>
     );
   }
@@ -81,10 +81,10 @@ export default function ApprovalsClient({
                   {l.business_name}
                 </td>
                 <td className="px-4 py-3">{l.contact_name}</td>
-                <td className="px-4 py-3 text-gray-500">{l.contact_email}</td>
+                <td className="px-4 py-3 text-gray-900">{l.contact_email}</td>
                 <td className="px-4 py-3">{l.city}</td>
                 <td className="px-4 py-3">{(l.primary_category_id as string) || " - "}</td>
-                <td className="px-4 py-3 text-gray-500">
+                <td className="px-4 py-3 text-gray-900">
                   {new Date(l.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">
@@ -119,7 +119,7 @@ export default function ApprovalsClient({
                             setRejectId(null);
                             setRejectReason("");
                           }}
-                          className="px-2 py-1 text-gray-500 text-xs hover:text-gray-700"
+                          className="px-2 py-1 text-gray-900 text-xs hover:text-gray-700"
                         >
                           Cancel
                         </button>

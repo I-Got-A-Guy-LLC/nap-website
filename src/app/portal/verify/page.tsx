@@ -88,7 +88,7 @@ export default function VerifyPage() {
             </div>
           )}
 
-          {loading && <p className="text-navy/70 text-center">Searching...</p>}
+          {loading && <p className="text-navy text-center">Searching...</p>}
 
           {results.length > 0 && (
             <div className="space-y-3">
@@ -99,7 +99,7 @@ export default function VerifyPage() {
                 >
                   <div>
                     <p className="font-bold text-navy">{member.full_name}</p>
-                    <p className="text-navy/50 text-sm">{member.email}</p>
+                    <p className="text-navy text-sm">{member.email}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-navy/10 text-navy capitalize">
                         {member.tier}
@@ -127,7 +127,7 @@ export default function VerifyPage() {
           )}
 
           {!loading && results.length === 0 && search && (
-            <p className="text-navy/70 text-center">No members found.</p>
+            <p className="text-navy text-center">No members found.</p>
           )}
         </div>
       </section>

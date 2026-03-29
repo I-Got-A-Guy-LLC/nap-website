@@ -117,7 +117,7 @@ export default async function AdminEventsPage() {
                           {stats.count}
                         </span>
                         {event.capacity && (
-                          <span className="text-gray-500">
+                          <span className="text-gray-900">
                             /{event.capacity}
                           </span>
                         )}

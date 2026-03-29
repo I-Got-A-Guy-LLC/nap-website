@@ -28,7 +28,7 @@ function UnsubscribeContent() {
     <div className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="max-w-md text-center">
         {status === "loading" && (
-          <p className="text-navy/60">Processing...</p>
+          <p className="text-navy">Processing...</p>
         )}
 
         {status === "success" && (
@@ -37,7 +37,7 @@ function UnsubscribeContent() {
             <h1 className="font-heading text-2xl font-bold text-navy mb-3">
               You&apos;ve Been Unsubscribed
             </h1>
-            <p className="text-navy/60 mb-6">
+            <p className="text-navy mb-6">
               You won&apos;t receive any more broadcast emails from Networking For Awesome People.
               You&apos;ll still receive transactional emails like ticket confirmations and account notifications.
             </p>
@@ -53,7 +53,7 @@ function UnsubscribeContent() {
             <h1 className="font-heading text-2xl font-bold text-navy mb-3">
               Something Went Wrong
             </h1>
-            <p className="text-navy/60 mb-6">
+            <p className="text-navy mb-6">
               We couldn&apos;t process your unsubscribe request. The link may be invalid or expired.
               Please contact us if you need help.
             </p>
@@ -69,7 +69,7 @@ function UnsubscribeContent() {
 
 export default function UnsubscribePage() {
   return (
-    <Suspense fallback={<div className="min-h-[70vh] flex items-center justify-center"><p className="text-navy/60">Processing...</p></div>}>
+    <Suspense fallback={<div className="min-h-[70vh] flex items-center justify-center"><p className="text-navy">Processing...</p></div>}>
       <UnsubscribeContent />
     </Suspense>
   );

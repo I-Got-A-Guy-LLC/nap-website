@@ -8,7 +8,7 @@ export default function Footer() {
           {/* About NAP */}
           <div>
             <h3 className="font-heading text-lg font-bold mb-5 text-gold">About Networking For Awesome People</h3>
-            <p className="text-white/70 text-sm leading-relaxed">
+            <p className="text-white text-sm leading-relaxed">
               Networking For Awesome People is free weekly networking across four Middle Tennessee
               cities. Show up, be genuine, and Don&apos;t Be a Jerk&trade;.
             </p>
@@ -19,22 +19,22 @@ export default function Footer() {
             <h3 className="font-heading text-lg font-bold mb-5 text-gold">Cities</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/tn/manchester" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/manchester" className="text-white hover:text-white transition-colors">
                   Manchester
                 </Link>
               </li>
               <li>
-                <Link href="/tn/murfreesboro" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/murfreesboro" className="text-white hover:text-white transition-colors">
                   Murfreesboro
                 </Link>
               </li>
               <li>
-                <Link href="/tn/nolensville" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/nolensville" className="text-white hover:text-white transition-colors">
                   Nolensville
                 </Link>
               </li>
               <li>
-                <Link href="/tn/smyrna" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/tn/smyrna" className="text-white hover:text-white transition-colors">
                   Smyrna
                 </Link>
               </li>
@@ -46,7 +46,7 @@ export default function Footer() {
             <h3 className="font-heading text-lg font-bold mb-5 text-gold">Business Talk</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/blog" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/blog" className="text-white hover:text-white transition-colors">
                   Latest Posts
                 </Link>
               </li>
@@ -62,7 +62,7 @@ export default function Footer() {
                   href="https://www.facebook.com/groups/networkingforawesomepeople"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white hover:text-white transition-colors"
                 >
                   Facebook Group
                 </a>
@@ -72,7 +72,7 @@ export default function Footer() {
                   href="https://www.linkedin.com/company/networking-for-awesome-people/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white hover:text-white transition-colors"
                 >
                   LinkedIn
                 </a>
@@ -82,13 +82,13 @@ export default function Footer() {
                   href="https://www.meetup.com/networking-for-awesome-people/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="text-white hover:text-white transition-colors"
                 >
                   Meetup
                 </a>
               </li>
               <li>
-                <Link href="/contact" className="text-white/70 hover:text-white transition-colors">
+                <Link href="/contact" className="text-white hover:text-white transition-colors">
                   Contact Us
                 </Link>
               </li>
@@ -96,10 +96,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white/60">
+        <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white">
           <p>&copy; 2026 I Got A Guy, LLC  -  Networking For Awesome People</p>
           <p className="mt-2">
-            <Link href="/accessibility" className="text-white/60 hover:text-white transition-colors">
+            <Link href="/accessibility" className="text-white hover:text-white transition-colors">
               Accessibility
             </Link>
           </p>

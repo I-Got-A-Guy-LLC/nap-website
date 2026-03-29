@@ -104,7 +104,7 @@ export default function CategoriesClient() {
     categories.filter((c) => c.parent_id === parentId);
 
   if (loading) {
-    return <div className="text-gray-500">Loading...</div>;
+    return <div className="text-gray-900">Loading...</div>;
   }
 
   return (
@@ -181,7 +181,7 @@ export default function CategoriesClient() {
           All Categories
         </h2>
         {mainCategories.length === 0 ? (
-          <p className="text-gray-500 text-sm">No categories yet.</p>
+          <p className="text-gray-900 text-sm">No categories yet.</p>
         ) : (
           <ul className="space-y-3">
             {mainCategories.map((cat) => {
@@ -201,7 +201,7 @@ export default function CategoriesClient() {
                       className={`px-3 py-1 rounded text-xs font-medium transition ${
                         cat.is_active
                           ? "bg-green-100 text-green-700 hover:bg-green-200"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                          : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                       }`}
                     >
                       {cat.is_active ? "Active" : "Disabled"}
@@ -230,7 +230,7 @@ export default function CategoriesClient() {
                             className={`px-2 py-0.5 rounded text-xs font-medium transition ${
                               sub.is_active
                                 ? "bg-green-100 text-green-700 hover:bg-green-200"
-                                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                             }`}
                           >
                             {sub.is_active ? "Active" : "Disabled"}
@@ -252,7 +252,7 @@ export default function CategoriesClient() {
           Pending Suggestions
         </h2>
         {suggestions.length === 0 ? (
-          <p className="text-gray-500 text-sm">No pending suggestions.</p>
+          <p className="text-gray-900 text-sm">No pending suggestions.</p>
         ) : (
           <ul className="divide-y divide-gray-100">
             {suggestions.map((s) => (
@@ -264,7 +264,7 @@ export default function CategoriesClient() {
                   <p className="font-medium text-[#1F3149]">
                     {s.suggested_name}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-900">
                     Suggested by {s.member_name} ({s.member_email}) on{" "}
                     {new Date(s.created_at).toLocaleDateString()}
                   </p>
