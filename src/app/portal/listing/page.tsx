@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import PhotoCropModal from "@/components/PhotoCropModal";
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -231,6 +232,11 @@ export default function EditListingPage() {
   const logoInputRef = useRef<HTMLInputElement>(null);
   const photosInputRef = useRef<HTMLInputElement>(null);
 
+  /* ---- Crop state ---- */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [cropQueue, setCropQueue] = useState<File[]>([]);
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+
   /* ---- Referral URL copy ---- */
   const [copied, setCopied] = useState(false);
 
@@ -374,7 +380,7 @@ export default function EditListingPage() {
     }
   };
 
-  const onPhotosFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onPhotosFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     const remaining = 8 - photos.length;
@@ -382,18 +388,54 @@ export default function EditListingPage() {
       setError("Maximum 8 photos allowed.");
       return;
     }
+    const toProcess = Array.from(files).slice(0, remaining);
+    setCropQueue(toProcess);
+    // Start cropping the first file
+    const reader = new FileReader();
+    reader.onload = () => setCropImageSrc(reader.result as string);
+    reader.readAsDataURL(toProcess[0]);
+    if (photosInputRef.current) photosInputRef.current.value = "";
+  };
+
+  const handleCropComplete = useCallback(async (blob: Blob) => {
     setPhotosUploading(true);
     try {
-      const toUpload = Array.from(files).slice(0, remaining);
-      const urls = await Promise.all(toUpload.map(handleUpload));
-      setPhotos((prev) => [...prev, ...urls]);
+      const file = new File([blob], "cropped.jpg", { type: "image/jpeg" });
+      const url = await handleUpload(file);
+      setPhotos((prev) => [...prev, url]);
     } catch (err: any) {
       setError(err.message || "Photo upload failed");
-    } finally {
-      setPhotosUploading(false);
-      if (photosInputRef.current) photosInputRef.current.value = "";
     }
-  };
+    setPhotosUploading(false);
+
+    // Process next file in queue
+    setCropQueue((prev) => {
+      const next = prev.slice(1);
+      if (next.length > 0) {
+        const reader = new FileReader();
+        reader.onload = () => setCropImageSrc(reader.result as string);
+        reader.readAsDataURL(next[0]);
+      } else {
+        setCropImageSrc(null);
+      }
+      return next;
+    });
+  }, []);
+
+  const handleCropCancel = useCallback(() => {
+    // Skip current file, process next
+    setCropQueue((prev) => {
+      const next = prev.slice(1);
+      if (next.length > 0) {
+        const reader = new FileReader();
+        reader.onload = () => setCropImageSrc(reader.result as string);
+        reader.readAsDataURL(next[0]);
+      } else {
+        setCropImageSrc(null);
+      }
+      return next;
+    });
+  }, []);
 
   const removePhoto = (idx: number) => {
     setPhotos((prev) => prev.filter((_, i) => i !== idx));
@@ -1418,6 +1460,14 @@ export default function EditListingPage() {
           </form>
         </div>
       </section>
+      {/* Photo Crop Modal */}
+      {cropImageSrc && (
+        <PhotoCropModal
+          imageSrc={cropImageSrc}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+        />
+      )}
     </>
   );
 }
