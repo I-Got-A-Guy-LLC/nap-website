@@ -223,7 +223,7 @@ export default function RootLayout({
           name: "How does Networking For Awesome People work?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Each city holds a weekly meeting where local professionals gather to build relationships, exchange referrals, and support each other's businesses. Meetings are informal, welcoming, and run about an hour. Our one rule: don't be a jerk.",
+            text: "Each city holds a weekly meeting where local professionals gather to build relationships, exchange referrals, and support each other's businesses. Meetings are informal, welcoming, and run about an hour. Our one rule: Don't Be a Jerk™.",
           },
         },
         {
@@ -244,10 +244,10 @@ export default function RootLayout({
         },
         {
           "@type": "Question",
-          name: "What is the Don't Be a Jerk rule?",
+          name: "What is the Don't Be a Jerk™ rule?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "It's our one and only rule. Show up, be genuine, support each other, and don't be a jerk. We believe networking should feel like belonging, not a sales pitch. If you treat people with respect and bring a spirit of generosity, you'll fit right in.",
+            text: "It's our one and only rule. Show up, be genuine, support each other, and Don't Be a Jerk™. We believe networking should feel like belonging, not a sales pitch. If you treat people with respect and bring a spirit of generosity, you'll fit right in.",
           },
         },
         {

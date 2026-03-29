@@ -86,7 +86,7 @@ export default function ExpandPage() {
               networking meeting in their city. You show up every week, lead the meeting format,
               build relationships with local professionals, and grow a community that reflects
               Networking For Awesome People values — genuine connection, mutual support, and of
-              course, don&apos;t be a jerk.
+              course, Don&apos;t Be a Jerk&trade;.
             </p>
           </div>
         </ScrollReveal>
@@ -314,7 +314,7 @@ export default function ExpandPage() {
                 { title: "Genuinely Community-Minded", body: "You care about your local professional community for its own sake — not just as a sales opportunity. You show up to give, not just to get.", border: "border-l-manchester" },
                 { title: "Consistent and Reliable", body: "Weekly meetings only work if the leader shows up every week. We need city leaders who are committed to the rhythm of a recurring meeting — minimum 45 meetings per year.", border: "border-l-nolensville" },
                 { title: "Connected Locally", body: "You have existing relationships in your city and a reputation people trust. You do not need to be famous — you just need to be known and respected.", border: "border-l-smyrna" },
-                { title: "Aligned With Our Values", body: "You get the Don't Be a Jerk rule. You believe networking should feel like belonging. You want to build something real.", border: "border-l-navy" },
+                { title: "Aligned With Our Values", body: "You get the Don't Be a Jerk™ rule. You believe networking should feel like belonging. You want to build something real.", border: "border-l-navy" },
               ].map((card) => (
                 <div key={card.title} className={`bg-white rounded-xl shadow-sm border border-gray-100 border-l-[6px] ${card.border} p-7`}>
                   <h3 className="font-heading text-lg font-bold text-navy mb-2">{card.title}</h3>

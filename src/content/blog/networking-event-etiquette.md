@@ -3,7 +3,7 @@ title: "Networking Event Etiquette: What to Do and What to Avoid"
 slug: "networking-event-etiquette"
 author: "Rachel Albertson"
 category: "Networking Tips"
-tags: ["networking etiquette", "first impression networking", "networking dos and don'ts", "authentic networking", "networking tips", "Don't Be a Jerk"]
+tags: ["networking etiquette", "first impression networking", "networking dos and don'ts", "authentic networking", "networking tips", "Don't Be a Jerk™"]
 focusKeyword: "networking event etiquette"
 metaTitle: "Networking Event Etiquette: What to Do (and What Not to Do) | NAP"
 metaDescription: "Good etiquette at a networking event isn't about being formal — it's about making people feel respected. Here's what to do, what to avoid, and how to leave the right impression."
@@ -86,7 +86,7 @@ Ask first. Listen. Then your pitch lands in the context of a real conversation r
 
 How you treat the quietest person in the room, the person whose business seems least useful to you, the newcomer who doesn't know anyone yet — that's your real reputation in a networking community. In a weekly group, people notice who's genuinely warm and who's selectively engaged based on perceived value.
 
-The "Don't Be a Jerk" rule isn't just NAP's brand — it's the most important etiquette principle in any professional community.
+The "Don't Be a Jerk™" rule isn't just NAP's brand — it's the most important etiquette principle in any professional community.
 
 ## A Note on NAP's Format
 
@@ -114,9 +114,9 @@ Show up prepared, ask genuine questions, listen carefully, be specific about wha
 
 Close naturally rather than abruptly. Something like: "I don't want to keep you from the rest of the room — really glad we connected. I'll follow up this week." Then actually follow up. A graceful exit followed by a timely message is one of the strongest impression-builders in networking.
 
-**What does "Don't Be a Jerk" mean in a networking context?**
+**What does "Don't Be a Jerk™" mean in a networking context?**
 
-It means treating every person in the room with genuine respect — not just the ones who seem most useful to you. It means being present in conversations, honest about what you need, and generous with referrals and introductions. In a weekly community like NAP, "Don't Be a Jerk" is both a core value and a practical standard: people notice how you show up, and your reputation is built meeting by meeting.
+It means treating every person in the room with genuine respect — not just the ones who seem most useful to you. It means being present in conversations, honest about what you need, and generous with referrals and introductions. In a weekly community like NAP, "Don't Be a Jerk™" is both a core value and a practical standard: people notice how you show up, and your reputation is built meeting by meeting.
 
 ## Show Up Like Someone Worth Knowing
 

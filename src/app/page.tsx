@@ -71,7 +71,7 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
       </svg>
     ),
-    title: "Don't Be a Jerk",
+    title: "Don't Be a Jerk™",
     body: "Our one rule. Show up genuine, support each other, leave inspired.",
   },
 ];
@@ -80,7 +80,7 @@ const stats = [
   { value: "4", label: "Cities" },
   { value: "15+", label: "Events Per Month" },
   { value: "Free", label: "Always" },
-  { value: "1", label: "Rule: Don't Be a Jerk" },
+  { value: "1", label: "Rule: Don't Be a Jerk™" },
 ];
 
 export default async function Home() {
@@ -435,10 +435,10 @@ export default async function Home() {
               </div>
               <div>
                 <h3 className="font-heading text-lg font-bold text-navy mb-2">
-                  What is the &ldquo;Don&apos;t Be a Jerk&rdquo; rule?
+                  What is the &ldquo;Don&apos;t Be a Jerk&trade;&rdquo; rule?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  It&apos;s our one and only rule. Show up, be genuine, support each other, and don&apos;t be a jerk. We believe networking should feel like belonging, not a sales pitch. Treat people with respect and you&apos;ll fit right in.
+                  It&apos;s our one and only rule. Show up, be genuine, support each other, and Don&apos;t Be a Jerk&trade;. We believe networking should feel like belonging, not a sales pitch. Treat people with respect and you&apos;ll fit right in.
                 </p>
               </div>
               <div>
