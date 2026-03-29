@@ -1247,6 +1247,7 @@ export default function EditListingPage() {
                     onChange={onPhotosFileChange}
                     className="hidden"
                   />
+                  <p className="text-navy text-xs mt-2">Photos will be cropped to a 1:1 square ratio. For best results, use square images or center your subject before cropping.</p>
                   {photos.length > 0 && (
                     <div className="mt-3 grid grid-cols-4 gap-3">
                       {photos.map((url, idx) => (

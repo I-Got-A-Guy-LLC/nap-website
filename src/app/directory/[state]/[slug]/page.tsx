@@ -207,7 +207,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Photos</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {listing.photos.map((photo: string, i: number) => (
-                  <div key={i} className="rounded-xl overflow-hidden bg-gray-100 aspect-[4/3]"><img src={photo} alt={`${listing.business_name} photo ${i + 1}`} className="w-full h-full object-cover" /></div>
+                  <div key={i} className="rounded-xl overflow-hidden bg-gray-100 aspect-square"><img src={photo} alt={`${listing.business_name} photo ${i + 1}`} className="w-full h-full object-cover" /></div>
                 ))}
               </div>
             </div>
