@@ -22,6 +22,7 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
   const [logoUrl, setLogoUrl] = useState(sponsor.logo_url || "");
   const [websiteUrl, setWebsiteUrl] = useState(sponsor.website_url || "");
   const [uploading, setUploading] = useState(false);
+  const [invoiceUrl, setInvoiceUrl] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -48,11 +49,27 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
     setMessage("");
     const res = await fetch(`/api/admin/events/sponsors/${sponsor.id}/send-invoice`, { method: "POST" });
     if (res.ok) {
+      const data = await res.json();
+      if (data.invoiceUrl) setInvoiceUrl(data.invoiceUrl);
       setMessage(`Invoice sent to ${sponsor.sponsor_email}`);
       router.refresh();
     } else {
       const data = await res.json();
       setMessage(data.error || "Failed to send invoice");
+    }
+    setLoading(null);
+  };
+
+  const resendInvoice = async () => {
+    setLoading("resend");
+    setMessage("");
+    const res = await fetch(`/api/admin/events/sponsors/${sponsor.id}/resend-invoice`, { method: "POST" });
+    const data = await res.json();
+    if (res.ok) {
+      if (data.hostedInvoiceUrl) setInvoiceUrl(data.hostedInvoiceUrl);
+      setMessage(`Invoice resent to ${data.email || sponsor.sponsor_email}`);
+    } else {
+      setMessage(data.error || "Failed to resend invoice");
     }
     setLoading(null);
   };
@@ -69,6 +86,31 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
         <button onClick={sendInvoice} disabled={loading === "invoice"}
           className="px-3 py-1 text-xs font-medium text-navy bg-gold/20 rounded-lg hover:bg-gold/30 transition disabled:opacity-50">
           {loading === "invoice" ? "Sending..." : "Send Invoice"}
+        </button>
+      )}
+      {sponsor.stripe_invoice_id && sponsor.payment_status !== "paid" && (
+        <button onClick={resendInvoice} disabled={loading === "resend"}
+          className="px-3 py-1 text-xs font-medium text-navy bg-gold/20 rounded-lg hover:bg-gold/30 transition disabled:opacity-50">
+          {loading === "resend" ? "Sending..." : "Resend Invoice"}
+        </button>
+      )}
+      {sponsor.stripe_invoice_id && (
+        <button onClick={async () => {
+            if (invoiceUrl) { window.open(invoiceUrl, "_blank"); return; }
+            setLoading("view");
+            const res = await fetch(`/api/admin/events/sponsors/${sponsor.id}/resend-invoice`);
+            const data = await res.json();
+            if (data.hostedInvoiceUrl) {
+              setInvoiceUrl(data.hostedInvoiceUrl);
+              window.open(data.hostedInvoiceUrl, "_blank");
+            } else {
+              setMessage(data.error || "Could not retrieve invoice URL");
+            }
+            setLoading(null);
+          }}
+          disabled={loading === "view"}
+          className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
+          {loading === "view" ? "..." : "View Invoice"}
         </button>
       )}
       {sponsor.payment_status === "paid" && (
