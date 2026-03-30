@@ -297,6 +297,7 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
   const [createTagline, setCreateTagline] = useState("");
   const [creating, setCreating] = useState(false);
   const [inviting, setInviting] = useState(false);
+  const [sendingWelcome, setSendingWelcome] = useState(false);
   const [actionMessage, setActionMessage] = useState("");
 
   const sendInvite = async () => {
@@ -309,6 +310,20 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
       setActionMessage("Failed to send invite");
     }
     setInviting(false);
+    setTimeout(() => setActionMessage(""), 4000);
+  };
+
+  const sendWelcomeInvite = async () => {
+    setSendingWelcome(true);
+    setActionMessage("");
+    const res = await fetch(`/api/admin/members/${member.id}/send-welcome-invite`, { method: "POST" });
+    if (res.ok) {
+      setActionMessage(`Welcome invite sent to ${member.email}`);
+    } else {
+      const data = await res.json();
+      setActionMessage(data.error || "Failed to send welcome invite");
+    }
+    setSendingWelcome(false);
     setTimeout(() => setActionMessage(""), 4000);
   };
 
@@ -361,7 +376,7 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
             <div><span className="text-gray-900">City:</span> {listing.city || " - "}</div>
             <div><span className="text-gray-900">Approved:</span> {listing.is_approved ? "Yes" : "No"}</div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {listing.is_approved && listingSlug && (
               <Link href={`/directory/tn/${listingSlug}`} className="text-gold text-sm font-bold hover:underline">
                 View Public Listing →
@@ -372,13 +387,17 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
                 Go to Approvals →
               </Link>
             )}
+            <button onClick={sendWelcomeInvite} disabled={sendingWelcome}
+              className="bg-green-600 text-white font-bold px-5 py-2 rounded-full text-sm hover:bg-green-700 transition-colors disabled:opacity-50">
+              {sendingWelcome ? "Sending..." : "Send Welcome Invite"}
+            </button>
           </div>
         </>
       ) : (
         <>
           {/* No listing yet */}
           <p className="text-gray-900 text-sm mb-4">No listing created yet for this member.</p>
-          <div className="flex gap-3 mb-4">
+          <div className="flex flex-wrap gap-3 mb-4">
             <button onClick={() => setShowCreateForm(!showCreateForm)}
               className="bg-gold text-navy font-bold px-5 py-2 rounded-full text-sm hover:bg-gold/90 transition-colors">
               {showCreateForm ? "Cancel" : "Create Listing"}
@@ -386,6 +405,10 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
             <button onClick={sendInvite} disabled={inviting}
               className="bg-navy text-white font-bold px-5 py-2 rounded-full text-sm hover:bg-navy/90 transition-colors disabled:opacity-50">
               {inviting ? "Sending..." : "Send Portal Invite"}
+            </button>
+            <button onClick={sendWelcomeInvite} disabled={sendingWelcome}
+              className="bg-green-600 text-white font-bold px-5 py-2 rounded-full text-sm hover:bg-green-700 transition-colors disabled:opacity-50">
+              {sendingWelcome ? "Sending..." : "Send Welcome Invite"}
             </button>
           </div>
 

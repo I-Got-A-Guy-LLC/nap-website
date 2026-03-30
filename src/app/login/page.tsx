@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const isWelcome = searchParams.get("welcome") === "1";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,6 +53,11 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-xl shadow-xl p-8">
+          {isWelcome && (
+            <div className="bg-green-50 text-green-700 px-4 py-3 rounded-lg text-sm font-medium mb-4">
+              Welcome! You&apos;re all set. Sign in with your new password.
+            </div>
+          )}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-navy text-sm font-bold mb-1">
