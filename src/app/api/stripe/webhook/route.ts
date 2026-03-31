@@ -52,6 +52,18 @@ export async function POST(request: Request) {
 
         // --- EVENT SPONSOR PAYMENT (Stripe checkout) ---
         if (metadata.type === "event_sponsor" && metadata.eventId) {
+          // Idempotency: skip if sponsor already exists for this session
+          const { data: existingSponsor } = await supabase
+            .from("event_sponsors")
+            .select("id")
+            .eq("stripe_session_id", session.id)
+            .limit(1);
+
+          if (existingSponsor && existingSponsor.length > 0) {
+            console.log(`[webhook] Sponsor already exists for session ${session.id} - skipping`);
+            break;
+          }
+
           const { SPONSOR_TIER_TICKETS, generateTicketCode } = await import("@/lib/events");
           const tier = metadata.tier || "";
           const amount = (session.amount_total || 0) / 100;
@@ -143,6 +155,18 @@ export async function POST(request: Request) {
           const quantity = parseInt(metadata.quantity || "1");
           const eventId = metadata.eventId;
 
+          // Idempotency: skip if tickets already exist for this session
+          const { data: existingTickets } = await supabase
+            .from("tickets")
+            .select("id")
+            .eq("stripe_session_id", session.id)
+            .limit(1);
+
+          if (existingTickets && existingTickets.length > 0) {
+            console.log(`[webhook] Tickets already exist for session ${session.id} - skipping`);
+            break;
+          }
+
           // Generate ticket codes
           const tickets = [];
           for (let i = 0; i < quantity; i++) {
@@ -163,9 +187,24 @@ export async function POST(request: Request) {
           if (ticketError) console.error("Error creating tickets:", ticketError);
 
           // Increment tickets_sold
-          const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", eventId).single();
+          const { data: evt } = await supabase.from("events").select("tickets_sold, title, event_date, start_time, end_time, location_name").eq("id", eventId).single();
           if (evt) {
             await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + quantity }).eq("id", eventId);
+
+            // Send ticket confirmation email
+            if (customerEmail && tickets.length > 0) {
+              await sendTicketConfirmation(
+                customerEmail,
+                session.customer_details?.name || customerEmail.split("@")[0],
+                evt.title,
+                evt.event_date || "",
+                evt.start_time || "",
+                evt.end_time || "",
+                evt.location_name || "",
+                tickets[0].ticket_code,
+                quantity
+              ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
+            }
           }
 
           console.log(`[webhook] Created ${quantity} tickets for event ${eventId}`);

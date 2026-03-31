@@ -79,26 +79,45 @@ function ConfirmationContent() {
       return;
     }
 
-    fetch(`/api/events/ticket?session_id=${sessionId}`)
-      .then((res) => res.json())
-      .then(async (data) => {
-        if (data.error) {
-          setError(data.error);
-        } else {
-          setTicket(data);
-          // Generate QR code
-          try {
-            const url = `https://networkingforawesomepeople.com/checkin/${data.ticket_code}`;
-            const qr = await QRCode.toDataURL(url, { width: 200, margin: 2 });
-            setQrDataUrl(qr);
-          } catch { /* QR generation failed  -  non-critical */ }
+    let cancelled = false;
+    let attempts = 0;
+    const maxAttempts = 10;
+    const delayMs = 1000;
+
+    async function fetchTicket() {
+      while (attempts < maxAttempts && !cancelled) {
+        attempts++;
+        try {
+          const res = await fetch(`/api/events/ticket?session_id=${sessionId}`);
+          const data = await res.json();
+
+          if (cancelled) return;
+
+          if (!data.error && data.ticket_code) {
+            setTicket(data);
+            try {
+              const url = `https://networkingforawesomepeople.com/checkin/${data.ticket_code}`;
+              const qr = await QRCode.toDataURL(url, { width: 200, margin: 2 });
+              if (!cancelled) setQrDataUrl(qr);
+            } catch { /* QR generation failed - non-critical */ }
+            setLoading(false);
+            return;
+          }
+        } catch { /* network error - retry */ }
+
+        if (attempts < maxAttempts && !cancelled) {
+          await new Promise((r) => setTimeout(r, delayMs));
         }
+      }
+
+      if (!cancelled) {
+        setError("Your ticket is being processed \u2014 check your email for your confirmation and QR code.");
         setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load ticket details.");
-        setLoading(false);
-      });
+      }
+    }
+
+    fetchTicket();
+    return () => { cancelled = true; };
   }, [sessionId]);
 
   if (loading) {
