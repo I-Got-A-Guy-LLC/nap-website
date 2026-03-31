@@ -96,7 +96,7 @@ export default async function PortalPage() {
             <Link href="/portal/verify" className="block bg-manchester rounded-xl p-6 hover:shadow-lg transition-shadow group">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="inline-block bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full mb-2">City Leader</span>
+                  <span className="inline-block bg-navy text-white text-xs font-bold px-2.5 py-1 rounded-full mb-2">Community Leader</span>
                   <h3 className="font-heading text-xl font-bold text-navy">Leader Dashboard</h3>
                   <p className="text-navy text-sm mt-1">Manage your chapter and verify members</p>
                 </div>

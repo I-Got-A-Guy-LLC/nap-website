@@ -84,9 +84,9 @@ const faqs = [
       "Yes. Networking For Awesome People has a member business directory with three tiers: Linked (free), Connected ($300/year or $30/month), and Amplified ($500/year or $50/month). Each tier offers increasing visibility, profile features, and community benefits. The directory is coming soon  -  visit our Join page to learn more.",
   },
   {
-    question: "How do I become a city leader for Networking For Awesome People?",
+    question: "How do I become a Community Leader for Networking For Awesome People?",
     answer:
-      "City leaders are community-minded professionals who are passionate about building connections in their area. If you're interested in leading a Networking For Awesome People chapter in a new city, visit the Bring Networking For Awesome People to Your City page. Existing city leader positions are filled by appointment through Rachel Albertson.",
+      "Community Leaders are community-minded professionals who are passionate about building connections in their area. If you're interested in leading a Networking For Awesome People chapter in a new city, visit the Bring Networking For Awesome People to Your City page. Existing Community Leader positions are filled by appointment through Rachel Albertson.",
   },
   {
     question: "How long has Networking For Awesome People been running?",
@@ -259,7 +259,7 @@ export default function AboutPage() {
                   A Guy, LLC  -  a Middle Tennessee business network. Rachel built Networking For
                   Awesome People on the belief that networking should feel like belonging, not a
                   transaction. She co-leads the Murfreesboro chapter every Wednesday at Achieve
-                  Entrepreneur &amp; CoWorking Center and oversees city leaders across all four
+                  Entrepreneur &amp; CoWorking Center and oversees Community Leaders across all four
                   Networking For Awesome People locations.
                 </p>
                 <a

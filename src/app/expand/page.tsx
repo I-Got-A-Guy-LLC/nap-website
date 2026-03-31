@@ -20,11 +20,11 @@ export const metadata: Metadata = {
 
 const faqs = [
   { question: "Is there a cost to license a Networking For Awesome People chapter?", answer: "Yes. Licensing fees start at $500 for the Starter Chapter tier, which includes a $300 annual renewal or $35 monthly option. Growth and Founding tiers are available at higher investment levels with more support and higher directory revenue share (50% Starter, 55% Growth, 60% Founding). Full pricing is discussed during your conversation with Rachel." },
-  { question: "Do I need networking experience to become a city leader?", answer: "You do not need to be a professional networking expert  -  but you do need to be comfortable in a room full of people, capable of facilitating a one-hour meeting, and genuinely invested in your local professional community. Rachel Albertson provides full onboarding training and ongoing support." },
+  { question: "Do I need networking experience to become a Community Leader?", answer: "You do not need to be a professional networking expert  -  but you do need to be comfortable in a room full of people, capable of facilitating a one-hour meeting, and genuinely invested in your local professional community. Rachel Albertson provides full onboarding training and ongoing support." },
   { question: "Can I bring Networking For Awesome People to a city outside Tennessee?", answer: "Yes  -  Networking For Awesome People is designed to expand beyond Tennessee. The URL structure is already built for multi-state growth. If you are outside Tennessee and interested, fill out the interest form and Rachel will be in touch." },
   { question: "How many members do I need to launch?", answer: "You do not need an existing membership base to launch. You need a venue, a consistent weekly time, and the commitment to show up and build the community from the ground up. Networking For Awesome People will support your launch with the full brand asset package and Rachel's guidance." },
-  { question: "How much time does running a chapter require?", answer: "At minimum, city leaders commit to hosting one weekly meeting of approximately one hour. City leaders are required to host a minimum of 45 of 52 meetings per year. Beyond the meeting itself, most city leaders spend additional time on community building, social media engagement, and member outreach  -  the more you invest, the faster your chapter grows." },
-  { question: "Will I have exclusive rights to my city?", answer: "Yes. Every licensed city leader holds exclusive rights to operate a Networking For Awesome People chapter in their designated city. Networking For Awesome People will not license a second chapter in the same city while an active license is in good standing." },
+  { question: "How much time does running a chapter require?", answer: "At minimum, Community Leaders commit to hosting one weekly meeting of approximately one hour. City leaders are required to host a minimum of 45 of 52 meetings per year. Beyond the meeting itself, most Community Leaders spend additional time on community building, social media engagement, and member outreach  -  the more you invest, the faster your chapter grows." },
+  { question: "Will I have exclusive rights to my city?", answer: "Yes. Every licensed Community Leader holds exclusive rights to operate a Networking For Awesome People chapter in their designated city. Networking For Awesome People will not license a second chapter in the same city while an active license is in good standing." },
   { question: "What happens if I want to stop running the chapter?", answer: "City leaders may voluntarily surrender their license at any time. Upon surrender, brand usage must cease within 30 days and the city page will be deactivated. The setup fee is non-refundable. Prorated annual fees may be refunded at Rachel's discretion." },
   { question: "How does the directory revenue share get paid?", answer: "Directory revenue share is paid out monthly based on active paid memberships in your city. Payment details and schedule are outlined in the formal license agreement." },
 ];
@@ -79,10 +79,10 @@ export default function ExpandPage() {
               their city.
             </p>
             <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-4">
-              What Does a City Leader Do?
+              What Does a Community Leader Do?
             </h3>
             <p className="text-navy text-lg leading-relaxed">
-              A Networking For Awesome People city leader hosts and facilitates a free weekly
+              A Networking For Awesome People Community Leader hosts and facilitates a free weekly
               networking meeting in their city. You show up every week, lead the meeting format,
               build relationships with local professionals, and grow a community that reflects
               Networking For Awesome People values  -  genuine connection, mutual support, and of
@@ -93,9 +93,9 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "You\u2019re Not Selling. You\u2019re Building.", body: "Networking For Awesome People city leaders don\u2019t hawk products or chase quotas. You host the weekly meeting your city didn\u2019t know it needed \u2014 and you become the person everyone credits for making it happen." },
+              { title: "You\u2019re Not Selling. You\u2019re Building.", body: "Networking For Awesome People Community Leaders don\u2019t hawk products or chase quotas. You host the weekly meeting your city didn\u2019t know it needed \u2014 and you become the person everyone credits for making it happen." },
               { title: "Everything\u2019s Built. You Just Show Up.", body: "The brand, the format, the website presence, the marketing materials \u2014 it\u2019s all done. Rachel Albertson spent years figuring out what works so you don\u2019t have to start from scratch. You inherit a proven system on day one." },
-              { title: "The Connections Are the Real Return.", body: "The revenue share is real and it grows. But ask any NAP city leader what the chapter actually gave them \u2014 it\u2019s the relationships. Referrals. Collaborations. Friendships. The kind of professional network money can\u2019t buy \u2014 built by showing up every week." },
+              { title: "The Connections Are the Real Return.", body: "The revenue share is real and it grows. But ask any NAP Community Leader what the chapter actually gave them \u2014 it\u2019s the relationships. Referrals. Collaborations. Friendships. The kind of professional network money can\u2019t buy \u2014 built by showing up every week." },
             ].map((card) => (
               <div key={card.title} className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-gold p-8">
                 <h3 className="font-heading text-xl font-bold text-navy mb-3">{card.title}</h3>
@@ -111,10 +111,10 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-4">
-              What Does Networking For Awesome People Provide to Licensed City Leaders?
+              What Does Networking For Awesome People Provide to Licensed Community Leaders?
             </h2>
             <p className="text-navy text-lg leading-relaxed mb-10">
-              Every licensed Networking For Awesome People city leader receives a complete brand and
+              Every licensed Networking For Awesome People Community Leader receives a complete brand and
               operations package at onboarding:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
@@ -127,7 +127,7 @@ export default function ExpandPage() {
                 "Social media caption templates",
                 "Onboarding training with Rachel Albertson",
                 "Ongoing support based on your license tier",
-                "Access to the Networking For Awesome People city leaders community",
+                "Access to the Networking For Awesome People Community Leaders community",
                 "Annual renewal touchpoint with your Linked member base",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
@@ -159,7 +159,7 @@ export default function ExpandPage() {
                 { item: "Canva marketing template library", value: "$500 value" },
                 { item: "Onboarding training with Rachel Albertson", value: "$1,500 value" },
                 { item: "Social media caption templates & marketing materials", value: "$1,000 value" },
-                { item: "Access to the NAP city leaders community", value: "Priceless" },
+                { item: "Access to the NAP Community Leaders community", value: "Priceless" },
               ].map((line) => (
                 <div key={line.item} className="flex items-center justify-between border-b border-white/10 pb-3">
                   <span className="text-white text-sm md:text-base">{line.item}</span>
@@ -237,7 +237,7 @@ export default function ExpandPage() {
                 <div className="p-6">
                   <p className="text-gold font-bold text-sm mb-4">55% of your city&apos;s directory revenue</p>
                   <ul className="space-y-3 mb-6">
-                    {["Everything in Starter", "Monthly coaching calls with Rachel", "Private city leaders community access", "Co-marketing and social media support", "Priority support from Rachel"].map((f) => (
+                    {["Everything in Starter", "Monthly coaching calls with Rachel", "Private Community Leaders community access", "Co-marketing and social media support", "Priority support from Rachel"].map((f) => (
                       <li key={f} className="flex items-start gap-2 text-navy text-sm">
                         <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
                       </li>
@@ -289,7 +289,7 @@ export default function ExpandPage() {
               How the Directory Revenue Share Works
             </h2>
             <p className="text-navy text-lg leading-relaxed mb-10">
-              As a licensed city leader, you earn a percentage of all paid directory memberships
+              As a licensed Community Leader, you earn a percentage of all paid directory memberships
               generated in your city. The Networking For Awesome People business directory has three
               tiers  -  Linked (always free), Connected ($300/yr), and Amplified ($500/yr). You earn
               your revenue share percentage on every Connected and Amplified member in your city.
@@ -390,7 +390,7 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-4">
-              What Makes a Great Networking For Awesome People City Leader?
+              What Makes a Great Networking For Awesome People Community Leader?
             </h2>
             <p className="text-navy text-lg text-center mb-12 max-w-2xl mx-auto">
               We are selective about who we license the Networking For Awesome People name to  - 
@@ -399,7 +399,7 @@ export default function ExpandPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { title: "Genuinely Community-Minded", body: "You care about your local professional community for its own sake  -  not just as a sales opportunity. You show up to give, not just to get.", border: "border-l-manchester" },
-                { title: "Consistent and Reliable", body: "Weekly meetings only work if the leader shows up every week. We need city leaders who are committed to the rhythm of a recurring meeting  -  minimum 45 meetings per year.", border: "border-l-nolensville" },
+                { title: "Consistent and Reliable", body: "Weekly meetings only work if the leader shows up every week. We need Community Leaders who are committed to the rhythm of a recurring meeting  -  minimum 45 meetings per year.", border: "border-l-nolensville" },
                 { title: "Connected Locally", body: "You have existing relationships in your city and a reputation people trust. You do not need to be famous  -  you just need to be known and respected.", border: "border-l-smyrna" },
                 { title: "Aligned With Our Values", body: "You get the Don't Be a Jerk™ rule. You believe networking should feel like belonging. You want to build something real.", border: "border-l-navy" },
               ].map((card) => (
@@ -424,7 +424,7 @@ export default function ExpandPage() {
               {[
                 { step: "1", title: "Express Your Interest", body: "Fill out the interest form below. Tell us about yourself, your city, and why you want to bring Networking For Awesome People to your community." },
                 { step: "2", title: "Connect With Rachel", body: "Rachel Albertson personally reviews every application and connects with promising candidates for a conversation about fit, vision, and which tier is right for you." },
-                { step: "3", title: "Sign the License Agreement", body: "Approved city leaders receive and sign a formal license agreement that outlines the terms, responsibilities, brand usage rights, and support you will receive." },
+                { step: "3", title: "Sign the License Agreement", body: "Approved Community Leaders receive and sign a formal license agreement that outlines the terms, responsibilities, brand usage rights, and support you will receive." },
                 { step: "4", title: "Launch Your Chapter", body: "Your city page goes live, you receive your full brand asset package and CMS access, and you host your first Networking For Awesome People meeting. Rachel and the team support you every step of the way." },
               ].map((item) => (
                 <div key={item.step} className="flex gap-6">
