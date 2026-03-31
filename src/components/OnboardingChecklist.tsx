@@ -48,7 +48,7 @@ export default function OnboardingChecklist({ autoCompleted, savedCompleted }: O
       notifications: ["/portal"],
     };
 
-    for (const [stepKey, paths] of Object.entries(visitKeys)) {
+    for (const stepKey of Object.keys(visitKeys)) {
       if (completed[stepKey]) continue;
       const visited = localStorage.getItem(`nap_onboarding_${stepKey}`);
       if (visited) {
