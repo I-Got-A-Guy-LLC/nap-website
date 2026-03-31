@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -167,6 +167,14 @@ function SponsorForm({ tier, slug, onSuccess }: { tier: TierDef; slug: string; o
 }
 
 export default function SponsorPage() {
+  return (
+    <Suspense fallback={null}>
+      <SponsorPageContent />
+    </Suspense>
+  );
+}
+
+function SponsorPageContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const slug = params.slug as string;

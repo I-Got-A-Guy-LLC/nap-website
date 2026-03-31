@@ -1,9 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 export default function SetPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <SetPasswordForm />
+    </Suspense>
+  );
+}
+
+function SetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");

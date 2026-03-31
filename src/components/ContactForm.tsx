@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 const subjectOptions = [
@@ -14,6 +14,14 @@ const subjectOptions = [
 const subjectMap: Record<string, string> = {};
 
 export default function ContactForm() {
+  return (
+    <Suspense fallback={null}>
+      <ContactFormInner />
+    </Suspense>
+  );
+}
+
+function ContactFormInner() {
   const searchParams = useSearchParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import QRCode from "qrcode";
@@ -56,6 +56,14 @@ function buildGoogleCalendarUrl(ticket: TicketData): string {
 }
 
 export default function ConfirmationPage() {
+  return (
+    <Suspense fallback={null}>
+      <ConfirmationContent />
+    </Suspense>
+  );
+}
+
+function ConfirmationContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
