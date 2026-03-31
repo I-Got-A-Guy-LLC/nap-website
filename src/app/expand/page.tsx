@@ -48,10 +48,10 @@ export default function ExpandPage() {
       <section className="bg-navy py-16 md:py-24 px-4">
         <div className="max-w-[1200px] mx-auto text-center">
           <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4">
-            Bring Networking For Awesome People to Your City
+            Become the Most Connected Person in Your City.
           </h1>
           <p className="text-gold text-lg md:text-xl italic mb-8">
-            Build community. Create opportunity. Lead something that matters.
+            Build the room everyone wants to be in  -  and build a real income doing it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#interest-form" className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300">
@@ -93,9 +93,9 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "Lead Something Real", body: "You are not selling a product or running a franchise. You are building a community. Networking For Awesome People city leaders are trusted connectors who make their local professional community stronger." },
-              { title: "Built-In Support", body: "City leaders get the Networking For Awesome People brand, meeting format, run-of-show, marketing materials, and direct support from founder Rachel Albertson. You are not starting from scratch." },
-              { title: "Grow Your Own Network", body: "Running a Networking For Awesome People chapter puts you at the center of your local professional community. The relationships you build as a city leader are among the most valuable you will ever make." },
+              { title: "You\u2019re Not Selling. You\u2019re Building.", body: "Networking For Awesome People city leaders don\u2019t hawk products or chase quotas. You host the weekly meeting your city didn\u2019t know it needed \u2014 and you become the person everyone credits for making it happen." },
+              { title: "Everything\u2019s Built. You Just Show Up.", body: "The brand, the format, the website presence, the marketing materials \u2014 it\u2019s all done. Rachel Albertson spent years figuring out what works so you don\u2019t have to start from scratch. You inherit a proven system on day one." },
+              { title: "The Connections Are the Real Return.", body: "The revenue share is real and it grows. But ask any NAP city leader what the chapter actually gave them \u2014 it\u2019s the relationships. Referrals. Collaborations. Friendships. The kind of professional network money can\u2019t buy \u2014 built by showing up every week." },
             ].map((card) => (
               <div key={card.title} className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-gold p-8">
                 <h3 className="font-heading text-xl font-bold text-navy mb-3">{card.title}</h3>
@@ -140,6 +140,45 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
+      {/* ===== VALUE STACK ===== */}
+      <section className="bg-navy py-16 md:py-24 px-4">
+        <ScrollReveal>
+          <div className="w-[90%] max-w-[800px] mx-auto">
+            <h2 className="font-heading text-3xl md:text-5xl font-bold text-white text-center mb-3">
+              What You&apos;re Really Getting
+            </h2>
+            <p className="text-white/70 text-lg text-center mb-12">
+              If you built this yourself, here&apos;s what it would cost.
+            </p>
+
+            <div className="space-y-4">
+              {[
+                { item: "NAP brand & logo rights", value: "$5,000+ value" },
+                { item: "Done-for-you meeting format & run-of-show", value: "$2,000 value" },
+                { item: "City page + SEO-optimized web presence", value: "$3,000 value" },
+                { item: "Canva marketing template library", value: "$500 value" },
+                { item: "Onboarding training with Rachel Albertson", value: "$1,500 value" },
+                { item: "Social media caption templates & marketing materials", value: "$1,000 value" },
+                { item: "Access to the NAP city leaders community", value: "Priceless" },
+              ].map((line) => (
+                <div key={line.item} className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <span className="text-white text-sm md:text-base">{line.item}</span>
+                  <span className="text-gold font-bold text-sm md:text-base whitespace-nowrap ml-4">{line.value}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 text-center">
+              <p className="text-white/60 text-sm uppercase tracking-widest mb-2">Total estimated value</p>
+              <p className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">$13,000+</p>
+              <p className="text-gold text-lg md:text-xl font-bold">
+                Your investment: Starts at $500.
+              </p>
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
+
       {/* ===== SECTION 4  -  LICENSE TIERS ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
@@ -150,10 +189,16 @@ export default function ExpandPage() {
             <p className="text-gold text-lg italic text-center mb-4">
               Three tiers designed for different levels of commitment and support
             </p>
-            <p className="text-navy text-center text-sm mb-12 max-w-2xl mx-auto">
-              All city leaders receive exclusive territory rights  -  no two Networking For Awesome
-              People chapters in the same city.
-            </p>
+
+            {/* Territory scarcity callout */}
+            <div className="max-w-2xl mx-auto my-10 border-2 border-gold rounded-xl px-6 py-5 bg-gold/5 text-center">
+              <p className="text-navy font-bold text-base md:text-lg leading-relaxed">
+                One city. One leader. Once your city is licensed, it&apos;s gone.
+              </p>
+              <p className="text-navy/70 text-sm mt-2 leading-relaxed">
+                Networking For Awesome People will never license a second chapter in the same city while an active license is in force. If you&apos;ve been thinking about your city  -  now is the time.
+              </p>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
               {/* STARTER */}
