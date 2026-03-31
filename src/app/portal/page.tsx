@@ -4,6 +4,7 @@ import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import NotificationPreferences from "@/components/NotificationPreferences";
+import OnboardingChecklist from "@/components/OnboardingChecklist";
 
 const tierLabels: Record<string, string> = {
   linked: "Linked",
@@ -47,6 +48,28 @@ export default async function PortalPage() {
   const isAmplifiedOrLeadership = tier === "amplified" || member.is_leadership;
   const showAnalytics = isAmplifiedOrLeadership;
 
+  // Compute auto-detected onboarding steps
+  const savedOnboarding = (member.onboarding_completed as Record<string, boolean>) || {};
+  const autoCompleted: Record<string, boolean> = {
+    profile: !!(member.full_name && member.city),
+    listing: !!(listing && listing.business_name),
+    photo: !!(listing && (listing.logo_url || (listing.photos && listing.photos.length > 0))),
+    notifications: !!savedOnboarding.notifications,
+    directory: !!savedOnboarding.directory,
+    events: !!savedOnboarding.events,
+    connect: !!savedOnboarding.connect,
+  };
+
+  // Determine if checklist should show:
+  // Show if any auto-detectable or saved step is incomplete
+  const allStepsComplete = Object.values({ ...autoCompleted, ...savedOnboarding }).length >= 7
+    && autoCompleted.profile && autoCompleted.listing && autoCompleted.photo
+    && (autoCompleted.notifications || savedOnboarding.notifications)
+    && (autoCompleted.directory || savedOnboarding.directory)
+    && (autoCompleted.events || savedOnboarding.events)
+    && (autoCompleted.connect || savedOnboarding.connect);
+  const showOnboarding = !allStepsComplete || !savedOnboarding.connect;
+
   return (
     <>
       {/* Header */}
@@ -77,6 +100,14 @@ export default async function PortalPage() {
 
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[900px] mx-auto space-y-8">
+
+          {/* Onboarding Checklist */}
+          {showOnboarding && (
+            <OnboardingChecklist
+              autoCompleted={autoCompleted}
+              savedCompleted={savedOnboarding}
+            />
+          )}
 
           {/* Admin Shortcut */}
           {member?.role === "super_admin" && (
