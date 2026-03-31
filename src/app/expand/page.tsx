@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  { question: "Is there a cost to license a Networking For Awesome People chapter?", answer: "Yes. Licensing fees start at $500 for the Starter Chapter tier, which includes a $300 annual renewal or $35 monthly option. Growth and Founding tiers are available at higher investment levels with more support and higher directory revenue share. Full pricing is discussed during your conversation with Rachel." },
+  { question: "Is there a cost to license a Networking For Awesome People chapter?", answer: "Yes. Licensing fees start at $500 for the Starter Chapter tier, which includes a $300 annual renewal or $35 monthly option. Growth and Founding tiers are available at higher investment levels with more support and higher directory revenue share (50% Starter, 55% Growth, 60% Founding). Full pricing is discussed during your conversation with Rachel." },
   { question: "Do I need networking experience to become a city leader?", answer: "You do not need to be a professional networking expert  -  but you do need to be comfortable in a room full of people, capable of facilitating a one-hour meeting, and genuinely invested in your local professional community. Rachel Albertson provides full onboarding training and ongoing support." },
   { question: "Can I bring Networking For Awesome People to a city outside Tennessee?", answer: "Yes  -  Networking For Awesome People is designed to expand beyond Tennessee. The URL structure is already built for multi-state growth. If you are outside Tennessee and interested, fill out the interest form and Rachel will be in touch." },
   { question: "How many members do I need to launch?", answer: "You do not need an existing membership base to launch. You need a venue, a consistent weekly time, and the commitment to show up and build the community from the ground up. Networking For Awesome People will support your launch with the full brand asset package and Rachel's guidance." },
@@ -165,7 +165,7 @@ export default function ExpandPage() {
                   <p className="text-navy text-xs mt-2">$300/year or $35/month recurring</p>
                 </div>
                 <div className="p-6">
-                  <p className="text-green-600 font-bold text-sm mb-4">35% of your city&apos;s directory revenue</p>
+                  <p className="text-green-600 font-bold text-sm mb-4">50% of your city&apos;s directory revenue</p>
                   <ul className="space-y-3 mb-6">
                     {["Brand and logo usage rights", "Meeting format and run-of-show", "City page on the website", "CMS access", "Marketing materials and templates", "Onboarding training with Rachel", "Exclusive city territory"].map((f) => (
                       <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -190,7 +190,7 @@ export default function ExpandPage() {
                   <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
                 </div>
                 <div className="p-6">
-                  <p className="text-gold font-bold text-sm mb-4">40% of your city&apos;s directory revenue</p>
+                  <p className="text-gold font-bold text-sm mb-4">55% of your city&apos;s directory revenue</p>
                   <ul className="space-y-3 mb-6">
                     {["Everything in Starter", "Monthly coaching calls with Rachel", "Private city leaders community access", "Co-marketing and social media support", "Priority support from Rachel"].map((f) => (
                       <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -212,7 +212,7 @@ export default function ExpandPage() {
                   <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
                 </div>
                 <div className="p-6">
-                  <p className="text-gold font-bold text-sm mb-4">45% of your city&apos;s directory revenue</p>
+                  <p className="text-gold font-bold text-sm mb-4">60% of your city&apos;s directory revenue</p>
                   <ul className="space-y-3 mb-6">
                     {["Everything in Growth", "Founding chapter designation on website", "Priority website feature placement", "Quarterly strategy sessions with Rachel", "Input on NAP's national direction"].map((f) => (
                       <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -250,50 +250,92 @@ export default function ExpandPage() {
               your revenue share percentage on every Connected and Amplified member in your city.
             </p>
 
-            <div className="bg-white rounded-xl border-l-4 border-gold p-6 md:p-8 shadow-sm">
-              <h3 className="font-heading text-xl font-bold text-navy mb-4">
-                Example: Growth Chapter City  -  20 Directory Members
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <tbody>
-                    <tr className="border-b border-gray-100">
-                      <td className="py-2 text-navy">8 Linked members</td>
-                      <td className="py-2 text-navy text-right">$0</td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="py-2 text-navy">7 Connected members &times; $300/yr</td>
-                      <td className="py-2 text-navy text-right font-medium">$2,100</td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="py-2 text-navy">5 Amplified members &times; $500/yr</td>
-                      <td className="py-2 text-navy text-right font-medium">$2,500</td>
-                    </tr>
-                    <tr className="border-b border-gray-200">
-                      <td className="py-2 text-navy font-bold">Total directory revenue</td>
-                      <td className="py-2 text-navy text-right font-bold">$4,600/yr</td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="py-2 text-green-600 font-bold">Your share (40%)</td>
-                      <td className="py-2 text-green-600 text-right font-bold">$1,840/yr</td>
-                    </tr>
-                    <tr className="border-b border-gray-100">
-                      <td className="py-2 text-navy">Your annual license fee</td>
-                      <td className="py-2 text-navy text-right">-$997/yr</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2 text-navy font-bold text-lg">Net to you from directory alone</td>
-                      <td className="py-2 text-gold text-right font-bold text-lg">$843/yr</td>
-                    </tr>
-                  </tbody>
-                </table>
+            <h3 className="font-heading text-2xl font-bold text-navy mb-8 text-center">
+              Your Growth Journey
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Year 1 */}
+              <div className="bg-white rounded-2xl border-2 border-gray-100 overflow-hidden shadow-sm">
+                <div className="bg-manchester/20 p-5 text-center">
+                  <p className="text-manchester text-xs font-bold uppercase tracking-widest mb-1">Year 1</p>
+                  <h4 className="font-heading text-xl font-bold text-navy">Early Traction</h4>
+                </div>
+                <div className="p-6">
+                  <ul className="space-y-2 text-sm text-navy mb-5">
+                    <li className="flex justify-between"><span>8 Linked (free)</span><span>$0</span></li>
+                    <li className="flex justify-between"><span>4 Connected &times; $300</span><span className="font-medium">$1,200</span></li>
+                    <li className="flex justify-between"><span>3 Amplified &times; $500</span><span className="font-medium">$1,500</span></li>
+                  </ul>
+                  <div className="border-t border-gray-100 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm text-navy font-bold">
+                      <span>Total directory revenue</span>
+                      <span>$2,700/yr</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600 font-bold">You earn (55% Growth)</span>
+                      <span className="text-green-600 font-bold text-lg">$1,485/yr</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p className="text-navy text-sm mt-4 italic">
-                The bigger your directory grows, the more you earn. City leaders are motivated to
-                recruit Connected and Amplified members because it directly benefits them  -  and
-                Networking For Awesome People.
-              </p>
+
+              {/* Year 2 */}
+              <div className="bg-white rounded-2xl border-2 border-gold/40 overflow-hidden shadow-md">
+                <div className="bg-gold/20 p-5 text-center">
+                  <p className="text-gold text-xs font-bold uppercase tracking-widest mb-1">Year 2</p>
+                  <h4 className="font-heading text-xl font-bold text-navy">Building Momentum</h4>
+                </div>
+                <div className="p-6">
+                  <ul className="space-y-2 text-sm text-navy mb-5">
+                    <li className="flex justify-between"><span>12 Linked (free)</span><span>$0</span></li>
+                    <li className="flex justify-between"><span>10 Connected &times; $300</span><span className="font-medium">$3,000</span></li>
+                    <li className="flex justify-between"><span>8 Amplified &times; $500</span><span className="font-medium">$4,000</span></li>
+                  </ul>
+                  <div className="border-t border-gray-100 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm text-navy font-bold">
+                      <span>Total directory revenue</span>
+                      <span>$7,000/yr</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600 font-bold">You earn (55% Growth)</span>
+                      <span className="text-green-600 font-bold text-lg">$3,850/yr</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Year 3 */}
+              <div className="bg-white rounded-2xl border-2 border-smyrna/40 overflow-hidden shadow-lg">
+                <div className="bg-smyrna/20 p-5 text-center">
+                  <p className="text-smyrna text-xs font-bold uppercase tracking-widest mb-1">Year 3</p>
+                  <h4 className="font-heading text-xl font-bold text-navy">Mature City</h4>
+                </div>
+                <div className="p-6">
+                  <ul className="space-y-2 text-sm text-navy mb-5">
+                    <li className="flex justify-between"><span>20 Linked (free)</span><span>$0</span></li>
+                    <li className="flex justify-between"><span>18 Connected &times; $300</span><span className="font-medium">$5,400</span></li>
+                    <li className="flex justify-between"><span>12 Amplified &times; $500</span><span className="font-medium">$6,000</span></li>
+                  </ul>
+                  <div className="border-t border-gray-100 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm text-navy font-bold">
+                      <span>Total directory revenue</span>
+                      <span>$11,400/yr</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600 font-bold">You earn (60% Founding)</span>
+                      <span className="text-green-600 font-bold text-lg">$6,840/yr</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <p className="text-navy text-sm mt-8 italic text-center">
+              The bigger your directory grows, the more you earn. City leaders are motivated to
+              recruit Connected and Amplified members because it directly benefits them  -  and
+              Networking For Awesome People.
+            </p>
           </div>
         </ScrollReveal>
       </section>
