@@ -35,8 +35,10 @@ interface TierDef {
   value: string;
   label: string;
   price: number;
+  priceLabel?: string;
   color: string;
   compTickets: number;
+  max: number;
   benefits: string[];
   selfServe: boolean;
 }
@@ -48,6 +50,7 @@ const TIERS: TierDef[] = [
     price: 500,
     color: "#FE6651",
     compTickets: 2,
+    max: 1,
     selfServe: false,
     benefits: [
       "Top billing on all event materials",
@@ -63,6 +66,7 @@ const TIERS: TierDef[] = [
     price: 250,
     color: "#F5BE61",
     compTickets: 1,
+    max: 4,
     selfServe: true,
     benefits: [
       "Logo displayed at event",
@@ -77,11 +81,27 @@ const TIERS: TierDef[] = [
     price: 100,
     color: "#71D4D1",
     compTickets: 0,
+    max: 10,
     selfServe: true,
     benefits: [
       "Name displayed at event",
       "Mentioned in event communications",
       "Supporting local networking",
+    ],
+  },
+  {
+    value: "in-kind",
+    label: "In-Kind Sponsor",
+    price: 0,
+    priceLabel: "In-Kind",
+    color: "#1F3149",
+    compTickets: 0,
+    max: 99,
+    selfServe: false,
+    benefits: [
+      "Provide goods or services for the event",
+      "Name displayed as in-kind sponsor",
+      "Tell us what you'd like to contribute",
     ],
   },
 ];
@@ -181,6 +201,7 @@ function SponsorPageContent() {
   const isSuccess = searchParams.get("success") === "true";
 
   const [event, setEvent] = useState<EventData | null>(null);
+  const [tierCounts, setTierCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(isSuccess);
   const [activeTier, setActiveTier] = useState<string | null>(null);
@@ -198,6 +219,7 @@ function SponsorPageContent() {
             location_name: data.event.location_name || fallback.location_name,
             location_address: data.event.location_address || fallback.location_address,
           } as EventData);
+          setTierCounts(data.tierCounts || {});
         } else if (FALLBACK_EVENTS[slug]) {
           // Use fallback entirely if API returns nothing
           setEvent({ id: "", slug, ...FALLBACK_EVENTS[slug] } as EventData);
@@ -299,29 +321,43 @@ function SponsorPageContent() {
       {/* Tier Cards */}
       <section className="bg-white py-16 px-4">
         <div className="w-[90%] max-w-[1000px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {TIERS.map((tier) => {
               const isActive = activeTier === tier.value;
+              const count = tierCounts[tier.value] || 0;
+              const soldOut = count >= tier.max;
 
               return (
                 <div
                   key={tier.value}
-                  className="rounded-2xl border-2 border-gray-100 overflow-hidden flex flex-col transition-all hover:shadow-lg"
-                  style={{ borderTopColor: tier.color, borderTopWidth: 4 }}
+                  className={`rounded-2xl border-2 overflow-hidden flex flex-col transition-all ${
+                    soldOut ? "border-gray-200 bg-gray-50 opacity-60" : "border-gray-100 hover:shadow-lg"
+                  }`}
+                  style={{ borderTopColor: soldOut ? "#d1d5db" : tier.color, borderTopWidth: 4 }}
                 >
                   {/* Tier header */}
                   <div className="p-6 pb-4">
-                    <span
-                      className="inline-block text-xs font-bold text-white px-3 py-1 rounded-full mb-3"
-                      style={{ backgroundColor: tier.color }}
-                    >
-                      {tier.label}
-                    </span>
-                    <p className="font-heading text-4xl font-bold text-navy">${tier.price}</p>
+                    <div className="flex items-start justify-between mb-3">
+                      <span
+                        className="inline-block text-xs font-bold text-white px-3 py-1 rounded-full"
+                        style={{ backgroundColor: tier.color }}
+                      >
+                        {tier.label}
+                      </span>
+                      {soldOut && (
+                        <span className="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded-full">FILLED</span>
+                      )}
+                    </div>
+                    <p className="font-heading text-4xl font-bold text-navy">
+                      {tier.priceLabel || `$${tier.price}`}
+                    </p>
                     {tier.compTickets > 0 && (
                       <p className="text-navy/60 text-sm mt-1">
                         Includes {tier.compTickets} comp ticket{tier.compTickets > 1 ? "s" : ""}
                       </p>
+                    )}
+                    {!soldOut && tier.max < 10 && (
+                      <p className="text-navy/50 text-xs mt-1">{tier.max - count} of {tier.max} available</p>
                     )}
                   </div>
 
@@ -339,7 +375,11 @@ function SponsorPageContent() {
 
                   {/* CTA */}
                   <div className="px-6 pb-6">
-                    {tier.selfServe ? (
+                    {soldOut ? (
+                      <span className="block w-full text-center text-gray-400 font-bold text-sm px-6 py-3">
+                        Sold Out
+                      </span>
+                    ) : tier.selfServe ? (
                       <>
                         {!isActive ? (
                           <button
@@ -359,7 +399,7 @@ function SponsorPageContent() {
                       </>
                     ) : (
                       <a
-                        href="mailto:hello@networkingforawesomepeople.com?subject=Presenting%20Sponsor%20Inquiry"
+                        href={`mailto:hello@networkingforawesomepeople.com?subject=${encodeURIComponent(tier.label + " Inquiry")}`}
                         className="block w-full text-center bg-navy text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-navy/80 transition-colors"
                       >
                         Contact Rachel
