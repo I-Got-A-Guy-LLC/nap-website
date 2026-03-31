@@ -108,10 +108,13 @@ export async function POST(request: Request) {
             }));
             await supabase.from("tickets").insert(compTickets);
 
-            const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", metadata.eventId).single();
-            if (evt) {
-              await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + ticketCount }).eq("id", metadata.eventId);
-            }
+            // Recount active tickets for accuracy
+            const { count: activeCount } = await supabase
+              .from("tickets")
+              .select("id", { count: "exact", head: true })
+              .eq("event_id", metadata.eventId)
+              .eq("status", "active");
+            await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", metadata.eventId);
           }
 
           // Send sponsor confirmation + ticket emails
@@ -186,25 +189,40 @@ export async function POST(request: Request) {
           const { error: ticketError } = await supabase.from("tickets").insert(tickets);
           if (ticketError) console.error("Error creating tickets:", ticketError);
 
-          // Increment tickets_sold
-          const { data: evt } = await supabase.from("events").select("tickets_sold, title, event_date, start_time, end_time, location_name").eq("id", eventId).single();
-          if (evt) {
-            await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + quantity }).eq("id", eventId);
+          // Increment tickets_sold — count actual ticket rows for accuracy
+          const { count: ticketCount } = await supabase
+            .from("tickets")
+            .select("id", { count: "exact", head: true })
+            .eq("event_id", eventId)
+            .eq("status", "active");
 
-            // Send ticket confirmation email
-            if (customerEmail && tickets.length > 0) {
-              await sendTicketConfirmation(
-                customerEmail,
-                session.customer_details?.name || customerEmail.split("@")[0],
-                evt.title,
-                evt.event_date || "",
-                evt.start_time || "",
-                evt.end_time || "",
-                evt.location_name || "",
-                tickets[0].ticket_code,
-                quantity
-              ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
-            }
+          const { error: updateError } = await supabase
+            .from("events")
+            .update({ tickets_sold: ticketCount ?? 0 })
+            .eq("id", eventId);
+
+          if (updateError) {
+            console.error(`[webhook] Failed to update tickets_sold for event ${eventId}:`, updateError);
+          } else {
+            console.log(`[webhook] Updated tickets_sold to ${ticketCount} for event ${eventId}`);
+          }
+
+          // Send ticket confirmation email
+          const { data: evt } = await supabase.from("events").select("title, event_date, start_time, end_time, location_name").eq("id", eventId).single();
+          if (customerEmail && tickets.length > 0 && evt) {
+            await sendTicketConfirmation(
+              customerEmail,
+              session.customer_details?.name || customerEmail.split("@")[0],
+              evt.title,
+              evt.event_date || "",
+              evt.start_time || "",
+              evt.end_time || "",
+              evt.location_name || "",
+              tickets[0].ticket_code,
+              quantity
+            ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
+          } else if (!evt) {
+            console.error(`[webhook] Could not fetch event ${eventId} for confirmation email`);
           }
 
           console.log(`[webhook] Created ${quantity} tickets for event ${eventId}`);
@@ -355,10 +373,12 @@ export async function POST(request: Request) {
               }));
               await supabase.from("tickets").insert(tickets);
 
-              const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", sponsor.event_id).single();
-              if (evt) {
-                await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + ticketCount }).eq("id", sponsor.event_id);
-              }
+              const { count: activeCount } = await supabase
+                .from("tickets")
+                .select("id", { count: "exact", head: true })
+                .eq("event_id", sponsor.event_id)
+                .eq("status", "active");
+              await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", sponsor.event_id);
             }
             console.log(`[webhook] Sponsor ${sponsor.sponsor_name} paid  -  ${ticketCount} comp tickets issued`);
           }

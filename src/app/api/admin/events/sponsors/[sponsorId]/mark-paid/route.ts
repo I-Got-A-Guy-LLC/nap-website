@@ -51,14 +51,13 @@ export async function POST(
 
     await supabase.from("tickets").insert(tickets);
 
-    // Increment tickets_sold
-    const event = Array.isArray(sponsor.events) ? sponsor.events[0] : sponsor.events;
-    if (event) {
-      await supabase
-        .from("events")
-        .update({ tickets_sold: (event.tickets_sold || 0) + ticketCount })
-        .eq("id", sponsor.event_id);
-    }
+    // Recount active tickets for accuracy
+    const { count: activeCount } = await supabase
+      .from("tickets")
+      .select("id", { count: "exact", head: true })
+      .eq("event_id", sponsor.event_id)
+      .eq("status", "active");
+    await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", sponsor.event_id);
   }
 
   return NextResponse.json({ success: true, ticketsIssued: ticketCount });

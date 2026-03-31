@@ -82,11 +82,13 @@ export async function POST(request: Request) {
 
       await supabase.from("tickets").insert(tickets);
 
-      // Increment tickets_sold
-      const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", event.id).single();
-      if (evt) {
-        await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + quantity }).eq("id", event.id);
-      }
+      // Recount active tickets for accuracy
+      const { count: activeCount } = await supabase
+        .from("tickets")
+        .select("id", { count: "exact", head: true })
+        .eq("event_id", event.id)
+        .eq("status", "active");
+      await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", event.id);
 
       // Increment promo uses
       if (promoId) {
