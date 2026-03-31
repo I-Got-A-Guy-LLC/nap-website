@@ -8,6 +8,8 @@ import {
   sendReceipt,
   sendPaymentFailed,
   notifyPaymentFailed,
+  sendSponsorConfirmation,
+  sendTicketConfirmation,
 } from "@/lib/emails";
 
 export const runtime = "nodejs";
@@ -78,23 +80,51 @@ export async function POST(request: Request) {
 
           // Issue complimentary tickets for qualifying tiers
           const ticketCount = SPONSOR_TIER_TICKETS[tier] || 0;
+          const sEmail = metadata.email || customerEmail || "";
+          const sName = metadata.contactName || "";
+          let compTickets: { ticket_code: string }[] = [];
+
           if (ticketCount > 0) {
-            const sponsorEmail = metadata.email || customerEmail || "";
-            const sponsorName = metadata.contactName || "";
-            const tickets = Array.from({ length: ticketCount }, () => ({
+            compTickets = Array.from({ length: ticketCount }, () => ({
               event_id: metadata.eventId,
               ticket_code: generateTicketCode(),
-              purchaser_name: sponsorName,
-              purchaser_email: sponsorEmail,
+              purchaser_name: sName,
+              purchaser_email: sEmail,
               quantity: 1,
               amount_paid: 0,
               status: "active",
             }));
-            await supabase.from("tickets").insert(tickets);
+            await supabase.from("tickets").insert(compTickets);
 
             const { data: evt } = await supabase.from("events").select("tickets_sold").eq("id", metadata.eventId).single();
             if (evt) {
               await supabase.from("events").update({ tickets_sold: (evt.tickets_sold || 0) + ticketCount }).eq("id", metadata.eventId);
+            }
+          }
+
+          // Send sponsor confirmation + ticket emails
+          if (sEmail) {
+            const { data: evtDetails } = await supabase
+              .from("events")
+              .select("title, event_date, location_name, start_time, end_time")
+              .eq("id", metadata.eventId)
+              .single();
+
+            if (evtDetails) {
+              await sendSponsorConfirmation(
+                sEmail, sName, metadata.businessName || "", tier,
+                evtDetails.title, evtDetails.event_date || "",
+                evtDetails.location_name || "", ticketCount
+              ).catch((err: any) => console.error("[webhook] Sponsor email error:", err));
+
+              if (ticketCount > 0 && compTickets.length > 0) {
+                await sendTicketConfirmation(
+                  sEmail, sName, evtDetails.title,
+                  evtDetails.event_date || "", evtDetails.start_time || "",
+                  evtDetails.end_time || "", evtDetails.location_name || "",
+                  compTickets[0].ticket_code, ticketCount
+                ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
+              }
             }
           }
 

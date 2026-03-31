@@ -412,6 +412,54 @@ export async function sendReferralNotification(
 }
 
 // ---------------------------------------------------------------------------
+// Sponsor confirmation
+// ---------------------------------------------------------------------------
+
+export async function sendSponsorConfirmation(
+  email: string,
+  name: string,
+  businessName: string,
+  tier: string,
+  eventTitle: string,
+  eventDate: string,
+  locationName: string,
+  ticketCount: number
+) {
+  const formattedDate = new Date(eventDate + "T12:00:00").toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
+  const ticketLine = ticketCount > 0
+    ? `<p>You have <strong>${ticketCount} complimentary ticket${ticketCount > 1 ? "s" : ""}</strong> to the event. We'll send your ticket confirmation with a QR code separately.</p>`
+    : "";
+
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: `You're a ${tierLabel} Sponsor for ${eventTitle}!`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Thank you, ${name}!</h2>
+      <p>Your <strong>${tierLabel} Sponsorship</strong> for <strong>${eventTitle}</strong> is confirmed. We truly appreciate <strong>${businessName}</strong>'s support of our community.</p>
+
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;width:100px;">Event:</td><td style="padding:8px 0;font-weight:bold;">${eventTitle}</td></tr>
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;">Date:</td><td style="padding:8px 0;font-weight:bold;">${formattedDate}</td></tr>
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;">Location:</td><td style="padding:8px 0;font-weight:bold;">${locationName}</td></tr>
+        <tr><td style="padding:8px 0;color:#666;font-size:14px;">Tier:</td><td style="padding:8px 0;font-weight:bold;">${tierLabel} Sponsor</td></tr>
+      </table>
+
+      ${ticketLine}
+
+      <p style="color:#666;font-size:14px;">Questions? Reply to this email or reach us at hello@networkingforawesomepeople.com.</p>
+    `),
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Ticket confirmation
 // ---------------------------------------------------------------------------
 

@@ -135,7 +135,7 @@ export async function GET(request: Request) {
 
     const { data: event, error } = await supabase
       .from("events")
-      .select("id, title, slug, event_date")
+      .select("id, title, slug, event_date, start_time, end_time, location_name, location_address, city, state")
       .eq("slug", slug)
       .eq("status", "published")
       .single();
