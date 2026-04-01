@@ -76,6 +76,10 @@ export async function PATCH(request: Request) {
 
     const body = await request.json();
 
+    // Check if this is explicitly a new listing creation
+    const forceNewListing = body.new_listing === true;
+    delete body.new_listing;
+
     // Extract category suggestion
     const categorySuggestion = body.category_suggestion;
     delete body.category_suggestion;
@@ -138,7 +142,6 @@ export async function PATCH(request: Request) {
         .select("slug")
         .eq("listing_state", state)
         .eq("slug", baseSlug)
-        .neq("member_id", member.id)
         .maybeSingle();
       body.slug = existing ? `${baseSlug}-${Date.now().toString(36).slice(-4)}` : baseSlug;
     }
@@ -150,16 +153,20 @@ export async function PATCH(request: Request) {
     // Set approval based on tier
     const isPaid = member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
 
-    // Check if listing exists
-    const { data: existingListing, error: findError } = await supabase
-      .from("directory_listings")
-      .select("id, is_approved")
-      .eq("member_id", member.id)
-      .maybeSingle();
+    // Check if listing exists (skip if forcing new listing)
+    let existingListing: { id: string; is_approved: boolean } | null = null;
+    if (!forceNewListing) {
+      const { data: found, error: findError } = await supabase
+        .from("directory_listings")
+        .select("id, is_approved")
+        .eq("member_id", member.id)
+        .maybeSingle();
+      existingListing = found;
+      if (findError) console.log("[listing] Find error:", findError.message);
+    }
 
     console.log("[listing] Member:", member.id, member.email, "Tier:", member.tier);
-    console.log("[listing] Existing listing:", existingListing?.id || "NONE");
-    if (findError) console.log("[listing] Find error:", findError.message);
+    console.log("[listing] Existing listing:", existingListing?.id || "NONE", forceNewListing ? "(forced new)" : "");
 
     if (existingListing) {
       // UPDATE existing listing

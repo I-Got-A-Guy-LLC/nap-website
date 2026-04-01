@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { Suspense, useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PhotoCropModal from "@/components/PhotoCropModal";
 
@@ -166,8 +166,18 @@ function Section({
 /* ================================================================== */
 
 export default function EditListingPage() {
+  return (
+    <Suspense fallback={null}>
+      <EditListingContent />
+    </Suspense>
+  );
+}
+
+function EditListingContent() {
   const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isNewListing = searchParams.get("new") === "true";
 
   /* ---- State: loading / feedback ---- */
   const [loading, setLoading] = useState(true);
@@ -270,7 +280,7 @@ export default function EditListingPage() {
       setMember(data.member);
       setCategories(data.categories || []);
 
-      if (data.listing) {
+      if (data.listing && !isNewListing) {
         const l = data.listing;
         setListingId(l.id);
         setBusinessName(l.business_name || "");
@@ -555,6 +565,10 @@ export default function EditListingPage() {
         payload.listing_state = addressState;
         payload.zip_code = zipCode;
         payload.business_hours = businessHours;
+      }
+
+      if (isNewListing && !listingId) {
+        payload.new_listing = true;
       }
 
       const res = await fetch("/api/directory/listing", {
