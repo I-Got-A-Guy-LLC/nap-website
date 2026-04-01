@@ -214,8 +214,13 @@ export default async function DirectoryListingPage({ params }: { params: { state
               <h2 className="font-heading text-xl font-bold text-navy mb-3">Contact</h2>
               {listing.contact_name && <p className="text-navy">{listing.contact_name}</p>}
               {listing.city && <p className="text-navy text-sm capitalize mt-1">{listing.city}</p>}
-              {listing.contact_phone && (
+              {listing.contact_email && (
                 <p className="text-navy text-sm mt-2">
+                  <a href={`mailto:${listing.contact_email}`} className="text-navy underline hover:text-navy/70">{listing.contact_email}</a>
+                </p>
+              )}
+              {listing.contact_phone && (
+                <p className="text-navy text-sm mt-1">
                   <a href={`tel:${listing.contact_phone}`} className="text-navy underline hover:text-navy/70">{listing.contact_phone}</a>
                 </p>
               )}

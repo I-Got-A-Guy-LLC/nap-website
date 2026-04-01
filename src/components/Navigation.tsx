@@ -128,7 +128,7 @@ export default function Navigation() {
                 <Link href="/login" className="font-medium text-white hover:text-gold transition-colors text-sm">
                   Login
                 </Link>
-                <Link href="/join" className="bg-gold text-navy font-bold px-6 py-2.5 rounded-full hover:bg-gold/90 hover:shadow-md transition-all">
+                <Link href="/join" className="bg-smyrna text-white font-bold px-6 py-2.5 rounded-full hover:bg-smyrna/90 hover:shadow-md transition-all">
                   Join
                 </Link>
               </div>
@@ -210,7 +210,7 @@ export default function Navigation() {
                 <Link href="/login" className="block font-medium text-white hover:text-navy" onClick={() => setMobileOpen(false)}>
                   Login
                 </Link>
-                <Link href="/join" className="block bg-gold text-navy font-bold px-5 py-2.5 rounded-full text-center" onClick={() => setMobileOpen(false)}>
+                <Link href="/join" className="block bg-smyrna text-white font-bold px-5 py-2.5 rounded-full text-center" onClick={() => setMobileOpen(false)}>
                   Join
                 </Link>
               </>

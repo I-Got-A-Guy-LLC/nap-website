@@ -785,12 +785,14 @@ function EditListingContent() {
               {/* Phone + City */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>Phone</label>
+                  <label className={labelClass}>Phone *</label>
                   <input
                     type="tel"
+                    required
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
                     className={inputClass}
+                    placeholder="(615) 555-1234"
                   />
                 </div>
                 <div>
