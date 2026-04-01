@@ -646,6 +646,59 @@ export default function EditListingPage() {
         </div>
       </section>
 
+      {/* ---- Membership Tier Selector ---- */}
+      {!isConnected && (
+        <section className="bg-[#F8F9FA] py-8 px-4 border-b border-gray-100">
+          <div className="w-[90%] max-w-[700px] mx-auto">
+            <h2 className="font-heading text-lg font-bold text-navy mb-1">Upgrade Your Listing</h2>
+            <p className="text-navy/60 text-sm mb-5">Unlock more features by upgrading your membership.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Linked */}
+              <div className="rounded-xl border-2 border-navy/20 bg-white p-4">
+                <p className="text-xs font-bold text-navy/50 uppercase tracking-wider mb-1">Current Plan</p>
+                <p className="font-heading text-lg font-bold text-navy">Linked</p>
+                <p className="text-navy text-sm">Free</p>
+                <p className="text-navy/50 text-xs mt-2">Basic listing with name, city, and phone</p>
+              </div>
+              {/* Connected */}
+              <div className="rounded-xl border-2 border-gold bg-gold/5 p-4">
+                <p className="text-xs font-bold text-gold uppercase tracking-wider mb-1">Recommended</p>
+                <p className="font-heading text-lg font-bold text-navy">Connected</p>
+                <p className="text-navy text-sm">$300/yr or $30/mo</p>
+                <p className="text-navy/50 text-xs mt-2">Logo, description, social links, special offers</p>
+                <Link href="/join" className="block mt-3 text-center bg-gold text-navy font-bold text-xs py-2 rounded-full hover:bg-gold/90 transition-colors">
+                  Upgrade to Connected
+                </Link>
+              </div>
+              {/* Amplified */}
+              <div className="rounded-xl border-2 border-smyrna/30 bg-smyrna/5 p-4">
+                <p className="text-xs font-bold text-smyrna uppercase tracking-wider mb-1">Premium</p>
+                <p className="font-heading text-lg font-bold text-navy">Amplified</p>
+                <p className="text-navy text-sm">$500/yr or $50/mo</p>
+                <p className="text-navy/50 text-xs mt-2">Photos, video, map, hours, reviews, and more</p>
+                <Link href="/join" className="block mt-3 text-center bg-smyrna text-white font-bold text-xs py-2 rounded-full hover:bg-smyrna/90 transition-colors">
+                  Upgrade to Amplified
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {isConnected && !isAmplified && (
+        <section className="bg-[#F8F9FA] py-6 px-4 border-b border-gray-100">
+          <div className="w-[90%] max-w-[700px] mx-auto flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <p className="font-heading text-sm font-bold text-navy">Want photos, video, business hours, and reviews?</p>
+              <p className="text-navy/50 text-xs">Upgrade to Amplified for $500/yr or $50/mo</p>
+            </div>
+            <Link href="/join" className="bg-smyrna text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-smyrna/90 transition-colors">
+              Upgrade to Amplified
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* ---- Form ---- */}
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[700px] mx-auto">
