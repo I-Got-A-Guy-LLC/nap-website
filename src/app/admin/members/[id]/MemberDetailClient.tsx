@@ -44,6 +44,10 @@ export default function MemberDetailClient({
 }) {
   const [member, setMember] = useState(initialMember);
   const [saving, setSaving] = useState(false);
+  const [editName, setEditName] = useState(initialMember.full_name || "");
+  const [editEmail, setEditEmail] = useState(initialMember.email || "");
+  const [editBusiness, setEditBusiness] = useState(initialMember.business_name || "");
+  const [editCity, setEditCity] = useState(initialMember.city || "");
   const [notes, setNotes] = useState(member.admin_notes || "");
   const [tier, setTier] = useState(member.tier);
   const [leadershipCity, setLeadershipCity] = useState(
@@ -98,28 +102,62 @@ export default function MemberDetailClient({
       {/* Member Info */}
       <div className="bg-white rounded-xl shadow p-6">
         <h2 className="text-xl font-heading font-bold text-[#1F3149] mb-4">
-          {member.full_name}
+          Member Profile
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-gray-900">Email:</span> {member.email}
+            <label className="block text-gray-500 text-xs mb-1">Full Name</label>
+            <input
+              type="text"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FBC761]"
+            />
           </div>
           <div>
-            <span className="text-gray-900">Business:</span>{" "}
-            {member.business_name || " - "}
+            <label className="block text-gray-500 text-xs mb-1">Email</label>
+            <input
+              type="email"
+              value={editEmail}
+              onChange={(e) => setEditEmail(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FBC761]"
+            />
           </div>
           <div>
-            <span className="text-gray-900">City:</span>{" "}
-            {member.city || " - "}
+            <label className="block text-gray-500 text-xs mb-1">Business Name</label>
+            <input
+              type="text"
+              value={editBusiness}
+              onChange={(e) => setEditBusiness(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FBC761]"
+            />
           </div>
           <div>
-            <span className="text-gray-900">Status:</span>{" "}
-            {member.status || " - "}
+            <label className="block text-gray-500 text-xs mb-1">City</label>
+            <select
+              value={editCity}
+              onChange={(e) => setEditCity(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#FBC761]"
+            >
+              <option value="">Select city</option>
+              <option value="manchester">Manchester</option>
+              <option value="murfreesboro">Murfreesboro</option>
+              <option value="nolensville">Nolensville</option>
+              <option value="smyrna">Smyrna</option>
+            </select>
           </div>
-          <div>
-            <span className="text-gray-900">Joined:</span>{" "}
-            {new Date(member.created_at).toLocaleDateString()}
-          </div>
+        </div>
+        <div className="flex items-center gap-4 mt-4">
+          <button
+            onClick={() => save({ full_name: editName, email: editEmail, business_name: editBusiness, city: editCity })}
+            disabled={saving}
+            className="px-4 py-2 bg-[#1F3149] text-white rounded-lg text-sm font-medium hover:bg-[#2a4060] disabled:opacity-50 transition"
+          >
+            Save Profile
+          </button>
+          <span className="text-xs text-gray-400">
+            Joined {new Date(member.created_at).toLocaleDateString()}
+          </span>
         </div>
       </div>
 

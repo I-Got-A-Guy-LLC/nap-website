@@ -134,6 +134,10 @@ export async function PATCH(request: Request) {
 
     // Only allow specific fields to be updated
     const allowedFields = [
+      "full_name",
+      "email",
+      "business_name",
+      "city",
       "tier",
       "is_nap_verified",
       "is_leadership",
@@ -148,6 +152,11 @@ export async function PATCH(request: Request) {
       if (key in fields) {
         updateData[key] = fields[key];
       }
+    }
+
+    // Normalize email if being updated
+    if (updateData.email && typeof updateData.email === "string") {
+      updateData.email = (updateData.email as string).toLowerCase().trim();
     }
 
     if (Object.keys(updateData).length === 0) {
