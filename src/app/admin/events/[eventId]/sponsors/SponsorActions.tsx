@@ -11,6 +11,8 @@ interface Sponsor {
   tier: string;
   payment_status: string;
   stripe_invoice_id: string | null;
+  stripe_session_id: string | null;
+  payment_method: string | null;
   logo_url: string | null;
   website_url: string | null;
 }
@@ -111,6 +113,23 @@ export default function SponsorActions({ sponsor }: { sponsor: Sponsor }) {
           disabled={loading === "view"}
           className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
           {loading === "view" ? "..." : "View Invoice"}
+        </button>
+      )}
+      {!sponsor.stripe_invoice_id && sponsor.stripe_session_id && sponsor.payment_method === "stripe" && (
+        <button onClick={async () => {
+            setLoading("viewpay");
+            const res = await fetch(`/api/admin/events/sponsors/${sponsor.id}/payment-url`);
+            const data = await res.json();
+            if (data.url) {
+              window.open(data.url, "_blank");
+            } else {
+              setMessage(data.error || "Could not retrieve payment URL");
+            }
+            setLoading(null);
+          }}
+          disabled={loading === "viewpay"}
+          className="px-3 py-1 text-xs font-medium text-white bg-navy rounded-lg hover:bg-navy/90 transition disabled:opacity-50">
+          {loading === "viewpay" ? "..." : "View Payment"}
         </button>
       )}
       {sponsor.payment_status === "paid" && (
