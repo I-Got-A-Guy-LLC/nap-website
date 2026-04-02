@@ -201,14 +201,17 @@ export default async function AdminDashboard() {
           </Link>
 
           {/* Card 5  -  Unread Notifications */}
-          <div className="bg-white rounded-xl shadow p-6">
+          <Link
+            href="/admin/notifications"
+            className="bg-white rounded-xl shadow p-6 hover:ring-2 hover:ring-[#FBC761] transition"
+          >
             <h3 className="text-sm font-medium text-gray-900 uppercase tracking-wide">
               Unread Notifications
             </h3>
             <p className="mt-3 text-3xl font-bold text-[#1F3149]">
               {unreadCount || 0}
             </p>
-          </div>
+          </Link>
         </div>
 
         {/* Quick Links */}
@@ -236,6 +239,12 @@ export default async function AdminDashboard() {
             className="px-4 py-2 bg-[#1F3149] text-white rounded-lg text-sm font-medium hover:bg-[#2a4060] transition"
           >
             Reviews
+          </Link>
+          <Link
+            href="/admin/notifications"
+            className="px-4 py-2 bg-[#1F3149] text-white rounded-lg text-sm font-medium hover:bg-[#2a4060] transition"
+          >
+            Notifications
           </Link>
         </div>
 
