@@ -102,3 +102,27 @@ export async function PATCH(
 
   return NextResponse.json({ success: true });
 }
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!isSuperAdmin(session)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const supabase = getSupabaseAdmin();
+
+  const { error } = await supabase
+    .from("directory_listings")
+    .delete()
+    .eq("id", params.id);
+
+  if (error) {
+    console.error("Admin listing delete error:", error);
+    return NextResponse.json({ error: "Failed to delete listing" }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true });
+}

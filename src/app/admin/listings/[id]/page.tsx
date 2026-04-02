@@ -333,6 +333,27 @@ export default function AdminListingEditPage({
             </Link>
           </div>
         </form>
+
+        {/* Delete Listing */}
+        <div className="mt-6 border border-red-100 rounded-xl p-5">
+          <h3 className="text-sm font-bold text-red-600 mb-2">Danger Zone</h3>
+          <p className="text-xs text-gray-500 mb-3">Permanently delete this listing. This cannot be undone.</p>
+          <button
+            onClick={async () => {
+              if (!confirm(`Delete listing "${businessName}"? This cannot be undone.`)) return;
+              const res = await fetch(`/api/admin/listings/${params.id}`, { method: "DELETE" });
+              if (res.ok) {
+                window.location.href = memberInfo ? `/admin/members/${memberInfo.id}` : "/admin";
+              } else {
+                const data = await res.json();
+                setError(data.error || "Failed to delete listing");
+              }
+            }}
+            className="px-5 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition"
+          >
+            Delete Listing
+          </button>
+        </div>
       </div>
     </div>
   );

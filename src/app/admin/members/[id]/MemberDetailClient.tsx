@@ -44,6 +44,7 @@ export default function MemberDetailClient({
 }) {
   const [member, setMember] = useState(initialMember);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [editName, setEditName] = useState(initialMember.full_name || "");
   const [editEmail, setEditEmail] = useState(initialMember.email || "");
   const [editBusiness, setEditBusiness] = useState(initialMember.business_name || "");
@@ -320,6 +321,34 @@ export default function MemberDetailClient({
 
       {/* Listing Status */}
       <ListingSection member={member} listing={listing} />
+
+      {/* Delete Member */}
+      <div className="bg-white rounded-xl shadow p-6 border border-red-100">
+        <h3 className="text-lg font-heading font-bold text-red-600 mb-2">
+          Danger Zone
+        </h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Permanently delete this member and all their listings. This cannot be undone.
+        </p>
+        <button
+          onClick={async () => {
+            if (!confirm(`Delete ${member.full_name} (${member.email})? This will also delete all their listings. This cannot be undone.`)) return;
+            setDeleting(true);
+            const res = await fetch(`/api/admin/members?id=${member.id}`, { method: "DELETE" });
+            if (res.ok) {
+              window.location.href = "/admin/members";
+            } else {
+              const data = await res.json();
+              setMessage(data.error || "Failed to delete member");
+              setDeleting(false);
+            }
+          }}
+          disabled={deleting}
+          className="px-5 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition disabled:opacity-50"
+        >
+          {deleting ? "Deleting..." : "Delete Member"}
+        </button>
+      </div>
     </div>
   );
 }

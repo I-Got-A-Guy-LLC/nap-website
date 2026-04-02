@@ -191,3 +191,37 @@ export async function PATCH(request: Request) {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!isSuperAdmin(session)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const memberId = searchParams.get("id");
+
+    if (!memberId) {
+      return NextResponse.json({ error: "Member ID is required" }, { status: 400 });
+    }
+
+    const supabase = getSupabaseAdmin();
+
+    // Listings cascade-delete automatically via FK constraint
+    const { error } = await supabase
+      .from("members")
+      .delete()
+      .eq("id", memberId);
+
+    if (error) {
+      console.error("Member delete error:", error);
+      return NextResponse.json({ error: "Failed to delete member" }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Members DELETE error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
