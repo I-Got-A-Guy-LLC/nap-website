@@ -140,7 +140,7 @@ export async function POST(request: Request) {
           try {
             const { data: evtDetails } = await supabase
               .from("events")
-              .select("title, event_date, location_name, start_time, end_time")
+              .select("title, event_date, location_name, location_address, start_time, end_time")
               .eq("id", metadata.eventId)
               .single();
 
@@ -156,7 +156,8 @@ export async function POST(request: Request) {
                   sEmail, sName, evtDetails.title,
                   evtDetails.event_date || "", evtDetails.start_time || "",
                   evtDetails.end_time || "", evtDetails.location_name || "",
-                  compTickets[0].ticket_code, ticketCount
+                  compTickets[0].ticket_code, ticketCount,
+                  evtDetails.location_address || ""
                 ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
               }
 
@@ -235,7 +236,7 @@ export async function POST(request: Request) {
           }
 
           // Send ticket confirmation email
-          const { data: evt } = await supabase.from("events").select("title, event_date, start_time, end_time, location_name").eq("id", eventId).single();
+          const { data: evt } = await supabase.from("events").select("title, event_date, start_time, end_time, location_name, location_address").eq("id", eventId).single();
           if (customerEmail && tickets.length > 0 && evt) {
             await sendTicketConfirmation(
               customerEmail,
@@ -246,7 +247,8 @@ export async function POST(request: Request) {
               evt.end_time || "",
               evt.location_name || "",
               tickets[0].ticket_code,
-              quantity
+              quantity,
+              evt.location_address || ""
             ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
           } else if (!evt) {
             console.error(`[webhook] Could not fetch event ${eventId} for confirmation email`);

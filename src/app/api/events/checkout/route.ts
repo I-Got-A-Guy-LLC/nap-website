@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const supabase = getSupabaseAdmin();
     const { data: event, error } = await supabase
       .from("events")
-      .select("id, slug, title, ticket_price, capacity, tickets_sold, status, event_date, start_time, end_time, location_name")
+      .select("id, slug, title, ticket_price, capacity, tickets_sold, status, event_date, start_time, end_time, location_name, location_address")
       .eq("id", eventId)
       .single();
 
@@ -109,7 +109,8 @@ export async function POST(request: Request) {
         event.end_time || "",
         event.location_name || "",
         tickets[0].ticket_code,
-        quantity
+        quantity,
+        event.location_address || ""
       ).catch((err) => console.error("[checkout] Email send error:", err));
 
       return NextResponse.json({

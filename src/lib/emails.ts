@@ -507,6 +507,41 @@ export async function sendSponsorConfirmation(
 // Ticket confirmation
 // ---------------------------------------------------------------------------
 
+function parseTo24h(time: string): string {
+  const ampmMatch = time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (ampmMatch) {
+    let h = parseInt(ampmMatch[1], 10);
+    const m = ampmMatch[2];
+    const period = ampmMatch[3].toUpperCase();
+    if (period === "PM" && h !== 12) h += 12;
+    if (period === "AM" && h === 12) h = 0;
+    return `${h.toString().padStart(2, "0")}${m}00`;
+  }
+  const parts = time.replace(/:/g, "");
+  return parts.slice(0, 4).padStart(4, "0") + "00";
+}
+
+function buildCalendarUrl(
+  eventTitle: string, eventDate: string, startTime: string, endTime: string,
+  locationName: string, locationAddress: string, ticketCode: string,
+): string {
+  const dateClean = eventDate.replace(/-/g, "");
+  const startClean = parseTo24h(startTime);
+  const endClean = parseTo24h(endTime);
+  const location = locationAddress ? `${locationName}, ${locationAddress}` : locationName;
+
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `${eventTitle} — Networking For Awesome People`,
+    dates: `${dateClean}T${startClean}/${dateClean}T${endClean}`,
+    ctz: "America/Chicago",
+    location,
+    details: `Your ticket code: ${ticketCode}\n\nShow this code at the door.`,
+  });
+
+  return `https://calendar.google.com/calendar/event?${params.toString()}`;
+}
+
 export async function sendTicketConfirmation(
   email: string,
   name: string,
@@ -516,7 +551,8 @@ export async function sendTicketConfirmation(
   endTime: string,
   locationName: string,
   ticketCode: string,
-  quantity: number
+  quantity: number,
+  locationAddress?: string,
 ) {
   console.log(`[email] Sending ticket confirmation to ${email} for ${eventTitle}, code: ${ticketCode}`);
 
@@ -526,6 +562,11 @@ export async function sendTicketConfirmation(
     day: "numeric",
     year: "numeric",
   });
+
+  const calendarUrl = buildCalendarUrl(
+    eventTitle, eventDate, startTime, endTime,
+    locationName, locationAddress || "", ticketCode,
+  );
 
   // Generate QR code and upload to Supabase storage (Gmail blocks base64 images)
   let qrHtml = "";
@@ -575,6 +616,8 @@ export async function sendTicketConfirmation(
         <tr><td style="padding:8px 0;color:#666;font-size:14px;">Time:</td><td style="padding:8px 0;font-weight:bold;">${startTime} – ${endTime}</td></tr>
         <tr><td style="padding:8px 0;color:#666;font-size:14px;">Location:</td><td style="padding:8px 0;font-weight:bold;">${locationName}</td></tr>
       </table>
+
+      ${goldButton(calendarUrl, "Add to Google Calendar")}
 
       <p style="color:#666;font-size:14px;">Questions? Reply to this email or contact us at the link below.</p>
       ${goldButton("https://networkingforawesomepeople.com/contact", "Contact Us")}

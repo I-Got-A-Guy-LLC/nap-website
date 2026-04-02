@@ -38,16 +38,32 @@ function formatTime(time: string): string {
   return `${h12}:${minutes} ${ampm}`;
 }
 
+function parseTo24h(time: string): string {
+  const ampmMatch = time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (ampmMatch) {
+    let h = parseInt(ampmMatch[1], 10);
+    const m = ampmMatch[2];
+    const period = ampmMatch[3].toUpperCase();
+    if (period === "PM" && h !== 12) h += 12;
+    if (period === "AM" && h === 12) h = 0;
+    return `${h.toString().padStart(2, "0")}${m}00`;
+  }
+  // Already 24h format like "17:30"
+  const parts = time.replace(/:/g, "");
+  return parts.slice(0, 4).padStart(4, "0") + "00";
+}
+
 function buildGoogleCalendarUrl(ticket: TicketData): string {
   const event = ticket.event;
   const dateClean = event.event_date.replace(/-/g, "");
-  const startClean = event.start_time.replace(/:/g, "").slice(0, 4) + "00";
-  const endClean = event.end_time.replace(/:/g, "").slice(0, 4) + "00";
+  const startClean = parseTo24h(event.start_time);
+  const endClean = parseTo24h(event.end_time);
 
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: event.title,
     dates: `${dateClean}T${startClean}/${dateClean}T${endClean}`,
+    ctz: "America/Chicago",
     location: `${event.location_name}, ${event.location_address}`,
     details: `Ticket code: ${ticket.ticket_code}\n\nShow this ticket code at the door.`,
   });
