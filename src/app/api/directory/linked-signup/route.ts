@@ -5,7 +5,7 @@ import { sendLinkedWelcome, notifyNewLinkedListing } from "@/lib/emails";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, business, city } = await request.json();
+    const { name, email, phone, business, city } = await request.json();
 
     if (!name || !email || !business || !city) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -71,6 +71,7 @@ export async function POST(request: Request) {
       business_name: business,
       contact_name: name,
       contact_email: email,
+      contact_phone: phone || null,
       city,
       slug,
       listing_state: "TN",

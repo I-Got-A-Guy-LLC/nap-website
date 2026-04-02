@@ -9,6 +9,7 @@ export default function LinkedSignupPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [business, setBusiness] = useState("");
   const [city, setCity] = useState("");
   const [confirmed, setConfirmed] = useState(false);
@@ -17,7 +18,7 @@ export default function LinkedSignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !business || !city || !confirmed) {
+    if (!name || !email || !phone || !business || !city || !confirmed) {
       setError("Please fill in all fields and confirm the checkbox.");
       return;
     }
@@ -28,7 +29,7 @@ export default function LinkedSignupPage() {
       const res = await fetch("/api/directory/linked-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, business, city }),
+        body: JSON.stringify({ name, email, phone, business, city }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -84,6 +85,21 @@ export default function LinkedSignupPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold"
                 placeholder="you@example.com"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block text-navy text-sm font-bold mb-1">
+                Phone Number <span className="text-smyrna">*</span>
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold"
+                placeholder="(615) 555-1234"
               />
             </div>
 
