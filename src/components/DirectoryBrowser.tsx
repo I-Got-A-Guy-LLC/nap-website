@@ -161,7 +161,7 @@ export default function DirectoryBrowser() {
           <p className="text-navy">The directory is just getting started. <Link href="/join" className="text-gold hover:underline">Be one of the first to join.</Link></p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {listings.map((listing) => {
             const member = getMemberInfo(listing);
             const tierInfo = getTierDisplay(member);
@@ -173,67 +173,64 @@ export default function DirectoryBrowser() {
               <Link
                 key={listing.id}
                 href={listing.slug ? `/directory/${(listing.listing_state || "tn").toLowerCase()}/${listing.slug}` : `/directory/${listing.id}`}
-                className={`block bg-white rounded-xl border border-gray-100 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
+                className={`block bg-white rounded-xl border border-gray-100 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg border-t-[3px] ${
                   isTop
-                    ? "border-l-[3px] border-l-[#FE6651]"
+                    ? "border-t-[#FE6651]"
                     : isConnected
-                    ? "border-l-[3px] border-l-[#F5BE61]"
-                    : "border-l-[3px] border-l-[#1F3149]"
+                    ? "border-t-[#F5BE61]"
+                    : "border-t-[#1F3149]"
                 }`}
               >
-                <div className="flex items-start gap-4">
-                  {/* Logo */}
-                  {listing.logo_url && (isTop || isConnected) && (
-                    <div className={`${isTop ? "w-16 h-16" : "w-11 h-11"} rounded-lg overflow-hidden flex-shrink-0 bg-white border border-gray-100`}>
-                      <img src={listing.logo_url} alt={`${listing.business_name} logo`} className="w-full h-full object-contain" />
-                    </div>
-                  )}
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h2 className={`font-heading font-bold text-navy ${isTop ? "text-xl" : "text-lg"}`}>
-                        {listing.business_name}
-                      </h2>
-                      <span
-                        className="text-xs font-bold px-2.5 py-0.5 rounded-full"
-                        style={{ backgroundColor: tierInfo.color, color: tierInfo.textColor }}
-                      >
-                        {tierInfo.label}
-                      </span>
-                      {member.is_nap_verified && (
-                        <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-green-100 text-green-700">
-                          NAP Verified
-                        </span>
-                      )}
-                    </div>
-
-                    {isTop && listing.tagline && (
-                      <p className="text-navy text-sm mb-2">{listing.tagline}</p>
-                    )}
-
-                    {(isTop || isConnected) && listing.description && (
-                      <p className="text-navy text-sm line-clamp-2 mb-2">{listing.description}</p>
-                    )}
-
-                    <div className="flex items-center gap-3 text-xs text-navy">
-                      {catName && <span>{catName}</span>}
-                      {listing.city && <span className="capitalize">{listing.city}</span>}
-                      {listing.website_url && (isTop || isConnected) && (
-                        <span className="text-navy">Website</span>
-                      )}
-                    </div>
+                {/* Logo */}
+                {listing.logo_url && (isTop || isConnected) && (
+                  <div className={`${isTop ? "w-14 h-14" : "w-10 h-10"} rounded-lg overflow-hidden bg-white border border-gray-100 mb-3`}>
+                    <img src={listing.logo_url} alt={`${listing.business_name} logo`} className="w-full h-full object-contain" />
                   </div>
+                )}
 
-                  {/* Photo thumbnails for Amplified */}
-                  {isTop && listing.photos && Array.isArray(listing.photos) && listing.photos.length > 0 && (
-                    <div className="hidden md:flex gap-1 flex-shrink-0">
-                      {listing.photos.slice(0, 3).map((photo, i) => (
-                        <div key={i} className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
-                          <img src={photo} alt={`${listing.business_name} photo ${i + 1}`} className="w-full h-full object-cover" />
-                        </div>
-                      ))}
-                    </div>
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2 className="font-heading font-bold text-navy text-base leading-tight">
+                    {listing.business_name}
+                  </h2>
+                </div>
+
+                <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+                  <span
+                    className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: tierInfo.color, color: tierInfo.textColor }}
+                  >
+                    {tierInfo.label}
+                  </span>
+                  {member.is_nap_verified && (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                      NAP Verified
+                    </span>
                   )}
+                </div>
+
+                {isTop && listing.tagline && (
+                  <p className="text-navy/70 text-sm mb-2 line-clamp-1">{listing.tagline}</p>
+                )}
+
+                {(isTop || isConnected) && listing.description && (
+                  <p className="text-navy/60 text-xs line-clamp-2 mb-2">{listing.description}</p>
+                )}
+
+                {/* Photo thumbnails for Amplified */}
+                {isTop && listing.photos && Array.isArray(listing.photos) && listing.photos.length > 0 && (
+                  <div className="flex gap-1 mb-2">
+                    {listing.photos.slice(0, 3).map((photo, i) => (
+                      <div key={i} className="w-12 h-12 rounded overflow-hidden bg-gray-100">
+                        <img src={photo} alt={`${listing.business_name} photo ${i + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 text-[11px] text-navy/50 mt-auto pt-2 border-t border-gray-50">
+                  {catName && <span className="truncate">{catName}</span>}
+                  {catName && listing.city && <span>&middot;</span>}
+                  {listing.city && <span className="capitalize">{listing.city}</span>}
                 </div>
               </Link>
             );
