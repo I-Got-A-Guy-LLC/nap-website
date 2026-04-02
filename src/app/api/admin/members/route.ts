@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from("members")
       .select(
-        "*"
+        "*, directory_listings(id, business_name, is_approved, slug, listing_state)"
       )
       .order("created_at", { ascending: false });
 

@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+interface ListingInfo {
+  id: string;
+  business_name: string;
+  is_approved: boolean;
+  slug: string | null;
+  listing_state: string | null;
+}
+
 interface Member {
   id: string;
   full_name: string;
@@ -15,6 +23,7 @@ interface Member {
   is_nap_verified: boolean;
   is_leadership: boolean;
   is_comped: boolean;
+  directory_listings?: ListingInfo[];
 }
 
 export default function MembersClient() {
@@ -248,6 +257,7 @@ export default function MembersClient() {
                   <th className="px-4 py-3 text-left font-medium">City</th>
                   <th className="px-4 py-3 text-left font-medium">Tier</th>
                   <th className="px-4 py-3 text-left font-medium">Status</th>
+                  <th className="px-4 py-3 text-left font-medium">Listing(s)</th>
                   <th className="px-4 py-3 text-left font-medium">Verified</th>
                 </tr>
               </thead>
@@ -264,6 +274,30 @@ export default function MembersClient() {
                     <td className="px-4 py-3 capitalize">{m.city || " - "}</td>
                     <td className="px-4 py-3">{tierBadge(m.tier)}</td>
                     <td className="px-4 py-3">{statusBadge(m)}</td>
+                    <td className="px-4 py-3">
+                      {m.directory_listings && m.directory_listings.length > 0 ? (
+                        <div className="space-y-1">
+                          {m.directory_listings.map((l) => (
+                            <div key={l.id} className="flex items-center gap-1.5">
+                              <Link
+                                href={`/admin/listings/${l.id}`}
+                                className="text-xs text-[#1F3149] hover:text-[#FBC761] transition truncate max-w-[140px]"
+                                title={l.business_name}
+                              >
+                                {l.business_name}
+                              </Link>
+                              {l.is_approved ? (
+                                <span className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" title="Live" />
+                              ) : (
+                                <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" title="Pending" />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-gray-300 text-xs">None</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-center">
                       {m.is_nap_verified ? <span className="text-[#FBC761]" title="Verified">★</span> : " - "}
                     </td>
