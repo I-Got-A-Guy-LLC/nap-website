@@ -108,17 +108,17 @@ export default function MembersClient() {
   };
 
   const statusBadge = (member: Member) => {
-    if (member.is_comped) {
-      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#FE6651]/20 text-[#FE6651]">COMPED</span>;
-    }
     if (member.is_leadership) {
       return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#1F3149] text-white">LEADERSHIP</span>;
     }
-    if (member.subscription_status === "active" && !member.is_comped) {
-      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">PAID</span>;
-    }
     if (member.tier === "linked") {
-      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">ACTIVE</span>;
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">FREE</span>;
+    }
+    if (member.is_comped) {
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[#FE6651]/20 text-[#FE6651]">COMPED</span>;
+    }
+    if (member.subscription_status === "active") {
+      return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">PAID</span>;
     }
     return null;
   };
