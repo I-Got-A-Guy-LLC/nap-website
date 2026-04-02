@@ -49,7 +49,21 @@ export async function POST(request: Request) {
         const session = event.data.object;
         const customerEmail =
           session.customer_details?.email || session.customer_email;
-        const metadata = session.metadata || {};
+        let metadata = session.metadata || {};
+
+        // If metadata is empty, retrieve the full session from Stripe
+        // (some webhook payloads don't include metadata)
+        if (!metadata.type && session.id) {
+          try {
+            const fullSession = await stripe().checkout.sessions.retrieve(session.id);
+            metadata = fullSession.metadata || {};
+            console.log("[webhook] Retrieved session metadata:", JSON.stringify(metadata));
+          } catch (retrieveErr: any) {
+            console.error("[webhook] Failed to retrieve session:", retrieveErr.message);
+          }
+        }
+
+        console.log("[webhook] checkout.session.completed:", session.id, "metadata.type:", metadata.type, "metadata.eventId:", metadata.eventId);
 
         // --- EVENT SPONSOR PAYMENT (Stripe checkout) ---
         if (metadata.type === "event_sponsor" && metadata.eventId) {
