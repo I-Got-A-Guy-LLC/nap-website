@@ -127,7 +127,7 @@ export default async function Home() {
         <RangeNightBanner />
 
         {/* City panels */}
-        <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 scroll-mt-16">
+        <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 scroll-mt-16">
           {cityPanels.map((city) => (
             <Link
               key={city.name}
@@ -146,6 +146,20 @@ export default async function Home() {
               </span>
             </Link>
           ))}
+          {/* Shelbyville - Coming Soon */}
+          <div className="bg-gray-200 text-navy/60 min-h-[240px] sm:min-h-[300px] p-8 md:p-10 flex flex-col justify-between">
+            <div>
+              <span className="inline-block text-[10px] font-bold uppercase tracking-wider bg-navy/10 text-navy/50 px-3 py-1 rounded-full mb-3">
+                Coming Soon
+              </span>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4 text-navy/40">Shelbyville</h2>
+              <p className="text-sm">Kayce Broach</p>
+              <p className="text-sm opacity-70 italic">Community Ambassador</p>
+            </div>
+            <span className="inline-block text-sm font-bold px-5 py-2 rounded-full border border-navy/10 text-navy/30 mt-6 cursor-default">
+              Details Coming Soon
+            </span>
+          </div>
         </div>
       </section>
 

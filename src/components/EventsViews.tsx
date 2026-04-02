@@ -146,6 +146,17 @@ function CardsView() {
           </div>
         </div>
       ))}
+      {/* Shelbyville - Coming Soon */}
+      <div className="bg-gray-50 rounded-xl border border-dashed border-gray-300 border-l-[6px] border-l-gray-300 p-7 opacity-70">
+        <span className="inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 bg-gray-200 text-gray-500">
+          Coming Soon
+        </span>
+        <h3 className="font-heading text-xl font-bold text-navy/40 mb-1">
+          Shelbyville
+        </h3>
+        <p className="text-navy/40 text-sm">Kayce Broach, Community Ambassador</p>
+        <p className="text-navy/30 text-sm mt-4 italic">Meeting details coming soon</p>
+      </div>
     </div>
   );
 }
