@@ -2,6 +2,14 @@
  * Issue comp ticket for Kayce Broach (Supporting sponsor, Range Night)
  * Run: npx tsx scripts/issue-kayce-ticket.ts
  */
+import { readFileSync } from "fs";
+// Load .env.local manually
+const envContent = readFileSync(".env.local", "utf-8");
+for (const line of envContent.split("\n")) {
+  const match = line.match(/^([^#=]+)=(.*)$/);
+  if (match) process.env[match[1].trim()] = match[2].trim();
+}
+
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import QRCode from "qrcode";
@@ -10,13 +18,17 @@ const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const resendKey = process.env.RESEND_API_KEY;
 
-if (!supabaseUrl || !supabaseKey || !resendKey) {
-  console.error("Missing env vars. Need SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY");
+if (!supabaseUrl || !supabaseKey) {
+  console.error("Missing env vars. Need SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY");
   process.exit(1);
 }
 
+if (!resendKey) {
+  console.warn("RESEND_API_KEY not set — ticket will be created but email will not be sent");
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
-const resend = new Resend(resendKey);
+const resend = resendKey ? new Resend(resendKey) : null;
 
 const EVENT_ID = "dd887bb2-7910-46b6-9cf9-277d2f180d98";
 const NAME = "Kayce Broach";
@@ -94,7 +106,12 @@ async function main() {
     qrUrl = urlData?.publicUrl || "";
   }
 
-  // 5. Send ticket confirmation email
+  // 5. Send ticket confirmation email (skip if no Resend key)
+  if (!resendKey) {
+    console.log("Skipping email (no RESEND_API_KEY). Ticket created successfully.");
+    console.log("Done!");
+    return;
+  }
   const formattedDate = new Date(event.event_date + "T12:00:00").toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -147,7 +164,7 @@ async function main() {
 </body>
 </html>`;
 
-  const { error: emailError } = await resend.emails.send({
+  const { error: emailError } = await resend!.emails.send({
     from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
     to: EMAIL,
     subject: `Your ticket for ${event.title}`,
