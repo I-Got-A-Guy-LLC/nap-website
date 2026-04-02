@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import Link from "next/link";
 import SponsorActions from "./SponsorActions";
+import AddSponsorForm from "./AddSponsorForm";
 import { requireSuperAdmin } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
@@ -112,6 +113,11 @@ export default async function AdminSponsorsPage({
               )}
             </p>
           </div>
+        </div>
+
+        {/* Add Sponsor */}
+        <div className="mb-6">
+          <AddSponsorForm eventId={eventId} />
         </div>
 
         {/* Sponsors Table */}
