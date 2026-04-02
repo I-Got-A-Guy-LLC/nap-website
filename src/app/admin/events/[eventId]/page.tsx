@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import Link from "next/link";
 import EventEditForm from "./EventEditForm";
 import PromoCodeManager from "./PromoCodeManager";
+import { requireSuperAdmin } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -13,11 +12,8 @@ export default async function AdminEventDetailPage({
 }: {
   params: { eventId: string };
 }) {
-  const session = await getServerSession(authOptions);
-  if (
-    !session?.user?.email ||
-    session.user.email !== "hello@networkingforawesomepeople.com"
-  ) {
+  const session = await requireSuperAdmin();
+  if (!session) {
     redirect("/portal");
   }
 

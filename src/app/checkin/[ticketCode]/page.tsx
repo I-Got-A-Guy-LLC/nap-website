@@ -24,8 +24,7 @@ export default async function CheckInPage({
     .eq("email", session.user.email)
     .single();
 
-  const isAdmin =
-    session.user.email === "hello@networkingforawesomepeople.com";
+  const isAdmin = (session as any).role === "super_admin";
   if (!isAdmin && !member?.is_leadership) {
     redirect("/portal");
   }

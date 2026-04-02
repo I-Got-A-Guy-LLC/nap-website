@@ -1,19 +1,15 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import MemberDetailClient from "./MemberDetailClient";
+import { requireSuperAdmin } from "@/lib/admin-auth";
 
 export default async function MemberDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const session = await getServerSession(authOptions);
-  if (
-    !session?.user?.email ||
-    session.user.email !== "hello@networkingforawesomepeople.com"
-  ) {
+  const session = await requireSuperAdmin();
+  if (!session) {
     redirect("/portal");
   }
 

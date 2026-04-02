@@ -4,8 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { notifyCategorySuggestion, sendCategorySuggestionReceived } from "@/lib/emails";
 
-// GET  -  Fetch current member's listing + categories for the edit form
-export async function GET() {
+// GET  -  Fetch current member's listing(s) + categories for the edit form
+export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
@@ -24,11 +24,23 @@ export async function GET() {
       return NextResponse.json({ error: "Member not found" }, { status: 404 });
     }
 
-    const { data: listing } = await supabase
+    // Fetch all listings for this member
+    const { data: listings } = await supabase
       .from("directory_listings")
       .select("*")
       .eq("member_id", member.id)
-      .maybeSingle();
+      .order("created_at", { ascending: true });
+
+    // Support listingId query param for editing a specific listing
+    const url = new URL(request.url);
+    const listingId = url.searchParams.get("listingId");
+
+    let listing = null;
+    if (listingId) {
+      listing = listings?.find((l: any) => l.id === listingId) || null;
+    } else {
+      listing = listings?.[0] || null;
+    }
 
     const { data: categories } = await supabase
       .from("categories")
@@ -46,6 +58,7 @@ export async function GET() {
         is_leadership: member.is_leadership,
       },
       listing: listing || null,
+      listings: listings || [],
       categories: categories || [],
     });
   } catch (error) {
@@ -80,9 +93,18 @@ export async function PATCH(request: Request) {
     const forceNewListing = body.new_listing === true;
     delete body.new_listing;
 
+    // Extract listing_id for targeting a specific listing
+    const targetListingId = body.listing_id || null;
+    delete body.listing_id;
+
     // Extract category suggestion
     const categorySuggestion = body.category_suggestion;
     delete body.category_suggestion;
+
+    // Auto-fill contact_email from member email if left blank
+    if (!body.contact_email || !body.contact_email.trim()) {
+      body.contact_email = member.email;
+    }
 
     // Remove fields that shouldn't be set by the user
     delete body.id;
@@ -156,13 +178,28 @@ export async function PATCH(request: Request) {
     // Check if listing exists (skip if forcing new listing)
     let existingListing: { id: string; is_approved: boolean } | null = null;
     if (!forceNewListing) {
-      const { data: found, error: findError } = await supabase
-        .from("directory_listings")
-        .select("id, is_approved")
-        .eq("member_id", member.id)
-        .maybeSingle();
-      existingListing = found;
-      if (findError) console.log("[listing] Find error:", findError.message);
+      if (targetListingId) {
+        // Edit a specific listing (verify it belongs to this member)
+        const { data: found, error: findError } = await supabase
+          .from("directory_listings")
+          .select("id, is_approved")
+          .eq("id", targetListingId)
+          .eq("member_id", member.id)
+          .single();
+        existingListing = found;
+        if (findError) console.log("[listing] Find by ID error:", findError.message);
+      } else {
+        // Default to first listing
+        const { data: found, error: findError } = await supabase
+          .from("directory_listings")
+          .select("id, is_approved")
+          .eq("member_id", member.id)
+          .order("created_at", { ascending: true })
+          .limit(1)
+          .maybeSingle();
+        existingListing = found;
+        if (findError) console.log("[listing] Find error:", findError.message);
+      }
     }
 
     console.log("[listing] Member:", member.id, member.email, "Tier:", member.tier);

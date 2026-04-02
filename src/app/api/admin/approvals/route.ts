@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { sendLinkedApproved, sendLinkedRejected } from "@/lib/emails";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
-  if (
-    !session?.user?.email ||
-    session.user.email !== "hello@networkingforawesomepeople.com"
-  ) {
+  if (!isSuperAdmin(session)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

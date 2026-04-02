@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { Resend } from "resend";
-
-const ADMIN_EMAIL = "hello@networkingforawesomepeople.com";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
@@ -52,9 +53,9 @@ function buildEmailHtml(category: string, body: string, unsubscribeUrl: string):
 </html>`;
 }
 
-export async function GET(request: Request) {
-  const adminEmail = request.headers.get("x-admin-email");
-  if (adminEmail !== ADMIN_EMAIL) {
+export async function GET() {
+  const session = await getServerSession(authOptions);
+  if (!isSuperAdmin(session)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -68,8 +69,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const adminEmail = request.headers.get("x-admin-email");
-  if (adminEmail !== ADMIN_EMAIL) {
+  const session = await getServerSession(authOptions);
+  if (!isSuperAdmin(session)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -135,7 +136,7 @@ export async function POST(request: Request) {
 
   // Log to broadcasts table
   await supabase.from("broadcasts").insert({
-    created_by: ADMIN_EMAIL,
+    created_by: session?.user?.email || "admin",
     category,
     subject,
     body,

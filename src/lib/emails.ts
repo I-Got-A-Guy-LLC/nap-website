@@ -55,7 +55,7 @@ function goldButton(url: string, label: string): string {
 // Member emails
 // ---------------------------------------------------------------------------
 
-export async function sendLinkedWelcome(email: string, name: string) {
+export async function sendLinkedWelcome(email: string, name: string, setPasswordUrl?: string) {
   await getResend().emails.send({
     from: FROM,
     to: email,
@@ -64,7 +64,13 @@ export async function sendLinkedWelcome(email: string, name: string) {
       <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to NAP, ${name}!</h2>
       <p>Thanks for signing up for a Linked listing. Your submission is now being reviewed by our team.</p>
       <p>We'll let you know as soon as your listing is approved and live in the directory.</p>
-      <p style="color:#888;font-size:13px;">This usually takes 1–2 business days.</p>
+      ${setPasswordUrl ? `
+        <p>In the meantime, set up your password so you can access your member portal:</p>
+        ${goldButton(setPasswordUrl, "Set Up My Account")}
+        <p style="color:#888;font-size:13px;">This link expires in 7 days.</p>
+      ` : `
+        <p style="color:#888;font-size:13px;">This usually takes 1–2 business days.</p>
+      `}
     `),
   });
 }
@@ -94,6 +100,21 @@ export async function sendLinkedRejected(email: string, name: string, reason: st
       <p><strong>Reason:</strong> ${reason}</p>
       <p>You're welcome to update your listing and resubmit. If you have any questions, just reply to this email.</p>
       ${goldButton("https://networkingforawesomepeople.com/portal", "Update Your Listing")}
+    `),
+  });
+}
+
+export async function sendPasswordReset(email: string, name: string, resetUrl: string) {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    subject: "Reset your password — Networking For Awesome People",
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Password Reset</h2>
+      <p>Hi ${name},</p>
+      <p>We received a request to reset your password. Click the button below to set a new password:</p>
+      ${goldButton(resetUrl, "Reset My Password")}
+      <p style="color:#888;font-size:13px;">This link expires in 1 hour. If you didn't request this, you can safely ignore this email.</p>
     `),
   });
 }

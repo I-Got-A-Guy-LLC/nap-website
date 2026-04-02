@@ -377,6 +377,9 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
             <div><span className="text-gray-900">Approved:</span> {listing.is_approved ? "Yes" : "No"}</div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            <Link href={`/admin/listings/${listing.id}`} className="bg-gold text-navy font-bold px-5 py-2 rounded-full text-sm hover:bg-gold/90 transition-colors">
+              Edit Listing
+            </Link>
             {listing.is_approved && listingSlug && (
               <Link href={`/directory/tn/${listingSlug}`} className="text-gold text-sm font-bold hover:underline">
                 View Public Listing →

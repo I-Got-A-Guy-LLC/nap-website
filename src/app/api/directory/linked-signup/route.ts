@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { sendLinkedWelcome, notifyNewLinkedListing } from "@/lib/emails";
 
@@ -88,8 +89,21 @@ export async function POST(request: Request) {
       message: `New Linked listing: ${business} by ${name} (${city})`,
     });
 
+    // Generate invite token for password setup (7-day expiry)
+    const token = crypto.randomBytes(32).toString("hex").slice(0, 32);
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+    await supabase.from("member_invites").insert({
+      email,
+      token,
+      expires_at: expiresAt,
+    });
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://networkingforawesomepeople.com";
+    const setPasswordUrl = `${baseUrl}/auth/set-password?token=${token}`;
+
     // Send emails
-    await sendLinkedWelcome(email, name);
+    await sendLinkedWelcome(email, name, setPasswordUrl);
     await notifyNewLinkedListing(name, business);
 
     return NextResponse.json({ success: true });

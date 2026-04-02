@@ -1,20 +1,14 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import ApprovalsClient from "./ApprovalsClient";
+import { requireSuperAdmin } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const ADMIN_EMAIL = "hello@networkingforawesomepeople.com";
-
 export default async function ApprovalsPage() {
-  const session = await getServerSession(authOptions);
-  if (
-    !session?.user?.email ||
-    session.user.email !== ADMIN_EMAIL
-  ) {
+  const session = await requireSuperAdmin();
+  if (!session) {
     redirect("/portal");
   }
 

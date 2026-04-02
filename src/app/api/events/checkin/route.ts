@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     // Must be leadership or admin
     const supabase = getSupabaseAdmin();
     const isAdmin =
-      session.user.email === "hello@networkingforawesomepeople.com";
+      (session as any).role === "super_admin";
 
     if (!isAdmin) {
       const { data: member } = await supabase

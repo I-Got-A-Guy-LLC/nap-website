@@ -178,6 +178,7 @@ function EditListingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isNewListing = searchParams.get("new") === "true";
+  const editListingId = searchParams.get("listingId");
 
   /* ---- State: loading / feedback ---- */
   const [loading, setLoading] = useState(true);
@@ -273,7 +274,10 @@ function EditListingContent() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/directory/listing");
+      const listingUrl = editListingId
+        ? `/api/directory/listing?listingId=${editListingId}`
+        : "/api/directory/listing";
+      const res = await fetch(listingUrl);
       if (!res.ok) throw new Error("Failed to load");
       const data = await res.json();
 
@@ -571,6 +575,11 @@ function EditListingContent() {
         payload.new_listing = true;
       }
 
+      // Target a specific listing for updates
+      if (listingId) {
+        payload.listing_id = listingId;
+      }
+
       const res = await fetch("/api/directory/listing", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -590,8 +599,11 @@ function EditListingContent() {
         const refreshRes = await fetch("/api/directory/listing");
         if (refreshRes.ok) {
           const refreshData = await refreshRes.json();
-          if (refreshData.listing?.id) {
-            setListingId(refreshData.listing.id);
+          // For new listings, use the last listing (most recently created)
+          const allListings = refreshData.listings || [];
+          const newest = allListings.length > 0 ? allListings[allListings.length - 1] : refreshData.listing;
+          if (newest?.id) {
+            setListingId(newest.id);
           }
         }
       }
@@ -772,13 +784,19 @@ function EditListingContent() {
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Contact Email</label>
+                  <label className={labelClass}>
+                    Listing Contact Email
+                  </label>
                   <input
                     type="email"
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
                     className={inputClass}
+                    placeholder={member?.email || "you@example.com"}
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Shown on your listing. Can differ from your account email. Leave blank to use your account email.
+                  </p>
                 </div>
               </div>
 

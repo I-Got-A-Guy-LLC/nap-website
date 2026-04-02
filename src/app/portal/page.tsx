@@ -37,11 +37,13 @@ export default async function PortalPage() {
     redirect("/login");
   }
 
-  const { data: listing } = await supabase
+  const { data: listings } = await supabase
     .from("directory_listings")
     .select("*")
     .eq("member_id", member.id)
-    .single();
+    .order("created_at", { ascending: true });
+
+  const listing = listings?.[0] || null;
 
   const tier = member.tier || "linked";
   const tierColor = tierColors[tier] || tierColors.linked;
@@ -210,13 +212,49 @@ export default async function PortalPage() {
             </div>
           )}
 
+          {/* Your Listings */}
+          {listings && listings.length > 1 && (
+            <div className="bg-gray-50 rounded-xl p-6 md:p-8">
+              <h2 className="font-heading text-xl font-bold text-navy mb-4">Your Listings</h2>
+              <div className="space-y-3">
+                {listings.map((l: any) => (
+                  <div key={l.id} className="flex items-center justify-between bg-white rounded-lg p-4 border border-gray-100">
+                    <div>
+                      <span className="font-bold text-navy">{l.business_name}</span>
+                      {l.city && <span className="text-sm text-gray-500 ml-2 capitalize">{l.city}</span>}
+                      {!l.is_approved && (
+                        <span className="text-xs bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full ml-2">Pending</span>
+                      )}
+                    </div>
+                    <div className="flex gap-3">
+                      <Link
+                        href={`/portal/listing?listingId=${l.id}`}
+                        className="text-gold text-sm font-bold hover:underline"
+                      >
+                        Edit
+                      </Link>
+                      {l.is_approved && l.slug && (
+                        <Link
+                          href={`/directory/${(l.listing_state || "tn").toLowerCase()}/${l.slug}`}
+                          className="text-navy text-sm font-bold hover:underline"
+                        >
+                          View
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Quick Links */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link
-              href="/portal/listing"
+              href={listings && listings.length === 1 ? `/portal/listing?listingId=${listings[0].id}` : "/portal/listing"}
               className="bg-gold text-navy font-bold py-4 px-6 rounded-xl text-center hover:bg-gold/90 transition-colors"
             >
-              Edit Listing
+              {listings && listings.length > 1 ? "Edit Primary Listing" : "Edit Listing"}
             </Link>
             <Link
               href="/portal/billing"

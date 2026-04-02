@@ -34,7 +34,7 @@ interface Broadcast {
 }
 
 export default function BroadcastsPage() {
-  const { data: session } = useSession();
+  useSession(); // Ensure authenticated session exists
   const [broadcasts, setBroadcasts] = useState<Broadcast[]>([]);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
@@ -47,16 +47,12 @@ export default function BroadcastsPage() {
   const [audience, setAudience] = useState("all");
   const [activeOnly, setActiveOnly] = useState(true);
 
-  const adminEmail = session?.user?.email || "";
-
   useEffect(() => {
-    fetch("/api/admin/broadcasts", {
-      headers: { "x-admin-email": adminEmail },
-    })
+    fetch("/api/admin/broadcasts")
       .then((r) => r.json())
       .then((d) => setBroadcasts(d.broadcasts || []))
       .finally(() => setLoading(false));
-  }, [adminEmail]);
+  }, []);
 
   async function handleSend() {
     if (!subject.trim() || !body.trim()) {
@@ -71,7 +67,6 @@ export default function BroadcastsPage() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-admin-email": adminEmail,
       },
       body: JSON.stringify({ category, subject, body, audience, active_only: activeOnly }),
     });
@@ -86,9 +81,7 @@ export default function BroadcastsPage() {
       setSubject("");
       setBody("");
       // Refresh list
-      fetch("/api/admin/broadcasts", {
-        headers: { "x-admin-email": adminEmail },
-      })
+      fetch("/api/admin/broadcasts")
         .then((r) => r.json())
         .then((d) => setBroadcasts(d.broadcasts || []));
     }
