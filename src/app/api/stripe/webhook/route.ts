@@ -10,6 +10,7 @@ import {
   notifyPaymentFailed,
   sendSponsorConfirmation,
   sendTicketConfirmation,
+  notifySponsorPayment,
 } from "@/lib/emails";
 
 export const runtime = "nodejs";
@@ -88,44 +89,48 @@ export async function POST(request: Request) {
 
           if (sponsorInsertError) {
             console.error("[webhook] Sponsor insert error:", sponsorInsertError);
+            break;
           }
 
-          // Issue complimentary tickets for qualifying tiers
           const ticketCount = SPONSOR_TIER_TICKETS[tier] || 0;
           const sEmail = metadata.email || customerEmail || "";
           const sName = metadata.contactName || "";
           let compTickets: { ticket_code: string }[] = [];
 
-          if (ticketCount > 0) {
-            compTickets = Array.from({ length: ticketCount }, () => ({
-              event_id: metadata.eventId,
-              ticket_code: generateTicketCode(),
-              purchaser_name: sName,
-              purchaser_email: sEmail,
-              quantity: 1,
-              amount_paid: 0,
-              status: "active",
-            }));
-            await supabase.from("tickets").insert(compTickets);
+          // Issue complimentary tickets (wrapped so it can't crash the handler)
+          try {
+            if (ticketCount > 0) {
+              compTickets = Array.from({ length: ticketCount }, () => ({
+                event_id: metadata.eventId,
+                ticket_code: generateTicketCode(),
+                purchaser_name: sName,
+                purchaser_email: sEmail,
+                quantity: 1,
+                amount_paid: 0,
+                status: "active",
+              }));
+              await supabase.from("tickets").insert(compTickets);
 
-            // Recount active tickets for accuracy
-            const { count: activeCount } = await supabase
-              .from("tickets")
-              .select("id", { count: "exact", head: true })
-              .eq("event_id", metadata.eventId)
-              .eq("status", "active");
-            await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", metadata.eventId);
+              const { count: activeCount } = await supabase
+                .from("tickets")
+                .select("id", { count: "exact", head: true })
+                .eq("event_id", metadata.eventId)
+                .eq("status", "active");
+              await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", metadata.eventId);
+            }
+          } catch (ticketErr: any) {
+            console.error("[webhook] Comp ticket error (sponsor still created):", ticketErr.message);
           }
 
-          // Send sponsor confirmation + ticket emails
-          if (sEmail) {
+          // Send emails (wrapped so they can't crash the handler)
+          try {
             const { data: evtDetails } = await supabase
               .from("events")
               .select("title, event_date, location_name, start_time, end_time")
               .eq("id", metadata.eventId)
               .single();
 
-            if (evtDetails) {
+            if (evtDetails && sEmail) {
               await sendSponsorConfirmation(
                 sEmail, sName, metadata.businessName || "", tier,
                 evtDetails.title, evtDetails.event_date || "",
@@ -140,10 +145,18 @@ export async function POST(request: Request) {
                   compTickets[0].ticket_code, ticketCount
                 ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
               }
+
+              // Notify admin via email
+              await notifySponsorPayment(
+                sName, metadata.businessName || "", tier, amount,
+                evtDetails.title, metadata.eventId
+              ).catch((err: any) => console.error("[webhook] Admin sponsor email error:", err));
             }
+          } catch (emailErr: any) {
+            console.error("[webhook] Email send error (sponsor still created):", emailErr.message);
           }
 
-          // Notify admin
+          // Notify admin in dashboard
           await supabase.from("admin_notifications").insert({
             type: "sponsor_signup",
             message: `Sponsor paid (Stripe): ${metadata.businessName} (${tier})  -  ${metadata.contactName} <${metadata.email || customerEmail}>`,
@@ -348,7 +361,7 @@ export async function POST(request: Request) {
         if (invoice.id) {
           const { data: sponsor } = await supabase
             .from("event_sponsors")
-            .select("id, event_id, sponsor_name, sponsor_email, tier")
+            .select("id, event_id, sponsor_name, sponsor_email, sponsor_business, tier")
             .eq("stripe_invoice_id", invoice.id)
             .maybeSingle();
 
@@ -380,6 +393,27 @@ export async function POST(request: Request) {
                 .eq("status", "active");
               await supabase.from("events").update({ tickets_sold: activeCount ?? 0 }).eq("id", sponsor.event_id);
             }
+            // Notify admin via email
+            try {
+              const { data: evtForNotify } = await supabase
+                .from("events")
+                .select("title")
+                .eq("id", sponsor.event_id)
+                .single();
+              if (evtForNotify) {
+                await notifySponsorPayment(
+                  sponsor.sponsor_name,
+                  sponsor.sponsor_business || "",
+                  sponsor.tier,
+                  (invoice.amount_paid || 0) / 100,
+                  evtForNotify.title,
+                  sponsor.event_id
+                );
+              }
+            } catch (notifyErr: any) {
+              console.error("[webhook] Admin sponsor email error:", notifyErr.message);
+            }
+
             console.log(`[webhook] Sponsor ${sponsor.sponsor_name} paid  -  ${ticketCount} comp tickets issued`);
           }
         }

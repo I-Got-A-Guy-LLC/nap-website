@@ -347,6 +347,29 @@ export async function notifyPaymentFailed(memberName: string, amount: string) {
   });
 }
 
+export async function notifySponsorPayment(
+  sponsorName: string,
+  businessName: string,
+  tier: string,
+  amount: number,
+  eventTitle: string,
+  eventId: string,
+) {
+  const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `Sponsor paid: ${businessName} (${tierLabel} - $${amount})`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Sponsor Payment Received</h2>
+      <p><strong>${sponsorName}</strong> from <strong>${businessName}</strong> paid for a <strong>${tierLabel}</strong> sponsorship.</p>
+      <p><strong>Amount:</strong> $${amount.toLocaleString()}</p>
+      <p><strong>Event:</strong> ${eventTitle}</p>
+      ${goldButton(`https://networkingforawesomepeople.com/admin/events/${eventId}/sponsors`, "View Sponsors")}
+    `),
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Comp expiry emails
 // ---------------------------------------------------------------------------
