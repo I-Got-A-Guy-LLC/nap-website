@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 
 interface Ticket {
   id: string;
-  attendee_name: string;
-  attendee_email: string;
+  purchaser_name: string;
+  purchaser_email: string;
   ticket_code: string;
   checked_in_at: string | null;
   checked_in_by: string | null;
@@ -25,8 +25,8 @@ export default function CheckInDashboard({
 
   const filtered = tickets.filter(
     (t) =>
-      t.attendee_name?.toLowerCase().includes(search.toLowerCase()) ||
-      t.attendee_email?.toLowerCase().includes(search.toLowerCase()) ||
+      t.purchaser_name?.toLowerCase().includes(search.toLowerCase()) ||
+      t.purchaser_email?.toLowerCase().includes(search.toLowerCase()) ||
       t.ticket_code?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -82,10 +82,10 @@ export default function CheckInDashboard({
                   className={isCheckedIn ? "bg-green-50" : ""}
                 >
                   <td className="px-4 py-3 text-sm font-medium text-[#1F3149]">
-                    {ticket.attendee_name}
+                    {ticket.purchaser_name}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-600">
-                    {ticket.attendee_email}
+                    {ticket.purchaser_email}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-900 font-mono">
                     {ticket.ticket_code}

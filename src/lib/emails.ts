@@ -371,6 +371,37 @@ export async function notifySponsorPayment(
 }
 
 // ---------------------------------------------------------------------------
+// Ticket sale admin notification
+// ---------------------------------------------------------------------------
+
+export async function notifyTicketSale(
+  buyerName: string,
+  buyerEmail: string,
+  quantity: number,
+  ticketCodes: string[],
+  amountPaid: number,
+  eventTitle: string,
+  eventId: string,
+) {
+  const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
+  await getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `🎟️ New ticket sale — ${eventTitle}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New Ticket Sale</h2>
+      <p><strong>Buyer:</strong> ${buyerName}</p>
+      <p><strong>Email:</strong> ${buyerEmail}</p>
+      <p><strong>Quantity:</strong> ${quantity}</p>
+      <p><strong>Ticket code${quantity > 1 ? "s" : ""}:</strong> ${ticketCodes.join(", ")}</p>
+      <p><strong>Amount paid:</strong> $${amountPaid.toFixed(2)}</p>
+      <p><strong>Time:</strong> ${timestamp}</p>
+      ${goldButton(`https://networkingforawesomepeople.com/admin/events/${eventId}`, "View Event")}
+    `),
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Comp expiry emails
 // ---------------------------------------------------------------------------
 

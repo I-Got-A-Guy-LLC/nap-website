@@ -11,6 +11,7 @@ import {
   sendSponsorConfirmation,
   sendTicketConfirmation,
   notifySponsorPayment,
+  notifyTicketSale,
 } from "@/lib/emails";
 
 export const runtime = "nodejs";
@@ -250,6 +251,20 @@ export async function POST(request: Request) {
               quantity,
               evt.location_address || ""
             ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
+            // Notify Rachel of the sale
+            try {
+              await notifyTicketSale(
+                session.customer_details?.name || customerEmail?.split("@")[0] || "Unknown",
+                customerEmail || "",
+                quantity,
+                tickets.map((t) => t.ticket_code),
+                (session.amount_total || 0) / 100,
+                evt.title,
+                eventId,
+              );
+            } catch (notifyErr: any) {
+              console.error("[webhook] Ticket sale notification error:", notifyErr.message);
+            }
           } else if (!evt) {
             console.error(`[webhook] Could not fetch event ${eventId} for confirmation email`);
           }
