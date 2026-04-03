@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import PhotoCropModal from "@/components/PhotoCropModal";
 
 async function handleUpload(file: File): Promise<string> {
   const formData = new FormData();
@@ -51,10 +52,30 @@ export default function AdminListingEditPage({
   const [approvalStatus, setApprovalStatus] = useState("pending");
   const [slug, setSlug] = useState("");
   const [listingState, setListingState] = useState("TN");
+
+  // Coupon fields
+  const [offerHeadline, setOfferHeadline] = useState("");
+  const [offerDetails, setOfferDetails] = useState("");
+  const [offerPromoCode, setOfferPromoCode] = useState("");
+  const [offerExpires, setOfferExpires] = useState("");
+  const [offerNapOnly, setOfferNapOnly] = useState(false);
+
+  // Social fields
+  const [socialFacebook, setSocialFacebook] = useState("");
+  const [socialInstagram, setSocialInstagram] = useState("");
+  const [socialLinkedin, setSocialLinkedin] = useState("");
+  const [socialTwitter, setSocialTwitter] = useState("");
+
+  // Upload state
   const [logoUploading, setLogoUploading] = useState(false);
   const [photosUploading, setPhotosUploading] = useState(false);
   const logoInputRef = useRef<HTMLInputElement>(null);
   const photosInputRef = useRef<HTMLInputElement>(null);
+
+  // Crop state
+  const [cropQueue, setCropQueue] = useState<File[]>([]);
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+  const [cropTarget, setCropTarget] = useState<"photo" | "logo">("photo");
 
   useEffect(() => {
     if (status === "loading") return;
@@ -88,10 +109,106 @@ export default function AdminListingEditPage({
         setSlug(l.slug || "");
         setListingState(l.listing_state || "TN");
         setCategories(data.categories || []);
+        // Coupon
+        setOfferHeadline(l.offer_headline || "");
+        setOfferDetails(l.offer_details || "");
+        setOfferPromoCode(l.offer_promo_code || "");
+        setOfferExpires(l.offer_expires_at ? l.offer_expires_at.split("T")[0] : "");
+        setOfferNapOnly(l.offer_nap_only || false);
+        // Social
+        setSocialFacebook(l.social_facebook || "");
+        setSocialInstagram(l.social_instagram || "");
+        setSocialLinkedin(l.social_linkedin || "");
+        setSocialTwitter(l.social_twitter || "");
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [status, session, params.id, router]);
+
+  /* ---- Crop handlers ---- */
+
+  const handleCropComplete = useCallback(async (blob: Blob) => {
+    const file = new File([blob], "cropped.jpg", { type: "image/jpeg" });
+
+    if (cropTarget === "logo") {
+      setLogoUploading(true);
+      try {
+        const url = await handleUpload(file);
+        setLogoUrl(url);
+      } catch (err: any) {
+        setError(err.message || "Logo upload failed");
+      }
+      setLogoUploading(false);
+      setCropImageSrc(null);
+      setCropQueue([]);
+      return;
+    }
+
+    // Photo crop
+    setPhotosUploading(true);
+    try {
+      const url = await handleUpload(file);
+      setPhotos((prev) => [...prev, url]);
+    } catch (err: any) {
+      setError(err.message || "Photo upload failed");
+    }
+    setPhotosUploading(false);
+
+    // Process next file in queue
+    setCropQueue((prev) => {
+      const next = prev.slice(1);
+      if (next.length > 0) {
+        const reader = new FileReader();
+        reader.onload = () => setCropImageSrc(reader.result as string);
+        reader.readAsDataURL(next[0]);
+      } else {
+        setCropImageSrc(null);
+      }
+      return next;
+    });
+  }, [cropTarget]);
+
+  const handleCropCancel = useCallback(() => {
+    setCropQueue((prev) => {
+      const next = prev.slice(1);
+      if (next.length > 0) {
+        const reader = new FileReader();
+        reader.onload = () => setCropImageSrc(reader.result as string);
+        reader.readAsDataURL(next[0]);
+      } else {
+        setCropImageSrc(null);
+      }
+      return next;
+    });
+  }, []);
+
+  const onLogoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCropTarget("logo");
+    setCropQueue([file]);
+    const reader = new FileReader();
+    reader.onload = () => setCropImageSrc(reader.result as string);
+    reader.readAsDataURL(file);
+    if (logoInputRef.current) logoInputRef.current.value = "";
+  };
+
+  const onPhotosFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const remaining = 8 - photos.length;
+    if (remaining <= 0) {
+      setError("Maximum 8 photos allowed.");
+      return;
+    }
+    const toProcess = Array.from(files).slice(0, remaining);
+    setCropTarget("photo");
+    setCropQueue(toProcess);
+    const reader = new FileReader();
+    reader.onload = () => setCropImageSrc(reader.result as string);
+    reader.readAsDataURL(toProcess[0]);
+    if (photosInputRef.current) photosInputRef.current.value = "";
+  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,6 +235,17 @@ export default function AdminListingEditPage({
           video_url: videoUrl,
           is_approved: isApproved,
           approval_status: isApproved ? "approved" : approvalStatus,
+          // Coupon
+          offer_headline: offerHeadline,
+          offer_details: offerDetails,
+          offer_promo_code: offerPromoCode,
+          offer_expires_at: offerExpires || null,
+          offer_nap_only: offerNapOnly,
+          // Social
+          social_facebook: socialFacebook,
+          social_instagram: socialInstagram,
+          social_linkedin: socialLinkedin,
+          social_twitter: socialTwitter,
         }),
       });
 
@@ -347,20 +475,7 @@ export default function AdminListingEditPage({
                 ref={logoInputRef}
                 type="file"
                 accept="image/*"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  setLogoUploading(true);
-                  try {
-                    const url = await handleUpload(file);
-                    setLogoUrl(url);
-                  } catch (err: any) {
-                    setError(err.message || "Logo upload failed");
-                  } finally {
-                    setLogoUploading(false);
-                    if (logoInputRef.current) logoInputRef.current.value = "";
-                  }
-                }}
+                onChange={onLogoFileChange}
                 className="hidden"
               />
             </div>
@@ -369,7 +484,8 @@ export default function AdminListingEditPage({
                 <img
                   src={logoUrl}
                   alt="Logo preview"
-                  className="h-20 w-20 object-contain rounded-lg border border-gray-200"
+                  className="h-20 w-20 object-cover rounded-lg border border-gray-200"
+                  style={{ aspectRatio: "1 / 1" }}
                 />
                 <button
                   type="button"
@@ -401,38 +517,21 @@ export default function AdminListingEditPage({
               type="file"
               accept="image/*"
               multiple
-              onChange={async (e) => {
-                const files = e.target.files;
-                if (!files || files.length === 0) return;
-                const remaining = 8 - photos.length;
-                if (remaining <= 0) {
-                  setError("Maximum 8 photos allowed.");
-                  return;
-                }
-                const toUpload = Array.from(files).slice(0, remaining);
-                setPhotosUploading(true);
-                for (const file of toUpload) {
-                  try {
-                    const url = await handleUpload(file);
-                    setPhotos((prev) => [...prev, url]);
-                  } catch (err: any) {
-                    setError(err.message || "Photo upload failed");
-                  }
-                }
-                setPhotosUploading(false);
-                if (photosInputRef.current) photosInputRef.current.value = "";
-              }}
+              onChange={onPhotosFileChange}
               className="hidden"
             />
+            <p className="text-gray-500 text-xs mt-2">Photos will be cropped to a 1:1 square ratio.</p>
             {photos.length > 0 && (
               <div className="mt-3 grid grid-cols-4 gap-3">
                 {photos.map((url, idx) => (
                   <div key={idx} className="relative group">
-                    <img
-                      src={url}
-                      alt={`Photo ${idx + 1}`}
-                      className="w-full h-24 object-cover rounded-lg border border-gray-200"
-                    />
+                    <div className="rounded-lg border border-gray-200 overflow-hidden" style={{ aspectRatio: "1 / 1" }}>
+                      <img
+                        src={url}
+                        alt={`Photo ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                     <button
                       type="button"
                       onClick={() => setPhotos((prev) => prev.filter((_, i) => i !== idx))}
@@ -459,6 +558,110 @@ export default function AdminListingEditPage({
               className={inputClass}
               placeholder="https://www.youtube.com/watch?v=..."
             />
+          </div>
+
+          {/* Social Links */}
+          <div>
+            <h3 className="text-sm font-bold text-[#1F3149] mb-3">Social Media Links</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Facebook URL</label>
+                <input
+                  type="url"
+                  value={socialFacebook}
+                  onChange={(e) => setSocialFacebook(e.target.value)}
+                  className={inputClass}
+                  placeholder="https://facebook.com/..."
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Instagram URL</label>
+                <input
+                  type="url"
+                  value={socialInstagram}
+                  onChange={(e) => setSocialInstagram(e.target.value)}
+                  className={inputClass}
+                  placeholder="https://instagram.com/..."
+                />
+              </div>
+              <div>
+                <label className={labelClass}>LinkedIn URL</label>
+                <input
+                  type="url"
+                  value={socialLinkedin}
+                  onChange={(e) => setSocialLinkedin(e.target.value)}
+                  className={inputClass}
+                  placeholder="https://linkedin.com/in/..."
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Twitter / X URL</label>
+                <input
+                  type="url"
+                  value={socialTwitter}
+                  onChange={(e) => setSocialTwitter(e.target.value)}
+                  className={inputClass}
+                  placeholder="https://x.com/..."
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Coupon / Special Offer */}
+          <div>
+            <h3 className="text-sm font-bold text-[#1F3149] mb-3">Special Offer / Coupon</h3>
+            <div className="space-y-4">
+              <div>
+                <label className={labelClass}>Offer Title</label>
+                <input
+                  type="text"
+                  value={offerHeadline}
+                  onChange={(e) => setOfferHeadline(e.target.value)}
+                  className={inputClass}
+                  placeholder="e.g. 20% Off Your First Visit"
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Offer Subtitle</label>
+                <input
+                  type="text"
+                  value={offerDetails}
+                  onChange={(e) => setOfferDetails(e.target.value)}
+                  className={inputClass}
+                  placeholder="e.g. Valid for new customers only"
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={labelClass}>Promo Code</label>
+                  <input
+                    type="text"
+                    value={offerPromoCode}
+                    onChange={(e) => setOfferPromoCode(e.target.value.toUpperCase())}
+                    className={inputClass + " uppercase"}
+                    placeholder="e.g. NAP20"
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Expiration Date</label>
+                  <input
+                    type="date"
+                    value={offerExpires}
+                    onChange={(e) => setOfferExpires(e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={offerNapOnly}
+                  onChange={(e) => setOfferNapOnly(e.target.checked)}
+                  className="w-4 h-4 accent-[#FBC761]"
+                />
+                <span className="text-sm text-[#1F3149]">NAP Members Only</span>
+              </label>
+            </div>
           </div>
 
           {/* Save Button */}
@@ -500,6 +703,15 @@ export default function AdminListingEditPage({
           </button>
         </div>
       </div>
+
+      {/* Photo Crop Modal */}
+      {cropImageSrc && (
+        <PhotoCropModal
+          imageSrc={cropImageSrc}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+        />
+      )}
     </div>
   );
 }
