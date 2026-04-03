@@ -1,9 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+async function handleUpload(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch("/api/upload", { method: "POST", body: formData });
+  const data = await res.json();
+  if (data.url) return data.url;
+  throw new Error(data.error || "Upload failed");
+}
 
 interface Category {
   id: string;
@@ -36,10 +45,16 @@ export default function AdminListingEditPage({
   const [primaryCategoryId, setPrimaryCategoryId] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [videoUrl, setVideoUrl] = useState("");
   const [isApproved, setIsApproved] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState("pending");
   const [slug, setSlug] = useState("");
   const [listingState, setListingState] = useState("TN");
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [photosUploading, setPhotosUploading] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const photosInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -66,6 +81,8 @@ export default function AdminListingEditPage({
         setPrimaryCategoryId(l.primary_category_id || "");
         setWebsiteUrl(l.website_url || "");
         setLogoUrl(l.logo_url || "");
+        setPhotos(Array.isArray(l.photos) ? l.photos : []);
+        setVideoUrl(l.video_url || "");
         setIsApproved(l.is_approved || false);
         setApprovalStatus(l.approval_status || "pending");
         setSlug(l.slug || "");
@@ -97,6 +114,8 @@ export default function AdminListingEditPage({
           primary_category_id: primaryCategoryId || null,
           website_url: websiteUrl,
           logo_url: logoUrl,
+          photos,
+          video_url: videoUrl,
           is_approved: isApproved,
           approval_status: isApproved ? "approved" : approvalStatus,
         }),
@@ -292,28 +311,154 @@ export default function AdminListingEditPage({
             </div>
           </div>
 
-          {/* Website & Logo */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className={labelClass}>Website URL</label>
-              <input
-                type="url"
-                value={websiteUrl}
-                onChange={(e) => setWebsiteUrl(e.target.value)}
-                className={inputClass}
-                placeholder="https://example.com"
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Logo URL</label>
+          {/* Website URL */}
+          <div>
+            <label className={labelClass}>Website URL</label>
+            <input
+              type="url"
+              value={websiteUrl}
+              onChange={(e) => setWebsiteUrl(e.target.value)}
+              className={inputClass}
+              placeholder="https://example.com"
+            />
+          </div>
+
+          {/* Logo */}
+          <div>
+            <label className={labelClass}>Logo</label>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => logoInputRef.current?.click()}
+                disabled={logoUploading}
+                className="px-4 py-2 bg-[#1F3149] text-white text-sm font-medium rounded-lg hover:bg-[#2a4060] transition disabled:opacity-50"
+              >
+                {logoUploading ? "Uploading..." : "Upload Logo"}
+              </button>
+              <span className="text-gray-500 text-sm">or</span>
               <input
                 type="url"
                 value={logoUrl}
                 onChange={(e) => setLogoUrl(e.target.value)}
-                className={inputClass}
-                placeholder="https://example.com/logo.png"
+                className={inputClass + " flex-1"}
+                placeholder="Paste image URL"
+              />
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  setLogoUploading(true);
+                  try {
+                    const url = await handleUpload(file);
+                    setLogoUrl(url);
+                  } catch (err: any) {
+                    setError(err.message || "Logo upload failed");
+                  } finally {
+                    setLogoUploading(false);
+                    if (logoInputRef.current) logoInputRef.current.value = "";
+                  }
+                }}
+                className="hidden"
               />
             </div>
+            {logoUrl && (
+              <div className="mt-3 relative inline-block">
+                <img
+                  src={logoUrl}
+                  alt="Logo preview"
+                  className="h-20 w-20 object-contain rounded-lg border border-gray-200"
+                />
+                <button
+                  type="button"
+                  onClick={() => setLogoUrl("")}
+                  className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center hover:bg-red-600"
+                >
+                  &times;
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Photos */}
+          <div>
+            <label className={labelClass}>
+              Photos
+              <span className="text-gray-500 font-normal ml-1">({photos.length}/8)</span>
+            </label>
+            <button
+              type="button"
+              onClick={() => photosInputRef.current?.click()}
+              disabled={photosUploading || photos.length >= 8}
+              className="px-4 py-2 bg-[#1F3149] text-white text-sm font-medium rounded-lg hover:bg-[#2a4060] transition disabled:opacity-50"
+            >
+              {photosUploading ? "Uploading..." : "Upload Photos"}
+            </button>
+            <input
+              ref={photosInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={async (e) => {
+                const files = e.target.files;
+                if (!files || files.length === 0) return;
+                const remaining = 8 - photos.length;
+                if (remaining <= 0) {
+                  setError("Maximum 8 photos allowed.");
+                  return;
+                }
+                const toUpload = Array.from(files).slice(0, remaining);
+                setPhotosUploading(true);
+                for (const file of toUpload) {
+                  try {
+                    const url = await handleUpload(file);
+                    setPhotos((prev) => [...prev, url]);
+                  } catch (err: any) {
+                    setError(err.message || "Photo upload failed");
+                  }
+                }
+                setPhotosUploading(false);
+                if (photosInputRef.current) photosInputRef.current.value = "";
+              }}
+              className="hidden"
+            />
+            {photos.length > 0 && (
+              <div className="mt-3 grid grid-cols-4 gap-3">
+                {photos.map((url, idx) => (
+                  <div key={idx} className="relative group">
+                    <img
+                      src={url}
+                      alt={`Photo ${idx + 1}`}
+                      className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setPhotos((prev) => prev.filter((_, i) => i !== idx))}
+                      className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Video URL */}
+          <div>
+            <label className={labelClass}>
+              Video URL
+              <span className="text-gray-500 font-normal ml-1">(YouTube or Vimeo)</span>
+            </label>
+            <input
+              type="url"
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
+              className={inputClass}
+              placeholder="https://www.youtube.com/watch?v=..."
+            />
           </div>
 
           {/* Save Button */}
