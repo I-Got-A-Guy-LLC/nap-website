@@ -39,11 +39,10 @@ export async function GET(request: Request) {
     query = query.eq("members.tier", tier);
   }
 
-  // Sort: Amplified/Leadership first, then Connected, then Linked
-  // Within each tier, sort by category name A-Z
+  // Sort: Leadership/Amplified first, then Connected, then Linked
+  // Within each group: alphabetical by business_name A-Z
   query = query
-    .order("members(is_leadership)", { ascending: false })
-    .order("members(tier)", { ascending: false })
+    .order("business_name", { ascending: true })
     .range(offset, offset + limit - 1);
 
   const { data: listings, count, error } = await query;
@@ -53,15 +52,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Failed to fetch listings" }, { status: 500 });
   }
 
-  // Manual sort for tier priority: amplified/leadership > connected > linked
-  // tierOrder handled inline below
+  // Enforce tier priority: leadership/amplified (0) > connected (1) > linked (2)
+  // business_name sort is already applied by DB within each group
   const sorted = (listings || []).sort((a: any, b: any) => {
-    const aIsTop = a.members?.is_leadership || a.members?.tier === "amplified" ? 0 : (a.members?.tier === "connected" ? 1 : 2);
-    const bIsTop = b.members?.is_leadership || b.members?.tier === "amplified" ? 0 : (b.members?.tier === "connected" ? 1 : 2);
-    if (aIsTop !== bIsTop) return aIsTop - bIsTop;
-    const aCat = a.categories?.name || "zzz";
-    const bCat = b.categories?.name || "zzz";
-    return aCat.localeCompare(bCat);
+    const aPriority = a.members?.is_leadership || a.members?.tier === "amplified" ? 0 : (a.members?.tier === "connected" ? 1 : 2);
+    const bPriority = b.members?.is_leadership || b.members?.tier === "amplified" ? 0 : (b.members?.tier === "connected" ? 1 : 2);
+    if (aPriority !== bPriority) return aPriority - bPriority;
+    return (a.business_name || "").localeCompare(b.business_name || "");
   });
 
   return NextResponse.json({
