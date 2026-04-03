@@ -12,14 +12,24 @@ export default function LinkedSignupPage() {
   const [phone, setPhone] = useState("");
   const [business, setBusiness] = useState("");
   const [city, setCity] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !phone || !business || !city || !confirmed) {
+    if (!name || !email || !phone || !business || !city || !password || !confirmed) {
       setError("Please fill in all fields and confirm the checkbox.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
     setLoading(true);
@@ -29,7 +39,7 @@ export default function LinkedSignupPage() {
       const res = await fetch("/api/directory/linked-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, business, city }),
+        body: JSON.stringify({ name, email, phone, business, city, password }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -134,6 +144,38 @@ export default function LinkedSignupPage() {
                   <option key={c} value={c.toLowerCase()}>{c}</option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-navy text-sm font-bold mb-1">
+                Create Password <span className="text-smyrna">*</span>
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold"
+                placeholder="At least 8 characters"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="confirmPassword" className="block text-navy text-sm font-bold mb-1">
+                Confirm Password <span className="text-smyrna">*</span>
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                required
+                minLength={8}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold"
+                placeholder="Re-enter your password"
+              />
             </div>
 
             <div className="flex items-start gap-3">

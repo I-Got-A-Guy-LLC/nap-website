@@ -112,7 +112,10 @@ function ConfirmationContent() {
           if (!data.error && data.ticket_code) {
             setTicket(data);
             try {
-              const url = `https://networkingforawesomepeople.com/checkin/${data.ticket_code}`;
+              const eventId = (data.event as any)?.id || "";
+              const url = eventId
+                ? `https://networkingforawesomepeople.com/admin/events/${eventId}/checkin?code=${data.ticket_code}`
+                : `https://networkingforawesomepeople.com/checkin/${data.ticket_code}`;
               const qr = await QRCode.toDataURL(url, { width: 200, margin: 2 });
               if (!cancelled) setQrDataUrl(qr);
             } catch { /* QR generation failed - non-critical */ }

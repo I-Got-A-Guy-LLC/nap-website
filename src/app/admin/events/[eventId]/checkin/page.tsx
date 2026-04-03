@@ -9,8 +9,10 @@ export const revalidate = 0;
 
 export default async function AdminCheckInPage({
   params,
+  searchParams,
 }: {
   params: { eventId: string };
+  searchParams: { code?: string };
 }) {
   const session = await requireSuperAdmin();
   if (!session) {
@@ -86,7 +88,7 @@ export default async function AdminCheckInPage({
         </div>
 
         {/* Client-side dashboard with search and check-in buttons */}
-        <CheckInDashboard tickets={allTickets} eventId={eventId} />
+        <CheckInDashboard tickets={allTickets} eventId={eventId} highlightCode={searchParams.code || ""} />
       </div>
     </div>
   );

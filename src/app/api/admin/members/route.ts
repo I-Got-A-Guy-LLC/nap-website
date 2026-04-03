@@ -136,6 +136,7 @@ export async function PATCH(request: Request) {
     const allowedFields = [
       "full_name",
       "email",
+      "phone",
       "business_name",
       "city",
       "tier",

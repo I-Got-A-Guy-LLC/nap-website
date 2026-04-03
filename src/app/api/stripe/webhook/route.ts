@@ -158,7 +158,8 @@ export async function POST(request: Request) {
                   evtDetails.event_date || "", evtDetails.start_time || "",
                   evtDetails.end_time || "", evtDetails.location_name || "",
                   compTickets[0].ticket_code, ticketCount,
-                  evtDetails.location_address || ""
+                  evtDetails.location_address || "",
+                  metadata.eventId
                 ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
               }
 
@@ -249,7 +250,8 @@ export async function POST(request: Request) {
               evt.location_name || "",
               tickets[0].ticket_code,
               quantity,
-              evt.location_address || ""
+              evt.location_address || "",
+              eventId
             ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
             // Notify Rachel of the sale
             try {

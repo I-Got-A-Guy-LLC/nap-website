@@ -1,55 +1,58 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
+import bcrypt from "bcryptjs";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { sendLinkedWelcome, notifyNewLinkedListing } from "@/lib/emails";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, business, city } = await request.json();
+    const { name, email, phone, business, city, password } = await request.json();
 
-    if (!name || !email || !business || !city) {
+    if (!name || !email || !phone || !business || !city) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
+    if (!password || password.length < 8) {
+      return NextResponse.json({ error: "Password must be at least 8 characters" }, { status: 400 });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
     const supabase = getSupabaseAdmin();
 
     // Check if member already exists
     const { data: existing } = await supabase
       .from("members")
       .select("id")
-      .eq("email", email)
+      .eq("email", normalizedEmail)
       .single();
 
-    let memberId: string;
-
     if (existing) {
-      memberId = existing.id;
-      // Update existing member
-      await supabase
-        .from("members")
-        .update({ full_name: name, business_name: business, city })
-        .eq("id", memberId);
-    } else {
-      // Create new member
-      const { data: newMember, error: memberError } = await supabase
-        .from("members")
-        .insert({
-          email,
-          full_name: name,
-          business_name: business,
-          city,
-          tier: "linked",
-          subscription_status: "active",
-        })
-        .select("id")
-        .single();
-
-      if (memberError) {
-        console.error("Member creation error:", memberError);
-        return NextResponse.json({ error: "Failed to create member" }, { status: 500 });
-      }
-      memberId = newMember.id;
+      return NextResponse.json({ error: "An account with this email already exists. Please log in instead." }, { status: 409 });
     }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    // Create new member with password
+    const { data: newMember, error: memberError } = await supabase
+      .from("members")
+      .insert({
+        email: normalizedEmail,
+        full_name: name,
+        phone: phone || null,
+        business_name: business,
+        city,
+        tier: "linked",
+        subscription_status: "active",
+        password_hash: passwordHash,
+      })
+      .select("id")
+      .single();
+
+    if (memberError) {
+      console.error("Member creation error:", memberError);
+      return NextResponse.json({ error: "Failed to create account" }, { status: 500 });
+    }
+    const memberId = newMember.id;
 
     // Auto-generate slug from business name
     const baseSlug = business
@@ -90,21 +93,11 @@ export async function POST(request: Request) {
       message: `New Linked listing: ${business} by ${name} (${city})`,
     });
 
-    // Generate invite token for password setup (7-day expiry)
-    const token = crypto.randomBytes(32).toString("hex").slice(0, 32);
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
-
-    await supabase.from("member_invites").insert({
-      email,
-      token,
-      expires_at: expiresAt,
-    });
-
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://networkingforawesomepeople.com";
-    const setPasswordUrl = `${baseUrl}/auth/set-password?token=${token}`;
+    const loginUrl = `${baseUrl}/login`;
 
-    // Send emails
-    await sendLinkedWelcome(email, name, setPasswordUrl);
+    // Send emails — account is ready to use immediately
+    await sendLinkedWelcome(email, name, loginUrl);
     await notifyNewLinkedListing(name, business);
 
     return NextResponse.json({ success: true });

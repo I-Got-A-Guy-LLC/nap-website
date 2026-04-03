@@ -110,7 +110,8 @@ export async function POST(request: Request) {
         event.location_name || "",
         tickets[0].ticket_code,
         quantity,
-        event.location_address || ""
+        event.location_address || "",
+        event.id
       ).catch((err) => console.error("[checkout] Email send error:", err));
 
       return NextResponse.json({

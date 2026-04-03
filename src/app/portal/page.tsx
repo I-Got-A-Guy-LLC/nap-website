@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import NotificationPreferences from "@/components/NotificationPreferences";
 import OnboardingChecklist from "@/components/OnboardingChecklist";
+import PortalPhoneEditor from "@/components/PortalPhoneEditor";
 
 const tierLabels: Record<string, string> = {
   linked: "Linked",
@@ -281,6 +282,9 @@ export default async function PortalPage() {
               Add Another Listing &rarr;
             </Link>
           )}
+
+          {/* Phone Number */}
+          <PortalPhoneEditor initial={member.phone || ""} />
 
           {/* Notification Preferences */}
           <NotificationPreferences

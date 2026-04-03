@@ -47,6 +47,7 @@ export default function MemberDetailClient({
   const [deleting, setDeleting] = useState(false);
   const [editName, setEditName] = useState(initialMember.full_name || "");
   const [editEmail, setEditEmail] = useState(initialMember.email || "");
+  const [editPhone, setEditPhone] = useState((initialMember.phone as string) || "");
   const [editBusiness, setEditBusiness] = useState(initialMember.business_name || "");
   const [editCity, setEditCity] = useState(initialMember.city || "");
   const [notes, setNotes] = useState(member.admin_notes || "");
@@ -125,6 +126,16 @@ export default function MemberDetailClient({
             />
           </div>
           <div>
+            <label className="block text-gray-500 text-xs mb-1">Phone</label>
+            <input
+              type="tel"
+              value={editPhone}
+              onChange={(e) => setEditPhone(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FBC761]"
+              placeholder="(615) 555-1234"
+            />
+          </div>
+          <div>
             <label className="block text-gray-500 text-xs mb-1">Business Name</label>
             <input
               type="text"
@@ -150,7 +161,7 @@ export default function MemberDetailClient({
         </div>
         <div className="flex items-center gap-4 mt-4">
           <button
-            onClick={() => save({ full_name: editName, email: editEmail, business_name: editBusiness, city: editCity })}
+            onClick={() => save({ full_name: editName, email: editEmail, phone: editPhone || null, business_name: editBusiness, city: editCity })}
             disabled={saving}
             className="px-4 py-2 bg-[#1F3149] text-white rounded-lg text-sm font-medium hover:bg-[#2a4060] disabled:opacity-50 transition"
           >

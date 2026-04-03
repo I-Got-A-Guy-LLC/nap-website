@@ -55,7 +55,7 @@ function goldButton(url: string, label: string): string {
 // Member emails
 // ---------------------------------------------------------------------------
 
-export async function sendLinkedWelcome(email: string, name: string, setPasswordUrl?: string) {
+export async function sendLinkedWelcome(email: string, name: string, loginUrl?: string) {
   await getResend().emails.send({
     from: FROM,
     to: email,
@@ -64,13 +64,9 @@ export async function sendLinkedWelcome(email: string, name: string, setPassword
       <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to NAP, ${name}!</h2>
       <p>Thanks for signing up for a Linked listing. Your submission is now being reviewed by our team.</p>
       <p>We'll let you know as soon as your listing is approved and live in the directory.</p>
-      ${setPasswordUrl ? `
-        <p>In the meantime, set up your password so you can access your member portal:</p>
-        ${goldButton(setPasswordUrl, "Set Up My Account")}
-        <p style="color:#888;font-size:13px;">This link expires in 7 days.</p>
-      ` : `
-        <p style="color:#888;font-size:13px;">This usually takes 1–2 business days.</p>
-      `}
+      <p>Your account is all set! You can log in to your member portal any time:</p>
+      ${goldButton(loginUrl || "https://networkingforawesomepeople.com/login", "Log In to Your Portal")}
+      <p style="color:#888;font-size:13px;">Listing approval usually takes 1-2 business days.</p>
     `),
   });
 }
@@ -584,6 +580,7 @@ export async function sendTicketConfirmation(
   ticketCode: string,
   quantity: number,
   locationAddress?: string,
+  eventId?: string,
 ) {
   console.log(`[email] Sending ticket confirmation to ${email} for ${eventTitle}, code: ${ticketCode}`);
 
@@ -602,7 +599,9 @@ export async function sendTicketConfirmation(
   // Generate QR code and upload to Supabase storage (Gmail blocks base64 images)
   let qrHtml = "";
   try {
-    const checkinUrl = `https://networkingforawesomepeople.com/checkin/${ticketCode}`;
+    const checkinUrl = eventId
+      ? `https://networkingforawesomepeople.com/admin/events/${eventId}/checkin?code=${ticketCode}`
+      : `https://networkingforawesomepeople.com/checkin/${ticketCode}`;
     const qrBuffer = await QRCode.toBuffer(checkinUrl, { width: 200, margin: 2, type: "png" });
     const fileName = `tickets/qr-${ticketCode}.png`;
 
