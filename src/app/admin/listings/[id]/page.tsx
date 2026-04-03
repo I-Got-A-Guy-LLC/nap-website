@@ -73,6 +73,7 @@ export default function AdminListingEditPage({
   const photosInputRef = useRef<HTMLInputElement>(null);
 
   // Crop state
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cropQueue, setCropQueue] = useState<File[]>([]);
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
   const [cropTarget, setCropTarget] = useState<"photo" | "logo">("photo");
