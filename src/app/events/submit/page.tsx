@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const eventTypes = ["Mixer", "Workshop", "Social", "Other"];
+const eventTypes = ["Mixer", "Workshop", "Social", "Monthly NAP Speaker", "Other"];
 const cities = [
   "Manchester",
   "Murfreesboro",
