@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { Resend } from "resend";
 import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
+}
 
 // Leadership emails that auto-approve events
 const LEADERSHIP_EMAILS = [
@@ -96,17 +101,34 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send notification
+    // Send notification email to admin
     try {
-      await supabase.from("notifications").insert({
-        type: "event_submission",
-        recipient: "hello@networkingforawesomepeople.com",
-        subject: `New Event Submission: ${title}`,
-        body: `Title: ${title}\nType: ${event_type}\nDate: ${event_date}\nTime: ${start_time} - ${end_time}\nLocation: ${location_name}\nCity: ${city}\nSubmitter: ${submitter_name} (${submitter_email})\nStatus: ${status}`,
-        sent: false,
+      const subject = isLeadership
+        ? `New Event Published: ${title}`
+        : `New Event Submission (Pending Review): ${title}`;
+      const html = `
+        <h2>${subject}</h2>
+        <p><strong>Title:</strong> ${title}</p>
+        <p><strong>Type:</strong> ${event_type}</p>
+        <p><strong>Date:</strong> ${event_date}</p>
+        <p><strong>Time:</strong> ${start_time} – ${end_time}</p>
+        <p><strong>Location:</strong> ${location_name}${location_address ? `, ${location_address}` : ""}${city ? `, ${city}` : ""}</p>
+        <p><strong>Description:</strong><br/>${(description || "").replace(/\n/g, "<br/>")}</p>
+        <p><strong>Free:</strong> ${is_free ? "Yes" : `No ($${ticket_price})`}</p>
+        <p><strong>Capacity:</strong> ${capacity || 30}</p>
+        <hr/>
+        <p><strong>Submitter:</strong> ${submitter_name} &lt;${submitter_email}&gt;${submitter_phone ? ` — ${submitter_phone}` : ""}</p>
+        <p><strong>Status:</strong> ${status}</p>
+      `;
+      await getResend().emails.send({
+        from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
+        to: "hello@networkingforawesomepeople.com",
+        replyTo: submitter_email,
+        subject,
+        html,
       });
-    } catch {
-      console.error("Failed to queue event notification");
+    } catch (emailErr) {
+      console.error("Failed to send event notification email:", emailErr);
     }
 
     return NextResponse.json({ success: true, status });
