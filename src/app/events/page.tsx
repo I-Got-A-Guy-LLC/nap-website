@@ -95,9 +95,13 @@ const faqSchema = {
   })),
 };
 
-const photoPlaceholders = [
-  "Manchester March 2026", "Murfreesboro March 2026", "Nolensville March 2026",
-  "Smyrna March 2026", "Manchester February 2026", "Murfreesboro February 2026",
+const eventPhotos = [
+  { src: "/images/events/bowling-mixer.jpg", alt: "Networking For Awesome People monthly mixer at the bowling alley in Murfreesboro" },
+  { src: "/images/events/escape-rooms-mixer.jpg", alt: "Murfreesboro Escape Rooms networking mixer with NAP members" },
+  { src: "/images/events/archery-night.jpg", alt: "NAP archery night in Murfreesboro — members practicing with bows" },
+  { src: "/images/events/range-night-2025.jpg", alt: "Range Night 2025 winner Seth Connell with his target at the range" },
+  { src: "/images/events/cookout-2024-a.jpg", alt: "NAP Cook Out 2024 — members enjoying a picnic outdoors" },
+  { src: "/images/events/cookout-2024-b.jpg", alt: "NAP Cook Out 2024 — members gathered under a tent" },
 ];
 
 export default function EventsPage() {
@@ -150,15 +154,15 @@ export default function EventsPage() {
             <p className="text-gold text-lg italic text-center mb-12">
               A glimpse into what Networking For Awesome People looks like in action
             </p>
-            {/* REPLACE WITH ACTUAL EVENT PHOTOS  -  update after each monthly meeting */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {photoPlaceholders.map((label, i) => (
-                <div key={i} className="aspect-[4/3] rounded-xl bg-gradient-to-br from-navy to-navy/80 flex flex-col items-center justify-center gap-2">
-                  <svg className="w-10 h-10 text-gold/40" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
-                  </svg>
-                  <span className="text-white text-sm">Event Photo  -  {label}</span>
+              {eventPhotos.map((photo, i) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
                 </div>
               ))}
             </div>
