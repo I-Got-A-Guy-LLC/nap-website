@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const EVENT_DATE = new Date("2026-04-20T00:00:00");
+const EVENT_DATE = new Date("2026-04-22T00:00:00");
 
 export default function RangeNightBanner() {
   const [daysLeft, setDaysLeft] = useState<number | null>(null);

@@ -21,11 +21,11 @@ interface EventData {
 const FALLBACK_EVENTS: Record<string, Partial<EventData>> = {
   "range-night-2026": {
     title: "Range Night",
-    event_date: "2026-04-20",
+    event_date: "2026-04-22",
     start_time: "5:30 PM",
     end_time: "7:30 PM",
-    location_name: "Bullseye Gun & Range",
-    location_address: "130 Shelby St, Murfreesboro, TN 37127",
+    location_name: "Black Frog Arms",
+    location_address: "915 N Thompson Ln, Murfreesboro, TN 37129",
     city: "Murfreesboro",
     state: "TN",
   },
