@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     if (action === "checkin") {
       const { data: ticket, error } = await supabase
-        .from("event_tickets")
+        .from("tickets")
         .update({
           checked_in_at: new Date().toISOString(),
           checked_in_by: session.user.email,
