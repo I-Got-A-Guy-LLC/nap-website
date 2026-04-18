@@ -124,14 +124,6 @@ export default async function EventDetailPage({
       includedItems = JSON.parse(items).filter(Boolean);
     }
   } catch { /* ignore parse errors */ }
-  // Fallback if no included_items set
-  if (includedItems.length === 0) {
-    includedItems = [
-      "Range time and a personal target",
-      "Mix and mingle time with fellow professionals",
-      "Come for the networking, stay for the fun",
-    ];
-  }
 
   return (
     <>
@@ -180,21 +172,35 @@ export default async function EventDetailPage({
       </section>
 
       {/* What's Included */}
-      <section className="bg-[#F8F9FA] py-16 px-4">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-4">
-            What&apos;s Included
-          </h2>
-          <ul className="space-y-3">
-            {includedItems.map((line: string, i: number) => (
-              <li key={i} className="flex items-start gap-3 text-navy text-lg">
-                <span className="text-gold mt-1 shrink-0">&#10003;</span>
-                <span>{line}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      {includedItems.length > 0 && (
+        <section className="bg-[#F8F9FA] py-16 px-4">
+          <div className="max-w-[800px] mx-auto">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-4">
+              What&apos;s Included
+            </h2>
+            <ul className="space-y-3">
+              {includedItems.map((line: string, i: number) => (
+                <li key={i} className="flex items-start gap-3 text-navy text-lg">
+                  <span className="text-gold mt-1 shrink-0">&#10003;</span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* Description (for events without included_items) */}
+      {includedItems.length === 0 && event.description && (
+        <section className="bg-[#F8F9FA] py-16 px-4">
+          <div className="max-w-[800px] mx-auto">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-4">
+              About This Event
+            </h2>
+            <p className="text-navy text-lg whitespace-pre-line">{event.description}</p>
+          </div>
+        </section>
+      )}
 
       {/* Sponsors */}
       {sponsors && sponsors.length > 0 && (
