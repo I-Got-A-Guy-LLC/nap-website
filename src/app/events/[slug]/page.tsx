@@ -233,22 +233,22 @@ export default async function EventDetailPage({
               </div>
             ))}
 
-            {/* Supporting + Community sponsors  -  grid */}
-            {sponsors.filter((s: any) => s.tier !== "presenting").length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {sponsors.filter((s: any) => s.tier !== "presenting").map((s: any) => {
-                  const tierLabel =
-                    s.tier === "supporting" ? "Supporting Sponsor" :
-                    s.tier === "community" ? "Community Sponsor" :
-                    s.tier === "in-kind" ? "In-Kind Sponsor" :
-                    "Sponsor";
-                  const tierColor =
-                    s.tier === "supporting" ? "bg-[#F5BE61] text-navy" :
-                    s.tier === "community" ? "bg-[#71D4D1] text-navy" :
-                    s.tier === "in-kind" ? "bg-[#1F3149] text-white" :
-                    "bg-[#71D4D1] text-navy";
-                  return (
-                    <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center">
+            {/* Supporting / Community / In-Kind  -  each tier on its own row */}
+            {(["supporting", "community", "in-kind"] as const).map((tier) => {
+              const group = sponsors.filter((s: any) => s.tier === tier);
+              if (group.length === 0) return null;
+              const tierLabel =
+                tier === "supporting" ? "Supporting Sponsor" :
+                tier === "community" ? "Community Sponsor" :
+                "In-Kind Sponsor";
+              const tierColor =
+                tier === "supporting" ? "bg-[#F5BE61] text-navy" :
+                tier === "community" ? "bg-[#71D4D1] text-navy" :
+                "bg-[#1F3149] text-white";
+              return (
+                <div key={tier} className="flex flex-wrap justify-center gap-4 mb-6">
+                  {group.map((s: any) => (
+                    <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center w-[200px]">
                       {s.logo_url ? (
                         <img src={s.logo_url} alt={`${s.sponsor_business || s.sponsor_name} logo`} className="h-12 mx-auto mb-3 object-contain" />
                       ) : (
@@ -261,10 +261,10 @@ export default async function EventDetailPage({
                       <h3 className="font-heading text-sm font-bold text-navy mb-1">{s.sponsor_business || s.sponsor_name}</h3>
                       <span className={`inline-block text-xs font-bold px-2.5 py-0.5 rounded-full ${tierColor}`}>{tierLabel}</span>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  ))}
+                </div>
+              );
+            })}
 
             <div className="text-center mt-8">
               <Link href={`/events/${event.slug}/sponsor`} className="text-gold text-sm font-bold hover:underline">
