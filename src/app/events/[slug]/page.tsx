@@ -105,11 +105,14 @@ export default async function EventDetailPage({
 
   if (!event) notFound();
 
+  // Range Night 2026 shows both paid and invoiced sponsors; other events show paid only.
+  const sponsorStatusFilter =
+    event.slug === "range-night-2026" ? ["paid", "invoiced"] : ["paid"];
   const { data: sponsors } = await supabase
     .from("event_sponsors")
     .select("*")
     .eq("event_id", event.id)
-    .eq("payment_status", "paid")
+    .in("payment_status", sponsorStatusFilter)
     .order("created_at", { ascending: true });
 
   const spotsRemaining = event.capacity - event.tickets_sold;
@@ -234,8 +237,16 @@ export default async function EventDetailPage({
             {sponsors.filter((s: any) => s.tier !== "presenting").length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {sponsors.filter((s: any) => s.tier !== "presenting").map((s: any) => {
-                  const tierLabel = s.tier === "supporting" ? "Supporting Sponsor" : s.tier === "community" ? "Community Sponsor" : "Sponsor";
-                  const tierColor = s.tier === "supporting" ? "bg-[#F5BE61] text-navy" : "bg-[#71D4D1] text-navy";
+                  const tierLabel =
+                    s.tier === "supporting" ? "Supporting Sponsor" :
+                    s.tier === "community" ? "Community Sponsor" :
+                    s.tier === "in-kind" ? "In-Kind Sponsor" :
+                    "Sponsor";
+                  const tierColor =
+                    s.tier === "supporting" ? "bg-[#F5BE61] text-navy" :
+                    s.tier === "community" ? "bg-[#71D4D1] text-navy" :
+                    s.tier === "in-kind" ? "bg-[#1F3149] text-white" :
+                    "bg-[#71D4D1] text-navy";
                   return (
                     <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center">
                       {s.logo_url ? (
