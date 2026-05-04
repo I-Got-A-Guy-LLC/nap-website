@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
-import RangeNightBanner from "@/components/RangeNightBanner";
 import { getAllPosts } from "@/lib/blog";
 
 const cityPanels = [
@@ -122,9 +121,6 @@ export default async function Home() {
 
         {/* Separator line + shadow between hero and city panels */}
         <div className="relative z-10 h-0 border-b border-black" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }} />
-
-        {/* Announcement bar */}
-        <RangeNightBanner />
 
         {/* City panels */}
         <div id="cities" className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 scroll-mt-16">
