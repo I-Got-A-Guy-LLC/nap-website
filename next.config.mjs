@@ -6,6 +6,7 @@ const nextConfig = {
       { source: "/cities/murfreesboro", destination: "/tn/murfreesboro", permanent: true },
       { source: "/cities/nolensville", destination: "/tn/nolensville", permanent: true },
       { source: "/cities/smyrna", destination: "/tn/smyrna", permanent: true },
+      { source: "/business-listing", destination: "/directory", permanent: true },
     ];
   },
 };
