@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import QRCode from "qrcode";
 import { stripe } from "@/lib/stripe";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import {
@@ -15,6 +17,120 @@ import {
 } from "@/lib/emails";
 
 export const runtime = "nodejs";
+
+// ---------------------------------------------------------------------------
+// Sponsor comp ticket email (all codes + QR codes in one email)
+// ---------------------------------------------------------------------------
+
+async function sendSponsorCompTickets(
+  email: string,
+  name: string,
+  ticketCodes: string[],
+  eventTitle: string,
+  eventDate: string,
+  startTime: string,
+  endTime: string,
+  locationName: string,
+  locationAddress: string,
+  eventId: string,
+) {
+  const formattedDate = new Date(eventDate + "T12:00:00").toLocaleDateString("en-US", {
+    weekday: "long", month: "long", day: "numeric", year: "numeric",
+  });
+
+  // Generate QR codes for each ticket
+  const supabase = getSupabaseAdmin();
+  let qrHtml = "";
+  for (const code of ticketCodes) {
+    try {
+      const checkinUrl = `https://networkingforawesomepeople.com/admin/events/${eventId}/checkin?code=${code}`;
+      const qrBuffer = await QRCode.toBuffer(checkinUrl, { width: 200, margin: 2, type: "png" });
+      const fileName = `tickets/qr-${code}.png`;
+      await supabase.storage.from("directory-images").upload(fileName, qrBuffer, {
+        contentType: "image/png", upsert: true,
+      });
+      const { data: { publicUrl } } = supabase.storage.from("directory-images").getPublicUrl(fileName);
+      qrHtml += `
+        <div style="text-align:center;margin:16px 0;display:inline-block;width:48%;">
+          <p style="font-family:monospace;font-size:18px;font-weight:bold;margin:0 0 8px;color:#1F3149;">${code}</p>
+          <img src="${publicUrl}" alt="QR Code for ${code}" width="160" height="160" style="display:inline-block;" />
+        </div>
+      `;
+    } catch (err) {
+      console.log(`[webhook] QR generation failed for ${code}:`, err);
+      qrHtml += `
+        <div style="text-align:center;margin:16px 0;display:inline-block;width:48%;">
+          <p style="font-family:monospace;font-size:18px;font-weight:bold;margin:0;color:#1F3149;">${code}</p>
+        </div>
+      `;
+    }
+  }
+
+  const ticketCodesHtml = ticketCodes.map((code) =>
+    `<span style="font-family:monospace;font-size:24px;font-weight:bold;letter-spacing:3px;color:#1F3149;">${code}</span>`
+  ).join("<br/>");
+
+  const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
+  await resend.emails.send({
+    from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
+    to: email,
+    subject: `🎟️ Your Complimentary Tickets — ${eventTitle}`,
+    html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body style="margin:0;padding:0;background-color:#f4f4f7;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f7;padding:32px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+        <tr>
+          <td style="background-color:#0a1628;padding:24px 32px;border-radius:12px 12px 0 0;text-align:center;">
+            <h1 style="margin:0;color:#c8a951;font-size:20px;font-weight:700;">Networking For Awesome People</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color:#ffffff;padding:32px;font-size:15px;line-height:1.6;color:#333333;">
+            <h2 style="margin:0 0 16px;color:#0a1628;">Your Complimentary Tickets 🎉</h2>
+            <p>Hey ${name},</p>
+            <p>Thank you for sponsoring <strong>${eventTitle}</strong>! Here are your <strong>${ticketCodes.length} complimentary tickets</strong>:</p>
+
+            <div style="background:#1F3149;color:white;border-radius:12px;padding:24px;text-align:center;margin:24px 0;">
+              <p style="color:#FBC761;font-size:12px;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;">Your Ticket Codes</p>
+              ${ticketCodesHtml}
+            </div>
+
+            <div style="text-align:center;margin:24px 0;">
+              ${qrHtml}
+            </div>
+
+            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+              <tr><td style="padding:8px 0;color:#666;font-size:14px;width:100px;">Event:</td><td style="padding:8px 0;font-weight:bold;">${eventTitle}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;font-size:14px;">Date:</td><td style="padding:8px 0;font-weight:bold;">${formattedDate}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;font-size:14px;">Time:</td><td style="padding:8px 0;font-weight:bold;">${startTime} – ${endTime}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;font-size:14px;">Location:</td><td style="padding:8px 0;font-weight:bold;">${locationName}${locationAddress ? "<br/>" + locationAddress : ""}</td></tr>
+            </table>
+
+            <div style="background:#FBC761;border-radius:12px;padding:16px 24px;margin:24px 0;text-align:center;">
+              <p style="margin:0;font-weight:bold;color:#1F3149;">Show this email or your QR code at the door</p>
+            </div>
+
+            <p style="color:#666;font-size:14px;">Questions? Reply to this email or contact us at the link below.</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color:#0a1628;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center;">
+            <p style="margin:0;color:#8899aa;font-size:12px;">&copy; Networking For Awesome People. All rights reserved.</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+
+  console.log(`[webhook] Sponsor comp ticket email sent to ${email} with ${ticketCodes.length} codes`);
+}
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -153,14 +269,15 @@ export async function POST(request: Request) {
               ).catch((err: any) => console.error("[webhook] Sponsor email error:", err));
 
               if (ticketCount > 0 && compTickets.length > 0) {
-                await sendTicketConfirmation(
-                  sEmail, sName, evtDetails.title,
+                await sendSponsorCompTickets(
+                  sEmail, sName,
+                  compTickets.map((t) => t.ticket_code),
+                  evtDetails.title,
                   evtDetails.event_date || "", evtDetails.start_time || "",
                   evtDetails.end_time || "", evtDetails.location_name || "",
-                  compTickets[0].ticket_code, ticketCount,
                   evtDetails.location_address || "",
                   metadata.eventId
-                ).catch((err: any) => console.error("[webhook] Ticket email error:", err));
+                ).catch((err: any) => console.error("[webhook] Sponsor comp ticket email error:", err));
               }
 
               // Notify admin via email
