@@ -314,11 +314,10 @@ export const cities: Record<string, CityData> = {
         image: "/images/leaders/Katie Clark Headshot.jpg",
       },
       {
-        name: "Meg Mueller",
+        name: "Denton Casey",
         title: "Co-Leader",
-        alt: "Meg Mueller, Smyrna Co-Leader, Networking For Awesome People",
-        bio: "Meg Mueller is the owner of Soigne Stress Solutions, where a decade of professional organizing experience goes to work transforming cluttered spaces and overwhelmed lives into something that actually functions. Beyond her business, she volunteers with the Yard, a ministry supporting people transitioning out of homelessness and incarceration. She co-leads SNAP, the Networking For Awesome People Smyrna chapter, since early 2024. When she's not organizing or serving her community, you'll find her traveling, reading, or at home with her husband and their two mini schnauzers.",
-        image: "/images/leaders/Meg Headshot.jpg",
+        alt: "Denton Casey, Smyrna Co-Leader, Networking For Awesome People",
+        bio: "",
       },
     ],
     faqs: [
