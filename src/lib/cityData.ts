@@ -99,6 +99,13 @@ export const cities: Record<string, CityData> = {
         image: "/images/leaders/Mark ryder headshot.jpg",
       },
     ],
+    galleryPhotos: [
+      { src: "/images/gallery/manchester/Manchester_NAPSTER_free_networking_group_members_2.jpg", alt: "NAPSTER Manchester NAP members at a meeting" },
+      { src: "/images/gallery/manchester/Manchester_NAPSTER_free_networking_group_members.jpg", alt: "NAPSTER Manchester NAP members at a meeting" },
+      { src: "/images/gallery/manchester/Manchester_TN_Networking_Group_Photo.jpg", alt: "Manchester Tennessee free networking group at FirstBank" },
+      { src: "/images/gallery/manchester/Cartoon_NAPSTER_Manchester_free_networking_group.jpg", alt: "NAPSTER Manchester networking group cartoon" },
+      { src: "/images/gallery/manchester/Manchester_free_networking_group_NAPSTER.jpeg", alt: "NAPSTER Manchester free networking group members" },
+    ],
     faqs: [
       {
         question: "When does Networking For Awesome People meet in Manchester?",
