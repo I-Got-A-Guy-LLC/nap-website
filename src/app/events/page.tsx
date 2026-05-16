@@ -99,9 +99,9 @@ const eventPhotos = [
   { src: "/images/events/bowling-mixer.jpg", alt: "Networking For Awesome People monthly mixer at the bowling alley in Murfreesboro" },
   { src: "/images/events/escape-rooms-mixer.jpg", alt: "Murfreesboro Escape Rooms networking mixer with NAP members" },
   { src: "/images/events/archery-night.jpg", alt: "NAP archery night in Murfreesboro — members practicing with bows" },
-  { src: "/images/events/range-night-2025.jpg", alt: "Range Night 2025 winner Seth Connell with his target at the range" },
+  { src: "/images/events/NAP_Winners_2026.jpg", alt: "NAP Range Night 2026 winners" },
   { src: "/images/events/cookout-2024-a.jpg", alt: "NAP Cook Out 2024 — members enjoying a picnic outdoors" },
-  { src: "/images/events/cookout-2024-b.jpg", alt: "NAP Cook Out 2024 — members gathered under a tent" },
+  { src: "/images/events/NAP_Group_Event_2024.jpg", alt: "NAP members at a community event" },
 ];
 
 export default function EventsPage() {
