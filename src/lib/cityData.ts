@@ -186,6 +186,14 @@ export const cities: Record<string, CityData> = {
         image: "/images/leaders/cynthia headshot.jpg",
       },
     ],
+    galleryPhotos: [
+      { src: "/images/gallery/murfreesboro/BORO_NAP_group_of_members_photo.jpg", alt: "BORO NAP Murfreesboro Wednesday morning networking group" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_meeting_members.jpg", alt: "BORO NAP members at Achieve Entrepreneur Space in Murfreesboro" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_meeting_members_2.jpg", alt: "BORO NAP members at Achieve Entrepreneur Space in Murfreesboro" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_Christmas_meeting.jpg", alt: "BORO NAP Murfreesboro Christmas meeting" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_amplified_member.jpg", alt: "BORO NAP Murfreesboro Amplified member spotlight" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_original_group.jpg", alt: "Original BORO NAP Murfreesboro networking group" },
+    ],
     faqs: [
       {
         question: "When does Networking For Awesome People meet in Murfreesboro?",
