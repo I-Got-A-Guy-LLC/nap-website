@@ -317,7 +317,8 @@ export const cities: Record<string, CityData> = {
         name: "Denton Casey",
         title: "Co-Leader",
         alt: "Denton Casey, Smyrna Co-Leader, Networking For Awesome People",
-        bio: "",
+        bio: "My family has called Nolensville home for generations and I currently have lived in Smyrna for the last decade, so when I say Middle Tennessee is my community, I mean it. I'm Denton Casey, owner of DC Insurance. Before starting in Insurance, I spent years working alongside small business owners, which gave me a firsthand look at how often health coverage falls through the cracks for people who work for themselves. I specialize in private health insurance for self-employed individuals, 1099 contractors, and small business owners across Middle Tennessee who don't have access to employer coverage.",
+        image: "/images/leaders/Denton Casey Headshot.jpg",
       },
     ],
     faqs: [
