@@ -268,6 +268,11 @@ export const cities: Record<string, CityData> = {
         image: "/images/leaders/Tony Lane headshot.jpg",
       },
     ],
+    galleryPhotos: [
+      { src: "/images/gallery/nolensville/Nolensville_N2__free_networking_group_member_2.jpg", alt: "N2 Nolensville NAP members at Waldo's Chicken and Beer" },
+      { src: "/images/gallery/nolensville/Nolensville_N2__free_networking_group_member.jpg", alt: "N2 Nolensville NAP member at Waldo's Chicken and Beer" },
+      { src: "/images/gallery/nolensville/Nolensville_N2_free_newtworking_group.jpg", alt: "N2 Nolensville free networking group at Waldo's Chicken and Beer" },
+    ],
     faqs: [
       {
         question: "When does Networking For Awesome People meet in Nolensville?",
