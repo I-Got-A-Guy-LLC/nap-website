@@ -110,12 +110,20 @@ export default async function Home() {
             <p className="text-gold text-lg sm:text-xl md:text-2xl lg:text-3xl italic mb-10 md:mb-14">
               Because regular networking is, well, regular.
             </p>
-            <a
-              href="#cities"
-              className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 md:hover:bg-white hover:shadow-xl transition-all duration-300"
-            >
-              Find Your City
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="https://networkingforawesomepeople.com/join"
+                className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-gold/90 md:hover:bg-white hover:shadow-xl transition-all duration-300"
+              >
+                List Your Business
+              </a>
+              <a
+                href="#cities"
+                className="inline-block bg-transparent text-white border-2 border-white font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:text-navy hover:shadow-xl transition-all duration-300"
+              >
+                Find Your City
+              </a>
+            </div>
           </div>
         </div>
 
