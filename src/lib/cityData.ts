@@ -11,6 +11,11 @@ export interface CityFAQ {
   answer: string;
 }
 
+export interface GalleryPhoto {
+  src: string;
+  alt: string;
+}
+
 export interface CityData {
   slug: string;
   name: string;
@@ -34,6 +39,7 @@ export interface CityData {
   lat: number;
   lng: number;
   leaders: Leader[];
+  galleryPhotos?: GalleryPhoto[];
   faqs: CityFAQ[];
   metaTitle: string;
   metaDescription: string;
@@ -320,6 +326,14 @@ export const cities: Record<string, CityData> = {
         bio: "My family has called Nolensville home for generations and I currently have lived in Smyrna for the last decade, so when I say Middle Tennessee is my community, I mean it. I'm Denton Casey, owner of DC Insurance. Before starting in Insurance, I spent years working alongside small business owners, which gave me a firsthand look at how often health coverage falls through the cracks for people who work for themselves. I specialize in private health insurance for self-employed individuals, 1099 contractors, and small business owners across Middle Tennessee who don't have access to employer coverage.",
         image: "/images/leaders/Denton Casey Headshot.jpg",
       },
+    ],
+    galleryPhotos: [
+      { src: "/images/gallery/smyrna/699432452_2084345245628022_2785968917524482769_n.jpg", alt: "SNAP Smyrna NAP members at the Smyrna Public Library" },
+      { src: "/images/gallery/smyrna/Smyrna_free_networking_group_member_kate.jpg", alt: "Smyrna NAP member at the Smyrna Public Library" },
+      { src: "/images/gallery/smyrna/Smyrna_free_networking_group_member.jpg", alt: "Smyrna NAP member at the Smyrna Public Library" },
+      { src: "/images/gallery/smyrna/Smyrna_free_networking_group_members_3.jpg", alt: "Smyrna NAP members at a community event" },
+      { src: "/images/gallery/smyrna/Smyrna_free_networking_group_smyrna_depot_days_2.jpg", alt: "SNAP Smyrna at Smyrna Depot Days" },
+      { src: "/images/gallery/smyrna/Smyrna_free_networking_group_smyrna_depot_days.jpg", alt: "SNAP Smyrna booth at Smyrna Depot Days" },
     ],
     faqs: [
       {
