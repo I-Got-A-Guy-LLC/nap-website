@@ -235,7 +235,7 @@ export default function ExpandPage() {
                   <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
                 </div>
                 <div className="p-6">
-                  <p className="text-gold font-bold text-sm mb-4">55% of your city&apos;s directory revenue</p>
+                  <p className="text-gold font-bold text-sm mb-4">Revenue share of your city&apos;s directory revenue</p>
                   <ul className="space-y-3 mb-6">
                     {["Everything in Starter", "Monthly coaching calls with Rachel", "Private Community Leaders community access", "Co-marketing and social media support", "Priority support from Rachel"].map((f) => (
                       <li key={f} className="flex items-start gap-2 text-navy text-sm">
@@ -257,7 +257,7 @@ export default function ExpandPage() {
                   <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
                 </div>
                 <div className="p-6">
-                  <p className="text-gold font-bold text-sm mb-4">60% of your city&apos;s directory revenue</p>
+                  <p className="text-gold font-bold text-sm mb-4">Top-tier revenue share of your city&apos;s directory revenue</p>
                   <ul className="space-y-3 mb-6">
                     {["Everything in Growth", "Founding chapter designation on website", "Priority website feature placement", "Quarterly strategy sessions with Rachel", "Input on NAP's national direction"].map((f) => (
                       <li key={f} className="flex items-start gap-2 text-navy text-sm">
