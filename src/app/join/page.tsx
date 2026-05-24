@@ -119,14 +119,6 @@ export default function JoinPage() {
               All tiers include a listing in the Networking For Awesome People business directory
             </p>
 
-            {/* Coming Soon Banner */}
-            <div className="bg-gold/10 border border-gold/30 rounded-xl p-5 text-center mb-12 max-w-2xl mx-auto">
-              <p className="text-navy font-medium">
-                📣 Directory billing is coming soon. Register your interest now and you&apos;ll be
-                first to know when membership opens.
-              </p>
-            </div>
-
             <PricingCards />
           </div>
         </ScrollReveal>

@@ -46,7 +46,6 @@ export async function POST(request: Request) {
       sessionParams.customer = customer.id;
     } else {
       // No email  -  let Stripe collect it
-      sessionParams.customer_creation = "always";
       sessionParams.customer_email = undefined;
     }
 
