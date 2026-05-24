@@ -54,7 +54,8 @@ export default function PricingCards() {
       }
 
       if (data.url) {
-        window.location.href = data.url;
+        window.open(data.url, "_blank");
+        setLoading(null);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
