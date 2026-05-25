@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const cityLinks = [
   { name: "Manchester", detail: "Tuesdays 9:00am", href: "/tn/manchester", color: "#71D4D1" },
-  { name: "Murfreesboro", detail: "Wednesdays 8:30am", href: "/tn/murfreesboro", color: "#2A4A6B" },
+  { name: "Murfreesboro", detail: ["Wednesdays", "8:30am Open Networking", "9:00am Meeting Starts"], href: "/tn/murfreesboro", color: "#2A4A6B" },
   { name: "Nolensville", detail: "Thursdays 9:00am", href: "/tn/nolensville", color: "#F5BE61" },
   { name: "Smyrna", detail: "Fridays 9:00am", href: "/tn/smyrna", color: "#FE6651" },
 ];
@@ -125,7 +125,15 @@ export default function ContactPage() {
                     >
                       <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
                       <span className="font-medium group-hover:underline">{c.name}</span>
-                      <span className="text-navy text-sm">{c.detail}</span>
+                      {Array.isArray(c.detail) ? (
+                        <span className="text-navy text-sm flex flex-col">
+                          {c.detail.map((line, i) => (
+                            <span key={i}>{line}</span>
+                          ))}
+                        </span>
+                      ) : (
+                        <span className="text-navy text-sm">{c.detail}</span>
+                      )}
                     </Link>
                   ))}
                 </div>

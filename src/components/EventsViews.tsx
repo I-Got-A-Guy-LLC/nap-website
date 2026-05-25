@@ -11,6 +11,7 @@ interface CityEvent {
   dayOfWeek: number; // 0=Sun..6=Sat
   time: string;
   timeRange: string;
+  meetingFormat?: string[];
   venue: string;
   address: string;
   color: string;
@@ -58,6 +59,7 @@ const events: CityEvent[] = [
     dayOfWeek: 3,
     time: "8:30am",
     timeRange: "8:30am – 10:00am",
+    meetingFormat: ["8:30am Open Networking", "9:00am Meeting Starts"],
     venue: "Strike & Spare Entertainment Complex",
     address: "1720 Old Fort Pkwy #2002, Murfreesboro, TN 37129",
     color: "#2A4A6B",
@@ -206,7 +208,15 @@ function CardsView({ specials }: { specials: SpecialEvent[] }) {
           <h3 className="font-heading text-xl font-bold text-navy mb-1">
             Every {e.day}
           </h3>
-          <p className="text-navy font-medium mb-1">{e.timeRange}</p>
+          {e.meetingFormat ? (
+            <div className="text-navy font-medium mb-1">
+              {e.meetingFormat.map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="text-navy font-medium mb-1">{e.timeRange}</p>
+          )}
           <p className="text-navy mb-1">{e.venue}</p>
           {e.leaders && <p className="text-navy text-sm">Led by {e.leaders}</p>}
           <p className="text-navy text-sm mb-4">{e.address}</p>
@@ -289,7 +299,15 @@ function ListView({ specials }: { specials: SpecialEvent[] }) {
                     {e.city}
                   </td>
                   <td className="px-5 py-4 text-navy">Every {e.day}</td>
-                  <td className="px-5 py-4 text-navy">{e.timeRange}</td>
+                  <td className="px-5 py-4 text-navy">
+                    {e.meetingFormat ? (
+                      e.meetingFormat.map((line, i) => (
+                        <div key={i}>{line}</div>
+                      ))
+                    ) : (
+                      e.timeRange
+                    )}
+                  </td>
                   <td className="px-5 py-4 text-navy">{e.venue}</td>
                   <td className="px-5 py-4 text-navy text-sm">{e.address}</td>
                   <td className="px-5 py-4">

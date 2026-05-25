@@ -128,11 +128,17 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
               >
                 <div className="text-2xl mb-3">📅</div>
                 <h3 className="font-heading text-lg font-bold text-navy mb-2">When</h3>
-                <p className="text-navy">
-                  {city.dayPlural} &middot; {city.timeRange}
-                </p>
-                {city.meetingFormat && (
-                  <p className="text-navy text-sm mt-2">{city.meetingFormat}</p>
+                {city.meetingFormat ? (
+                  <>
+                    <p className="text-navy">{city.dayPlural}</p>
+                    {city.meetingFormat.map((line, i) => (
+                      <p key={i} className="text-navy">{line}</p>
+                    ))}
+                  </>
+                ) : (
+                  <p className="text-navy">
+                    {city.dayPlural} &middot; {city.timeRange}
+                  </p>
                 )}
               </div>
               <div

@@ -139,7 +139,7 @@ export default function RootLayout({
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       name: "Networking For Awesome People  -  Murfreesboro",
-      description: "Free weekly business networking in Murfreesboro, Tennessee. Meets every Wednesday from 8:30am at Strike & Spare Entertainment Complex.",
+      description: "Free weekly business networking in Murfreesboro, Tennessee. Open networking from 8:30am, meeting starts at 9:00am every Wednesday at Strike & Spare Entertainment Complex.",
       url: "https://networkingforawesomepeople.com/tn/murfreesboro",
       address: {
         "@type": "PostalAddress",
@@ -228,7 +228,7 @@ export default function RootLayout({
           name: "Where can I find free networking in Middle Tennessee?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Networking For Awesome People hosts free weekly meetings in four Middle Tennessee cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays at 8:30am at Strike & Spare Entertainment Complex), Nolensville (Thursdays at 9:00am at Waldo's), and Smyrna (Fridays at 9:00am at Almaville Apartments Conference Center).",
+            text: "Networking For Awesome People hosts free weekly meetings in four Middle Tennessee cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays, 8:30am open networking, 9:00am meeting starts, at Strike & Spare Entertainment Complex), Nolensville (Thursdays at 9:00am at Waldo's), and Smyrna (Fridays at 9:00am at Almaville Apartments Conference Center).",
           },
         },
         {

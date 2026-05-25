@@ -18,6 +18,7 @@ const cityPanels = [
     name: "Murfreesboro",
     day: "Wednesdays",
     time: "8:30am",
+    timeLines: ["8:30am Open Networking", "9:00am Meeting Starts"],
     location: "Strike & Spare Entertainment Complex",
     href: "/tn/murfreesboro",
     bg: "bg-[#2A4A6B]",
@@ -140,9 +141,18 @@ export default async function Home() {
             >
               <div>
                 <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">{city.name}</h2>
-                <p className="text-lg font-medium mb-1">
-                  {city.day} &middot; {city.time}
-                </p>
+                {city.timeLines && city.timeLines.length > 0 ? (
+                  <div className="text-lg font-medium mb-1">
+                    <p>{city.day}</p>
+                    {city.timeLines.map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-lg font-medium mb-1">
+                    {city.day} &middot; {city.time}
+                  </p>
+                )}
                 <p className="opacity-70 italic">{city.location}</p>
               </div>
               <span className={`${city.btnClass} inline-block text-sm font-bold px-5 py-2 rounded-full border mt-6 transition-all`}>
@@ -426,7 +436,7 @@ export default async function Home() {
                   Where can I find free networking in Middle Tennessee?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays at 8:30am at Strike &amp; Spare), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:00am at Almaville Apartments Conference Center).
+                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays  -  8:30am open networking, 9:00am meeting starts  -  at Strike &amp; Spare), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:00am at Almaville Apartments Conference Center).
                 </p>
               </div>
               <div>

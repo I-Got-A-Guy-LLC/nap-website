@@ -38,7 +38,7 @@ export interface CityData {
   zip: string;
   lat: number;
   lng: number;
-  meetingFormat?: string;
+  meetingFormat?: string[];
   entryNote?: string;
   leaders: Leader[];
   galleryPhotos?: GalleryPhoto[];
@@ -158,7 +158,7 @@ export const cities: Record<string, CityData> = {
     zip: "37129",
     lat: 35.84902080773534,
     lng: -86.41701216097373,
-    meetingFormat: "8:30am – 9:00am Open Networking · 9:00am – 10:00am Meeting",
+    meetingFormat: ["8:30am Open Networking", "9:00am Meeting Starts"],
     entryNote: "Enter through the entrance facing AMC Theaters",
     metaTitle: "Free Weekly Networking in Murfreesboro TN | Networking For Awesome People",
     metaDescription:

@@ -34,6 +34,7 @@ const locations = [
     name: "Murfreesboro",
     day: "Wednesdays",
     time: "8:30am–10:00am",
+    timeLines: ["8:30am Open Networking", "9:00am Meeting Starts"],
     venue: "Strike & Spare Entertainment Complex",
     address: "1720 Old Fort Pkwy #2002, Murfreesboro, TN 37129",
     href: "/tn/murfreesboro",
@@ -306,9 +307,18 @@ export default function AboutPage() {
                 >
                   <div>
                     <h3 className="font-heading text-xl font-bold text-navy mb-2">{loc.name}</h3>
-                    <p className="text-navy font-medium text-sm mb-1">
-                      {loc.day} &middot; {loc.time}
-                    </p>
+                    {loc.timeLines && loc.timeLines.length > 0 ? (
+                      <div className="text-navy font-medium text-sm mb-1">
+                        <p>{loc.day}</p>
+                        {loc.timeLines.map((line, i) => (
+                          <p key={i}>{line}</p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-navy font-medium text-sm mb-1">
+                        {loc.day} &middot; {loc.time}
+                      </p>
+                    )}
                     <p className="text-navy text-sm italic mb-1">{loc.venue}</p>
                     <p className="text-navy text-xs">{loc.address}</p>
                   </div>
