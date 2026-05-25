@@ -89,7 +89,7 @@ const events: CityEvent[] = [
     color: "#FE6651",
     textOnColor: "white",
     href: "/tn/smyrna",
-    leaders: "Katie Clark & Meg Mueller",
+    leaders: "Katie Clark & Denton Casey",
   },
 ];
 
