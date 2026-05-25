@@ -38,6 +38,8 @@ export interface CityData {
   zip: string;
   lat: number;
   lng: number;
+  meetingFormat?: string;
+  entryNote?: string;
   leaders: Leader[];
   galleryPhotos?: GalleryPhoto[];
   faqs: CityFAQ[];
@@ -147,22 +149,24 @@ export const cities: Record<string, CityData> = {
     btnClass: "bg-gold text-navy",
     day: "Wednesday",
     dayPlural: "Wednesdays",
-    time: "9:00am",
-    timeRange: "9:00am–10:00am",
-    venue: "Achieve Entrepreneur & CoWorking Center",
-    address: "1630 S Church St #100",
+    time: "8:30am",
+    timeRange: "8:30am–10:00am",
+    venue: "Strike & Spare Entertainment Complex, Conference/Party Room",
+    address: "1720 Old Fort Pkwy #2002",
     city: "Murfreesboro",
     state: "TN",
-    zip: "37130",
-    lat: 35.827,
-    lng: -86.4138,
+    zip: "37129",
+    lat: 35.84902080773534,
+    lng: -86.41701216097373,
+    meetingFormat: "8:30am – 9:00am Open Networking · 9:00am – 10:00am Meeting",
+    entryNote: "Enter through the entrance facing AMC Theaters",
     metaTitle: "Free Weekly Networking in Murfreesboro TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Murfreesboro, Tennessee  -  free weekly networking every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. No fees, no registration required.",
+      "Join Networking For Awesome People in Murfreesboro, Tennessee  -  free weekly networking every Wednesday from 8:30am to 10:00am at Strike & Spare Entertainment Complex. No fees, no registration required.",
     chapterHeading:
       "About BORO NAP  -  Murfreesboro's Networking For Awesome People Chapter",
     chapterBody:
-      "The Murfreesboro chapter of Networking For Awesome People  -  known locally as BORO NAP  -  meets every Wednesday at 9:00am at Achieve Entrepreneur & CoWorking Center. This is a free, weekly, one-hour meeting designed for Murfreesboro and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
+      "The Murfreesboro chapter of Networking For Awesome People  -  known locally as BORO NAP  -  meets every Wednesday from 8:30am to 10:00am at Strike & Spare Entertainment Complex. Open networking runs from 8:30am to 9:00am, followed by the meeting from 9:00am to 10:00am. This is a free, weekly meeting designed for Murfreesboro and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
     leaders: [
       {
         name: "Rachel Albertson",
@@ -198,7 +202,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Murfreesboro?",
         answer:
-          "The Murfreesboro chapter of Networking For Awesome People  -  also known as BORO NAP  -  meets every Wednesday from 9:00am to 10:00am at Achieve Entrepreneur & CoWorking Center, 1630 S Church St #100, Murfreesboro, TN 37130.",
+          "The Murfreesboro chapter of Networking For Awesome People  -  also known as BORO NAP  -  meets every Wednesday from 8:30am to 10:00am at Strike & Spare Entertainment Complex (Conference/Party Room), 1720 Old Fort Pkwy #2002, Murfreesboro, TN 37129. Open networking runs 8:30am–9:00am, followed by the meeting 9:00am–10:00am. Enter through the entrance facing AMC Theaters.",
       },
       {
         question: "Is the Murfreesboro networking meeting free?",
@@ -208,12 +212,12 @@ export const cities: Record<string, CityData> = {
       {
         question: "Where does Networking For Awesome People meet in Murfreesboro?",
         answer:
-          "Networking For Awesome People meets at Achieve Entrepreneur & CoWorking Center, located at 1630 S Church St #100, Murfreesboro, TN 37130.",
+          "Networking For Awesome People meets at Strike & Spare Entertainment Complex in the Conference/Party Room, located at 1720 Old Fort Pkwy #2002, Murfreesboro, TN 37129. Enter through the entrance facing AMC Theaters.",
       },
       {
         question: "Do I need to register to attend the Murfreesboro networking meeting?",
         answer:
-          "No registration is required. You can walk in as a first-time visitor with no advance sign-up. Just show up at Achieve on Wednesday at 9:00am.",
+          "No registration is required. You can walk in as a first-time visitor with no advance sign-up. Just show up at Strike & Spare on Wednesday at 8:30am.",
       },
       {
         question:
@@ -315,22 +319,22 @@ export const cities: Record<string, CityData> = {
     btnClass: "bg-gold text-navy",
     day: "Friday",
     dayPlural: "Fridays",
-    time: "9:15am",
-    timeRange: "9:15am–10:15am",
-    venue: "Smyrna Public Library",
-    address: "400 Enon Springs Rd W",
+    time: "9:00am",
+    timeRange: "9:00am–10:00am",
+    venue: "Almaville Apartments Conference Center",
+    address: "961 Seven Oaks Blvd",
     city: "Smyrna",
     state: "TN",
     zip: "37167",
-    lat: 35.9829,
-    lng: -86.5186,
+    lat: 35.94379470973263,
+    lng: -86.53927561346552,
     metaTitle: "Free Weekly Networking in Smyrna TN | Networking For Awesome People",
     metaDescription:
-      "Join Networking For Awesome People in Smyrna, Tennessee  -  free weekly networking every Friday at 9:15am at Smyrna Public Library. No fees, no registration required.",
+      "Join Networking For Awesome People in Smyrna, Tennessee  -  free weekly networking every Friday at 9:00am at Almaville Apartments Conference Center. No fees, no registration required.",
     chapterHeading:
       "About SNAP  -  Smyrna's Networking For Awesome People Chapter",
     chapterBody:
-      "The Smyrna chapter of Networking For Awesome People  -  known locally as SNAP  -  meets every Friday at 9:15am at Smyrna Public Library. This is a free, weekly, one-hour meeting designed for Smyrna and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
+      "The Smyrna chapter of Networking For Awesome People  -  known locally as SNAP  -  meets every Friday at 9:00am at Almaville Apartments Conference Center. This is a free, weekly, one-hour meeting designed for Smyrna and Middle Tennessee professionals who want to build real referral relationships  -  not just collect business cards.",
     leaders: [
       {
         name: "Katie Clark",
@@ -359,7 +363,7 @@ export const cities: Record<string, CityData> = {
       {
         question: "When does Networking For Awesome People meet in Smyrna?",
         answer:
-          "The Smyrna chapter of Networking For Awesome People  -  also known as SNAP  -  meets every Friday from 9:15am to 10:15am at Smyrna Public Library, 400 Enon Springs Rd W, Smyrna, TN 37167.",
+          "The Smyrna chapter of Networking For Awesome People  -  also known as SNAP  -  meets every Friday from 9:00am to 10:00am at Almaville Apartments Conference Center, 961 Seven Oaks Blvd, Smyrna, TN 37167.",
       },
       {
         question: "Is the Smyrna networking meeting free?",
@@ -369,12 +373,12 @@ export const cities: Record<string, CityData> = {
       {
         question: "Where does Networking For Awesome People meet in Smyrna?",
         answer:
-          "Networking For Awesome People meets at Smyrna Public Library, located at 400 Enon Springs Rd W, Smyrna, TN 37167.",
+          "Networking For Awesome People meets at Almaville Apartments Conference Center, located at 961 Seven Oaks Blvd, Smyrna, TN 37167.",
       },
       {
         question: "Do I need to register to attend the Smyrna networking meeting?",
         answer:
-          "No registration is required. You can walk in as a first-time visitor with no advance sign-up. Just show up at Smyrna Public Library on Friday at 9:15am.",
+          "No registration is required. You can walk in as a first-time visitor with no advance sign-up. Just show up at Almaville Apartments Conference Center on Friday at 9:00am.",
       },
       {
         question:

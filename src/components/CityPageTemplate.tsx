@@ -131,6 +131,9 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                 <p className="text-navy">
                   {city.dayPlural} &middot; {city.timeRange}
                 </p>
+                {city.meetingFormat && (
+                  <p className="text-navy text-sm mt-2">{city.meetingFormat}</p>
+                )}
               </div>
               <div
                 className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 p-7"
@@ -140,6 +143,9 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                 <h3 className="font-heading text-lg font-bold text-navy mb-2">Where</h3>
                 <p className="text-navy">{city.venue}</p>
                 <p className="text-navy text-sm mt-1">{fullAddress}</p>
+                {city.entryNote && (
+                  <p className="text-navy text-sm italic mt-2">{city.entryNote}</p>
+                )}
               </div>
               <div
                 className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 p-7"

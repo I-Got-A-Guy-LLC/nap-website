@@ -17,8 +17,8 @@ const cityPanels = [
   {
     name: "Murfreesboro",
     day: "Wednesdays",
-    time: "9:00am",
-    location: "Achieve Entrepreneur & CoWorking Center",
+    time: "8:30am",
+    location: "Strike & Spare Entertainment Complex",
     href: "/tn/murfreesboro",
     bg: "bg-[#2A4A6B]",
     text: "text-white",
@@ -37,8 +37,8 @@ const cityPanels = [
   {
     name: "Smyrna",
     day: "Fridays",
-    time: "9:15am",
-    location: "Smyrna Public Library",
+    time: "9:00am",
+    location: "Almaville Apartments Conference Center",
     href: "/tn/smyrna",
     bg: "bg-smyrna",
     text: "text-white",
@@ -426,7 +426,7 @@ export default async function Home() {
                   Where can I find free networking in Middle Tennessee?
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays at 9:00am at Achieve), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:15am at Smyrna Public Library).
+                  We host free weekly meetings in four cities: Manchester (Tuesdays at 9:00am at FirstBank), Murfreesboro (Wednesdays at 8:30am at Strike &amp; Spare), Nolensville (Thursdays at 9:00am at Waldo&apos;s), and Smyrna (Fridays at 9:00am at Almaville Apartments Conference Center).
                 </p>
               </div>
               <div>

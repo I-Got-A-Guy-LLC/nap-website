@@ -33,9 +33,9 @@ const locations = [
   {
     name: "Murfreesboro",
     day: "Wednesdays",
-    time: "9:00am–10:00am",
-    venue: "Achieve Entrepreneur & CoWorking Center",
-    address: "1630 S Church St #100, Murfreesboro, TN 37130",
+    time: "8:30am–10:00am",
+    venue: "Strike & Spare Entertainment Complex",
+    address: "1720 Old Fort Pkwy #2002, Murfreesboro, TN 37129",
     href: "/tn/murfreesboro",
     borderColor: "border-l-navy",
     linkColor: "text-navy",
@@ -53,9 +53,9 @@ const locations = [
   {
     name: "Smyrna",
     day: "Fridays",
-    time: "9:15am–10:15am",
-    venue: "Smyrna Public Library",
-    address: "400 Enon Springs Rd W, Smyrna, TN 37167",
+    time: "9:00am–10:00am",
+    venue: "Almaville Apartments Conference Center",
+    address: "961 Seven Oaks Blvd, Smyrna, TN 37167",
     href: "/tn/smyrna",
     borderColor: "border-l-smyrna",
     linkColor: "text-smyrna",
@@ -258,8 +258,8 @@ export default function AboutPage() {
                   Rachel Albertson is the founder of Networking For Awesome People and owner of I Got
                   A Guy, LLC  -  a Middle Tennessee business network. Rachel built Networking For
                   Awesome People on the belief that networking should feel like belonging, not a
-                  transaction. She co-leads the Murfreesboro chapter every Wednesday at Achieve
-                  Entrepreneur &amp; CoWorking Center and oversees Community Leaders across all four
+                  transaction. She co-leads the Murfreesboro chapter every Wednesday at Strike &amp; Spare
+                  Entertainment Complex and oversees Community Leaders across all four
                   Networking For Awesome People locations.
                 </p>
                 <a
