@@ -8,10 +8,18 @@ const subjectOptions = [
   "Sponsorship Inquiry",
   "Bring Networking For Awesome People to My City",
   "Media or Press Inquiry",
+  "Directory Membership Interest",
   "Other",
 ];
 
 const subjectMap: Record<string, string> = {};
+
+// Maps the ?interest= query param (set by the /join "Register Interest" CTAs)
+// to a human-readable tier label included in the submission.
+const interestLabels: Record<string, string> = {
+  connected: "Connected ($300/yr or $30/mo)",
+  amplified: "Amplified ($500/yr or $50/mo)",
+};
 
 export default function ContactForm() {
   return (
@@ -28,6 +36,7 @@ function ContactFormInner() {
   const [city, setCity] = useState("");
   const [subject, setSubject] = useState("General Question");
   const [message, setMessage] = useState("");
+  const [interest, setInterest] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   useEffect(() => {
@@ -35,6 +44,11 @@ function ContactFormInner() {
     if (param) {
       const mapped = subjectMap[param] || subjectOptions.find((s) => s === param);
       if (mapped) setSubject(mapped);
+    }
+    const interestParam = searchParams.get("interest");
+    if (interestParam && interestLabels[interestParam]) {
+      setInterest(interestParam);
+      setSubject("Directory Membership Interest");
     }
   }, [searchParams]);
 
@@ -46,8 +60,9 @@ function ContactFormInner() {
     }
 
     const mailtoSubject = encodeURIComponent(`[NAP Website] ${subject}`);
+    const interestLine = interest ? `Interested Tier: ${interestLabels[interest]}\n` : "";
     const mailtoBody = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nCity: ${city || "Not specified"}\nSubject: ${subject}\n\n${message}`
+      `Name: ${name}\nEmail: ${email}\nCity: ${city || "Not specified"}\nSubject: ${subject}\n${interestLine}\n${message}`
     );
     window.location.href = `mailto:hello@networkingforawesomepeople.com?subject=${mailtoSubject}&body=${mailtoBody}`;
     setStatus("success");
@@ -56,6 +71,7 @@ function ContactFormInner() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5" data-netlify="true" name="contact">
       <input type="hidden" name="form-name" value="contact" />
+      <input type="hidden" name="interest" value={interest} />
 
       <div>
         <label htmlFor="name" className="block text-navy text-sm font-bold mb-1">
