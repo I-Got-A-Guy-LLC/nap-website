@@ -77,7 +77,7 @@ const faqs = [
   {
     question: "Can Networking For Awesome People come to my city?",
     answer:
-      "Yes  -  Networking For Awesome People is actively expanding across Tennessee and beyond through a licensed chapter model. If you're interested in launching and leading a Networking For Awesome People chapter in your city, visit our Bring Networking For Awesome People to Your City page to learn what's involved and express your interest.",
+      "Yes  -  Networking For Awesome People is expanding to new cities and is building a waitlist of community-minded professionals who want to lead a chapter in their area. Visit our Bring Networking For Awesome People to Your City page to join the waitlist. Rachel Albertson reviews every submission, and the details of leading a chapter are shared during a conversation with her.",
   },
   {
     question: "Is there a business directory for Networking For Awesome People members?",
@@ -87,7 +87,7 @@ const faqs = [
   {
     question: "How do I become a Community Leader for Networking For Awesome People?",
     answer:
-      "Community Leaders are community-minded professionals who are passionate about building connections in their area. If you're interested in leading a Networking For Awesome People chapter in a new city, visit the Bring Networking For Awesome People to Your City page. Existing Community Leader positions are filled by appointment through Rachel Albertson.",
+      "Community Leaders are community-minded professionals who are passionate about building connections in their area. If you're interested in leading a Networking For Awesome People chapter in a new city, visit the Bring Networking For Awesome People to Your City page and join the waitlist. Rachel Albertson reviews every submission, and the details are shared during a conversation with her.",
   },
   {
     question: "How long has Networking For Awesome People been running?",

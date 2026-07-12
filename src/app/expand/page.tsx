@@ -4,13 +4,13 @@ import FAQAccordion from "@/components/FAQAccordion";
 import ExpandForm from "@/components/ExpandForm";
 
 export const metadata: Metadata = {
-  title: "Bring Networking For Awesome People to Your City | Licensed Chapter Opportunities",
+  title: "Bring Networking For Awesome People to Your City | Community Leader Waitlist",
   description:
-    "Interested in launching a free weekly networking group in your city? Learn about bringing Networking For Awesome People to your community as a licensed chapter leader. Starter licenses from $500.",
+    "Networking For Awesome People is expanding to new cities. Join the waitlist to bring a free weekly NAP meeting to your community as a local chapter leader. Rachel reviews every submission.",
   openGraph: {
-    title: "Bring Networking For Awesome People to Your City | Licensed Chapter Opportunities",
+    title: "Bring Networking For Awesome People to Your City | Community Leader Waitlist",
     description:
-      "Interested in launching a free weekly networking group in your city? Learn about bringing Networking For Awesome People to your community as a licensed chapter leader. Starter licenses from $500.",
+      "Networking For Awesome People is expanding to new cities. Join the waitlist to bring a free weekly NAP meeting to your community as a local chapter leader. Rachel reviews every submission.",
     url: "https://networkingforawesomepeople.com/expand",
   },
   alternates: {
@@ -19,14 +19,13 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
-  { question: "Is there a cost to license a Networking For Awesome People chapter?", answer: "Yes. Licensing fees start at $500 for the Starter Chapter tier, which includes a $300 annual renewal or $35 monthly option. Growth and Founding tiers are available at higher investment levels with more support and higher directory revenue share (50% Starter, 55% Growth, 60% Founding). Full pricing is discussed during your conversation with Rachel." },
+  { question: "How do I bring Networking For Awesome People to my city?", answer: "Join the waitlist using the form below. Rachel Albertson personally reviews every submission and reaches out to promising candidates to talk through your city, your vision, and what leading a chapter involves." },
   { question: "Do I need networking experience to become a Community Leader?", answer: "You do not need to be a professional networking expert  -  but you do need to be comfortable in a room full of people, capable of facilitating a one-hour meeting, and genuinely invested in your local professional community. Rachel Albertson provides full onboarding training and ongoing support." },
-  { question: "Can I bring Networking For Awesome People to a city outside Tennessee?", answer: "Yes  -  Networking For Awesome People is designed to expand beyond Tennessee. The URL structure is already built for multi-state growth. If you are outside Tennessee and interested, fill out the interest form and Rachel will be in touch." },
+  { question: "Can I bring Networking For Awesome People to a city outside Tennessee?", answer: "Yes  -  Networking For Awesome People is designed to expand beyond Tennessee. The URL structure is already built for multi-state growth. If you are outside Tennessee and interested, join the waitlist and Rachel will be in touch." },
   { question: "How many members do I need to launch?", answer: "You do not need an existing membership base to launch. You need a venue, a consistent weekly time, and the commitment to show up and build the community from the ground up. Networking For Awesome People will support your launch with the full brand asset package and Rachel's guidance." },
-  { question: "How much time does running a chapter require?", answer: "At minimum, Community Leaders commit to hosting one weekly meeting of approximately one hour. City leaders are required to host a minimum of 45 of 52 meetings per year. Beyond the meeting itself, most Community Leaders spend additional time on community building, social media engagement, and member outreach  -  the more you invest, the faster your chapter grows." },
-  { question: "Will I have exclusive rights to my city?", answer: "Yes. Every licensed Community Leader holds exclusive rights to operate a Networking For Awesome People chapter in their designated city. Networking For Awesome People will not license a second chapter in the same city while an active license is in good standing." },
-  { question: "What happens if I want to stop running the chapter?", answer: "City leaders may voluntarily surrender their license at any time. Upon surrender, brand usage must cease within 30 days and the city page will be deactivated. The setup fee is non-refundable. Prorated annual fees may be refunded at Rachel's discretion." },
-  { question: "How does the directory revenue share get paid?", answer: "Directory revenue share is paid out monthly based on active paid memberships in your city. Payment details and schedule are outlined in the formal license agreement." },
+  { question: "How much time does running a chapter require?", answer: "At minimum, Community Leaders commit to hosting one weekly meeting of approximately one hour. City leaders are asked to host a minimum of 45 of 52 meetings per year. Beyond the meeting itself, most Community Leaders spend additional time on community building, social media engagement, and member outreach." },
+  { question: "How does a city get matched with a leader?", answer: "Networking For Awesome People focuses on one Community Leader per city so each community gets dedicated attention. Which city you would lead is part of the conversation with Rachel after you join the waitlist." },
+  { question: "What happens after I join the waitlist?", answer: "Rachel reviews every submission and connects with candidates who are a strong fit for a conversation about their city and vision. Joining the waitlist simply starts the conversation  -  there is no obligation." },
 ];
 
 const faqSchema = {
@@ -51,11 +50,11 @@ export default function ExpandPage() {
             Become the Most Connected Person in Your City.
           </h1>
           <p className="text-gold text-lg md:text-xl italic mb-8">
-            Build the room everyone wants to be in  -  and build a real income doing it.
+            Build the room everyone wants to be in  -  and become the connector your city remembers.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#interest-form" className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300">
-              Express Your Interest
+              Join the Waitlist
             </a>
             <a href="#process" className="inline-block bg-transparent text-white font-bold text-lg px-10 py-4 rounded-full border-2 border-white hover:bg-white hover:text-navy transition-all duration-300">
               Learn How It Works
@@ -69,14 +68,13 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto mb-16">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-6">
-              What Is a Networking For Awesome People Licensed Chapter?
+              What Does It Mean to Lead a Networking For Awesome People Chapter?
             </h2>
             <p className="text-navy text-lg leading-relaxed mb-10">
               Networking For Awesome People is a free weekly networking organization that started in
               Murfreesboro, Tennessee and has grown to four active Middle Tennessee cities. We are now
-              expanding through a licensed chapter model  -  giving community-minded professionals the
-              tools, brand, and support to launch their own Networking For Awesome People chapter in
-              their city.
+              expanding to new cities  -  and building a waitlist of community-minded professionals who
+              want to bring a Networking For Awesome People chapter to their area.
             </p>
             <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-4">
               What Does a Community Leader Do?
@@ -95,7 +93,7 @@ export default function ExpandPage() {
             {[
               { title: "You\u2019re Not Selling. You\u2019re Building.", body: "Networking For Awesome People Community Leaders don\u2019t hawk products or chase quotas. You host the weekly meeting your city didn\u2019t know it needed \u2014 and you become the person everyone credits for making it happen." },
               { title: "Everything\u2019s Built. You Just Show Up.", body: "The brand, the format, the website presence, the marketing materials \u2014 it\u2019s all done. Rachel Albertson spent years figuring out what works so you don\u2019t have to start from scratch. You inherit a proven system on day one." },
-              { title: "The Connections Are the Real Return.", body: "The revenue share is real and it grows. But ask any NAP Community Leader what the chapter actually gave them \u2014 it\u2019s the relationships. Referrals. Collaborations. Friendships. The kind of professional network money can\u2019t buy \u2014 built by showing up every week." },
+              { title: "The Connections Are the Real Return.", body: "Ask any NAP Community Leader what leading the chapter gave them \u2014 it\u2019s the relationships. Referrals. Collaborations. Friendships. The kind of professional network money can\u2019t buy \u2014 built by showing up every week." },
             ].map((card) => (
               <div key={card.title} className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-gold p-8">
                 <h3 className="font-heading text-xl font-bold text-navy mb-3">{card.title}</h3>
@@ -111,22 +109,22 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-4">
-              What Does Networking For Awesome People Provide to Licensed Community Leaders?
+              What Does Networking For Awesome People Provide to Community Leaders?
             </h2>
             <p className="text-navy text-lg leading-relaxed mb-10">
-              Every licensed Networking For Awesome People Community Leader receives a complete brand and
+              Every Networking For Awesome People Community Leader receives a complete brand and
               operations package at onboarding:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
               {[
-                "Licensed use of the Networking For Awesome People brand and logo",
+                "Use of the Networking For Awesome People brand and logo",
                 "Official meeting format and run-of-show",
                 "Your city page on the Networking For Awesome People website",
                 "CMS access to manage your city page",
                 "Marketing materials and Canva template library",
                 "Social media caption templates",
                 "Onboarding training with Rachel Albertson",
-                "Ongoing support based on your license tier",
+                "Ongoing support from Rachel and the NAP team",
                 "Access to the Networking For Awesome People Community Leaders community",
                 "Annual renewal touchpoint with your Linked member base",
               ].map((item) => (
@@ -140,251 +138,6 @@ export default function ExpandPage() {
         </ScrollReveal>
       </section>
 
-      {/* ===== VALUE STACK ===== */}
-      <section className="bg-navy py-16 md:py-24 px-4">
-        <ScrollReveal>
-          <div className="w-[90%] max-w-[800px] mx-auto">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-white text-center mb-3">
-              What You&apos;re Really Getting
-            </h2>
-            <p className="text-white/70 text-lg text-center mb-12">
-              If you built this yourself, here&apos;s what it would cost.
-            </p>
-
-            <div className="space-y-4">
-              {[
-                { item: "NAP brand & logo rights", value: "$5,000+ value" },
-                { item: "Done-for-you meeting format & run-of-show", value: "$2,000 value" },
-                { item: "City page + SEO-optimized web presence", value: "$3,000 value" },
-                { item: "Canva marketing template library", value: "$500 value" },
-                { item: "Onboarding training with Rachel Albertson", value: "$1,500 value" },
-                { item: "Social media caption templates & marketing materials", value: "$1,000 value" },
-                { item: "Access to the NAP Community Leaders community", value: "Priceless" },
-              ].map((line) => (
-                <div key={line.item} className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span className="text-white text-sm md:text-base">{line.item}</span>
-                  <span className="text-gold font-bold text-sm md:text-base whitespace-nowrap ml-4">{line.value}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 text-center">
-              <p className="text-white/60 text-sm uppercase tracking-widest mb-2">Total estimated value</p>
-              <p className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">$13,000+</p>
-              <p className="text-gold text-lg md:text-xl font-bold">
-                Your investment: Starts at $500.
-              </p>
-            </div>
-          </div>
-        </ScrollReveal>
-      </section>
-
-      {/* ===== SECTION 4  -  LICENSE TIERS ===== */}
-      <section className="bg-white py-16 md:py-24 px-4">
-        <ScrollReveal>
-          <div className="w-[90%] max-w-[1200px] mx-auto">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy text-center mb-3">
-              Choose Your License Tier
-            </h2>
-            <p className="text-gold text-lg italic text-center mb-4">
-              Three tiers designed for different levels of commitment and support
-            </p>
-
-            {/* Territory scarcity callout */}
-            <div className="max-w-2xl mx-auto my-10 border-2 border-gold rounded-xl px-6 py-5 bg-gold/5 text-center">
-              <p className="text-navy font-bold text-base md:text-lg leading-relaxed">
-                One city. One leader. Once your city is licensed, it&apos;s gone.
-              </p>
-              <p className="text-navy/70 text-sm mt-2 leading-relaxed">
-                Networking For Awesome People will never license a second chapter in the same city while an active license is in force. If you&apos;ve been thinking about your city  -  now is the time.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              {/* STARTER */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="bg-manchester p-6 text-center">
-                  <h3 className="font-heading text-2xl font-bold text-navy mb-2">Starter Chapter</h3>
-                  <p className="font-heading text-4xl md:text-5xl font-bold text-navy">$500</p>
-                  <p className="text-navy text-sm mt-1">one-time setup fee</p>
-                  <p className="text-navy text-xs mt-2">$300/year or $35/month recurring</p>
-                </div>
-                <div className="p-6">
-                  <p className="text-green-600 font-bold text-sm mb-4">50% of your city&apos;s directory revenue</p>
-                  <ul className="space-y-3 mb-6">
-                    {["Brand and logo usage rights", "Meeting format and run-of-show", "City page on the website", "CMS access", "Marketing materials and templates", "Onboarding training with Rachel", "Exclusive city territory"].map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-navy text-sm">
-                        <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-navy text-xs italic mb-4">Rachel&apos;s involvement: Onboarding only</p>
-                  <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
-                    Express Your Interest
-                  </a>
-                </div>
-              </div>
-
-              {/* GROWTH */}
-              <div className="bg-white rounded-xl shadow-xl border-2 border-gold relative ring-2 ring-gold/20 mt-6 md:mt-0">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gold text-navy text-xs font-bold px-4 py-1 rounded-full shadow-md">
-                  MOST POPULAR
-                </div>
-                <div className="bg-navy p-6 pt-8 text-center rounded-t-[10px]">
-                  <h3 className="font-heading text-2xl font-bold text-white mb-2">Growth Chapter</h3>
-                  <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
-                </div>
-                <div className="p-6">
-                  <p className="text-gold font-bold text-sm mb-4">Revenue share of your city&apos;s directory revenue</p>
-                  <ul className="space-y-3 mb-6">
-                    {["Everything in Starter", "Monthly coaching calls with Rachel", "Private Community Leaders community access", "Co-marketing and social media support", "Priority support from Rachel"].map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-navy text-sm">
-                        <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-navy text-xs italic mb-4">Rachel&apos;s involvement: Monthly check-ins and active ongoing support</p>
-                  <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
-                    Express Your Interest
-                  </a>
-                </div>
-              </div>
-
-              {/* FOUNDING */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="bg-smyrna p-6 text-center">
-                  <h3 className="font-heading text-2xl font-bold text-white mb-2">Founding Chapter</h3>
-                  <p className="text-white italic mt-2">Pricing discussed during your conversation with Rachel</p>
-                </div>
-                <div className="p-6">
-                  <p className="text-gold font-bold text-sm mb-4">Top-tier revenue share of your city&apos;s directory revenue</p>
-                  <ul className="space-y-3 mb-6">
-                    {["Everything in Growth", "Founding chapter designation on website", "Priority website feature placement", "Quarterly strategy sessions with Rachel", "Input on NAP's national direction"].map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-navy text-sm">
-                        <span className="text-gold font-bold mt-0.5">&#10003;</span>{f}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-navy text-xs italic mb-4">Rachel&apos;s involvement: High touch  -  quarterly strategy sessions</p>
-                  <a href="#interest-form" className="block text-center bg-gold text-navy font-bold py-3 rounded-full hover:bg-gold/90 transition-colors">
-                    Express Your Interest
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-navy text-center text-sm italic mt-8">
-              City leaders may upgrade from any tier to a higher tier at any time. Pricing reflects
-              the current launch rates  -  subject to change for future applicants.
-            </p>
-          </div>
-        </ScrollReveal>
-      </section>
-
-      {/* ===== SECTION 5  -  DIRECTORY REVENUE EXPLAINED ===== */}
-      <section className="bg-[#F8F9FA] py-16 md:py-24 px-4">
-        <ScrollReveal>
-          <div className="w-[90%] max-w-[1200px] mx-auto">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-6">
-              How the Directory Revenue Share Works
-            </h2>
-            <p className="text-navy text-lg leading-relaxed mb-10">
-              As a licensed Community Leader, you earn a percentage of all paid directory memberships
-              generated in your city. The Networking For Awesome People business directory has three
-              tiers  -  Linked (always free), Connected ($300/yr), and Amplified ($500/yr). You earn
-              your revenue share percentage on every Connected and Amplified member in your city.
-            </p>
-
-            <h3 className="font-heading text-2xl font-bold text-navy mb-8 text-center">
-              Your Growth Journey
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Year 1 */}
-              <div className="bg-white rounded-2xl border-2 border-gray-100 overflow-hidden shadow-sm">
-                <div className="bg-manchester/20 p-5 text-center">
-                  <p className="text-manchester text-xs font-bold uppercase tracking-widest mb-1">Year 1</p>
-                  <h4 className="font-heading text-xl font-bold text-navy">Early Traction</h4>
-                </div>
-                <div className="p-6">
-                  <ul className="space-y-2 text-sm text-navy mb-5">
-                    <li className="flex justify-between"><span>8 Linked (free)</span><span>$0</span></li>
-                    <li className="flex justify-between"><span>4 Connected &times; $300</span><span className="font-medium">$1,200</span></li>
-                    <li className="flex justify-between"><span>3 Amplified &times; $500</span><span className="font-medium">$1,500</span></li>
-                  </ul>
-                  <div className="border-t border-gray-100 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm text-navy font-bold">
-                      <span>Total directory revenue</span>
-                      <span>$2,700/yr</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-green-600 font-bold">You earn (55% Growth)</span>
-                      <span className="text-green-600 font-bold text-lg">$1,485/yr</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Year 2 */}
-              <div className="bg-white rounded-2xl border-2 border-gold/40 overflow-hidden shadow-md">
-                <div className="bg-gold/20 p-5 text-center">
-                  <p className="text-gold text-xs font-bold uppercase tracking-widest mb-1">Year 2</p>
-                  <h4 className="font-heading text-xl font-bold text-navy">Building Momentum</h4>
-                </div>
-                <div className="p-6">
-                  <ul className="space-y-2 text-sm text-navy mb-5">
-                    <li className="flex justify-between"><span>12 Linked (free)</span><span>$0</span></li>
-                    <li className="flex justify-between"><span>10 Connected &times; $300</span><span className="font-medium">$3,000</span></li>
-                    <li className="flex justify-between"><span>8 Amplified &times; $500</span><span className="font-medium">$4,000</span></li>
-                  </ul>
-                  <div className="border-t border-gray-100 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm text-navy font-bold">
-                      <span>Total directory revenue</span>
-                      <span>$7,000/yr</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-green-600 font-bold">You earn (55% Growth)</span>
-                      <span className="text-green-600 font-bold text-lg">$3,850/yr</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Year 3 */}
-              <div className="bg-white rounded-2xl border-2 border-smyrna/40 overflow-hidden shadow-lg">
-                <div className="bg-smyrna/20 p-5 text-center">
-                  <p className="text-smyrna text-xs font-bold uppercase tracking-widest mb-1">Year 3</p>
-                  <h4 className="font-heading text-xl font-bold text-navy">Mature City</h4>
-                </div>
-                <div className="p-6">
-                  <ul className="space-y-2 text-sm text-navy mb-5">
-                    <li className="flex justify-between"><span>20 Linked (free)</span><span>$0</span></li>
-                    <li className="flex justify-between"><span>18 Connected &times; $300</span><span className="font-medium">$5,400</span></li>
-                    <li className="flex justify-between"><span>12 Amplified &times; $500</span><span className="font-medium">$6,000</span></li>
-                  </ul>
-                  <div className="border-t border-gray-100 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm text-navy font-bold">
-                      <span>Total directory revenue</span>
-                      <span>$11,400/yr</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-green-600 font-bold">You earn (60% Founding)</span>
-                      <span className="text-green-600 font-bold text-lg">$6,840/yr</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-navy text-sm mt-8 italic text-center">
-              The bigger your directory grows, the more you earn. City leaders are motivated to
-              recruit Connected and Amplified members because it directly benefits them  -  and
-              Networking For Awesome People.
-            </p>
-          </div>
-        </ScrollReveal>
-      </section>
-
       {/* ===== SECTION 6  -  WHAT WE'RE LOOKING FOR ===== */}
       <section className="bg-white py-16 md:py-24 px-4">
         <ScrollReveal>
@@ -393,7 +146,7 @@ export default function ExpandPage() {
               What Makes a Great Networking For Awesome People Community Leader?
             </h2>
             <p className="text-navy text-lg text-center mb-12 max-w-2xl mx-auto">
-              We are selective about who we license the Networking For Awesome People name to  - 
+              We are selective about who leads a Networking For Awesome People chapter  -
               because the brand only works if every chapter reflects our values.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -418,13 +171,13 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-navy mb-10">
-              How the Licensing Process Works
+              How the Waitlist Works
             </h2>
             <div className="space-y-10">
               {[
-                { step: "1", title: "Express Your Interest", body: "Fill out the interest form below. Tell us about yourself, your city, and why you want to bring Networking For Awesome People to your community." },
-                { step: "2", title: "Connect With Rachel", body: "Rachel Albertson personally reviews every application and connects with promising candidates for a conversation about fit, vision, and which tier is right for you." },
-                { step: "3", title: "Sign the License Agreement", body: "Approved Community Leaders receive and sign a formal license agreement that outlines the terms, responsibilities, brand usage rights, and support you will receive." },
+                { step: "1", title: "Join the Waitlist", body: "Fill out the waitlist form below. Tell us about yourself, your city, and why you want to bring Networking For Awesome People to your community." },
+                { step: "2", title: "Connect With Rachel", body: "Rachel Albertson personally reviews every submission and connects with promising candidates for a conversation about fit, vision, and your city." },
+                { step: "3", title: "Plan Your Launch Together", body: "If it is a good fit, Rachel walks you through what leading a chapter involves, the Networking For Awesome People meeting format, and the brand and support you will receive." },
                 { step: "4", title: "Launch Your Chapter", body: "Your city page goes live, you receive your full brand asset package and CMS access, and you host your first Networking For Awesome People meeting. Rachel and the team support you every step of the way." },
               ].map((item) => (
                 <div key={item.step} className="flex gap-6">
@@ -447,7 +200,7 @@ export default function ExpandPage() {
         <ScrollReveal>
           <div className="w-[90%] max-w-[1200px] mx-auto">
             <h2 className="font-heading text-3xl md:text-5xl font-bold text-white text-center mb-3">
-              Express Your Interest
+              Join the Waitlist
             </h2>
             <p className="text-gold text-lg italic text-center mb-12">
               Rachel personally reviews every submission and responds within 5 business days
@@ -484,10 +237,10 @@ export default function ExpandPage() {
               href="#interest-form"
               className="inline-block bg-navy text-white font-bold text-lg px-10 py-5 rounded-full hover:bg-white hover:text-navy hover:shadow-xl transition-all duration-300"
             >
-              Express Your Interest
+              Join the Waitlist
             </a>
             <p className="text-navy text-sm mt-4">
-              Starter licenses from $500 &middot; Exclusive city territory &middot; Real revenue share
+              Free weekly meetings &middot; Full brand &amp; format provided &middot; Rachel reviews every submission
             </p>
           </div>
         </ScrollReveal>

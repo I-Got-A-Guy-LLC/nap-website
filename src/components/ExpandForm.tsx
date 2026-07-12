@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-const tierOptions = ["Starter Chapter", "Growth Chapter", "Founding Chapter", "Not Sure Yet"];
 const sourceOptions = ["Attended a meeting", "Facebook Group", "Word of mouth", "Google search", "Meetup", "Other"];
 
 export default function ExpandForm() {
@@ -10,7 +9,6 @@ export default function ExpandForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [cityState, setCityState] = useState("");
-  const [tier, setTier] = useState("Not Sure Yet");
   const [about, setAbout] = useState("");
   const [source, setSource] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -22,9 +20,9 @@ export default function ExpandForm() {
       return;
     }
 
-    const subject = encodeURIComponent(`Licensing Interest  -  ${cityState}`);
+    const subject = encodeURIComponent(`Waitlist Interest  -  ${cityState}`);
     const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPhone: ${phone || "Not provided"}\nCity/State: ${cityState}\nTier Interest: ${tier}\nHow they heard about NAP: ${source || "Not specified"}\n\nAbout themselves:\n${about}`
+      `Name: ${name}\nEmail: ${email}\nPhone: ${phone || "Not provided"}\nCity/State: ${cityState}\nHow they heard about NAP: ${source || "Not specified"}\n\nAbout themselves:\n${about}`
     );
     window.location.href = `mailto:hello@networkingforawesomepeople.com?subject=${subject}&body=${body}`;
     setStatus("success");
@@ -105,22 +103,6 @@ export default function ExpandForm() {
       </div>
 
       <div>
-        <label htmlFor="expand-tier" className="block text-navy text-sm font-bold mb-1">
-          Which tier interests you most?
-        </label>
-        <select
-          id="expand-tier"
-          value={tier}
-          onChange={(e) => setTier(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy bg-white focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
-        >
-          {tierOptions.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
-      </div>
-
-      <div>
         <label htmlFor="expand-about" className="block text-navy text-sm font-bold mb-1">
           Tell us about yourself and your connection to your local community <span className="text-smyrna">*</span>
         </label>
@@ -160,7 +142,7 @@ export default function ExpandForm() {
         type="submit"
         className="w-full bg-gold text-navy font-bold py-4 rounded-full hover:bg-gold/90 hover:shadow-lg transition-all duration-300 text-lg"
       >
-        Send My Interest to Rachel
+        Join the Waitlist
       </button>
       <p className="text-center text-navy text-sm">
         No commitment required  -  this is just a conversation starter

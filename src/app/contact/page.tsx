@@ -47,8 +47,8 @@ const helpCards = [
   },
   {
     title: "Bring Networking For Awesome People to Your City",
-    body: "Interested in launching a Networking For Awesome People chapter in your city? We'd love to talk. Learn more about our licensed chapter model.",
-    link: "Learn More →",
+    body: "Interested in bringing a Networking For Awesome People chapter to your city? We'd love to talk. Join the waitlist and Rachel will be in touch.",
+    link: "Join the Waitlist →",
     href: "/expand",
   },
 ];
