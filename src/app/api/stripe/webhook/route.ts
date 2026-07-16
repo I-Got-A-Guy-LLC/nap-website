@@ -292,7 +292,6 @@ export async function POST(request: Request) {
               stripe_subscription_id: stripeSubscriptionId,
               subscription_status: "active",
               billing_interval: billingInterval,
-              is_approved: true,
             },
             { onConflict: "email" }
           )
