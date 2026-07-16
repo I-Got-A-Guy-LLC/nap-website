@@ -8,7 +8,7 @@ interface Review {
   business_name: string;
   reviewer_name: string;
   rating: number;
-  text: string;
+  review_text: string | null;
   created_at: string;
 }
 
@@ -16,6 +16,7 @@ export default function ReviewsClient() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [removing, setRemoving] = useState<string | null>(null);
+  const [approving, setApproving] = useState<string | null>(null);
 
   useEffect(() => {
     fetchReviews();
@@ -43,6 +44,19 @@ export default function ReviewsClient() {
       alert("Failed to remove review");
     }
     setRemoving(null);
+  }
+
+  async function approveReview(id: string) {
+    setApproving(id);
+    const res = await fetch(`/api/admin/reviews?id=${id}`, {
+      method: "PATCH",
+    });
+    if (res.ok) {
+      setReviews((prev) => prev.filter((r) => r.id !== id));
+    } else {
+      alert("Failed to approve review");
+    }
+    setApproving(null);
   }
 
   function renderStars(rating: number) {
@@ -89,12 +103,19 @@ export default function ReviewsClient() {
                 <td className="px-4 py-3">{r.reviewer_name}</td>
                 <td className="px-4 py-3">{renderStars(r.rating)}</td>
                 <td className="px-4 py-3 max-w-xs truncate text-gray-600">
-                  {r.text}
+                  {r.review_text}
                 </td>
                 <td className="px-4 py-3 text-gray-900">
                   {new Date(r.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">
+                  <button
+                    onClick={() => approveReview(r.id)}
+                    disabled={approving === r.id}
+                    className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium hover:bg-green-200 disabled:opacity-50 transition mr-2"
+                  >
+                    Approve
+                  </button>
                   <button
                     onClick={() => removeReview(r.id)}
                     disabled={removing === r.id}

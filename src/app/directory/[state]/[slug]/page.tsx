@@ -79,7 +79,7 @@ async function getListing(state: string, slug: string) {
 
 async function getReviews(listingId: string) {
   const supabase = getSupabaseAdmin();
-  const { data } = await supabase.from("reviews").select("*").eq("listing_id", listingId).order("created_at", { ascending: false });
+  const { data } = await supabase.from("reviews").select("*").eq("listing_id", listingId).eq("is_approved", true).order("created_at", { ascending: false });
   return data || [];
 }
 

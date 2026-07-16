@@ -105,6 +105,7 @@ CREATE TABLE reviews (
   reviewer_email TEXT NOT NULL,
   rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
   review_text TEXT,
+  is_approved BOOLEAN NOT NULL DEFAULT false,
   is_verified_email BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
