@@ -28,6 +28,8 @@ yarn-error.log*
 # local env files
 .env*.local
 .env*.livebak
+.env.e2e
+.env.local.livebak
 
 # vercel
 .vercel
