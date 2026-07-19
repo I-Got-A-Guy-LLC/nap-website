@@ -30,6 +30,7 @@ yarn-error.log*
 .env*.livebak
 .env.e2e
 .env.local.livebak
+.env.local.*
 
 # vercel
 .vercel
