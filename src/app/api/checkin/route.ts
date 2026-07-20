@@ -58,7 +58,12 @@ export async function POST(request: Request) {
     if (!isNonEmptyString(guest_phone)) return bad("first_time_guest requires guest_phone");
     if (!isNonEmptyString(ask_for_week)) return bad("first_time_guest requires ask_for_week");
     if (!isNonEmptyString(qotw_answer)) return bad("first_time_guest requires qotw_answer");
-    if (typeof consent_to_email !== "boolean") return bad("first_time_guest requires consent_to_email (boolean)");
+    // Optional: an absent or null value means consent was simply not given. Anything
+    // other than a real JSON boolean ("true", "on", 1) is a client bug, not an
+    // omission, so it is rejected rather than quietly treated as false.
+    if (consent_to_email !== undefined && consent_to_email !== null && typeof consent_to_email !== "boolean") {
+      return bad("consent_to_email must be a boolean if provided");
+    }
 
     row = {
       attendee_type,
@@ -70,7 +75,7 @@ export async function POST(request: Request) {
       guest_phone,
       ask_for_week,
       qotw_answer,
-      consent_to_email,
+      consent_to_email: consent_to_email === true,
     };
   } else if (attendee_type === "repeat_matched") {
     const { member_id, listing_id, ask_for_week, qotw_answer } = body;
