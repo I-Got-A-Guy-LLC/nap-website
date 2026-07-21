@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -97,6 +97,42 @@ function CheckInContent() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Computed once on mount and reused for both the question fetch below and the
+  // check-in submit, so the date we fetch the question for always matches the
+  // date we submit — they can't drift apart across a midnight boundary.
+  const [meetingDate] = useState(todayInCentral);
+
+  // This week's question, fetched from the public qotw route. `null` means we
+  // have no question to show — either still loading, or none is set for this
+  // date — and the answer field falls back to its generic label.
+  const [question, setQuestion] = useState<string | null>(null);
+  const [questionLoading, setQuestionLoading] = useState(true);
+
+  // Fetch the question as soon as the chapter/date are known. A 404 or any
+  // network failure is a non-event: we simply show the generic label and never
+  // surface an error. The answer field stays required either way.
+  useEffect(() => {
+    if (!isChapterSlug(chapterParam)) return;
+    let cancelled = false;
+    setQuestionLoading(true);
+    fetch(
+      `/api/checkin/qotw?chapter=${encodeURIComponent(chapterParam)}&meeting_date=${encodeURIComponent(meetingDate)}`
+    )
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled) setQuestion(typeof data?.question === "string" ? data.question : null);
+      })
+      .catch(() => {
+        if (!cancelled) setQuestion(null);
+      })
+      .finally(() => {
+        if (!cancelled) setQuestionLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [chapterParam, meetingDate]);
+
   // An unrecognized chapter is a dead end: render a plain error and never call
   // the API. This check runs before any network work.
   if (!isChapterSlug(chapterParam)) {
@@ -183,7 +219,7 @@ function CheckInContent() {
         body: JSON.stringify({
           attendee_type: "first_time_guest",
           chapter_slug: chapter,
-          meeting_date: todayInCentral(),
+          meeting_date: meetingDate,
           guest_name: form.guest_name.trim(),
           guest_business_name: form.guest_business_name.trim(),
           guest_email: form.guest_email.trim(),
@@ -380,8 +416,14 @@ function CheckInContent() {
 
             <div className="mb-5">
               <label htmlFor="qotw_answer" className={LABEL_CLASS}>
-                Your answer to this week&apos;s question{" "}
-                <span className="text-navy/50">(required)</span>
+                {questionLoading ? (
+                  "Loading this week's question..."
+                ) : (
+                  <>
+                    {question ?? "Your answer to this week's question"}{" "}
+                    <span className="text-navy/50">(required)</span>
+                  </>
+                )}
               </label>
               <textarea
                 id="qotw_answer"
