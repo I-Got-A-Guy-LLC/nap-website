@@ -656,3 +656,67 @@ export async function sendTicketConfirmation(
 
   console.log(`[email] Ticket confirmation sent to ${email}`);
 }
+
+// ---------------------------------------------------------------------------
+// Guest handoff (leadership notification of new first-time guests)
+// ---------------------------------------------------------------------------
+
+export type GuestHandoffEntry = {
+  guest_name: string;
+  guest_business_name: string | null;
+  guest_email: string | null;
+  guest_phone: string | null;
+  ask_for_week: string | null;
+};
+
+export async function sendGuestHandoff(params: {
+  chapterName: string;
+  meetingDate: string;
+  guests: GuestHandoffEntry[];
+  to: string[];
+}): Promise<void> {
+  const { chapterName, meetingDate, guests, to } = params;
+  // Safe no-op: never send an empty email or send to nobody.
+  if (to.length === 0 || guests.length === 0) return;
+
+  const esc = (v: string | null) =>
+    (v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const rows = guests
+    .map((g) => {
+      const name = esc(g.guest_name) || "(no name)";
+      const business = esc(g.guest_business_name) || "(no business listed)";
+      const email = g.guest_email ? esc(g.guest_email) : "";
+      const phone = g.guest_phone ? esc(g.guest_phone) : "";
+      const ask = esc(g.ask_for_week) || "(none given)";
+      return `
+        <div style="margin:0 0 20px;padding:16px;background-color:#f7f8fa;border-radius:8px;">
+          <p style="margin:0 0 6px;font-size:16px;font-weight:700;color:#0a1628;">${name}</p>
+          <p style="margin:0 0 6px;color:#333333;">${business}</p>
+          <p style="margin:0 0 4px;">${email ? `<a href="mailto:${email}" style="color:#0a1628;">${email}</a>` : "(no email)"}</p>
+          <p style="margin:0 0 8px;">${phone ? `<a href="tel:${phone}" style="color:#0a1628;">${phone}</a>` : "(no phone)"}</p>
+          <p style="margin:0;color:#555555;"><strong>Ask:</strong> ${ask}</p>
+        </div>`;
+    })
+    .join("");
+
+  const count = guests.length;
+  const subject = `${count} new ${count === 1 ? "guest" : "guests"} at ${chapterName} NAP (${meetingDate})`;
+
+  const { error } = await getResend().emails.send({
+    from: FROM,
+    to,
+    subject,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">New Guest${count === 1 ? "" : "s"} at ${esc(chapterName)}</h2>
+      <p style="margin:0 0 20px;color:#555555;">Meeting date: ${esc(meetingDate)}. Reach out to welcome them and follow up on their ask.</p>
+      ${rows}
+    `),
+  });
+
+  // Throw on failure so the caller (the daily cron) does not mark these guests
+  // as sent when the email did not actually go out.
+  if (error) {
+    throw new Error(`sendGuestHandoff failed for ${chapterName}: ${JSON.stringify(error)}`);
+  }
+}
