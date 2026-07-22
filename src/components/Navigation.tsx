@@ -3,7 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+
+// Routes that render as a standalone, chrome-less page (e.g. the at-the-door
+// meeting check-in kiosk) and should not show the site navigation.
+const HIDE_NAV_ON = ["/meeting-checkin"];
 
 const cities = [
   { name: "Manchester", href: "/tn/manchester" },
@@ -17,6 +22,11 @@ export default function Navigation() {
   const [citiesOpen, setCitiesOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { data: session } = useSession();
+  const pathname = usePathname();
+
+  // Hooks above always run so hook order stays stable; the opt-out is decided
+  // only after them. On a hidden route the nav renders nothing at all.
+  if (HIDE_NAV_ON.includes(pathname)) return null;
 
   const isLoggedIn = !!session?.user;
   const role = (session as any)?.role || "member";
