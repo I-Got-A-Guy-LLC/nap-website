@@ -763,6 +763,8 @@ function CheckInContent() {
               </span>
             </label>
 
+            <p className="mb-6 text-sm text-navy/70">New guests will hear from our leadership team.</p>
+
             {error && (
               <p
                 role="alert"
