@@ -3,8 +3,8 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 import { isValidToken, unauthorized } from "@/lib/checkin-auth";
 
 // The four chapter slugs. These must stay in sync with the CHECK constraint on
-// checkins.chapter_slug and the keys in src/lib/cityData.ts. Chapter is stored on
-// members.city as the lowercase slug (e.g. "murfreesboro"), which is what we scope on.
+// checkins.chapter_slug and the keys in src/lib/cityData.ts. chapter_slug is still
+// validated as one of these, but search no longer filters results by chapter.
 const CHAPTER_SLUGS = ["manchester", "murfreesboro", "nolensville", "smyrna"] as const;
 
 export async function GET(request: Request) {
@@ -45,13 +45,12 @@ export async function GET(request: Request) {
   // Service-role client is created server-side only; the key never reaches the client.
   const supabase = getSupabaseAdmin();
 
-  // Scope to the chapter via members.city (holds the chapter slug), match the name
-  // against full_name or business_name, and embed each member's listings via the
-  // members -> directory_listings foreign key.
+  // Search matches across all chapters: chapter_slug is still validated above but
+  // no longer filters the results. Match the name against full_name or business_name,
+  // and embed each member's listings via the members -> directory_listings foreign key.
   const { data, error } = await supabase
     .from("members")
     .select("id, full_name, business_name, directory_listings(id, business_name)")
-    .eq("city", chapterSlug)
     .or(`full_name.ilike.%${safeQ}%,business_name.ilike.%${safeQ}%`);
 
   if (error) {
