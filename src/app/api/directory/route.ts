@@ -24,7 +24,7 @@ export async function GET(request: Request) {
     .eq("is_active", true);
 
   if (search) {
-    query = query.or(`business_name.ilike.%${search}%,description.ilike.%${search}%,tags.cs.{${search}}`);
+    query = query.or(`business_name.ilike.%${search}%,description.ilike.%${search}%,contact_name.ilike.%${search}%,tags.cs.{${search}}`);
   }
 
   if (city) {
