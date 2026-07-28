@@ -101,16 +101,17 @@ function sortByLastName(people: RecapAttendee[]): RecapAttendee[] {
   });
 }
 
-function renderPerson(a: RecapAttendee): string {
-  const lines = [`${a.name}, ${a.business}`];
+function renderPerson(a: RecapAttendee, emoji: string): string {
+  const prefix = emoji ? `${emoji} ` : "";
+  const lines = [`${prefix}${a.name}, ${a.business}`];
   if (a.ask) lines.push(`Ask: ${a.ask}`);
   if (a.qotw) lines.push(`Answer: ${a.qotw}`);
   return lines.join("\n");
 }
 
-function renderPersonSection(heading: string, people: RecapAttendee[]): string {
-  const blocks = sortByLastName(people).map(renderPerson).join("\n\n");
-  return `${heading}\n${blocks}`;
+function renderPersonSection(label: string, emoji: string, people: RecapAttendee[]): string {
+  const blocks = sortByLastName(people).map((p) => renderPerson(p, emoji)).join("\n\n");
+  return `${label}\n${blocks}`;
 }
 
 export function formatRecapPost(input: {
@@ -142,17 +143,17 @@ export function formatRecapPost(input: {
   // renders.
   const sections: string[] = [];
   if (buckets.amplified.length > 0) {
-    sections.push(renderPersonSection(`${EMOJI_AMPLIFIED} Amplified Member:`, buckets.amplified));
+    sections.push(renderPersonSection("Amplified Member:", EMOJI_AMPLIFIED, buckets.amplified));
   }
   if (buckets.connected.length > 0) {
-    sections.push(renderPersonSection(`${EMOJI_CONNECTED} Connected Member:`, buckets.connected));
+    sections.push(renderPersonSection("Connected Member:", EMOJI_CONNECTED, buckets.connected));
   }
   if (buckets.leadership.length > 0) {
-    sections.push(renderPersonSection(`${EMOJI_LEADERSHIP} Leadership:`, buckets.leadership));
+    sections.push(renderPersonSection("Leadership:", EMOJI_LEADERSHIP, buckets.leadership));
   }
-  sections.push(`${EMOJI_LOCATION} Location Sponsor: ${locationSponsor}`);
+  sections.push(`Location Sponsor:\n${EMOJI_LOCATION} ${locationSponsor}`);
   if (buckets.attendees.length > 0) {
-    sections.push(renderPersonSection("Attendees:", buckets.attendees));
+    sections.push(renderPersonSection("Attendees:", "", buckets.attendees));
   }
 
   return `${headerBlock}\n\n${sections.join("\n\n")}`;
