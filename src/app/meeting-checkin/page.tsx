@@ -114,6 +114,11 @@ function CheckInContent() {
   const token = params.get("token");
 
   const [screen, setScreen] = useState<Screen>("chooser");
+  // The attendee_type of the just-submitted check-in, captured when the screen
+  // flips to "done" so the confirmation copy can differ for a matched member.
+  const [doneAttendeeType, setDoneAttendeeType] = useState<
+    "first_time_guest" | "repeat_matched" | null
+  >(null);
   const [form, setForm] = useState<Record<TextField, string>>(EMPTY_FORM);
   const [consent, setConsent] = useState(false);
   // Per-field validation messages, shown inline beneath each input.
@@ -227,6 +232,7 @@ function CheckInContent() {
     setMatchAsk("");
     setMatchAnswer("");
     setMatchErrors({});
+    setDoneAttendeeType(null);
     setScreen("chooser");
   }
 
@@ -288,7 +294,7 @@ function CheckInContent() {
           consent_to_email: consent,
         }),
       });
-      handleCheckinResponse(response.status);
+      handleCheckinResponse(response.status, "first_time_guest");
     } catch {
       // Network failure, DNS, offline — never surface the raw error.
       setError("Couldn't reach check-in. Please try again.");
@@ -299,8 +305,12 @@ function CheckInContent() {
 
   // Shared response mapping for both attendee types — the status handling is
   // identical, so the guest and returning submits funnel through here.
-  function handleCheckinResponse(status: number) {
+  function handleCheckinResponse(
+    status: number,
+    submittedType: "first_time_guest" | "repeat_matched",
+  ) {
     if (status === 201) {
+      setDoneAttendeeType(submittedType);
       setScreen("done");
       return;
     }
@@ -429,7 +439,7 @@ function CheckInContent() {
           qotw_answer: matchAnswer.trim(),
         }),
       });
-      handleCheckinResponse(response.status);
+      handleCheckinResponse(response.status, "repeat_matched");
     } catch {
       setError("Couldn't reach check-in. Please try again.");
     } finally {
@@ -799,15 +809,23 @@ function CheckInContent() {
               Grab a seat, meet someone new, and enjoy the meeting.
             </p>
 
-            <p className="mb-4 text-base font-semibold text-navy">
-              Don&apos;t forget to add your business to our directory
-            </p>
-            <Link
-              href="/join"
-              className="flex w-full min-h-[56px] items-center justify-center rounded-full bg-navy px-6 py-4 text-lg font-bold text-white transition-all hover:bg-navy/90"
-            >
-              Add my business
-            </Link>
+            {doneAttendeeType === "repeat_matched" ? (
+              <p className="mb-4 text-base font-semibold text-navy">
+                Go Be Awesome!
+              </p>
+            ) : (
+              <>
+                <p className="mb-4 text-base font-semibold text-navy">
+                  Don&apos;t forget to add your business to our directory
+                </p>
+                <Link
+                  href="/join"
+                  className="flex w-full min-h-[56px] items-center justify-center rounded-full bg-navy px-6 py-4 text-lg font-bold text-white transition-all hover:bg-navy/90"
+                >
+                  Add my business
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>
