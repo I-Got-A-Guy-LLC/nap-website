@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildRecapPost } from "@/lib/recap";
+import { getRecapRecipients, sendRecapPost } from "@/lib/emails";
 import { CHAPTER_SLUGS, type ChapterSlug } from "@/lib/meetingSchedule";
 
 export async function GET(request: Request) {
@@ -32,10 +33,24 @@ export async function GET(request: Request) {
     );
   }
 
-  // Read only. Compose the post and return it as plain text. This return-as-text
-  // behavior is temporary 3a scaffolding and will be replaced by the Resend send
-  // in 3b.
+  // Compose the post (read only).
   const post = await buildRecapPost(chapter as ChapterSlug, meetingDate);
+
+  // Manual send path: send=true emails the composed post to the chapter
+  // recipients. Without it, behavior is unchanged and the post is returned as
+  // plain text for inspection.
+  if (searchParams.get("send") === "true") {
+    const recipients = getRecapRecipients(chapter);
+    if (recipients.length === 0) {
+      return NextResponse.json(
+        { error: "No recipients configured for chapter" },
+        { status: 400 }
+      );
+    }
+    await sendRecapPost({ chapter, meetingDate, post, to: recipients });
+    return NextResponse.json({ post, sent: true, recipients });
+  }
+
   return new Response(post, {
     status: 200,
     headers: { "Content-Type": "text/plain; charset=utf-8" },

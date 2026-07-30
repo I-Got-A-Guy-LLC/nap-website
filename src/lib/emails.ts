@@ -720,3 +720,84 @@ export async function sendGuestHandoff(params: {
     throw new Error(`sendGuestHandoff failed for ${chapterName}: ${JSON.stringify(error)}`);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Recap post (Facebook meeting recap, emailed to chapter leadership)
+// ---------------------------------------------------------------------------
+
+// Chapter display names used in the recap subject line. The Nolensville name
+// uses the superscript two code point.
+const RECAP_CHAPTER_NAMES: Record<string, string> = {
+  manchester: "NAPSTER",
+  murfreesboro: "BORO NAP",
+  nolensville: "N\u{00B2}",
+  smyrna: "SNAP",
+};
+
+// Env var that holds recipient addresses per chapter. Recipients live in env,
+// never in source, because this is a public repo.
+const RECAP_RECIPIENT_ENV: Record<string, string> = {
+  manchester: "RECAP_POST_TO_MANCHESTER",
+  murfreesboro: "RECAP_POST_TO_MURFREESBORO",
+  nolensville: "RECAP_POST_TO_NOLENSVILLE",
+  smyrna: "RECAP_POST_TO_SMYRNA",
+};
+
+// Resolve recipient addresses for a chapter from its env var. Splits on comma,
+// trims whitespace, drops empties. Returns an empty array when the var is
+// missing so the caller can decide how to handle no recipients.
+export function getRecapRecipients(chapter: string): string[] {
+  const envName = RECAP_RECIPIENT_ENV[chapter];
+  if (!envName) return [];
+  const raw = process.env[envName] || "";
+  return raw.split(",").map((s) => s.trim()).filter((s) => s.length > 0);
+}
+
+// Format a plain YYYY-MM-DD date as a long human date, for example
+// "Wednesday, July 29, 2026". Built and read in UTC so the rendered day never
+// shifts by one relative to the stored date.
+function formatRecapDate(isoDate: string): string {
+  const [year, month, day] = isoDate.split("-").map((p) => Number(p));
+  const d = new Date(Date.UTC(year, month - 1, day));
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(d);
+}
+
+export async function sendRecapPost(params: {
+  chapter: string;
+  meetingDate: string;
+  post: string;
+  to: string[];
+}): Promise<void> {
+  const { chapter, meetingDate, post, to } = params;
+  // Safe no-op: never send to nobody.
+  if (to.length === 0) return;
+
+  const esc = (v: string) =>
+    v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const chapterName = RECAP_CHAPTER_NAMES[chapter] || chapter;
+  const subject = `${chapterName} Meeting Recap: ${formatRecapDate(meetingDate)}`;
+
+  // The post is plain text with newlines. Escape it for HTML safety, then render
+  // inside a pre with wrapping enabled so the exact layout and blank lines are
+  // preserved while still using a normal (not monospace) font.
+  const { error } = await getResend().emails.send({
+    from: FROM,
+    to,
+    subject,
+    html: emailWrapper(`
+      <pre style="white-space:pre-wrap;font-family:inherit;margin:0;font-size:15px;line-height:1.6;color:#333333;">${esc(post)}</pre>
+    `),
+  });
+
+  // Throw on failure so the caller knows the send did not go out.
+  if (error) {
+    throw new Error(`sendRecapPost failed for ${chapter}: ${JSON.stringify(error)}`);
+  }
+}
