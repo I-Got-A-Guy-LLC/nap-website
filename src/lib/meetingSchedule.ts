@@ -78,6 +78,13 @@ export function isMeetingDay(slug: ChapterSlug, isoDate: string): boolean {
   return weekdayUtc(year, month, day) === MEETING_DAY_OF_WEEK[slug];
 }
 
+// Which chapters meet on a given date. Returns an array (empty, one, or more)
+// rather than a single slug so that future same-day chapters (e.g. Shelbyville)
+// are supported without baking a first-match assumption into downstream callers.
+export function chaptersMeetingOn(isoDate: string): ChapterSlug[] {
+  return CHAPTER_SLUGS.filter((slug) => isMeetingDay(slug, isoDate));
+}
+
 // Returns a closure reason if a scheduled closure rule covers this date, else
 // null. The rules apply to all four chapters, so slug does not affect the
 // result; it is part of the signature for symmetry and future-proofing.
