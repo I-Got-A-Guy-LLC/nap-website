@@ -51,8 +51,5 @@ export async function GET(request: Request) {
     return NextResponse.json({ post, sent: true, recipients });
   }
 
-  return new Response(post, {
-    status: 200,
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+  return NextResponse.json({ post, sent: false });
 }
