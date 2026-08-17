@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     description:
       "Find free weekly networking events across Middle Tennessee. Networking For Awesome People meets every week in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee.",
     url: "https://networkingforawesomepeople.com/events",
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/events",

@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     description:
       "Networking tips, community stories, and professional development advice from Networking For Awesome People  -  free weekly networking across Middle Tennessee.",
     url: "https://networkingforawesomepeople.com/blog",
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/blog",

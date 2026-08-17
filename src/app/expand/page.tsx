@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     description:
       "Networking For Awesome People is expanding to new cities. Join the waitlist to bring a free weekly NAP meeting to your community as a local chapter leader. Rachel reviews every submission.",
     url: "https://networkingforawesomepeople.com/expand",
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/expand",

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Get in touch with Networking For Awesome People  -  free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
     url: "https://networkingforawesomepeople.com/contact",
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/contact",

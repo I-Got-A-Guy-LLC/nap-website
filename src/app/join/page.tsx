@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Join the Networking For Awesome People business directory. Choose from three membership tiers  -  Linked (free), Connected ($300/yr), or Amplified ($500/yr)  -  and get found by Middle Tennessee professionals.",
     url: "https://networkingforawesomepeople.com/join",
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/join",

@@ -47,12 +47,21 @@ export const metadata: Metadata = {
     title: "Free Weekly Networking in Middle Tennessee | Networking For Awesome People",
     description:
       "Join free weekly business networking in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee. No fees, no contracts  -  build real relationships that generate referrals and partnerships.",
+    images: [
+      {
+        url: "/images/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Networking For Awesome People  -  free weekly meetings in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Free Weekly Networking in Middle Tennessee",
     description:
       "Join free weekly business networking across four Middle Tennessee cities. No fees, no contracts  -  just real professionals building real relationships.",
+    images: ["/images/og-default.jpg"],
   },
   robots: {
     index: true,

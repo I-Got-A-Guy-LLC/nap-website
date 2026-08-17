@@ -63,7 +63,7 @@ export async function generateMetadata({
 
   const baseUrl = "https://networkingforawesomepeople.com";
   const eventUrl = `${baseUrl}/events/${params.slug}`;
-  const imageUrl = event.image_url || `${baseUrl}/images/nap-logo.png`;
+  const imageUrl = event.image_url || `${baseUrl}/images/og-default.jpg`;
   const description = event.description || `${event.title}  -  ${event.event_date} at ${event.location_name || "TBD"}`;
 
   return {

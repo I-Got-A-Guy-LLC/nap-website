@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: "Business Directory | Networking For Awesome People",
     description: "Browse the Networking For Awesome People business directory. Find trusted professionals across Middle Tennessee.",
     url: "https://networkingforawesomepeople.com/directory",
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/directory",

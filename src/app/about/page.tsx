@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description:
       "Learn about Networking For Awesome People  -  a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
     url: "https://networkingforawesomepeople.com/about",
-    images: ["/images/hero-bg.png"],
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: "https://networkingforawesomepeople.com/about",

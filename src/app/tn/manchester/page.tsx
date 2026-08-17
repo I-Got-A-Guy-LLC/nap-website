@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     title: city.metaTitle,
     description: city.metaDescription,
     url: `https://networkingforawesomepeople.com/tn/${city.slug}`,
+    images: ["/images/og-default.jpg"],
   },
   alternates: {
     canonical: `https://networkingforawesomepeople.com/tn/${city.slug}`,
