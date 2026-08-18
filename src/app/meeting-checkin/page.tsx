@@ -65,12 +65,14 @@ interface SearchMember {
   business_name: string | null;
   listings: SearchListing[];
 }
-// A fully-resolved returning attendee: a specific member + a specific listing,
-// which together are what repeat_matched needs.
+// A resolved returning attendee: a specific member, plus their listing when they
+// have one. listing_id is null for a member with no directory listing — they
+// still check in as returning, and the business name falls back to their member
+// record.
 interface SelectedMatch {
   member_id: string;
   member_name: string;
-  listing_id: string;
+  listing_id: string | null;
   listing_business_name: string;
 }
 
@@ -355,13 +357,11 @@ function CheckInContent() {
       }
       const data = (await res.json()) as unknown;
       const members: SearchMember[] = Array.isArray(data) ? (data as SearchMember[]) : [];
-      // Only members with at least one directory listing can check in as a
-      // returning attendee: repeat_matched requires a listing_id. A matched
-      // member with no listing has no in-scope path here, so they fall through
-      // to the no-match flow (which routes them to First-Time Guest).
-      const matchable = members.filter((m) => Array.isArray(m.listings) && m.listings.length > 0);
-      setSearchResults(matchable);
-      if (matchable.length === 0) setShowNoMatch(true);
+      // A member with no directory listing still checks in as a returning
+      // attendee: listing_id is optional on repeat_matched. Only a genuinely
+      // empty search falls through to the no-match flow.
+      setSearchResults(members);
+      if (members.length === 0) setShowNoMatch(true);
     } catch {
       setSearchError("Couldn't run the search. Please try again.");
       setSearchResults(null);
@@ -371,9 +371,12 @@ function CheckInContent() {
   }
 
   function selectMember(member: SearchMember) {
+    // No listing → nothing to disambiguate, check in against the member alone.
     // Single listing → auto-select it and go straight to the answer step.
     // Multiple listings → let the member disambiguate first.
-    if (member.listings.length === 1) {
+    if (member.listings.length === 0) {
+      beginAnswer(member, null);
+    } else if (member.listings.length === 1) {
       beginAnswer(member, member.listings[0]);
     } else {
       setListingPickerMember(member);
@@ -385,12 +388,12 @@ function CheckInContent() {
     beginAnswer(member, listing);
   }
 
-  function beginAnswer(member: SearchMember, listing: SearchListing) {
+  function beginAnswer(member: SearchMember, listing: SearchListing | null) {
     setSelectedMatch({
       member_id: member.member_id,
       member_name: member.name ?? "",
-      listing_id: listing.id,
-      listing_business_name: listing.business_name ?? "",
+      listing_id: listing?.id ?? null,
+      listing_business_name: listing?.business_name ?? member.business_name ?? "",
     });
     setMatchAsk("");
     setMatchAnswer("");
@@ -434,7 +437,9 @@ function CheckInContent() {
           chapter_slug: chapter,
           meeting_date: meetingDate,
           member_id: selectedMatch.member_id,
-          listing_id: selectedMatch.listing_id,
+          // Omitted entirely when the member has no listing; the API treats an
+          // absent listing_id as "no listing" rather than a validation error.
+          ...(selectedMatch.listing_id ? { listing_id: selectedMatch.listing_id } : {}),
           ask_for_week: matchAsk.trim(),
           qotw_answer: matchAnswer.trim(),
         }),

@@ -171,7 +171,7 @@ type CheckinRow = {
 
 function resolveAttendee(
   row: CheckinRow,
-  memberById: Map<string, { full_name: string | null; tier: string | null; is_leadership: boolean }>,
+  memberById: Map<string, { full_name: string | null; business_name: string | null; tier: string | null; is_leadership: boolean }>,
   listingById: Map<string, { business_name: string | null }>,
 ): RecapAttendee {
   const ask = row.ask_for_week ?? "";
@@ -182,7 +182,9 @@ function resolveAttendee(
     const listing = row.listing_id ? listingById.get(row.listing_id) : undefined;
     return {
       name: member?.full_name ?? "(no name)",
-      business: listing?.business_name ?? "(no business listed)",
+      // A member with no directory listing falls back to the business name on
+      // their member record before the placeholder.
+      business: listing?.business_name ?? member?.business_name ?? "(no business listed)",
       ask,
       qotw,
       tier: member?.tier ?? null,
@@ -242,18 +244,23 @@ export async function buildRecapPost(
     new Set(rows.filter((r) => r.attendee_type === "repeat_matched" && r.listing_id).map((r) => r.listing_id as string)),
   );
 
-  const memberById = new Map<string, { full_name: string | null; tier: string | null; is_leadership: boolean }>();
+  const memberById = new Map<string, { full_name: string | null; business_name: string | null; tier: string | null; is_leadership: boolean }>();
   if (memberIds.length > 0) {
     const { data: members, error: memberErr } = await supabase
       .from("members")
-      .select("id, full_name, tier, is_leadership")
+      .select("id, full_name, business_name, tier, is_leadership")
       .in("id", memberIds);
     if (memberErr) {
       console.error("recap members query error:", memberErr);
       throw new Error("Failed to resolve members");
     }
     for (const m of members ?? []) {
-      memberById.set(m.id, { full_name: m.full_name, tier: m.tier, is_leadership: m.is_leadership });
+      memberById.set(m.id, {
+        full_name: m.full_name,
+        business_name: m.business_name,
+        tier: m.tier,
+        is_leadership: m.is_leadership,
+      });
     }
   }
 

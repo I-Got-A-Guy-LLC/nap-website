@@ -80,31 +80,38 @@ export async function POST(request: Request) {
   } else if (attendee_type === "repeat_matched") {
     const { member_id, listing_id, ask_for_week, qotw_answer } = body;
     if (!isNonEmptyString(member_id)) return bad("repeat_matched requires member_id");
-    if (!isNonEmptyString(listing_id)) return bad("repeat_matched requires listing_id");
     if (!isNonEmptyString(ask_for_week)) return bad("repeat_matched requires ask_for_week");
     if (!isNonEmptyString(qotw_answer)) return bad("repeat_matched requires qotw_answer");
+    // listing_id is optional: a member with no directory listing still checks in
+    // as a returning attendee, storing null. Present-but-malformed is still a
+    // client bug and is rejected rather than quietly dropped.
+    if (listing_id !== undefined && listing_id !== null && !isNonEmptyString(listing_id)) {
+      return bad("listing_id must be a non-empty string if provided");
+    }
 
     // Identity is never trusted from the client. Verify the listing exists and that
     // it belongs to the claimed member; name/business are derived from this match
     // (via the member_id FK), not accepted from the request body.
-    const { data: listing, error: lookupErr } = await supabase
-      .from("directory_listings")
-      .select("id, member_id")
-      .eq("id", listing_id)
-      .maybeSingle();
-    if (lookupErr) {
-      console.error("checkin match lookup error:", lookupErr);
-      return NextResponse.json({ error: "Lookup failed" }, { status: 500 });
+    if (isNonEmptyString(listing_id)) {
+      const { data: listing, error: lookupErr } = await supabase
+        .from("directory_listings")
+        .select("id, member_id")
+        .eq("id", listing_id)
+        .maybeSingle();
+      if (lookupErr) {
+        console.error("checkin match lookup error:", lookupErr);
+        return NextResponse.json({ error: "Lookup failed" }, { status: 500 });
+      }
+      if (!listing) return bad("listing_id does not exist");
+      if (listing.member_id !== member_id) return bad("listing_id does not belong to member_id");
     }
-    if (!listing) return bad("listing_id does not exist");
-    if (listing.member_id !== member_id) return bad("listing_id does not belong to member_id");
 
     row = {
       attendee_type,
       chapter_slug,
       meeting_date,
       member_id,
-      listing_id,
+      listing_id: isNonEmptyString(listing_id) ? listing_id : null,
       ask_for_week,
       qotw_answer,
     };
