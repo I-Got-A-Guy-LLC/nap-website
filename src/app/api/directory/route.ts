@@ -32,7 +32,16 @@ export async function GET(request: Request) {
   }
 
   if (category) {
-    query = query.eq("primary_category_id", category);
+    // The browse dropdown only offers main categories, but most listings sit on
+    // a subcategory, so an exact match hides them. Roll children up: selecting a
+    // main finds everything beneath it. Harmless when the selected category is
+    // itself a leaf -- the child lookup simply returns nothing.
+    const { data: children } = await supabase
+      .from("categories")
+      .select("id")
+      .eq("parent_id", category);
+    const categoryIds = [category, ...(children ?? []).map((c) => c.id)];
+    query = query.in("primary_category_id", categoryIds);
   }
 
   if (tier) {
