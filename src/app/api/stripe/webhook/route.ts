@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import crypto from "crypto";
 import {
   sendConnectedWelcome,
   sendAmplifiedWelcome,
@@ -15,6 +16,10 @@ import {
 } from "@/lib/emails";
 
 export const runtime = "nodejs";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://networkingforawesomepeople.com";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -280,7 +285,10 @@ export async function POST(request: Request) {
         const stripeCustomerId = session.customer as string;
         const stripeSubscriptionId = session.subscription as string;
 
-        const { data: member, error: memberError } = await supabase
+        // The upserted row itself is no longer needed now that the webhook does
+        // not create a listing, but .select().single() is kept so an upsert that
+        // matches zero or multiple rows still surfaces as an error.
+        const { error: memberError } = await supabase
           .from("members")
           .upsert(
             {
@@ -302,27 +310,37 @@ export async function POST(request: Request) {
           console.error("Error upserting member:", memberError);
         }
 
-        const isPaidTier = tier === "connected" || tier === "amplified";
-        const { error: listingError } = await supabase
-          .from("directory_listings")
-          .insert({
-            member_id: member?.id,
-            business_name: name,
-            contact_name: name,
-            contact_email: customerEmail,
-            city,
-            is_approved: isPaidTier,
-          });
+        // Mirror the admin welcome-invite path. Without a member_invites row the
+        // buyer has no password and cannot log in, so a welcome email would send
+        // them to a portal they cannot enter. If the invite fails we skip the
+        // email entirely rather than send a dead link: the member row is
+        // recoverable from admin via send-welcome-invite.
+        let setPasswordUrl: string | null = null;
+        if (customerEmail) {
+          const token = crypto.randomBytes(32).toString("hex").slice(0, 32);
+          const expiresAt = new Date(
+            Date.now() + 48 * 60 * 60 * 1000
+          ).toISOString();
 
-        if (listingError) {
-          console.error("Error creating directory listing:", listingError);
+          const { error: inviteError } = await supabase
+            .from("member_invites")
+            .insert({ email: customerEmail, token, expires_at: expiresAt });
+
+          if (inviteError) {
+            console.error(
+              "Error creating member invite, welcome email skipped:",
+              inviteError
+            );
+          } else {
+            setPasswordUrl = `${SITE_URL}/auth/set-password?token=${token}`;
+          }
         }
 
-        if (customerEmail) {
+        if (customerEmail && setPasswordUrl) {
           if (tier === "connected") {
-            await sendConnectedWelcome(customerEmail, name || "");
+            await sendConnectedWelcome(customerEmail, name || "", setPasswordUrl);
           } else if (tier === "amplified") {
-            await sendAmplifiedWelcome(customerEmail, name || "");
+            await sendAmplifiedWelcome(customerEmail, name || "", setPasswordUrl);
           }
         }
 

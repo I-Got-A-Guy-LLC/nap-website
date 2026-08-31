@@ -115,30 +115,40 @@ export async function sendPasswordReset(email: string, name: string, resetUrl: s
   });
 }
 
-export async function sendConnectedWelcome(email: string, name: string) {
+export async function sendConnectedWelcome(
+  email: string,
+  name: string,
+  setPasswordUrl: string
+) {
   await getResend().emails.send({
     from: FROM,
     to: email,
-    subject: "Welcome to Connected! Your listing is live.",
+    subject: "Welcome to Connected! Set up your account.",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to Connected, ${name}!</h2>
-      <p>Your Connected membership is active and your enhanced listing is live in the NAP directory.</p>
-      <p>You now have access to all Connected features including priority placement, enhanced profile options, and more.</p>
-      ${goldButton("https://networkingforawesomepeople.com/portal", "Go to Your Portal")}
+      <p>Your Connected membership is active. Set your password to log in, then create your directory listing from your portal.</p>
+      <p>Connected includes your logo, website link, referral form, and preferred Facebook mentions.</p>
+      ${goldButton(setPasswordUrl, "Set Up My Account")}
+      <p style="color:#888;font-size:13px;">This link expires in 48 hours. If it has expired, contact us and we will send a new one.</p>
     `),
   });
 }
 
-export async function sendAmplifiedWelcome(email: string, name: string) {
+export async function sendAmplifiedWelcome(
+  email: string,
+  name: string,
+  setPasswordUrl: string
+) {
   await getResend().emails.send({
     from: FROM,
     to: email,
-    subject: "Welcome to Amplified! Your listing is live.",
+    subject: "Welcome to Amplified! Set up your account.",
     html: emailWrapper(`
       <h2 style="margin:0 0 16px;color:#0a1628;">Welcome to Amplified, ${name}!</h2>
-      <p>Your Amplified membership is active  -  you now have the top-tier NAP experience.</p>
-      <p>Enjoy featured placement, maximum visibility, premium profile options, and everything NAP has to offer.</p>
-      ${goldButton("https://networkingforawesomepeople.com/portal", "Go to Your Portal")}
+      <p>Your Amplified membership is active. Set your password to log in, then create your directory listing from your portal.</p>
+      <p>Amplified includes photos, video, reviews, map placement, special offers, and monthly shoutouts.</p>
+      ${goldButton(setPasswordUrl, "Set Up My Account")}
+      <p style="color:#888;font-size:13px;">This link expires in 48 hours. If it has expired, contact us and we will send a new one.</p>
     `),
   });
 }
