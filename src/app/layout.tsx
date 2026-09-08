@@ -5,7 +5,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import NotificationBanner from "@/components/NotificationBanner";
-import ClosureBanner from "@/components/ClosureBanner";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const leagueSpartan = League_Spartan({
@@ -404,7 +403,6 @@ export default function RootLayout({
         <Providers>
           <Navigation />
           <NotificationBanner />
-          <ClosureBanner />
           <main id="main-content">{children}</main>
           <Footer />
           <ScrollToTop />
