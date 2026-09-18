@@ -151,5 +151,49 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to record check-in" }, { status: 500 });
   }
 
+  // A guest who ticked "It's okay to email me about upcoming meetings" has given
+  // consent, so record it where the mailing list actually reads from. Before
+  // this, consent_to_email was written to the checkins row and never read back
+  // by anything, so every yes was collected and discarded.
+  //
+  // Deliberately fire-and-forget: the check-in itself already succeeded and is
+  // the thing the attendee is waiting on. A failure here must not turn their
+  // successful check-in into an error, so it logs and moves on.
+  if (attendee_type === "first_time_guest" && row.consent_to_email === true) {
+    try {
+      const email = String(row.guest_email).trim().toLowerCase();
+      const { data: existing } = await supabase
+        .from("members")
+        .select("id, email_unsubscribed")
+        .eq("email", email)
+        .maybeSingle();
+
+      if (existing) {
+        // Never re-opt-in someone who deliberately unsubscribed. An unticked box
+        // is ambiguous, but an unsubscribe is an explicit act and outranks a
+        // check-in checkbox.
+        if (existing.email_unsubscribed !== true) {
+          await supabase
+            .from("members")
+            .update({ email_opted_in: true, opted_in_at: new Date().toISOString() })
+            .eq("id", existing.id);
+        }
+      } else {
+        await supabase.from("members").insert({
+          email,
+          full_name: row.guest_name,
+          business_name: row.guest_business_name,
+          city: chapter_slug,
+          tier: "linked",
+          email_opted_in: true,
+          opted_in_at: new Date().toISOString(),
+          signup_source: "checkin",
+        });
+      }
+    } catch (consentErr) {
+      console.error("checkin consent capture failed (check-in itself succeeded):", consentErr);
+    }
+  }
+
   return NextResponse.json({ id: inserted.id }, { status: 201 });
 }
