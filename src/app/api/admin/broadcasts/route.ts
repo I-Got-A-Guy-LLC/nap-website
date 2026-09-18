@@ -100,7 +100,12 @@ export async function POST(request: Request) {
 
   // Query members  -  exclude unsubscribed
   let query = supabase.from("members").select("email, full_name, unsubscribe_token")
-    .or("email_unsubscribed.is.null,email_unsubscribed.eq.false");
+    .or("email_unsubscribed.is.null,email_unsubscribed.eq.false")
+    // Never send to an address that has hard-bounced. Continuing to mail a dead
+    // address is what drives bounce rate up, and bounce rate is what moves mail
+    // from inboxes to spam folders for everyone else on the list. Complaints
+    // already set email_unsubscribed above, so this covers the bounce case.
+    .is("email_bounced_at", null);
 
   // Honour the per-category preference the member set in their portal. Without
   // this, switching "Community broadcasts" off in /portal saved correctly and
