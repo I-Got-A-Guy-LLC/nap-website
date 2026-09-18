@@ -68,6 +68,22 @@ export async function GET() {
   return NextResponse.json({ broadcasts: broadcasts || [] });
 }
 
+// Which portal notification preference governs each broadcast category. Keys
+// must match CATEGORIES in src/app/admin/broadcasts/page.tsx; values must match
+// PREFS in src/components/NotificationPreferences.tsx.
+//
+// An unmapped category sends to everyone who has not fully unsubscribed, so a
+// new category added to the compose form without a line here silently ignores
+// preferences. Keep this map in step with that list.
+const CATEGORY_PREFERENCE: Record<string, string> = {
+  "General Announcement": "notif_broadcasts",
+  "Event Reminder": "notif_events",
+  "New Member Welcome": "notif_broadcasts",
+  "City Update": "notif_broadcasts",
+  "Business Spotlight": "notif_broadcasts",
+  "Action Required": "notif_broadcasts",
+};
+
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
   if (!isSuperAdmin(session)) {
@@ -85,6 +101,16 @@ export async function POST(request: Request) {
   // Query members  -  exclude unsubscribed
   let query = supabase.from("members").select("email, full_name, unsubscribe_token")
     .or("email_unsubscribed.is.null,email_unsubscribed.eq.false");
+
+  // Honour the per-category preference the member set in their portal. Without
+  // this, switching "Community broadcasts" off in /portal saved correctly and
+  // then changed nothing: the only opt-out that worked was a full unsubscribe.
+  // NULL counts as opted in, matching the portal's own default (portal/page.tsx
+  // reads `member.notif_broadcasts ?? true`).
+  const prefColumn = CATEGORY_PREFERENCE[category];
+  if (prefColumn) {
+    query = query.or(`${prefColumn}.is.null,${prefColumn}.eq.true`);
+  }
 
   if (audience && audience !== "all") {
     query = query.ilike("city", audience);
