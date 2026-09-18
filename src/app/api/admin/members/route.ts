@@ -16,6 +16,12 @@ export async function GET(request: Request) {
     const city = searchParams.get("city");
     const status = searchParams.get("status");
     const search = searchParams.get("search");
+    // "member"     -> has a directory listing
+    // "subscriber" -> no listing; signed up for email only
+    // absent/"all" -> everyone
+    // Membership is derived from the listing join rather than stored, so a
+    // subscriber who gets a listing becomes a member here with nothing to sync.
+    const contactType = searchParams.get("contact_type");
 
     const supabase = getSupabaseAdmin();
     let query = supabase
@@ -40,7 +46,18 @@ export async function GET(request: Request) {
       );
     }
 
-    const { data: members, error } = await query;
+    const { data: membersRaw, error } = await query;
+
+    // Filter on the derived membership after the fetch. PostgREST cannot express
+    // "has at least one related row" as a filter on the parent without an inner
+    // join, and an inner join here would drop the very subscribers this page now
+    // needs to show.
+    const members =
+      contactType === "member"
+        ? (membersRaw ?? []).filter((m) => (m.directory_listings?.length ?? 0) > 0)
+        : contactType === "subscriber"
+          ? (membersRaw ?? []).filter((m) => (m.directory_listings?.length ?? 0) === 0)
+          : membersRaw;
 
     if (error) {
       console.error("Members fetch error:", error);

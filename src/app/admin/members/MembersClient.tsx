@@ -23,8 +23,19 @@ interface Member {
   is_nap_verified: boolean;
   is_leadership: boolean;
   is_comped: boolean;
+  signup_source: string | null;
+  email_opted_in: boolean | null;
   directory_listings?: ListingInfo[];
 }
+
+// How each contact first reached the list. Written once at creation and never
+// updated, so it is history rather than current state.
+const SOURCE_LABEL: Record<string, string> = {
+  newsletter: "Banner",
+  checkin: "Check-in",
+  checkout: "Purchase",
+  admin: "Added by admin",
+};
 
 export default function MembersClient() {
   const [members, setMembers] = useState<Member[]>([]);
@@ -33,6 +44,10 @@ export default function MembersClient() {
   const [tierFilter, setTierFilter] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  // Defaults to "member" so this page keeps meaning what it always meant. Email
+  // subscribers live in the same table but are not members, and showing them by
+  // default would make the list misleading.
+  const [contactType, setContactType] = useState("member");
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Add member form state
@@ -49,7 +64,7 @@ export default function MembersClient() {
 
   useEffect(() => {
     fetchMembers();
-  }, [tierFilter, cityFilter, statusFilter, search]);
+  }, [tierFilter, cityFilter, statusFilter, contactType, search]);
 
   async function fetchMembers() {
     setLoading(true);
@@ -58,6 +73,7 @@ export default function MembersClient() {
     if (tierFilter) params.set("tier", tierFilter);
     if (cityFilter) params.set("city", cityFilter);
     if (statusFilter) params.set("status", statusFilter);
+    if (contactType) params.set("contact_type", contactType);
 
     const res = await fetch(`/api/admin/members?${params.toString()}`);
     if (res.ok) {
@@ -143,6 +159,11 @@ export default function MembersClient() {
           placeholder="Search name or email..."
           className="border rounded-lg px-3 py-2 text-sm w-64"
         />
+        <select value={contactType} onChange={(e) => setContactType(e.target.value)} className="border rounded-lg px-3 py-2 text-sm font-semibold">
+          <option value="member">Members (has listing)</option>
+          <option value="subscriber">Email subscribers only</option>
+          <option value="">All contacts</option>
+        </select>
         <select value={tierFilter} onChange={(e) => setTierFilter(e.target.value)} className="border rounded-lg px-3 py-2 text-sm">
           <option value="">All Tiers</option>
           <option value="linked">Linked</option>
@@ -258,6 +279,8 @@ export default function MembersClient() {
                   <th className="px-4 py-3 text-left font-medium">Tier</th>
                   <th className="px-4 py-3 text-left font-medium">Status</th>
                   <th className="px-4 py-3 text-left font-medium">Listing(s)</th>
+                  <th className="px-4 py-3 text-left font-medium">Source</th>
+                  <th className="px-4 py-3 text-left font-medium">Email list</th>
                   <th className="px-4 py-3 text-left font-medium">Verified</th>
                 </tr>
               </thead>
@@ -296,6 +319,16 @@ export default function MembersClient() {
                         </div>
                       ) : (
                         <span className="text-gray-300 text-xs">None</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-gray-900">
+                      {m.signup_source ? (SOURCE_LABEL[m.signup_source] ?? m.signup_source) : " - "}
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      {m.email_opted_in ? (
+                        <span className="text-green-700 font-medium">Opted in</span>
+                      ) : (
+                        <span className="text-gray-400">No</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-center">
