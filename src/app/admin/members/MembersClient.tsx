@@ -25,6 +25,8 @@ interface Member {
   is_comped: boolean;
   signup_source: string | null;
   email_opted_in: boolean | null;
+  phone: string | null;
+  tags: string[] | null;
   directory_listings?: ListingInfo[];
 }
 
@@ -37,6 +39,13 @@ const SOURCE_LABEL: Record<string, string> = {
   admin: "Added by admin",
 };
 
+// Quote every field and escape embedded quotes. Business names and asks contain
+// commas often enough that skipping this produces a file that opens misaligned.
+function csvCell(v: unknown): string {
+  const s = v === null || v === undefined ? "" : String(v);
+  return `"${s.replace(/"/g, '""')}"`;
+}
+
 export default function MembersClient() {
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +57,8 @@ export default function MembersClient() {
   // subscribers live in the same table but are not members, and showing them by
   // default would make the list misleading.
   const [contactType, setContactType] = useState("member");
+  const [tagFilter, setTagFilter] = useState("");
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Add member form state
@@ -64,7 +75,7 @@ export default function MembersClient() {
 
   useEffect(() => {
     fetchMembers();
-  }, [tierFilter, cityFilter, statusFilter, contactType, search]);
+  }, [tierFilter, cityFilter, statusFilter, contactType, tagFilter, search]);
 
   async function fetchMembers() {
     setLoading(true);
@@ -74,13 +85,56 @@ export default function MembersClient() {
     if (cityFilter) params.set("city", cityFilter);
     if (statusFilter) params.set("status", statusFilter);
     if (contactType) params.set("contact_type", contactType);
+    if (tagFilter) params.set("tag", tagFilter);
 
     const res = await fetch(`/api/admin/members?${params.toString()}`);
     if (res.ok) {
       const data = await res.json();
       setMembers(data.members || []);
+      setAvailableTags(data.availableTags || []);
     }
     setLoading(false);
+  }
+
+  // Exports exactly what is on screen, so the filters above decide the contents.
+  // Built client side from data already loaded rather than as a second endpoint.
+  function exportCsv() {
+    const headers = [
+      "Name",
+      "Business",
+      "Email",
+      "Phone",
+      "City",
+      "Tier",
+      "Source",
+      "Opted in",
+      "Tags",
+    ];
+    const rows = members.map((m) =>
+      [
+        m.full_name,
+        m.business_name ?? "",
+        m.email,
+        m.phone ?? "",
+        m.city ?? "",
+        m.tier,
+        m.signup_source ? (SOURCE_LABEL[m.signup_source] ?? m.signup_source) : "",
+        m.email_opted_in ? "yes" : "no",
+        (m.tags ?? []).join(" | "),
+      ].map(csvCell).join(",")
+    );
+
+    // BOM so Excel opens UTF-8 correctly; without it accented names mangle.
+    const csv = "﻿" + [headers.map(csvCell).join(","), ...rows].join("\r\n");
+    const stamp = new Date().toISOString().slice(0, 10);
+    const label = tagFilter || contactType || "all";
+
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `nap-${label}-${stamp}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   async function handleAddMember(e: React.FormEvent) {
@@ -182,7 +236,23 @@ export default function MembersClient() {
           <option value="active">Active</option>
           <option value="canceled">Canceled</option>
         </select>
+        {availableTags.length > 0 && (
+          <select value={tagFilter} onChange={(e) => setTagFilter(e.target.value)} className="border rounded-lg px-3 py-2 text-sm">
+            <option value="">All Tags</option>
+            {availableTags.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        )}
         <div className="flex-1" />
+        <button
+          onClick={exportCsv}
+          disabled={members.length === 0}
+          title="Downloads exactly the rows shown, using the filters above"
+          className="border-2 border-navy text-navy font-bold px-4 py-2 rounded-full text-sm hover:bg-navy/5 transition-colors disabled:opacity-40"
+        >
+          Export CSV ({members.length})
+        </button>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="bg-gold text-navy font-bold px-5 py-2 rounded-full text-sm hover:bg-gold/90 transition-colors"

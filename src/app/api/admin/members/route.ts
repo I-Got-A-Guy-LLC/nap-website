@@ -22,6 +22,8 @@ export async function GET(request: Request) {
     // Membership is derived from the listing join rather than stored, so a
     // subscriber who gets a listing becomes a member here with nothing to sync.
     const contactType = searchParams.get("contact_type");
+    // Campaign tag, e.g. "depot-days-2026". Matched with array containment.
+    const tag = searchParams.get("tag");
 
     const supabase = getSupabaseAdmin();
     let query = supabase
@@ -45,6 +47,9 @@ export async function GET(request: Request) {
         `full_name.ilike.%${search}%,email.ilike.%${search}%`
       );
     }
+    if (tag) {
+      query = query.contains("tags", [tag]);
+    }
 
     const { data: membersRaw, error } = await query;
 
@@ -67,7 +72,18 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json({ members: members || [] });
+    // Every tag in use, so the filter dropdown populates itself as new campaigns
+    // are added rather than needing a hardcoded list. Queried separately because
+    // the main query above may already be filtered by tag.
+    const { data: tagRows } = await supabase
+      .from("members")
+      .select("tags")
+      .not("tags", "is", null);
+    const availableTags = Array.from(
+      new Set((tagRows ?? []).flatMap((r) => (Array.isArray(r.tags) ? r.tags : [])))
+    ).sort();
+
+    return NextResponse.json({ members: members || [], availableTags });
   } catch (error) {
     console.error("Members GET error:", error);
     return NextResponse.json(
