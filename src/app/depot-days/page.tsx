@@ -28,11 +28,12 @@ export default function DepotDaysPage() {
             Depot Days &middot; Smyrna, Tennessee
           </p>
           <h1 className="font-heading text-3xl sm:text-5xl font-bold text-white leading-tight mb-4">
-            Win our gift basket
+            Enter to win
           </h1>
           <p className="text-white/80 text-base sm:text-lg leading-relaxed">
-            A $25 gift card from Networking For Awesome People and a $25 gift card from Introverts
-            Welcome, plus swag donated by our members. Enter below, then come find us at the booth.
+            Five prizes, including a $25 gift card from Networking For Awesome People and a $25 gift
+            card from Introverts Welcome, plus items from local Smyrna businesses. Winners are drawn
+            at random and notified by email.
           </p>
         </div>
       </section>
@@ -42,7 +43,7 @@ export default function DepotDaysPage() {
         <div className="max-w-[640px] mx-auto">
           <DepotDaysForm />
           <p className="text-center text-navy/70 text-sm mt-5">
-            Our booth is sponsored by{" "}
+            Come find the SNAP chapter booth, hosted by{" "}
             <span className="font-bold text-navy">Tree Ring Legal</span>
           </p>
         </div>
@@ -76,9 +77,13 @@ export default function DepotDaysPage() {
               <div className="flex gap-3">
                 <dt className="text-navy/60 w-20 flex-shrink-0">What</dt>
                 <dd className="text-navy">
-                  100+ local vendors, artisans and food trucks, live music, a beer garden, and a Kids
-                  Zone with free inflatables.
+                  Free admission. 100+ local vendors, artisans and food trucks, live music, a beer
+                  garden, and a Kids Zone with free inflatables.
                 </dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="text-navy/60 w-20 flex-shrink-0">Host</dt>
+                <dd className="text-navy">Smyrna Independent Merchants Association</dd>
               </div>
             </dl>
           </div>

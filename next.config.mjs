@@ -20,6 +20,11 @@ const nextConfig = {
       { source: "/directory/TN/615-insurance-agency-", destination: "/directory/TN/615-insurance-agency", permanent: true },
       { source: "/directory/TN/benchmark-realty-", destination: "/directory/TN/benchmark-realty", permanent: true },
       { source: "/directory/TN/juiceplus-", destination: "/directory/TN/juiceplus", permanent: true },
+
+      // The giveaway page lives at the short path because it is printed under a
+      // QR code at the booth. This catches the longer /events/ form if it gets
+      // shared or typed.
+      { source: "/events/depot-days", destination: "/depot-days", permanent: false },
     ];
   },
 };
