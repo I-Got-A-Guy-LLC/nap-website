@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import DepotDaysForm from "@/components/DepotDaysForm";
 
@@ -38,14 +39,35 @@ export default function DepotDaysPage() {
         </div>
       </section>
 
+      {/* Booth host credit. Sits on white rather than in the navy hero because
+          the Tree Ring mark is black and would disappear against it. */}
+      <section className="bg-white px-4 py-5 border-b border-gray-100">
+        <div className="max-w-[640px] mx-auto flex items-center justify-center gap-3 text-center">
+          <Image
+            src="/images/supporters/ring-tree-legal.png"
+            alt="Tree Ring Legal"
+            width={48}
+            height={48}
+            className="flex-shrink-0"
+          />
+          <p className="text-navy text-sm sm:text-base leading-snug text-left">
+            Our SNAP chapter booth is hosted by{" "}
+            <a
+              href="https://treeringlegal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-navy underline decoration-gold decoration-2 underline-offset-2"
+            >
+              Tree Ring Legal
+            </a>
+          </p>
+        </div>
+      </section>
+
       {/* Form */}
       <section className="px-4 py-10 sm:py-14">
         <div className="max-w-[640px] mx-auto">
           <DepotDaysForm />
-          <p className="text-center text-navy/70 text-sm mt-5">
-            Come find the SNAP chapter booth, hosted by{" "}
-            <span className="font-bold text-navy">Tree Ring Legal</span>
-          </p>
         </div>
       </section>
 

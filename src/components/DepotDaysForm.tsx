@@ -206,8 +206,7 @@ export default function DepotDaysForm() {
           className="mt-1 h-5 w-5 flex-shrink-0 accent-gold"
         />
         <span className="text-sm text-navy leading-relaxed">
-          Also send me free weekly meeting updates and community news from Networking For Awesome
-          People. <span className="text-navy/60">Optional, and you can unsubscribe any time.</span>
+          Yes, I&apos;d like to receive NAP chapter updates and announcements
         </span>
       </label>
 
@@ -225,9 +224,9 @@ export default function DepotDaysForm() {
         {submitting ? "Entering..." : "Enter to win"}
       </button>
 
-      <p className="text-navy/60 text-xs text-center">
-        No purchase necessary. We&apos;ll only contact you about the prize unless you tick the box
-        above.
+      <p className="text-navy/60 text-xs text-center leading-relaxed">
+        No purchase necessary. If you win, we&apos;ll contact you at the email provided to notify
+        you of your prize. We&apos;ll announce the winner by Monday.
       </p>
     </form>
   );
