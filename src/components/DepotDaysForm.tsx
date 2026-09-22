@@ -226,7 +226,7 @@ export default function DepotDaysForm() {
 
       <p className="text-navy/60 text-xs text-center leading-relaxed">
         No purchase necessary. If you win, we&apos;ll contact you at the email provided to notify
-        you of your prize. We&apos;ll announce the winner by Monday.
+        you of your prize. We&apos;ll announce the winners by Monday.
       </p>
     </form>
   );
