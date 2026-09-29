@@ -99,7 +99,9 @@ export async function POST(request: Request) {
   const supabase = getSupabaseAdmin();
 
   // Query members  -  exclude unsubscribed
-  let query = supabase.from("members").select("email, full_name, unsubscribe_token")
+  let query = supabase
+    .from("members")
+    .select("email, full_name, unsubscribe_token, email_opted_in, directory_listings(id)")
     .or("email_unsubscribed.is.null,email_unsubscribed.eq.false")
     // Never send to an address that has hard-bounced. Continuing to mail a dead
     // address is what drives bounce rate up, and bounce rate is what moves mail
@@ -121,7 +123,26 @@ export async function POST(request: Request) {
     query = query.ilike("city", audience);
   }
 
-  const { data: members, error: membersError } = await query;
+  const { data: membersRaw, error: membersError } = await query;
+
+  // A contact must have a REASON to be receiving this. Two qualify:
+  //
+  //   a directory listing  -> they joined NAP, the relationship is the consent
+  //   email_opted_in       -> they actively asked to hear from us
+  //
+  // Anyone with neither never agreed to anything. Before the Depot Days form
+  // that group was empty, so the absence of this check never showed. That form
+  // introduced people who entered a prize draw and deliberately left the email
+  // box unticked; without this they would have received marketing anyway,
+  // because notif_broadcasts defaults to true at the database level and so
+  // carries no information about what they actually chose.
+  //
+  // Applied after the fetch because "has at least one related row" is not
+  // expressible as a PostgREST filter on the parent without an inner join, and
+  // an inner join would drop every subscriber.
+  const members = (membersRaw ?? []).filter(
+    (m) => (m.directory_listings?.length ?? 0) > 0 || m.email_opted_in === true
+  );
 
   if (membersError) {
     console.error("Broadcast members query error:", membersError);
