@@ -11,6 +11,7 @@ const links = [
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/reviews", label: "Reviews" },
   { href: "/admin/broadcasts", label: "Broadcasts" },
+  { href: "/admin/checkin-codes", label: "QR Codes" },
 ];
 
 export default function AdminNav() {
