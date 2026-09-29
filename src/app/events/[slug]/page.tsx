@@ -282,12 +282,16 @@ export default async function EventDetailPage({
         </section>
       )}
 
-      {/* Ticket Purchase */}
-      {!event.is_free && (
+      {/* Ticket Purchase.
+          Free events are included deliberately. TicketPurchase already has a
+          full free-claim path (name, email, phone, no Stripe), but this section
+          used to be hidden whenever is_free was true, so that path was
+          unreachable and a free event could not collect a headcount at all. */}
+      {(
         <section className="bg-white py-16 px-4">
           <div className="max-w-[500px] mx-auto">
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-8 text-center">
-              Get Your Tickets
+              {event.is_free ? "Claim Your Free Ticket" : "Get Your Tickets"}
             </h2>
             <TicketPurchase
               eventId={event.id}
