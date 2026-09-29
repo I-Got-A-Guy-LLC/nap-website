@@ -105,9 +105,16 @@ export default async function EventDetailPage({
 
   if (!event) notFound();
 
-  // Range Night 2026 shows both paid and invoiced sponsors; other events show paid only.
+  // Show sponsors who owe nothing: either they have paid, or no payment was ever
+  // expected. "not_applicable" is how an in-kind sponsor is recorded, and without
+  // it they are invisible on the page they are sponsoring.
+  //
+  // "invoiced" means billed but not yet settled, so it stays excluded. Range
+  // Night 2026 is a deliberate exception carried over from that event.
   const sponsorStatusFilter =
-    event.slug === "range-night-2026" ? ["paid", "invoiced"] : ["paid"];
+    event.slug === "range-night-2026"
+      ? ["paid", "invoiced", "not_applicable"]
+      : ["paid", "not_applicable"];
   const { data: sponsors } = await supabase
     .from("event_sponsors")
     .select("*")
