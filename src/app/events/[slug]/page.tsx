@@ -181,6 +181,30 @@ export default async function EventDetailPage({
         </div>
       </section>
 
+      {/* Ticket Purchase.
+          Placed directly under the capacity counter rather than near the foot of
+          the page: the hero states the price and the spots remaining, so the way
+          to act on that should be the next thing seen, not four sections later.
+
+          Free events are included deliberately. TicketPurchase already has a
+          full free-claim path (name, email, phone, no Stripe), but this section
+          used to be hidden whenever is_free was true, so that path was
+          unreachable and a free event could not collect a headcount at all. */}
+      <section className="bg-white pb-16 px-4">
+        <div className="max-w-[500px] mx-auto">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-8 text-center">
+            {event.is_free ? "Claim Your Free Ticket" : "Get Your Tickets"}
+          </h2>
+          <TicketPurchase
+            eventId={event.id}
+            slug={event.slug}
+            ticketPrice={event.ticket_price}
+            spotsRemaining={spotsRemaining}
+            isSoldOut={isSoldOut}
+          />
+        </div>
+      </section>
+
       {/* What's Included */}
       {includedItems.length > 0 && (
         <section className="bg-[#F8F9FA] py-16 px-4">
@@ -278,28 +302,6 @@ export default async function EventDetailPage({
                 Become a Sponsor →
               </Link>
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Ticket Purchase.
-          Free events are included deliberately. TicketPurchase already has a
-          full free-claim path (name, email, phone, no Stripe), but this section
-          used to be hidden whenever is_free was true, so that path was
-          unreachable and a free event could not collect a headcount at all. */}
-      {(
-        <section className="bg-white py-16 px-4">
-          <div className="max-w-[500px] mx-auto">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-8 text-center">
-              {event.is_free ? "Claim Your Free Ticket" : "Get Your Tickets"}
-            </h2>
-            <TicketPurchase
-              eventId={event.id}
-              slug={event.slug}
-              ticketPrice={event.ticket_price}
-              spotsRemaining={spotsRemaining}
-              isSoldOut={isSoldOut}
-            />
           </div>
         </section>
       )}
