@@ -258,10 +258,9 @@ export default async function EventDetailPage({
                     {group.map((s: any) => (
                       <div key={s.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center w-[250px]">
                         {s.logo_url ? (
+                          // h-[72px] rather than h-12: the card is wide enough that
+                          // object-contain will not shrink a landscape logo back down.
                           // eslint-disable-next-line @next/next/no-img-element
-                          {/* h-[72px] rather than h-12: the card is wide enough that
-                              object-contain will not shrink a landscape logo back
-                              down to fit. */}
                           <img src={s.logo_url} alt={`${s.sponsor_business || s.sponsor_name} logo`} className="h-[72px] mx-auto mb-3 object-contain" />
                         ) : (
                           <div className="w-12 h-12 rounded-full bg-gray-100 mx-auto mb-3 flex items-center justify-center">
