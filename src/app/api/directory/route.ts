@@ -48,7 +48,7 @@ export async function GET(request: Request) {
   }
 
   if (tier) {
-    query = query.eq("members.tier", tier);
+    query = query.eq("tier", tier);
   }
 
   // Deliberately NOT paginated at the database. Tier ranking and the city rule
@@ -65,21 +65,38 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Failed to fetch listings" }, { status: 500 });
   }
 
+  // Tier belongs to the LISTING, not the person, because pricing is per
+  // business. Someone with two businesses can hold Amplified on one and Linked
+  // on the other. members.tier remains as a fallback for any row created before
+  // the column existed.
+  const tierOf = (l: any): string => l?.tier ?? l?.members?.tier ?? "linked";
+
   // Amplified and Connected are network-wide: they appear under every city
   // filter, not just their own chapter. Linked stays chapter-scoped.
   const NETWORK_WIDE_TIERS = ["amplified", "connected"];
   const visible = (listings || []).filter((l: any) => {
     if (!city) return true;
-    if (NETWORK_WIDE_TIERS.includes(l.members?.tier)) return true;
+    if (NETWORK_WIDE_TIERS.includes(tierOf(l))) return true;
     return l.city === city;
   });
 
-  // Enforce tier priority: leadership/amplified (0) > connected (1) > linked (2)
-  // Alphabetical by business_name within each group.
+  // Enforce tier priority: amplified (0) > connected (1) > linked (2),
+  // alphabetical within each group.
+  //
+  // Leadership grants top placement only on an Amplified listing. It used to
+  // apply to the person, which meant a comped volunteer's second business got
+  // premium placement for free off the back of their leadership role. The
+  // benefit belongs to the one business they nominate, not to everything they
+  // own.
+  const priority = (l: any): number => {
+    const t = tierOf(l);
+    if (t === "amplified") return 0;
+    if (t === "connected") return 1;
+    return 2;
+  };
   const sorted = visible.sort((a: any, b: any) => {
-    const aPriority = a.members?.is_leadership || a.members?.tier === "amplified" ? 0 : (a.members?.tier === "connected" ? 1 : 2);
-    const bPriority = b.members?.is_leadership || b.members?.tier === "amplified" ? 0 : (b.members?.tier === "connected" ? 1 : 2);
-    if (aPriority !== bPriority) return aPriority - bPriority;
+    const diff = priority(a) - priority(b);
+    if (diff !== 0) return diff;
     return (a.business_name || "").localeCompare(b.business_name || "");
   });
 
