@@ -25,6 +25,10 @@ const nextConfig = {
       // QR code at the booth. This catches the longer /events/ form if it gets
       // shared or typed.
       { source: "/events/depot-days", destination: "/depot-days", permanent: false },
+
+      // Slug tidied after the duplicate Crimson Security record was removed.
+      { source: "/directory/TN/faith-and-grace-flooring--9gtv", destination: "/directory/TN/faith-and-grace-flooring", permanent: true },
+      { source: "/directory/TN/juiceplus-t9lo", destination: "/directory/TN/juiceplus", permanent: true },
     ];
   },
 };
