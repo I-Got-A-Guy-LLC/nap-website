@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PhotoCropModal from "@/components/PhotoCropModal";
+import { slugify } from "@/lib/slug";
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -460,9 +461,7 @@ function EditListingContent() {
   /* ---------------------------------------------------------------- */
 
   // Build listing URL using state/slug format
-  const listingSlug = businessName
-    ? businessName.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-")
-    : null;
+  const listingSlug = businessName ? slugify(businessName) : null;
   const listingState = (addressState || "tn").toLowerCase();
   const listingUrl = listingId && listingSlug
     ? `https://networkingforawesomepeople.com/directory/${listingState}/${listingSlug}`

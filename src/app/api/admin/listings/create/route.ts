@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { slugify, cleanBusinessName } from "@/lib/slug";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -40,18 +41,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "This member already has a listing" }, { status: 409 });
   }
 
-  // Generate slug
-  const slug = businessName
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+  // Shared with the portal save path. The old inline version here had no
+  // .trim() at all, so a name with a trailing space produced a slug ending in
+  // a hyphen.
+  const cleanName = cleanBusinessName(businessName);
+  const slug = slugify(cleanName);
 
   const { data: listing, error } = await supabase
     .from("directory_listings")
     .insert({
       member_id: memberId,
-      business_name: businessName,
+      business_name: cleanName,
       contact_name: member.full_name,
       contact_email: member.email,
       city: city || null,

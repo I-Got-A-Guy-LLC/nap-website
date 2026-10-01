@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { slugify } from "@/lib/slug";
 
 interface Member {
   id: string;
@@ -426,9 +427,7 @@ function ListingSection({ member, listing }: { member: Member; listing: Listing 
     setCreating(false);
   };
 
-  const listingSlug = listing?.business_name
-    ? listing.business_name.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-")
-    : null;
+  const listingSlug = listing?.business_name ? slugify(listing.business_name) : null;
 
   return (
     <div className="bg-white rounded-xl shadow p-6">

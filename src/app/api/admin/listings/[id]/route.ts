@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { slugify, cleanBusinessName } from "@/lib/slug";
 
 export async function GET(
   _request: Request,
@@ -67,14 +68,15 @@ export async function PATCH(
   if (body.website_url) body.website_url = normalizeUrl(body.website_url);
   if (body.logo_url) body.logo_url = normalizeUrl(body.logo_url);
 
+  // Normalise before anything derives from it, so an edit cannot reintroduce
+  // the trailing whitespace this was cleaned up for.
+  if (typeof body.business_name === "string") {
+    body.business_name = cleanBusinessName(body.business_name);
+  }
+
   // Auto-generate slug if business_name changed
   if (body.business_name && !body.slug) {
-    const baseSlug = body.business_name
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .trim();
+    const baseSlug = slugify(body.business_name);
     const state = body.listing_state || "TN";
     const { data: existing } = await supabase
       .from("directory_listings")

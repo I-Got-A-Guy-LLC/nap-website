@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { slugify, cleanBusinessName } from "@/lib/slug";
 import { notifyCategorySuggestion, sendCategorySuggestionReceived } from "@/lib/emails";
 
 // GET  -  Fetch current member's listing(s) + categories for the edit form
@@ -149,14 +150,16 @@ export async function PATCH(request: Request) {
       body.address = parts.join(", ");
     }
 
+    // Normalise the stored name first, so the slug and the displayed name are
+    // derived from the same clean string. Previously the raw value was stored
+    // and the slug trimmed too late to help.
+    if (typeof body.business_name === "string") {
+      body.business_name = cleanBusinessName(body.business_name);
+    }
+
     // Auto-generate slug from business_name
     if (body.business_name && !body.slug) {
-      const baseSlug = body.business_name
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim();
+      const baseSlug = slugify(body.business_name);
       // Check uniqueness
       const state = body.listing_state || "TN";
       const { data: existing } = await supabase

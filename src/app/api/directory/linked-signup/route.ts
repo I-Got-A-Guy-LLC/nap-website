@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { slugify, cleanBusinessName } from "@/lib/slug";
 import { sendLinkedWelcome, notifyNewLinkedListing } from "@/lib/emails";
 
 export async function POST(request: Request) {
@@ -29,6 +30,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "An account with this email already exists. Please log in instead." }, { status: 409 });
     }
 
+    // Normalise once, then use for both the member record and the listing, so
+    // the two can never disagree about the business name.
+    const cleanName = cleanBusinessName(business);
+
     // Hash password
     const passwordHash = await bcrypt.hash(password, 12);
 
@@ -39,7 +44,7 @@ export async function POST(request: Request) {
         email: normalizedEmail,
         full_name: name,
         phone: phone || null,
-        business_name: business,
+        business_name: cleanName,
         city,
         tier: "linked",
         subscription_status: "active",
@@ -54,13 +59,10 @@ export async function POST(request: Request) {
     }
     const memberId = newMember.id;
 
-    // Auto-generate slug from business name
-    const baseSlug = business
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .trim();
+    // Auto-generate slug from business name. Third copy of this logic before it
+    // was shared; all three trimmed after converting spaces to hyphens, which is
+    // too late to remove a trailing space.
+    const baseSlug = slugify(cleanName);
     const { data: slugExists } = await supabase
       .from("directory_listings")
       .select("slug")
@@ -71,7 +73,7 @@ export async function POST(request: Request) {
     // Create directory listing (pending approval)
     const { error: listingError } = await supabase.from("directory_listings").insert({
       member_id: memberId,
-      business_name: business,
+      business_name: cleanName,
       contact_name: name,
       contact_email: email,
       contact_phone: phone || null,
