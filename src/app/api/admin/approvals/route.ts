@@ -52,12 +52,9 @@ export async function POST(request: Request) {
         listing.contact_name
       );
 
-      // Create admin notification
-      await supabase.from("admin_notifications").insert({
-        type: "listing_approved",
-        reference_id: listingId,
-        message: `Listing approved: ${listing.business_name}`,
-      });
+      // Deliberately no admin notification here. This fires when an admin
+      // approves a listing, so it only ever tells them something they just did.
+      // It had grown to 71 of 141 rows and buried everything that mattered.
     } else {
       // Reject
       await supabase

@@ -88,12 +88,11 @@ export async function POST(request: Request) {
       console.error("Listing creation error:", listingError);
     }
 
-    // Create admin notification
-    await supabase.from("admin_notifications").insert({
-      type: "new_linked",
-      reference_id: memberId,
-      message: `New Linked listing: ${business} by ${name} (${city})`,
-    });
+    // Deliberately no admin notification here. The listing is created with
+    // approval_status "pending", and the admin dashboard already shows a live
+    // pending-approvals count linking to /admin/approvals. That counter is the
+    // better signal: it drops back to zero once the queue is cleared, whereas a
+    // notification persists forever. This type had reached 65 rows.
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://networkingforawesomepeople.com";
     const loginUrl = `${baseUrl}/login`;
