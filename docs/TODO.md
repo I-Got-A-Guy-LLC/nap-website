@@ -83,9 +83,32 @@ gaps remain before the model is enforced end to end.
 
 ## Checkout
 
+- **BLOCKS EVERYTHING BELOW: confirm the four price IDs exist in Vercel.**
+  Check Settings, Environment Variables, Production, for:
+  `NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_ANNUAL`,
+  `NEXT_PUBLIC_STRIPE_PRICE_CONNECTED_MONTHLY`,
+  `NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_ANNUAL`,
+  `NEXT_PUBLIC_STRIPE_PRICE_AMPLIFIED_MONTHLY`.
+  All four are present in local `.env.local` and can be copied from there.
+
+  This cannot be checked from outside the dashboard. `NEXT_PUBLIC_` values are
+  inlined into the browser bundle at build time, so they are normally visible in
+  the shipped JavaScript, but nothing in `src/` references them any more: the
+  July disable commit removed every use. Their absence from the live bundle
+  therefore proves nothing either way.
+
+  If they are missing and the checkout buttons are restored, every button fails
+  with "Checkout is not yet configured. Please contact us to get started."
+  That is indistinguishable from a broken button, and is the same failure
+  recorded in CLAUDE.md from May 2026.
+
 - **`checkout-test` branch is stashed, not merged.** Restores the Stripe
   checkout handler and Get Started buttons on `/join`. Diff was reviewed and the
   build passed. Paid tiers currently route to `/contact?interest=<tier>`.
+
+  Note the restore also brings back the promo-code input, because
+  `handleCheckout` passes `couponCode` to the checkout route. Removing it means
+  editing the handler rather than restoring it cleanly.
 
 - **`billing_interval` mismatch.** `PricingCards.tsx` writes `"annual"`;
   `admin/page.tsx` reads `"year"` for its MRR calculation. Every annual buyer
