@@ -5,6 +5,32 @@ Nothing here is urgent unless marked.
 
 ---
 
+## Listing tiers
+
+Pricing is per business listing, not per person. `directory_listings.tier` now
+exists and the directory ranks on it, with `members.tier` as a fallback. Two
+gaps remain before the model is enforced end to end.
+
+- **Nothing sets `directory_listings.tier` when a listing is created.** The
+  portal save, admin create, and Linked signup routes all leave it NULL, so new
+  listings fall back to the owner's member tier. That is the old behaviour by
+  another name: a Connected member creating a second business would get
+  Connected placement on it for free. Each creation path should set the tier
+  explicitly, defaulting to `linked`.
+
+- **Stripe still writes `members.tier`.** `checkout.session.completed` in
+  `src/app/api/stripe/webhook/route.ts` upgrades the member record. If someone
+  buys Connected for their second business, it would upgrade the person and
+  therefore every listing they own that has no explicit tier. The purchase needs
+  to carry a listing id and set the tier on that listing instead. This matters
+  most when self-serve checkout is re-enabled, which is when it would first fire
+  for real.
+
+  Related: a comped leader gets their volunteer benefit on ONE nominated
+  listing. Additional businesses default to `linked` unless paid for. Kayce
+  Broach is the current example: KK Fitness Training is Amplified, Keystone
+  Hormones is Linked.
+
 ## Check-in
 
 - **Per-chapter check-in tokens.** All four chapters currently share one
