@@ -164,11 +164,17 @@ export async function PATCH(request: Request) {
       const state = body.listing_state || "TN";
       const { data: existing } = await supabase
         .from("directory_listings")
-        .select("slug")
+        .select("id, slug")
         .eq("listing_state", state)
         .eq("slug", baseSlug)
         .maybeSingle();
-      body.slug = existing ? `${baseSlug}-${Date.now().toString(36).slice(-4)}` : baseSlug;
+      // The row being edited must not count as a collision with itself. Without
+      // this check, every re-save of an unchanged business name found its own
+      // row, assumed the slug was taken, and appended a random suffix. That is
+      // where slugs like "inforule-social-media-o4os" came from, and the suffix
+      // grew worse on each subsequent edit.
+      const collides = existing && existing.id !== targetListingId;
+      body.slug = collides ? `${baseSlug}-${Date.now().toString(36).slice(-4)}` : baseSlug;
     }
 
     console.log("[listing] Save payload keys:", Object.keys(body).join(", "));
