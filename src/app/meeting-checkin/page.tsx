@@ -116,11 +116,12 @@ function CheckInContent() {
   const token = params.get("token");
 
   const [screen, setScreen] = useState<Screen>("chooser");
-  // The attendee_type of the just-submitted check-in, captured when the screen
-  // flips to "done" so the confirmation copy can differ for a matched member.
-  const [doneAttendeeType, setDoneAttendeeType] = useState<
-    "first_time_guest" | "repeat_matched" | null
-  >(null);
+  // Whether the person who just checked in has a directory listing. Drives the
+  // closing prompt: anyone without one is asked to create a free listing,
+  // whether they are a first-time guest or a regular who never made one.
+  // This replaced a flag on attendee_type, which congratulated every known
+  // member regardless of whether they were actually in the directory.
+  const [doneHasListing, setDoneHasListing] = useState(false);
   const [form, setForm] = useState<Record<TextField, string>>(EMPTY_FORM);
   const [consent, setConsent] = useState(false);
   // Per-field validation messages, shown inline beneath each input.
@@ -234,7 +235,7 @@ function CheckInContent() {
     setMatchAsk("");
     setMatchAnswer("");
     setMatchErrors({});
-    setDoneAttendeeType(null);
+    setDoneHasListing(false);
     setScreen("chooser");
   }
 
@@ -296,7 +297,7 @@ function CheckInContent() {
           consent_to_email: consent,
         }),
       });
-      handleCheckinResponse(response.status, "first_time_guest");
+      handleCheckinResponse(response.status, false);
     } catch {
       // Network failure, DNS, offline — never surface the raw error.
       setError("Couldn't reach check-in. Please try again.");
@@ -307,12 +308,9 @@ function CheckInContent() {
 
   // Shared response mapping for both attendee types — the status handling is
   // identical, so the guest and returning submits funnel through here.
-  function handleCheckinResponse(
-    status: number,
-    submittedType: "first_time_guest" | "repeat_matched",
-  ) {
+  function handleCheckinResponse(status: number, hasListing = false) {
     if (status === 201) {
-      setDoneAttendeeType(submittedType);
+      setDoneHasListing(hasListing);
       setScreen("done");
       return;
     }
@@ -444,7 +442,10 @@ function CheckInContent() {
           qotw_answer: matchAnswer.trim(),
         }),
       });
-      handleCheckinResponse(response.status, "repeat_matched");
+      // A matched member only counts as listed if a listing was actually
+      // attached to this check-in. selectedMatch.listing_id is null for members
+      // who have no listing, which is precisely who we want to prompt.
+      handleCheckinResponse(response.status, Boolean(selectedMatch.listing_id));
     } catch {
       setError("Couldn't reach check-in. Please try again.");
     } finally {
@@ -814,20 +815,30 @@ function CheckInContent() {
               Grab a seat, meet someone new, and enjoy the meeting.
             </p>
 
-            {doneAttendeeType === "repeat_matched" ? (
+            {/* The prompt is driven by whether they have a directory listing,
+                not by whether we already knew them. A regular who has attended
+                for months but never created a listing is exactly the person to
+                ask, and the old version congratulated them instead and said
+                nothing. doneHasListing is false for guests and for any matched
+                member who checked in without a listing attached. */}
+            {doneHasListing ? (
               <p className="mb-4 text-base font-semibold text-navy">
                 Go Be Awesome!
               </p>
             ) : (
               <>
-                <p className="mb-4 text-base font-semibold text-navy">
-                  Don&apos;t forget to add your business to our directory
+                <p className="mb-2 text-base font-semibold text-navy">
+                  You&apos;re not in our directory yet
+                </p>
+                <p className="mb-4 text-sm leading-relaxed text-navy/70">
+                  A basic listing is free, and it is how people find you between
+                  meetings.
                 </p>
                 <Link
                   href="/join"
                   className="flex w-full min-h-[56px] items-center justify-center rounded-full bg-navy px-6 py-4 text-lg font-bold text-white transition-all hover:bg-navy/90"
                 >
-                  Add my business
+                  Add my business for free
                 </Link>
               </>
             )}
