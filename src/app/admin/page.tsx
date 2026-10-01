@@ -76,16 +76,21 @@ export default async function AdminDashboard() {
     .eq("is_approved", false)
     .eq("approval_status", "pending");
 
-  // Unread notifications
+  // Unread notifications. Cleared ones are excluded everywhere on this page:
+  // the point of clearing is that it disappears from the screen you see after
+  // logging in. They remain in the database and are recoverable from the
+  // Archived filter on /admin/notifications.
   const { count: unreadCount } = await supabase
     .from("admin_notifications")
     .select("id", { count: "exact", head: true })
-    .eq("is_read", false);
+    .eq("is_read", false)
+    .is("archived_at", null);
 
   // Recent notifications
   const { data: notifications } = await supabase
     .from("admin_notifications")
     .select("*")
+    .is("archived_at", null)
     .order("created_at", { ascending: false })
     .limit(20);
 

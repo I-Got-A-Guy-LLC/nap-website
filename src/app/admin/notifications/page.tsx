@@ -41,7 +41,7 @@ export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "unread" | "read">("all");
+  const [filter, setFilter] = useState<"all" | "unread" | "read" | "archived">("all");
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const fetchNotifications = useCallback(async () => {
@@ -76,6 +76,41 @@ export default function NotificationsPage() {
       body: JSON.stringify({ ids, action: "mark_read" }),
     });
     fetchNotifications();
+  };
+
+  // Clearing sets a timestamp rather than deleting, so anything cleared by
+  // mistake can be restored from the Archived filter.
+  const clearSelected = async (ids: string[]) => {
+    await fetch("/api/admin/notifications", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, action: "clear" }),
+    });
+    setSelected(new Set());
+    fetchNotifications();
+    router.refresh();
+  };
+
+  const unclearSelected = async (ids: string[]) => {
+    await fetch("/api/admin/notifications", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids, action: "unclear" }),
+    });
+    setSelected(new Set());
+    fetchNotifications();
+    router.refresh();
+  };
+
+  const clearAllRead = async () => {
+    await fetch("/api/admin/notifications", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "clear_all_read" }),
+    });
+    setSelected(new Set());
+    fetchNotifications();
+    router.refresh();
   };
 
   const markUnread = async (ids: string[]) => {
@@ -131,17 +166,26 @@ export default function NotificationsPage() {
               {total} total{filter === "all" && unreadCount > 0 ? ` \u00B7 ${unreadCount} unread` : ""}
             </p>
           </div>
-          <button
-            onClick={markAllRead}
-            className="bg-[#1F3149] text-white font-bold px-5 py-2.5 rounded-full text-sm hover:bg-[#2a4060] transition"
-          >
-            Mark All Read
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={markAllRead}
+              className="bg-white text-[#1F3149] border border-gray-200 font-bold px-5 py-2.5 rounded-full text-sm hover:bg-gray-50 transition"
+            >
+              Mark All Read
+            </button>
+            <button
+              onClick={clearAllRead}
+              title="Hides everything already read. Unread notifications are left alone."
+              className="bg-[#1F3149] text-white font-bold px-5 py-2.5 rounded-full text-sm hover:bg-[#2a4060] transition"
+            >
+              Clear Read
+            </button>
+          </div>
         </div>
 
         {/* Filters */}
         <div className="flex items-center gap-2 mb-4">
-          {(["all", "unread", "read"] as const).map((f) => (
+          {(["all", "unread", "read", "archived"] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -174,6 +218,21 @@ export default function NotificationsPage() {
             >
               Mark Unread
             </button>
+            {filter === "archived" ? (
+              <button
+                onClick={() => unclearSelected(Array.from(selected))}
+                className="text-sm font-bold text-blue-700 hover:underline"
+              >
+                Restore
+              </button>
+            ) : (
+              <button
+                onClick={() => clearSelected(Array.from(selected))}
+                className="text-sm font-bold text-blue-700 hover:underline"
+              >
+                Clear
+              </button>
+            )}
           </div>
         )}
 
