@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { verifyTurnstile, callerIp } from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 
@@ -13,31 +14,6 @@ const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function bad(message: string) {
   return NextResponse.json({ error: message }, { status: 400 });
-}
-
-// Cloudflare Turnstile. Fails closed: if TURNSTILE_SECRET_KEY is unset, no
-// submission is accepted. A prize form with no bot check is considerably more
-// attractive to bots than a plain newsletter box, and the newsletter box
-// collected ten in three weeks.
-async function verifyTurnstile(token: unknown, ip: string | null): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret || typeof token !== "string" || token.length === 0) return false;
-
-  const body = new URLSearchParams({ secret, response: token });
-  if (ip) body.set("remoteip", ip);
-
-  try {
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body,
-    });
-    const data = (await res.json()) as { success?: boolean };
-    return data.success === true;
-  } catch (err) {
-    console.error("turnstile verify failed:", err);
-    return false;
-  }
 }
 
 export async function POST(request: Request) {
@@ -59,12 +35,7 @@ export async function POST(request: Request) {
   if (!EMAIL_SHAPE.test(email)) return bad("Enter a valid email address");
   if (phone.replace(/\D/g, "").length < 10) return bad("Enter a valid phone number");
 
-  const ip =
-    request.headers.get("cf-connecting-ip") ??
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    null;
-
-  if (!(await verifyTurnstile(body.turnstile_token, ip))) {
+  if (!(await verifyTurnstile(body.turnstile_token, callerIp(request)))) {
     return NextResponse.json(
       { error: "Could not verify you are human. Please try again." },
       { status: 400 }
