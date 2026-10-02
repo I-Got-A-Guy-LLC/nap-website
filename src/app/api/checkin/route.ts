@@ -77,6 +77,45 @@ export async function POST(request: Request) {
       qotw_answer,
       consent_to_email: consent_to_email === true,
     };
+
+    // A real member who tapped the wrong button still gets recognised.
+    //
+    // The chooser screen offers First-Time Guest first, and people in a hurry
+    // take it: 30 existing members with directory listings have checked in this
+    // way, including two chapter leaders. A guest row carries no member_id, so
+    // the recap has nothing to read a tier or a leadership flag from, and they
+    // land in Attendees with no badge.
+    //
+    // Email is unique on members, so the link is recoverable here. Deliberately
+    // limited to people with a LISTING or a LEADERSHIP flag: a newsletter or
+    // event subscriber turning up for the first time genuinely is a new guest,
+    // and must still reach the chapter leaders through the guest-handoff cron,
+    // which selects on attendee_type = first_time_guest.
+    const email = String(guest_email).trim().toLowerCase();
+    const { data: known } = await supabase
+      .from("members")
+      .select("id, is_leadership, directory_listings(id)")
+      .eq("email", email)
+      .maybeSingle();
+
+    const isRealMember =
+      known && (known.is_leadership === true || (known.directory_listings?.length ?? 0) > 0);
+
+    if (isRealMember) {
+      const listings = known.directory_listings ?? [];
+      row = {
+        attendee_type: "repeat_matched",
+        chapter_slug,
+        meeting_date,
+        member_id: known.id,
+        // Only auto-attach when there is exactly one. With several we cannot
+        // know which business they meant, and a wrong one is worse than none:
+        // the recap falls back to their member business_name.
+        listing_id: listings.length === 1 ? listings[0].id : null,
+        ask_for_week,
+        qotw_answer,
+      };
+    }
   } else if (attendee_type === "repeat_matched") {
     const { member_id, listing_id, ask_for_week, qotw_answer } = body;
     if (!isNonEmptyString(member_id)) return bad("repeat_matched requires member_id");
@@ -159,9 +198,12 @@ export async function POST(request: Request) {
   // Deliberately fire-and-forget: the check-in itself already succeeded and is
   // the thing the attendee is waiting on. A failure here must not turn their
   // successful check-in into an error, so it logs and moves on.
-  if (attendee_type === "first_time_guest" && row.consent_to_email === true) {
+  // Read from the submitted body rather than `row`: a guest who turned out to be
+  // an existing member has had `row` rebuilt as a repeat_matched check-in, so the
+  // guest fields are no longer on it. Their consent still counts.
+  if (attendee_type === "first_time_guest" && body.consent_to_email === true) {
     try {
-      const email = String(row.guest_email).trim().toLowerCase();
+      const email = String(body.guest_email).trim().toLowerCase();
       const { data: existing } = await supabase
         .from("members")
         .select("id, email_unsubscribed")
@@ -181,8 +223,8 @@ export async function POST(request: Request) {
       } else {
         await supabase.from("members").insert({
           email,
-          full_name: row.guest_name,
-          business_name: row.guest_business_name,
+          full_name: body.guest_name,
+          business_name: body.guest_business_name,
           city: chapter_slug,
           tier: "linked",
           email_opted_in: true,
