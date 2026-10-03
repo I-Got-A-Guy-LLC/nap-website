@@ -22,6 +22,32 @@ export async function GET(request: Request) {
     compReminders30: 0,
     compExpired: 0,
     compGraceEnded: 0,
+    skippedBounced: 0,
+  };
+
+  // Addresses that have hard-bounced. Mailing a dead address repeatedly drives
+  // the bounce rate up, and bounce rate is what pushes everything else into spam
+  // folders.
+  //
+  // Deliberately a guard on the SEND, not a filter on the queries below. Two of
+  // those queries also change state: one clears is_comped when a comp expires,
+  // the other downgrades the tier when the grace period ends. Filtering at the
+  // query would mean a member with a bad email address silently keeps their comp
+  // forever. The state change must still happen; only the email is skipped.
+  const { data: bouncedRows } = await supabase
+    .from("members")
+    .select("email")
+    .not("email_bounced_at", "is", null);
+  const bounced = new Set(
+    (bouncedRows ?? []).map((r) => String(r.email).toLowerCase())
+  );
+  const canEmail = (email: string | null | undefined): boolean => {
+    if (!email) return false;
+    if (bounced.has(email.toLowerCase())) {
+      results.skippedBounced++;
+      return false;
+    }
+    return true;
   };
 
   // Helper to get date range for a specific day offset
@@ -47,7 +73,7 @@ export async function GET(request: Request) {
     .eq("subscription_status", "active");
 
   for (const m of thirtyDayMembers || []) {
-    await sendRenewalReminder30(m.email, m.full_name, m.current_period_end);
+    if (canEmail(m.email)) await sendRenewalReminder30(m.email, m.full_name, m.current_period_end);
     results.renewalReminders30++;
   }
 
@@ -61,7 +87,7 @@ export async function GET(request: Request) {
     .eq("subscription_status", "active");
 
   for (const m of sevenDayMembers || []) {
-    await sendRenewalReminder7(m.email, m.full_name, m.current_period_end);
+    if (canEmail(m.email)) await sendRenewalReminder7(m.email, m.full_name, m.current_period_end);
     results.renewalReminders7++;
   }
 
@@ -78,7 +104,7 @@ export async function GET(request: Request) {
     .lte("comp_expires_at", compThirty.end);
 
   for (const m of compThirtyMembers || []) {
-    await sendCompExpiryReminder30(m.email, m.full_name, m.tier, m.comp_expires_at);
+    if (canEmail(m.email)) await sendCompExpiryReminder30(m.email, m.full_name, m.tier, m.comp_expires_at);
     await supabase.from("admin_notifications").insert({
       type: "comp_expiring",
       reference_id: m.id,
@@ -98,7 +124,9 @@ export async function GET(request: Request) {
     .lte("comp_expires_at", compToday.end);
 
   for (const m of compTodayMembers || []) {
-    await sendCompExpiryNotice(m.email, m.full_name, m.tier);
+    // The is_comped update below still runs for a bounced address; only the
+    // email is skipped.
+    if (canEmail(m.email)) await sendCompExpiryNotice(m.email, m.full_name, m.tier);
     await supabase
       .from("members")
       .update({ is_comped: false })
@@ -130,7 +158,8 @@ export async function GET(request: Request) {
         .from("members")
         .update({ tier: "linked" })
         .eq("id", m.id);
-      await sendCompGracePeriodEnd(m.email, m.full_name, oldTier);
+      // The tier downgrade above still applies for a bounced address.
+      if (canEmail(m.email)) await sendCompGracePeriodEnd(m.email, m.full_name, oldTier);
       await supabase.from("admin_notifications").insert({
         type: "comp_grace_ended",
         reference_id: m.id,
