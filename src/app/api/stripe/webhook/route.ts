@@ -285,6 +285,27 @@ export async function POST(request: Request) {
         const stripeCustomerId = session.customer as string;
         const stripeSubscriptionId = session.subscription as string;
 
+        // The checkout session carries only the subscription id, not its dates,
+        // so fetch the subscription to get the renewal date. Without this a new
+        // subscriber has no current_period_end until their first renewal, which
+        // is exactly when the reminder was supposed to warn them.
+        //
+        // Wrapped: a failure here must not lose the purchase. The member record
+        // still gets created, and customer.subscription.updated fills the date
+        // in later.
+        let currentPeriodEnd: string | null = null;
+        if (stripeSubscriptionId) {
+          try {
+            const sub = await stripe().subscriptions.retrieve(stripeSubscriptionId);
+            const periodEnd = (sub as { current_period_end?: number }).current_period_end;
+            if (typeof periodEnd === "number") {
+              currentPeriodEnd = new Date(periodEnd * 1000).toISOString();
+            }
+          } catch (err) {
+            console.error("Could not retrieve subscription for period end:", err);
+          }
+        }
+
         // The upserted row itself is no longer needed now that the webhook does
         // not create a listing, but .select().single() is kept so an upsert that
         // matches zero or multiple rows still surfaces as an error.
@@ -300,6 +321,7 @@ export async function POST(request: Request) {
               stripe_subscription_id: stripeSubscriptionId,
               subscription_status: "active",
               billing_interval: billingInterval,
+              ...(currentPeriodEnd ? { current_period_end: currentPeriodEnd } : {}),
             },
             { onConflict: "email" }
           )
@@ -351,12 +373,23 @@ export async function POST(request: Request) {
         const subscription = event.data.object;
         const { tier } = subscription.metadata || {};
 
+        // current_period_end is the ONLY thing the renewal reminder cron filters
+        // on. Nothing wrote it before, so that cron has been running daily and
+        // matching zero rows: no member has ever received a 30-day or 7-day
+        // notice. Stripe sends the value on this event as a Unix timestamp.
+        const periodEnd = (subscription as { current_period_end?: number }).current_period_end;
+
+        const update: Record<string, unknown> = {
+          tier,
+          subscription_status: subscription.status,
+        };
+        if (typeof periodEnd === "number") {
+          update.current_period_end = new Date(periodEnd * 1000).toISOString();
+        }
+
         const { error } = await supabase
           .from("members")
-          .update({
-            tier,
-            subscription_status: subscription.status,
-          })
+          .update(update)
           .eq("stripe_subscription_id", subscription.id);
 
         if (error) {
