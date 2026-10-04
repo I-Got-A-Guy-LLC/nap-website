@@ -48,7 +48,14 @@ function mainCategoryOf(listing: any): { name: string; slug: string } | null {
 // Awesome People" template, which adds 32 characters and would both blow the
 // budget and brand the page twice.
 const TITLE_SUFFIX = " | NAP Directory";
+// Everything fits: the ideal, nothing is truncated.
 const TITLE_MAX = 60;
+// Name and city only. Allowed to run past the visible cutoff because what gets
+// cut is the trailing branding, not information. Dropping the city outright to
+// stay under 60 traded a possible truncation of " | NAP Directory" for a certain
+// loss of the city, and that affected 18 of 71 listings, most of them by a
+// handful of characters.
+const TITLE_MAX_WITH_CITY = 78;
 
 function listingTitle(listing: any): string {
   const name = listing.business_name || "Listing";
@@ -60,7 +67,7 @@ function listingTitle(listing: any): string {
   if (full.length <= TITLE_MAX) return full;
 
   const noCat = `${name} in ${where}${TITLE_SUFFIX}`;
-  if (noCat.length <= TITLE_MAX) return noCat;
+  if (noCat.length <= TITLE_MAX_WITH_CITY) return noCat;
 
   return `${name}${TITLE_SUFFIX}`;
 }
