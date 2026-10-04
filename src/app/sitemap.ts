@@ -42,6 +42,50 @@ async function listingEntries(baseUrl: string): Promise<MetadataRoute.Sitemap> {
   }
 }
 
+async function categoryEntries(baseUrl: string): Promise<MetadataRoute.Sitemap> {
+  // Main categories only, matching the pages that exist. These rank for the
+  // category searches people actually type, and they are the crawlable path to
+  // every listing.
+  try {
+    const supabase = getSupabaseAdmin();
+    const [{ data: cats, error }, { data: live }] = await Promise.all([
+      supabase.from("categories").select("id, slug, parent_id").eq("is_active", true),
+      supabase
+        .from("directory_listings")
+        .select("primary_category_id")
+        .eq("is_approved", true)
+        .eq("is_active", true)
+        .not("primary_category_id", "is", null),
+    ]);
+
+    if (error) {
+      console.error("sitemap: category fetch failed:", error.message);
+      return [];
+    }
+
+    const all = cats ?? [];
+    const used = new Set((live ?? []).map((l) => l.primary_category_id));
+    // Only submit a category that has something on it, rolling subcategories up
+    // the way the page itself does. An empty category page is a thin page, and
+    // submitting thin pages is what we were avoiding by holding the listings
+    // back until they had descriptions.
+    const populated = (id: string) =>
+      used.has(id) || all.some((c) => c.parent_id === id && used.has(c.id));
+
+    return all
+      .filter((c) => c.parent_id === null && c.slug && c.slug !== "other" && populated(c.id))
+      .map((c) => ({
+        url: `${baseUrl}/directory/category/${c.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.75,
+      }));
+  } catch (err) {
+    console.error("sitemap: category fetch threw:", err);
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://networkingforawesomepeople.com";
 
@@ -52,7 +96,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const listings = await listingEntries(baseUrl);
+  const [categories, listings] = await Promise.all([
+    categoryEntries(baseUrl),
+    listingEntries(baseUrl),
+  ]);
 
   return [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
@@ -65,6 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
     ...blogPosts,
     { url: `${baseUrl}/directory`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
+    ...categories,
     ...listings,
     { url: `${baseUrl}/join`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },

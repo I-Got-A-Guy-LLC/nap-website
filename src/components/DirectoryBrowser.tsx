@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { clampLinkedDescription } from "@/lib/listingLimits";
 import Link from "next/link";
 
 interface Category {
@@ -22,6 +23,7 @@ interface Listing {
   business_name: string;
   slug?: string;
   listing_state?: string;
+  tier?: string | null;
   tagline?: string;
   description?: string;
   contact_name: string;
@@ -205,8 +207,13 @@ export default function DirectoryBrowser() {
           <div className="divide-y divide-gray-100">
             {listings.map((listing) => {
               const member = getMemberInfo(listing);
-              const isTop = member.is_leadership || member.tier === "amplified";
-              const isConnected = member.tier === "connected";
+              // Tier comes from the listing, not the member. Reading member.tier
+              // badged a leader's secondary linked listing as NAP Leader and
+              // styled it as Amplified.
+              const tier = listing.tier ?? member.tier ?? "linked";
+              const isTop = tier === "amplified";
+              const isConnected = tier === "connected";
+              const isLeader = member.is_leadership && tier === "amplified";
               const catName = getCategoryName(listing);
               const listingUrl = listing.slug
                 ? `/directory/${(listing.listing_state || "tn").toLowerCase()}/${listing.slug}`
@@ -241,18 +248,18 @@ export default function DirectoryBrowser() {
                           {listing.business_name}
                         </h3>
                       </Link>
-                      {member.is_leadership && (
+                      {isLeader && (
                         <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full bg-[#FBC761] text-[#1F3149]">
                           <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                           NAP Leader
                         </span>
                       )}
-                      {!member.is_leadership && member.tier === "amplified" && (
+                      {!isLeader && isTop && (
                         <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: "#FE6651", color: "#ffffff" }}>
                           Amplified
                         </span>
                       )}
-                      {!member.is_leadership && member.tier === "connected" && (
+                      {!isLeader && isConnected && (
                         <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: "#F5BE61", color: "#1F3149" }}>
                           Connected
                         </span>
@@ -267,8 +274,10 @@ export default function DirectoryBrowser() {
                       <p className="text-navy/40 text-xs mt-0.5">{catName}</p>
                     )}
 
-                    {listing.description && (isTop || isConnected) && (
-                      <p className="text-navy/70 text-sm mt-2 line-clamp-2">{listing.description}</p>
+                    {listing.description && (
+                      <p className="text-navy/70 text-sm mt-2 line-clamp-2">
+                        {isTop || isConnected ? listing.description : clampLinkedDescription(listing.description)}
+                      </p>
                     )}
 
                     {listing.city && (

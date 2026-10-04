@@ -27,6 +27,19 @@ function safeCategoryName(listing: any): string {
   } catch { return ""; }
 }
 
+// Only main categories have landing pages, so a listing filed under a
+// subcategory links up to its parent. This is the listing's inbound link from
+// the only crawlable browse surface the directory has.
+function mainCategoryOf(listing: any): { name: string; slug: string } | null {
+  try {
+    const c = Array.isArray(listing?.categories) ? listing.categories[0] : listing?.categories;
+    if (!c) return null;
+    const p = Array.isArray(c.parent) ? c.parent[0] : c.parent;
+    if (p?.slug) return { name: p.name, slug: p.slug };
+    return c.slug ? { name: c.name, slug: c.slug } : null;
+  } catch { return null; }
+}
+
 function toEmbedUrl(url: string): string {
   // youtu.be/ID or youtu.be/ID?si=...
   const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
@@ -54,7 +67,7 @@ async function getListing(state: string, slug: string) {
   if (uuidPattern.test(state)) {
     const { data } = await supabase
       .from("directory_listings")
-      .select(`*, members(id, full_name, email, tier, is_leadership, leadership_city, is_nap_verified), categories:primary_category_id(name, slug)`)
+      .select(`*, members(id, full_name, email, tier, is_leadership, leadership_city, is_nap_verified), categories:primary_category_id(name, slug, parent_id, parent:parent_id(name, slug))`)
       .eq("id", state)
       .maybeSingle();
     return data;
@@ -63,7 +76,7 @@ async function getListing(state: string, slug: string) {
   // Try by state + slug
   const { data } = await supabase
     .from("directory_listings")
-    .select(`*, members(id, full_name, email, tier, is_leadership, leadership_city, is_nap_verified), categories:primary_category_id(name, slug)`)
+    .select(`*, members(id, full_name, email, tier, is_leadership, leadership_city, is_nap_verified), categories:primary_category_id(name, slug, parent_id, parent:parent_id(name, slug))`)
     .eq("listing_state", state.toUpperCase())
     .eq("slug", slug)
     .maybeSingle();
@@ -72,7 +85,7 @@ async function getListing(state: string, slug: string) {
   // Fallback: try slug alone (in case state is wrong)
   const { data: bySlug } = await supabase
     .from("directory_listings")
-    .select(`*, members(id, full_name, email, tier, is_leadership, leadership_city, is_nap_verified), categories:primary_category_id(name, slug)`)
+    .select(`*, members(id, full_name, email, tier, is_leadership, leadership_city, is_nap_verified), categories:primary_category_id(name, slug, parent_id, parent:parent_id(name, slug))`)
     .eq("slug", slug)
     .maybeSingle();
   return bySlug;
@@ -130,6 +143,7 @@ export default async function DirectoryListingPage({ params }: { params: { state
   const isAmplified = tier === "amplified";
   const isConnected = tier === "connected" || isAmplified;
   const catName = safeCategoryName(listing);
+  const mainCat = mainCategoryOf(listing);
   const totalReviews = reviews.length;
   const avgRating = totalReviews > 0 ? reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / totalReviews : 0;
 
@@ -228,7 +242,13 @@ export default async function DirectoryListingPage({ params }: { params: { state
               </div>
               {isConnected && listing.tagline && <p className="text-white text-lg italic mb-2">{listing.tagline}</p>}
               <div className="flex items-center gap-4 text-white text-sm flex-wrap">
-                {catName && <span>{catName}</span>}
+                {mainCat ? (
+                  <Link href={`/directory/category/${mainCat.slug}`} className="text-white underline hover:text-gold">
+                    {catName || mainCat.name}
+                  </Link>
+                ) : (
+                  catName && <span>{catName}</span>
+                )}
                 {listing.city && <span className="capitalize">{listing.city}</span>}
                 {isAmplified && totalReviews > 0 && <span className="text-white">{"★".repeat(Math.round(avgRating))}{"☆".repeat(5 - Math.round(avgRating))} ({totalReviews})</span>}
               </div>

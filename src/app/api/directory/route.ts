@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { rankListings, visibleInCity } from "@/lib/directoryRanking";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -65,40 +66,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Failed to fetch listings" }, { status: 500 });
   }
 
-  // Tier belongs to the LISTING, not the person, because pricing is per
-  // business. Someone with two businesses can hold Amplified on one and Linked
-  // on the other. members.tier remains as a fallback for any row created before
-  // the column existed.
-  const tierOf = (l: any): string => l?.tier ?? l?.members?.tier ?? "linked";
-
-  // Amplified and Connected are network-wide: they appear under every city
-  // filter, not just their own chapter. Linked stays chapter-scoped.
-  const NETWORK_WIDE_TIERS = ["amplified", "connected"];
-  const visible = (listings || []).filter((l: any) => {
-    if (!city) return true;
-    if (NETWORK_WIDE_TIERS.includes(tierOf(l))) return true;
-    return l.city === city;
-  });
-
-  // Enforce tier priority: amplified (0) > connected (1) > linked (2),
-  // alphabetical within each group.
-  //
-  // Leadership grants top placement only on an Amplified listing. It used to
-  // apply to the person, which meant a comped volunteer's second business got
-  // premium placement for free off the back of their leadership role. The
-  // benefit belongs to the one business they nominate, not to everything they
-  // own.
-  const priority = (l: any): number => {
-    const t = tierOf(l);
-    if (t === "amplified") return 0;
-    if (t === "connected") return 1;
-    return 2;
-  };
-  const sorted = visible.sort((a: any, b: any) => {
-    const diff = priority(a) - priority(b);
-    if (diff !== 0) return diff;
-    return (a.business_name || "").localeCompare(b.business_name || "");
-  });
+  // Tier, the city rule and the ranking all live in src/lib/directoryRanking.ts
+  // so the category landing pages rank identically. A business must not change
+  // position depending on which surface you reached it through.
+  const visible = visibleInCity(listings || [], city);
+  const sorted = rankListings(visible);
 
   // Paginate last, so page 1 is the top of the ranking rather than the top of
   // the alphabet.

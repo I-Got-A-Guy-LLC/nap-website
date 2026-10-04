@@ -1,5 +1,24 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import DirectoryBrowser from "@/components/DirectoryBrowser";
+import { getSupabaseAdmin } from "@/lib/supabase";
+
+// The browse list itself is a client component, so a crawler sees an empty shell
+// here. The server rendered category links below are the only crawlable path
+// into the directory, and they give every listing an inbound link by way of its
+// category page.
+export const revalidate = 3600;
+
+async function getMainCategories() {
+  const supabase = getSupabaseAdmin();
+  const { data } = await supabase
+    .from("categories")
+    .select("name, slug")
+    .is("parent_id", null)
+    .eq("is_active", true)
+    .order("sort_order");
+  return (data ?? []).filter((c) => c.slug && c.slug !== "other");
+}
 
 export const metadata: Metadata = {
   title: "Business Directory | Networking For Awesome People",
@@ -16,7 +35,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DirectoryPage() {
+export default async function DirectoryPage() {
+  const categories = await getMainCategories();
   return (
     <>
       <section className="bg-navy py-16 md:py-24 px-4">
@@ -29,6 +49,25 @@ export default function DirectoryPage() {
           </p>
         </div>
       </section>
+
+      {categories.length > 0 && (
+        <section className="bg-white pt-10 md:pt-14 px-4">
+          <div className="w-[90%] max-w-[1200px] mx-auto">
+            <h2 className="font-heading text-xl font-bold text-navy mb-4">Browse by category</h2>
+            <nav className="flex flex-wrap gap-2" aria-label="Directory categories">
+              {categories.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/directory/category/${c.slug}`}
+                  className="px-3 py-1.5 rounded-full bg-gray-100 text-navy text-sm hover:bg-gold/20 transition-colors"
+                >
+                  {c.name}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </section>
+      )}
 
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[1200px] mx-auto">
