@@ -6,10 +6,14 @@ import { sendLinkedWelcome, notifyNewLinkedListing } from "@/lib/emails";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, business, city, password } = await request.json();
+    const { name, email, phone, business, city, category, password } = await request.json();
 
     if (!name || !email || !phone || !business || !city) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+    }
+
+    if (!category) {
+      return NextResponse.json({ error: "Please choose a business category" }, { status: 400 });
     }
 
     if (!password || password.length < 8) {
@@ -18,6 +22,20 @@ export async function POST(request: Request) {
 
     const normalizedEmail = email.toLowerCase().trim();
     const supabase = getSupabaseAdmin();
+
+    // Validate the category server-side rather than trusting the posted id. A
+    // bad id would otherwise fail the listing insert, which is only logged, so
+    // the member would be created with no listing at all.
+    const { data: categoryRow } = await supabase
+      .from("categories")
+      .select("id")
+      .eq("id", category)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (!categoryRow) {
+      return NextResponse.json({ error: "Please choose a business category" }, { status: 400 });
+    }
 
     // Check if member already exists
     const { data: existing } = await supabase
@@ -79,6 +97,7 @@ export async function POST(request: Request) {
       contact_phone: phone || null,
       city,
       slug,
+      primary_category_id: categoryRow.id,
       listing_state: "TN",
       is_approved: false,
       approval_status: "pending",

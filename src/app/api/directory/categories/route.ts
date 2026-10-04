@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
-export async function GET() {
+export async function GET(request: Request) {
   const supabase = getSupabaseAdmin();
+
+  // The browse dropdown wants only categories that will return results, but a
+  // signup form wants every category: a new business is often the first one in
+  // its category, and filtering by what is already populated would hide the
+  // option they need. ?all=1 skips the populated filter.
+  const includeAll = new URL(request.url).searchParams.get("all") === "1";
 
   const { data: categories, error } = await supabase
     .from("categories")
@@ -16,6 +22,10 @@ export async function GET() {
   }
 
   const all = categories || [];
+
+  if (includeAll) {
+    return NextResponse.json({ categories: all.filter((c) => c.parent_id === null) });
+  }
 
   // Only offer categories that actually return results. A main category counts as
   // populated when it, or any of its subcategories, has a live listing -- the same

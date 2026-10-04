@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { slugify, cleanBusinessName } from "@/lib/slug";
+import { clampLinkedDescription } from "@/lib/listingLimits";
 import { notifyCategorySuggestion, sendCategorySuggestionReceived } from "@/lib/emails";
 
 // GET  -  Fetch current member's listing(s) + categories for the edit form
@@ -101,6 +102,16 @@ export async function PATCH(request: Request) {
     // Extract category suggestion
     const categorySuggestion = body.category_suggestion;
     delete body.category_suggestion;
+
+    // Long-form descriptions are a Connected feature. Linked gets a short plain
+    // text one. Enforced here and not only in the portal UI, because this route
+    // writes the posted body straight through, so a client-side cap alone is not
+    // a cap at all.
+    const isPaidTier =
+      member.tier === "connected" || member.tier === "amplified" || member.is_leadership;
+    if (!isPaidTier && typeof body.description === "string") {
+      body.description = clampLinkedDescription(body.description);
+    }
 
     // Auto-fill contact_email from member email if left blank
     if (!body.contact_email || !body.contact_email.trim()) {

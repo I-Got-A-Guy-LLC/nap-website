@@ -5,6 +5,7 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { clampLinkedDescription } from "@/lib/listingLimits";
 import ReviewForm from "@/components/ReviewForm";
 import ReviewList from "@/components/ReviewList";
 import ListingReferralButton from "@/components/ListingReferralButton";
@@ -86,7 +87,19 @@ async function getReviews(listingId: string) {
 export async function generateMetadata({ params }: { params: { state: string; slug: string } }): Promise<Metadata> {
   const listing = await getListing(params.state, params.slug);
   if (!listing) return { title: "Listing Not Found | NAP Directory" };
-  const description = listing.tagline || (listing.description ? listing.description.slice(0, 160) : `${listing.business_name} in the Networking For Awesome People directory.`);
+  // Paid listings keep tagline-first, since the tagline is displayed on the page
+  // for them. On Linked the tagline is stored but never rendered, so leading with
+  // it would describe the page with text that does not appear on it. Linked
+  // prefers the description, which is now visible on every tier.
+  const metaMember = safeMember(listing);
+  const metaIsPaid =
+    metaMember.tier === "connected" || metaMember.tier === "amplified" || metaMember.is_leadership;
+  const metaDescription = listing.description
+    ? clampLinkedDescription(listing.description).slice(0, 160)
+    : "";
+  const description =
+    (metaIsPaid ? listing.tagline || metaDescription : metaDescription || listing.tagline) ||
+    `${listing.business_name} in the Networking For Awesome People directory.`;
   return {
     title: `${listing.business_name} | NAP Directory`,
     description,
@@ -106,16 +119,25 @@ export default async function DirectoryListingPage({ params }: { params: { state
 
   const reviews = await getReviews(listing.id);
   const member = safeMember(listing);
-  const tier = member.tier || "linked";
+  // Tier belongs to the listing, not the member. Reading member.tier here gave
+  // every listing a member owns the privileges of their best one, so a second
+  // listing stored as linked still rendered Amplified photos and hours. The
+  // member tier is only a fallback for rows predating the per-listing column.
+  // Leadership privileges arrive through the listing tier, which is set to
+  // amplified on each leader's main listing.
+  const tier = listing.tier || member.tier || "linked";
   const isLeadership = member.is_leadership || false;
-  const isAmplified = tier === "amplified" || isLeadership;
+  const isAmplified = tier === "amplified";
   const isConnected = tier === "connected" || isAmplified;
   const catName = safeCategoryName(listing);
   const totalReviews = reviews.length;
   const avgRating = totalReviews > 0 ? reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0) / totalReviews : 0;
 
   const badge = (() => {
-    if (isLeadership) return { label: "Leadership", color: "#FE6651", textColor: "#ffffff" };
+    // Only badge leadership where the listing actually carries the privileges.
+    // On a leader's secondary linked listing a "Leadership" badge would promise
+    // a level of profile the page is not showing.
+    if (isLeadership && isAmplified) return { label: "Leadership", color: "#FE6651", textColor: "#ffffff" };
     if (tier === "amplified") return { label: "Amplified", color: "#FE6651", textColor: "#ffffff" };
     if (tier === "connected") return { label: "Connected", color: "#F5BE61", textColor: "#1F3149" };
     return { label: "Linked", color: "#1F3149", textColor: "#ffffff" };
@@ -133,9 +155,19 @@ export default async function DirectoryListingPage({ params }: { params: { state
   const addressParts = [listing.street_address, listing.suite, listing.listing_city, listing.listing_state, listing.zip_code].filter(Boolean);
   const fullAddress = addressParts.length > 0 ? addressParts.join(", ") : listing.address;
 
-  // Tags  -  Connected gets 2, Amplified gets 4
+  // Tags  -  Connected gets 2, Amplified gets 4. Tags are stored for every tier
+  // so they feed on-site search and schema, but only paid listings display them.
   const rawTags: string[] = Array.isArray(listing.tags) ? listing.tags.filter(Boolean) : [];
   const visibleTags = isAmplified ? rawTags.slice(0, 4) : isConnected ? rawTags.slice(0, 2) : [];
+
+  // Every tier gets an About paragraph. Linked is clamped to plain text at the
+  // shared cap, which also protects against older rows that were saved long
+  // while the field was still ungated server-side.
+  const aboutText = listing.description
+    ? isConnected
+      ? listing.description
+      : clampLinkedDescription(listing.description)
+    : "";
 
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org", "@type": "LocalBusiness",
@@ -185,10 +217,10 @@ export default async function DirectoryListingPage({ params }: { params: { state
 
       <section className="bg-white py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[900px] mx-auto space-y-10">
-          {isConnected && listing.description && (
+          {aboutText && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-3">About</h2>
-              <p className="text-navy leading-relaxed whitespace-pre-line">{listing.description}</p>
+              <p className={`text-navy leading-relaxed${isConnected ? " whitespace-pre-line" : ""}`}>{aboutText}</p>
             </div>
           )}
 

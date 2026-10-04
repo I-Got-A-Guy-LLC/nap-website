@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const cities = ["Manchester", "Murfreesboro", "Nolensville", "Smyrna"];
+
+type Category = { id: string; name: string };
 
 export default function LinkedSignupPage() {
   const router = useRouter();
@@ -12,15 +14,27 @@ export default function LinkedSignupPage() {
   const [phone, setPhone] = useState("");
   const [business, setBusiness] = useState("");
   const [city, setCity] = useState("");
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Signups used to create listings with no category at all, which left them out
+  // of every category browse and invisible to category searches. Asking here is
+  // what stops that recurring.
+  useEffect(() => {
+    fetch("/api/directory/categories?all=1")
+      .then((res) => res.json())
+      .then((data) => setCategories(data.categories || []))
+      .catch(() => setCategories([]));
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !phone || !business || !city || !password || !confirmed) {
+    if (!name || !email || !phone || !business || !city || !category || !password || !confirmed) {
       setError("Please fill in all fields and confirm the checkbox.");
       return;
     }
@@ -39,7 +53,7 @@ export default function LinkedSignupPage() {
       const res = await fetch("/api/directory/linked-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, business, city, password }),
+        body: JSON.stringify({ name, email, phone, business, city, category, password }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -126,6 +140,27 @@ export default function LinkedSignupPage() {
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold"
                 placeholder="Your business name"
               />
+            </div>
+
+            <div>
+              <label htmlFor="category" className="block text-navy text-sm font-bold mb-1">
+                Business Category <span className="text-smyrna">*</span>
+              </label>
+              <select
+                id="category"
+                required
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy bg-white focus:outline-none focus:ring-2 focus:ring-gold"
+              >
+                <option value="">Select a category...</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-500 mt-1">
+                This is how people find you when they browse the directory.
+              </p>
             </div>
 
             <div>

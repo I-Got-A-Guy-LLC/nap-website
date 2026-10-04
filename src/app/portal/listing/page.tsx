@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PhotoCropModal from "@/components/PhotoCropModal";
 import { slugify } from "@/lib/slug";
+import { LINKED_DESCRIPTION_MAX } from "@/lib/listingLimits";
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -190,6 +191,7 @@ function EditListingContent() {
   /* ---- State: server data ---- */
   const [member, setMember] = useState<any>(null);
   const [listingId, setListingId] = useState<string | null>(null);
+  const [listingTier, setListingTier] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
 
   /* ---- State: All-tier fields ---- */
@@ -288,6 +290,7 @@ function EditListingContent() {
       if (data.listing && !isNewListing) {
         const l = data.listing;
         setListingId(l.id);
+        setListingTier(l.tier || null);
         setBusinessName(l.business_name || "");
         setTagline(l.tagline || "");
         setContactName(l.contact_name || "");
@@ -365,10 +368,15 @@ function EditListingContent() {
   /*  Tier helpers                                                     */
   /* ---------------------------------------------------------------- */
 
-  const tier = member?.tier || "linked";
-  const isConnected =
-    tier === "connected" || tier === "amplified" || member?.is_leadership;
-  const isAmplified = tier === "amplified" || member?.is_leadership;
+  // Which fields are editable follows the listing being edited, not the member.
+  // A member can own listings at different tiers, so reading member.tier opened
+  // the full Amplified editor on a secondary listing stored as linked. Falls
+  // back to the member tier for a listing being created, which has no tier yet.
+  // Leadership privileges arrive through the listing tier, set to amplified on
+  // each leader's main listing.
+  const tier = listingTier || member?.tier || "linked";
+  const isConnected = tier === "connected" || tier === "amplified";
+  const isAmplified = tier === "amplified";
 
   /* ---------------------------------------------------------------- */
   /*  Main categories (parent_id is null)                              */
@@ -526,10 +534,21 @@ function EditListingContent() {
         primary_category_id: primaryCategoryId || null,
       };
 
+      // Description and tags save on every tier. The server clamps a Linked
+      // description to plain text at LINKED_DESCRIPTION_MAX; long-form stays a
+      // Connected feature. Tags are stored for everyone so they feed on-site
+      // search and schema, while only paid listings display them.
+      payload.description = description;
+      // Always send every tag slot. How many are shown is a display concern,
+      // enforced on the listing page, so a tier change must never silently
+      // delete stored tags. Sending only the first two would discard tags three
+      // and four whenever a member is not Amplified, and the renewal cron
+      // downgrades members to linked when a comp grace period ends.
+      payload.tags = [...tags, ...extraTags].map((t) => t.trim()).filter(Boolean);
+
       if (isConnected) {
         payload.logo_url = logoUrl;
         payload.website_url = websiteUrl;
-        payload.description = description;
         payload.special_offers = specialOffers;
         payload.offer_headline = offerHeadline;
         payload.offer_details = offerDetails;
@@ -543,12 +562,6 @@ function EditListingContent() {
           ? [...additionalCategories, ...extraCategories]
           : [...additionalCategories];
         payload.additional_category_ids = allAdditional.filter(Boolean);
-
-        // Merge tags: Connected gets 2, Amplified gets 2+2
-        const allTags = isAmplified
-          ? [...tags, ...extraTags]
-          : [...tags];
-        payload.tags = allTags.map((t) => t.trim()).filter(Boolean);
 
         payload.social_facebook = socialLinks.facebook;
         payload.social_instagram = socialLinks.instagram;
@@ -603,6 +616,9 @@ function EditListingContent() {
           const newest = allListings.length > 0 ? allListings[allListings.length - 1] : refreshData.listing;
           if (newest?.id) {
             setListingId(newest.id);
+            // Pick up the tier the row was actually created at, so the editor
+            // stops falling back to the member tier once the listing exists.
+            setListingTier(newest.tier || null);
           }
         }
       }
@@ -1240,7 +1256,65 @@ function EditListingContent() {
                 <input type="hidden" value={specialOffers} />
               </Section>
             ) : (
-              <Section title="Enhanced Profile">
+              <Section title="Basic Profile">
+                {/* A Linked listing used to carry only a name, a city and a phone
+                    number, which is too thin to be found by search or quoted by
+                    anything. These two fields are what make a free listing
+                    findable. Long-form description, formatting, logo, website,
+                    socials and offers all remain Connected features. */}
+                <div>
+                  <label className={labelClass}>
+                    Description
+                    <span className="text-gray-600 font-normal ml-1">
+                      ({description.length} of {LINKED_DESCRIPTION_MAX})
+                    </span>
+                  </label>
+                  <textarea
+                    rows={3}
+                    maxLength={LINKED_DESCRIPTION_MAX}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className={`${inputClass} resize-none`}
+                    placeholder="In a sentence or two: what do you do, and who do you do it for?"
+                  />
+                  <p className="text-gray-600 text-xs mt-1">
+                    Plain text, up to {LINKED_DESCRIPTION_MAX} characters.{" "}
+                    <Link href="/join" className="text-gold hover:underline">
+                      Upgrade to Connected
+                    </Link>{" "}
+                    for a longer description with formatting.
+                  </p>
+                </div>
+
+                <div>
+                  <label className={labelClass}>
+                    Tags
+                    <span className="text-gray-600 font-normal ml-1">
+                      ({tags.filter((t) => t.trim()).length} of 2 used)
+                    </span>
+                  </label>
+                  <p className="text-gray-600 text-xs mb-2">
+                    Searchable keywords that help people find you in the directory.
+                  </p>
+                  <div className="space-y-2">
+                    {[0, 1].map((idx) => (
+                      <input
+                        key={`linked-tag-${idx}`}
+                        type="text"
+                        value={tags[idx] || ""}
+                        onChange={(e) => {
+                          const updated = [...tags];
+                          while (updated.length < 2) updated.push("");
+                          updated[idx] = e.target.value;
+                          setTags(updated);
+                        }}
+                        className={inputClass}
+                        placeholder={idx === 0 ? "e.g. locally owned" : "e.g. Murfreesboro"}
+                      />
+                    ))}
+                  </div>
+                </div>
+
                 <UpgradePrompt tierName="Connected" />
               </Section>
             )}
