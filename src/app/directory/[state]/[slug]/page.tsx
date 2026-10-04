@@ -169,13 +169,42 @@ export default async function DirectoryListingPage({ params }: { params: { state
       : clampLinkedDescription(listing.description)
     : "";
 
+  // Describe the business to a machine. Only emit a field when there is a real
+  // value behind it: an incomplete schema is fine, a schema full of placeholders
+  // is worse than none.
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org", "@type": "LocalBusiness",
-    name: listing.business_name, description: listing.description || listing.tagline || "",
+    name: listing.business_name,
+    // The About text, so the schema matches what a visitor actually reads.
+    description: aboutText || listing.tagline || "",
+    // Names this business as what the page is about, rather than leaving a
+    // crawler to infer it from document order.
+    mainEntityOfPage: `https://networkingforawesomepeople.com/directory/${params.state}/${params.slug}`,
   };
-  if (fullAddress) jsonLd.address = fullAddress;
+
+  // A structured PostalAddress, never the joined string. Street address is an
+  // Amplified field, so most listings have nothing but a state, and the old
+  // join emitted address: "TN" on every free listing. A locality or better is
+  // the minimum worth publishing.
+  const addr: Record<string, string> = { "@type": "PostalAddress", addressCountry: "US" };
+  if (listing.street_address) addr.streetAddress = [listing.street_address, listing.suite].filter(Boolean).join(", ");
+  const locality = listing.listing_city || listing.city;
+  if (locality) addr.addressLocality = locality;
+  if (listing.listing_state) addr.addressRegion = listing.listing_state;
+  if (listing.zip_code || listing.zip) addr.postalCode = listing.zip_code || listing.zip;
+  if (addr.addressLocality || addr.streetAddress) jsonLd.address = addr;
+
+  // url is the business's own site when they have one. Website is a Connected
+  // field, so most free listings will not carry it.
   if (listing.website_url) jsonLd.url = listing.website_url;
+  if (listing.contact_phone) jsonLd.telephone = listing.contact_phone;
+  if (catName) jsonLd.additionalType = catName;
+  if (rawTags.length > 0) jsonLd.keywords = rawTags.join(", ");
   if (listing.logo_url) jsonLd.image = listing.logo_url;
+  if (listing.lat && listing.lng) {
+    jsonLd.geo = { "@type": "GeoCoordinates", latitude: listing.lat, longitude: listing.lng };
+  }
+  jsonLd.areaServed = { "@type": "AdministrativeArea", name: "Middle Tennessee" };
   if (totalReviews > 0) jsonLd.aggregateRating = { "@type": "AggregateRating", ratingValue: avgRating.toFixed(1), reviewCount: totalReviews };
 
   return (

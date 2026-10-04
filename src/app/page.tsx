@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 import { getAllPosts } from "@/lib/blog";
+import { HOME_PAGE_SCHEMAS } from "@/lib/siteSchema";
 
 const cityPanels = [
   {
@@ -88,6 +89,18 @@ export default async function Home() {
   const recentPosts = getAllPosts().slice(0, 3);
   return (
     <>
+      {/* The four chapter LocalBusiness entities, the FAQ and the recurring
+          meeting Events. These used to be injected by the root layout on every
+          page, which buried the subject of each listing and city page under four
+          unrelated LocalBusiness blocks. They describe this page. */}
+      {HOME_PAGE_SCHEMAS.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+
       {/* ===== SECTION 1  -  HERO ===== */}
       <section className="bg-navy relative border-b border-black shadow-lg shadow-black/15">
         {/* Background image  -  Next.js Image for reliable object-position on iOS Safari */}
