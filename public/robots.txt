@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://networkingforawesomepeople.com/sitemap.xml
+
+# Plain language description of this site for language models and answer engines
+# https://networkingforawesomepeople.com/llms.txt

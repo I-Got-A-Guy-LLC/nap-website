@@ -43,19 +43,26 @@ function mainCategoryOf(listing: any): { name: string; slug: string } | null {
 // Search result titles get cut around 60 characters, so build the most useful
 // version that fits and fall back by dropping the least important part first.
 // Order of value: the business name, then where it is, then what it does.
+//
+// Returned as an absolute title. The root layout sets a "%s | Networking For
+// Awesome People" template, which adds 32 characters and would both blow the
+// budget and brand the page twice.
+const TITLE_SUFFIX = " | NAP Directory";
+const TITLE_MAX = 60;
+
 function listingTitle(listing: any): string {
   const name = listing.business_name || "Listing";
   const cat = safeCategoryName(listing);
   const city = listing.city ? String(listing.city).replace(/\b\w/g, (c: string) => c.toUpperCase()) : "";
   const where = city ? `${city}, TN` : "Middle Tennessee";
 
-  const full = cat ? `${name}, ${cat} in ${where} | NAP` : `${name} in ${where} | NAP`;
-  if (full.length <= 62) return full;
+  const full = cat ? `${name}, ${cat} in ${where}${TITLE_SUFFIX}` : `${name} in ${where}${TITLE_SUFFIX}`;
+  if (full.length <= TITLE_MAX) return full;
 
-  const noCat = `${name} in ${where} | NAP`;
-  if (noCat.length <= 62) return noCat;
+  const noCat = `${name} in ${where}${TITLE_SUFFIX}`;
+  if (noCat.length <= TITLE_MAX) return noCat;
 
-  return `${name} | NAP Directory`;
+  return `${name}${TITLE_SUFFIX}`;
 }
 
 function toEmbedUrl(url: string): string {
@@ -117,7 +124,7 @@ async function getReviews(listingId: string) {
 
 export async function generateMetadata({ params }: { params: { state: string; slug: string } }): Promise<Metadata> {
   const listing = await getListing(params.state, params.slug);
-  if (!listing) return { title: "Listing Not Found | NAP Directory" };
+  if (!listing) return { title: { absolute: "Listing Not Found | NAP Directory" } };
   // Paid listings keep tagline-first, since the tagline is displayed on the page
   // for them. On Linked the tagline is stored but never rendered, so leading with
   // it would describe the page with text that does not appear on it. Linked
@@ -139,7 +146,8 @@ export async function generateMetadata({ params }: { params: { state: string; sl
   const title = listingTitle(listing);
 
   return {
-    title,
+    // absolute, so the layout template is not appended on top of it
+    title: { absolute: title },
     description,
     openGraph: { title, description, url: `https://networkingforawesomepeople.com/directory/${params.state}/${params.slug}` },
     alternates: { canonical: `https://networkingforawesomepeople.com/directory/${params.state}/${params.slug}` },

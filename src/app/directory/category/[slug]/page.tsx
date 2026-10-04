@@ -82,11 +82,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const category = await getCategory(params.slug);
-  if (!category) return { title: "Category Not Found | NAP Directory" };
+  if (!category) return { title: { absolute: "Category Not Found | NAP Directory" } };
 
   const listings = await getListings(category.id);
   const n = listings.length;
   // Lead with the category and the region, because that is what people type.
+  // Absolute below, so the root layout template is not appended on top.
   const title = `${category.name} in Middle Tennessee | NAP Directory`;
   const description =
     n > 0
@@ -94,7 +95,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       : `${category.name} businesses in Middle Tennessee, from the Networking For Awesome People directory.`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     // A category with nothing in it is a page with nothing to offer. Keep it out
     // of the index until a business joins, but keep following its links so the
@@ -151,6 +152,53 @@ export default async function CategoryPage({ params }: { params: { slug: string 
     },
   };
 
+  // Questions a person actually asks before picking someone, answered in plain
+  // prose. These are rendered on the page as well as emitted as FAQPage schema,
+  // because schema describing text that is not visible is both a Google policy
+  // problem and useless to the reader.
+  //
+  // The vetting answer is deliberately blunt. NAP does not screen its members,
+  // and implying otherwise in machine readable schema would put a claim about
+  // real businesses behind Rachel's name that she cannot stand behind.
+  const lower = category.name.toLowerCase();
+  const names = listings.map((l) => l.business_name).filter(Boolean);
+  const faqs: { q: string; a: string }[] = [];
+
+  if (names.length > 0) {
+    const listed = names.length <= 8 ? names.join(", ") : `${names.slice(0, 8).join(", ")} and ${names.length - 8} more`;
+    faqs.push({
+      q: `Which ${lower} businesses are listed in Middle Tennessee?`,
+      a: `${listed}. All of them are members of Networking For Awesome People and are listed in this directory with their contact details.`,
+    });
+  }
+
+  faqs.push({
+    q: `Does Networking For Awesome People vet or endorse these businesses?`,
+    a: `No. Every business here is a member of our networking community, which means they attend meetings, not that we have screened their work, licences or insurance. Treat this directory as a starting point and check credentials yourself before you hire anyone.`,
+  });
+
+  if (cities.length > 0) {
+    faqs.push({
+      q: `Which cities do these businesses serve?`,
+      a: `The businesses on this page come from our chapters in ${cities.join(", ")}. Many serve the wider Middle Tennessee area, so contact them directly to ask about your location.`,
+    });
+  }
+
+  faqs.push({
+    q: `How does a business get listed under ${category.name}?`,
+    a: `Come to a free NAP meeting, then create a free listing at networkingforawesomepeople.com/join. A basic listing costs nothing. Paid tiers add a logo, website link, photos, special offers and higher placement.`,
+  });
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   const breadcrumbs = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -164,6 +212,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section className="bg-navy py-12 md:py-20 px-4">
         <div className="w-[90%] max-w-[1000px] mx-auto">
@@ -271,6 +320,21 @@ export default async function CategoryPage({ params }: { params: { slug: string 
               })}
             </div>
           )}
+
+          {/* Rendered because the FAQPage schema above describes this text. */}
+          <section className="mt-14 pt-10 border-t border-gray-200">
+            <h2 className="font-heading text-xl font-bold text-navy mb-6">
+              Common questions
+            </h2>
+            <div className="space-y-6 max-w-[70ch]">
+              {faqs.map((f) => (
+                <div key={f.q}>
+                  <h3 className="font-bold text-navy mb-1">{f.q}</h3>
+                  <p className="text-navy/80 text-sm leading-relaxed">{f.a}</p>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Crawlable paths between categories. */}
           {siblings && siblings.length > 0 && (
