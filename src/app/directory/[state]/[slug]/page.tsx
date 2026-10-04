@@ -40,6 +40,24 @@ function mainCategoryOf(listing: any): { name: string; slug: string } | null {
   } catch { return null; }
 }
 
+// Search result titles get cut around 60 characters, so build the most useful
+// version that fits and fall back by dropping the least important part first.
+// Order of value: the business name, then where it is, then what it does.
+function listingTitle(listing: any): string {
+  const name = listing.business_name || "Listing";
+  const cat = safeCategoryName(listing);
+  const city = listing.city ? String(listing.city).replace(/\b\w/g, (c: string) => c.toUpperCase()) : "";
+  const where = city ? `${city}, TN` : "Middle Tennessee";
+
+  const full = cat ? `${name}, ${cat} in ${where} | NAP` : `${name} in ${where} | NAP`;
+  if (full.length <= 62) return full;
+
+  const noCat = `${name} in ${where} | NAP`;
+  if (noCat.length <= 62) return noCat;
+
+  return `${name} | NAP Directory`;
+}
+
 function toEmbedUrl(url: string): string {
   // youtu.be/ID or youtu.be/ID?si=...
   const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
@@ -113,10 +131,17 @@ export async function generateMetadata({ params }: { params: { state: string; sl
   const description =
     (metaIsPaid ? listing.tagline || metaDescription : metaDescription || listing.tagline) ||
     `${listing.business_name} in the Networking For Awesome People directory.`;
+
+  // "Business Name | NAP Directory" wasted the title on a phrase nobody searches.
+  // People search a trade and a place, so the title carries the category and the
+  // city. The specific category is used, not the parent, because "Mortgage
+  // Brokers" is a search and "Financial Services" mostly is not.
+  const title = listingTitle(listing);
+
   return {
-    title: `${listing.business_name} | NAP Directory`,
+    title,
     description,
-    openGraph: { title: `${listing.business_name} | NAP Directory`, description, url: `https://networkingforawesomepeople.com/directory/${params.state}/${params.slug}` },
+    openGraph: { title, description, url: `https://networkingforawesomepeople.com/directory/${params.state}/${params.slug}` },
     alternates: { canonical: `https://networkingforawesomepeople.com/directory/${params.state}/${params.slug}` },
   };
 }

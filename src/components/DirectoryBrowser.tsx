@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { clampLinkedDescription } from "@/lib/listingLimits";
 import Link from "next/link";
 
@@ -68,13 +68,15 @@ function getCategoryName(listing: Listing): string {
   }
 }
 
-export default function DirectoryBrowser() {
-  const [listings, setListings] = useState<Listing[]>([]);
+export default function DirectoryBrowser({ initialListings }: { initialListings?: Listing[] }) {
+  // Seeded from the server so the first paint, and the crawled HTML, already
+  // contain the directory instead of a loading state.
+  const [listings, setListings] = useState<Listing[]>(initialListings ?? []);
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialListings);
   const [revealedPhones, setRevealedPhones] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -84,7 +86,15 @@ export default function DirectoryBrowser() {
       .catch(() => {});
   }, []);
 
+  // The server already sent the unfiltered list, so skip the mount fetch and
+  // only go to the API once someone actually filters. Without this the page
+  // refetches on load and briefly replaces identical data.
+  const seeded = useRef(Boolean(initialListings));
   useEffect(() => {
+    if (seeded.current) {
+      seeded.current = false;
+      return;
+    }
     fetchListings();
   }, [city, category]);
 
