@@ -59,6 +59,23 @@ image, and aggregateRating. Missing: `telephone`, `address` as a real
 PostalAddress object, `areaServed`, `sameAs` for socials, and any category or
 service information.
 
+Worse than thin in one respect: `address` is built by joining whatever address
+parts exist, and Linked listings have none except `listing_state`. So a listing
+page currently emits `"address": "TN"`, which is not wrong so much as meaningless.
+Either build a real PostalAddress or omit the field.
+
+**Eleven JSON-LD blocks render on every page**, injected by the layout: an
+Organization, four chapter LocalBusiness entities, a FAQPage, and four Events.
+On a business listing page that means five LocalBusiness blocks, four of which
+describe NAP chapters rather than the business the page is about, with the actual
+business last. That ambiguity works against both SEO and AEO, where the whole
+point is for a machine to identify what the page is about. The listing page should
+either scope the sitewide blocks out or mark the business as the page's primary
+entity with `mainEntity`.
+
+Note that Organization schema and FAQPage already exist sitewide, so two Phase 2
+items below are partly done already.
+
 **10 live listings have no category.** All arrived through `/join/linked`, which
 never asks for one. Every future free signup repeats this.
 
