@@ -14,3 +14,26 @@ export const LINKED_DESCRIPTION_MAX = 300;
 export function clampLinkedDescription(value: string): string {
   return value.replace(/\s+/g, " ").trim().slice(0, LINKED_DESCRIPTION_MAX);
 }
+
+/**
+ * The tier a newly created listing should carry.
+ *
+ * No creation path used to set this, so new rows arrived NULL and fell back to
+ * the owner's member tier when rendered. That is exactly the behaviour the
+ * per-listing column exists to replace: a member's second business would inherit
+ * the first one's tier for nothing.
+ *
+ * A member's first listing takes their member tier, so someone who paid for
+ * Connected or Amplified sees it on the business they bought it for. Every
+ * additional listing starts at linked and has to be paid for on its own, which
+ * is the rule Rachel set for leadership and comped members with more than one
+ * business.
+ */
+export function newListingTier(
+  memberTier: string | null | undefined,
+  existingListingCount: number
+): string {
+  if (existingListingCount > 0) return "linked";
+  const t = (memberTier || "").toLowerCase();
+  return t === "amplified" || t === "connected" ? t : "linked";
+}

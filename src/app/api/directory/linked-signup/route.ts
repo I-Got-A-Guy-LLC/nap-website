@@ -98,6 +98,10 @@ export async function POST(request: Request) {
       city,
       slug,
       primary_category_id: categoryRow.id,
+      // Set explicitly. Left unset, the row arrived with tier NULL and fell back
+      // to the owner's member tier at render time, which is the behaviour the
+      // per-listing column replaces. This is the free signup, so it is linked.
+      tier: "linked",
       listing_state: "TN",
       is_approved: false,
       approval_status: "pending",

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { slugify, cleanBusinessName } from "@/lib/slug";
-import { clampLinkedDescription } from "@/lib/listingLimits";
+import { clampLinkedDescription, newListingTier } from "@/lib/listingLimits";
 import { notifyCategorySuggestion, sendCategorySuggestionReceived } from "@/lib/emails";
 
 // GET  -  Fetch current member's listing(s) + categories for the edit form
@@ -102,6 +102,12 @@ export async function PATCH(request: Request) {
     // Extract category suggestion
     const categorySuggestion = body.category_suggestion;
     delete body.category_suggestion;
+
+    // Tier is set by the server only: by this route when a listing is created,
+    // by an admin, or by the Stripe webhook. This route writes the posted body
+    // straight through, so without this a member could upgrade their own listing
+    // to Amplified by adding one field to the request.
+    delete body.tier;
 
     // Long-form descriptions are a Connected feature. Linked gets a short plain
     // text one. Enforced here and not only in the portal UI, because this route
@@ -250,6 +256,16 @@ export async function PATCH(request: Request) {
       body.is_approved = isPaid;
       body.approval_status = isPaid ? "approved" : "pending";
       body.is_active = true;
+
+      // Nothing used to set the tier here, so new listings arrived NULL and fell
+      // back to the owner's member tier when rendered. A first listing takes the
+      // member tier; any additional business starts at linked and is paid for
+      // separately.
+      const { count: ownedCount } = await supabase
+        .from("directory_listings")
+        .select("id", { count: "exact", head: true })
+        .eq("member_id", member.id);
+      body.tier = newListingTier(member.tier, ownedCount ?? 0);
 
       // Ensure required field
       if (!body.business_name) body.business_name = member.full_name;

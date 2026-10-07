@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { slugify, cleanBusinessName } from "@/lib/slug";
+import { newListingTier } from "@/lib/listingLimits";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -22,7 +23,7 @@ export async function POST(request: Request) {
   // Check member exists
   const { data: member } = await supabase
     .from("members")
-    .select("id, full_name, email")
+    .select("id, full_name, email, tier")
     .eq("id", memberId)
     .single();
 
@@ -58,6 +59,10 @@ export async function POST(request: Request) {
       primary_category_id: primaryCategoryId || null,
       tagline: tagline || null,
       slug,
+      // This route refuses to run if the member already has a listing, so this
+      // is always their first and takes their member tier. Set explicitly
+      // because nothing used to set it and the row arrived NULL.
+      tier: newListingTier(member.tier, 0),
       listing_state: "TN",
       is_approved: true,
       approval_status: "approved",
