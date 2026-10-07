@@ -89,25 +89,52 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Member not found" }, { status: 404 });
     }
 
-    const body = await request.json();
+    const raw = await request.json();
 
     // Check if this is explicitly a new listing creation
-    const forceNewListing = body.new_listing === true;
-    delete body.new_listing;
+    const forceNewListing = raw.new_listing === true;
 
     // Extract listing_id for targeting a specific listing
-    const targetListingId = body.listing_id || null;
-    delete body.listing_id;
+    const targetListingId = raw.listing_id || null;
 
     // Extract category suggestion
-    const categorySuggestion = body.category_suggestion;
-    delete body.category_suggestion;
+    const categorySuggestion = raw.category_suggestion;
 
-    // Tier is set by the server only: by this route when a listing is created,
-    // by an admin, or by the Stripe webhook. This route writes the posted body
-    // straight through, so without this a member could upgrade their own listing
-    // to Amplified by adding one field to the request.
-    delete body.tier;
+    // Only these columns may be written by the member who owns the listing.
+    //
+    // This used to pass the posted object straight to .update() and .insert()
+    // with nothing removed, and the approval override below only fires for paid
+    // members. A free member could therefore send is_approved: true with a normal
+    // save and publish their own pending listing without review. The same hole
+    // accepted member_id, so a listing could be reassigned, plus approved_by,
+    // approved_at, is_active, tier and the view and click counters.
+    //
+    // Derived from the payload the portal editor actually sends, which is the
+    // only client that calls this route. Anything not listed here is either
+    // server managed or not a member's to set.
+    const EDITABLE_FIELDS = [
+      // every tier
+      "business_name", "tagline", "contact_name", "contact_email", "contact_phone",
+      "city", "primary_category_id", "description", "tags",
+      // Connected and above
+      "logo_url", "website_url", "special_offers", "offer_headline", "offer_details",
+      "offer_promo_code", "offer_expires_at", "offer_nap_only", "additional_category_ids",
+      "social_facebook", "social_instagram", "social_linkedin", "social_twitter",
+      "social_tiktok", "social_other_label", "social_other_url",
+      // Amplified
+      "photos", "video_url", "street_address", "suite", "listing_city",
+      "listing_state", "zip_code", "business_hours",
+    ] as const;
+
+    // Writes are not tier gated, deliberately. Which fields are DISPLAYED is
+    // decided when the listing renders, from the listing tier, so a stored value
+    // a member is not entitled to show stays invisible. That is the same
+    // store-for-all, display-paid rule the tags use. The vulnerability here was
+    // server managed columns, not paid ones.
+    const body: Record<string, any> = {};
+    for (const key of EDITABLE_FIELDS) {
+      if (key in raw) body[key] = raw[key];
+    }
 
     // Long-form descriptions are a Connected feature. Linked gets a short plain
     // text one. Enforced here and not only in the portal UI, because this route
