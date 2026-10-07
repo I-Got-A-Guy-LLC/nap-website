@@ -404,7 +404,7 @@ export async function POST(request: Request) {
 
         const { data: member } = await supabase
           .from("members")
-          .select("email, full_name")
+          .select("id, email, full_name, is_comped")
           .eq("stripe_subscription_id", subscription.id)
           .single();
 
@@ -418,6 +418,32 @@ export async function POST(request: Request) {
 
         if (error) {
           console.error("Error downgrading subscription:", error);
+        }
+
+        // Downgrade the listing as well. Tier is a property of the listing now:
+        // the directory ranking, the listing page and the portal editor all read
+        // directory_listings.tier, so clearing only members.tier left a cancelled
+        // member displaying as Amplified forever. That is paid placement, photos,
+        // reviews and a map given away after the money stopped.
+        //
+        // Comped members are skipped. A leadership or volunteer benefit is not
+        // bought with a Stripe subscription, so cancelling one must not revoke the
+        // other.
+        //
+        // This downgrades every non-linked listing the member owns. Correct today,
+        // because members.stripe_subscription_id holds a single value so a member
+        // cannot have two paid listings on separate subscriptions. When checkout
+        // starts carrying a listing id, this should target that listing instead.
+        if (member?.id && !member.is_comped) {
+          const { error: listingError } = await supabase
+            .from("directory_listings")
+            .update({ tier: "linked" })
+            .eq("member_id", member.id)
+            .neq("tier", "linked");
+
+          if (listingError) {
+            console.error("Error downgrading listings on cancellation:", listingError);
+          }
         }
 
         if (member?.email) {
