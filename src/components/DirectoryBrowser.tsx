@@ -276,7 +276,12 @@ export default function DirectoryBrowser({ initialListings }: { initialListings?
                       )}
                     </div>
 
-                    {listing.tagline && (
+                    {/* Tagline is a paid feature and gold is the paid colour, so
+                        showing it on every tier made free listings read as paid.
+                        The listing's own page has always gated this; the browse
+                        list never did. It also duplicated the description, since
+                        several free descriptions were written from the tagline. */}
+                    {(isTop || isConnected) && listing.tagline && (
                       <p className="text-gold text-sm mt-0.5">{listing.tagline}</p>
                     )}
 
