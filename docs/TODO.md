@@ -10,23 +10,21 @@ decisions behind it. Phases 0, 1 and 2 of that plan are complete.
 
 ## Has a deadline attached
 
-- **MARKED: Stripe upgrades write `members.tier`, not the listing tier.**
-  `checkout.session.completed` in `src/app/api/stripe/webhook/route.ts` upgrades
-  the member record. The directory, the listing page and the portal editor all
-  read `directory_listings.tier` now, so the first person to actually buy an
-  upgrade will pay 300 or 500 dollars and keep displaying as a free Linked
-  listing. Self-serve checkout is live, so this fires on the first real purchase.
-  The checkout needs to carry a listing id and set the tier on that listing.
+- **MARKED: an existing member upgrading keeps their old listing tier.** The
+  upgrade buttons in `/portal/billing` and the listing editor link to `/join`, so
+  an upgrader re-runs public signup. They are charged and `members.tier` updates,
+  but their listing keeps its old tier and still displays as free. They also get a
+  "set your password" invite email they do not need.
 
-  No current member is affected. Kayce Broach is the only person with two
-  listings, and hers are deliberately split: KK Fitness Training Amplified,
-  Keystone Hormones Linked.
+  Fix: checkout carries a listing id in `metadata` and
+  `subscription_data.metadata`, the webhook sets `directory_listings.tier` on that
+  listing, and the upgrade buttons point at a real portal flow rather than `/join`.
+  This is the last broken piece of the paid path and needs scoping, not a patch.
 
-- **Nothing sets `directory_listings.tier` explicitly at creation.** Zero rows
-  are NULL today, so a database default is covering it, but no creation path in
-  `src/` names the value. A paid member creating their first listing depends on
-  that default being right. Worth setting explicitly in the Linked signup, portal
-  save and admin create paths.
+  Resolved around it on 2026-10-07: a NEW member buying a paid tier now works end
+  to end, because `newListingTier` gives their first listing their member tier.
+  Cancellation now downgrades the listing as well as the member, skipping comped
+  members.
 
 ## Rachel's own records
 
@@ -135,6 +133,22 @@ deliberately left:
   one-line change if instant matters more than a database query per page view.
 
 ---
+
+## Resolved on 2026-10-06 and 2026-10-07
+
+- Listing tier is now set explicitly at creation in all three paths. There was no
+  database default: the "zero NULL rows" reading on 2026-10-03 was wrong, and both
+  listings created on 2026-10-06 arrived NULL, which is how it surfaced.
+- The portal save route now whitelists the 33 columns a member may write. It
+  previously passed the posted body straight through, so a free member could send
+  `is_approved: true` and publish their own pending listing without review, and
+  could also write `member_id`, `approved_by`, `is_active`, `slug` and the view
+  counters.
+- Cancellation downgrades the listing, not just the member.
+- Free listings no longer show their tagline in gold in the browse list, which
+  made 21 of them read as paid members.
+- Mark Ryder flagged as Manchester leadership, matching the other two leaders.
+  His Benchmark Realty, LLC listing is still pending approval.
 
 ## Resolved on 2026-10-03
 
