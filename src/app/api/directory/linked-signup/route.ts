@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { slugify, cleanBusinessName } from "@/lib/slug";
+import { clampLinkedDescription } from "@/lib/listingLimits";
 import { sendLinkedWelcome, notifyNewLinkedListing } from "@/lib/emails";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, business, city, category, password } = await request.json();
+    const { name, email, phone, business, city, category, description, password } = await request.json();
 
     if (!name || !email || !phone || !business || !city) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -14,6 +15,14 @@ export async function POST(request: Request) {
 
     if (!category) {
       return NextResponse.json({ error: "Please choose a business category" }, { status: 400 });
+    }
+
+    // Asked for at signup because every listing created before this arrived with
+    // no description: 22 in the 60 days to 2026-10-07, every one of them blank.
+    // It is the field that makes a listing findable, so collecting it at the one
+    // moment the member is motivated beats chasing it afterwards.
+    if (!description || !String(description).trim()) {
+      return NextResponse.json({ error: "Please add a short description of what you do" }, { status: 400 });
     }
 
     if (!password || password.length < 8) {
@@ -98,6 +107,9 @@ export async function POST(request: Request) {
       city,
       slug,
       primary_category_id: categoryRow.id,
+      // Clamped server side to the same cap the portal and the listing page use,
+      // so the form's maxLength is not the only thing enforcing it.
+      description: clampLinkedDescription(String(description)),
       // Set explicitly. Left unset, the row arrived with tier NULL and fell back
       // to the owner's member tier at render time, which is the behaviour the
       // per-listing column replaces. This is the free signup, so it is linked.

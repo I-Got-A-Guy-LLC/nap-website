@@ -67,6 +67,11 @@ export async function sendLinkedWelcome(email: string, name: string, loginUrl?: 
       <p>Your account is all set! You can log in to your member portal any time:</p>
       ${goldButton(loginUrl || "https://networkingforawesomepeople.com/login", "Log In to Your Portal")}
       <p style="color:#888;font-size:13px;">Listing approval usually takes 1-2 business days.</p>
+      <p style="margin-top:24px;">One thing worth doing now: log in and add a couple of
+      searchable keywords to your listing, and check that your description reads the way
+      you want. That description is what people see when they find you, and what shows up
+      in search results.</p>
+      ${goldButton("https://networkingforawesomepeople.com/portal/listing", "Finish Your Listing")}
     `),
   });
 }
@@ -81,6 +86,8 @@ export async function sendLinkedApproved(email: string, name: string) {
       <p>Your Linked listing has been approved and is now live in the NAP directory.</p>
       <p>People can now find you and connect with you through Networking For Awesome People.</p>
       ${goldButton("https://networkingforawesomepeople.com/portal", "View Your Listing")}
+      <p style="color:#888;font-size:13px;margin-top:20px;">Your description and keywords are
+      what people search on. You can edit them any time from your portal.</p>
     `),
   });
 }

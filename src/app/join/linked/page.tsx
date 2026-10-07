@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { LINKED_DESCRIPTION_MAX } from "@/lib/listingLimits";
 
 const cities = ["Manchester", "Murfreesboro", "Nolensville", "Smyrna"];
 
@@ -15,6 +16,7 @@ export default function LinkedSignupPage() {
   const [business, setBusiness] = useState("");
   const [city, setCity] = useState("");
   const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,7 +36,7 @@ export default function LinkedSignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !phone || !business || !city || !category || !password || !confirmed) {
+    if (!name || !email || !phone || !business || !city || !category || !description.trim() || !password || !confirmed) {
       setError("Please fill in all fields and confirm the checkbox.");
       return;
     }
@@ -53,7 +55,7 @@ export default function LinkedSignupPage() {
       const res = await fetch("/api/directory/linked-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, business, city, category, password }),
+        body: JSON.stringify({ name, email, phone, business, city, category, description, password }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -160,6 +162,26 @@ export default function LinkedSignupPage() {
               </select>
               <p className="text-xs text-gray-500 mt-1">
                 This is how people find you when they browse the directory.
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="description" className="block text-navy text-sm font-bold mb-1">
+                What You Do <span className="text-smyrna">*</span>
+              </label>
+              <textarea
+                id="description"
+                required
+                rows={3}
+                maxLength={LINKED_DESCRIPTION_MAX}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-4 py-3 text-navy resize-none focus:outline-none focus:ring-2 focus:ring-gold"
+                placeholder="In a sentence or two: what do you do, and who do you do it for?"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                {description.length} of {LINKED_DESCRIPTION_MAX} characters. This is what
+                people read when they find your listing, and what search engines show.
               </p>
             </div>
 
