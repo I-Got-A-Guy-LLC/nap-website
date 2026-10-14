@@ -117,7 +117,8 @@ export async function POST(request: Request) {
       };
     }
   } else if (attendee_type === "repeat_matched") {
-    const { member_id, listing_id, ask_for_week, qotw_answer } = body;
+    const { member_id, listing_id, ask_for_week, qotw_answer, guest_name, guest_business_name, guest_email, guest_phone } =
+      body;
     if (!isNonEmptyString(member_id)) return bad("repeat_matched requires member_id");
     if (!isNonEmptyString(ask_for_week)) return bad("repeat_matched requires ask_for_week");
     if (!isNonEmptyString(qotw_answer)) return bad("repeat_matched requires qotw_answer");
@@ -126,6 +127,18 @@ export async function POST(request: Request) {
     // client bug and is rejected rather than quietly dropped.
     if (listing_id !== undefined && listing_id !== null && !isNonEmptyString(listing_id)) {
       return bad("listing_id must be a non-empty string if provided");
+    }
+    // A returning attendee with no listing gives the same contact details a
+    // first-time guest does. Their account was usually created by an earlier
+    // check-in that only kept name and email, so this is the one chance to get a
+    // phone number for leaders to call. Collected, not published.
+    if (!isNonEmptyString(listing_id)) {
+      if (!isNonEmptyString(guest_name)) return bad("repeat_matched without a listing requires guest_name");
+      if (!isNonEmptyString(guest_business_name)) {
+        return bad("repeat_matched without a listing requires guest_business_name");
+      }
+      if (!isNonEmptyString(guest_email)) return bad("repeat_matched without a listing requires guest_email");
+      if (!isNonEmptyString(guest_phone)) return bad("repeat_matched without a listing requires guest_phone");
     }
 
     // Identity is never trusted from the client. Verify the listing exists and that
@@ -153,6 +166,9 @@ export async function POST(request: Request) {
       listing_id: isNonEmptyString(listing_id) ? listing_id : null,
       ask_for_week,
       qotw_answer,
+      // Kept on the row as typed. The recap reads a matched attendee's name and
+      // business from their member record, so these never change what it shows.
+      ...(isNonEmptyString(listing_id) ? {} : { guest_name, guest_business_name, guest_email, guest_phone }),
     };
   } else {
     // repeat_unmatched — no email/phone; must be explicitly flagged for follow-up.
@@ -234,6 +250,36 @@ export async function POST(request: Request) {
       }
     } catch (consentErr) {
       console.error("checkin consent capture failed (check-in itself succeeded):", consentErr);
+    }
+  }
+
+  // Copy the contact details onto the member's account wherever it has a gap,
+  // so a leader looking someone up finds their phone number. Only blanks are
+  // filled: what is already on the account was entered on purpose and a
+  // check-in form typed in a hurry must not overwrite it. Fire-and-forget for
+  // the same reason as consent above.
+  if (isNonEmptyString(body.guest_phone)) {
+    try {
+      const lookup = supabase.from("members").select("id, full_name, business_name, phone");
+      const { data: member } =
+        attendee_type === "repeat_matched"
+          ? await lookup.eq("id", String(body.member_id)).maybeSingle()
+          : await lookup.eq("email", String(body.guest_email).trim().toLowerCase()).maybeSingle();
+
+      if (member) {
+        const blank = (v: string | null) => !v || v.trim().length === 0;
+        const patch: Record<string, string> = {};
+        if (blank(member.full_name) && isNonEmptyString(body.guest_name)) patch.full_name = body.guest_name.trim();
+        if (blank(member.business_name) && isNonEmptyString(body.guest_business_name)) {
+          patch.business_name = body.guest_business_name.trim();
+        }
+        if (blank(member.phone)) patch.phone = body.guest_phone.trim();
+        if (Object.keys(patch).length > 0) {
+          await supabase.from("members").update(patch).eq("id", member.id);
+        }
+      }
+    } catch (fillErr) {
+      console.error("checkin contact fill failed (check-in itself succeeded):", fillErr);
     }
   }
 

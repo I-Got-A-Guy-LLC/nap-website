@@ -49,11 +49,28 @@ export async function POST(request: Request) {
     // Check if member already exists
     const { data: existing } = await supabase
       .from("members")
-      .select("id")
+      .select(
+        "id, password_hash, tier, is_leadership, is_comped, stripe_subscription_id, directory_listings(id)"
+      )
       .eq("email", normalizedEmail)
-      .single();
+      .maybeSingle();
 
-    if (existing) {
+    // The meeting check-in creates an account for every guest who agrees to
+    // email, with no password and no listing, and then sends them here to add
+    // their business. Rejecting them told them to log in to an account they had
+    // no way into. An account in exactly that state is completed instead.
+    // Anything more than that (a password, a listing, a paid or comped tier, a
+    // leader) is a real account and still has to log in.
+    const isCheckinShell =
+      existing &&
+      !existing.password_hash &&
+      (existing.directory_listings?.length ?? 0) === 0 &&
+      existing.is_leadership !== true &&
+      existing.is_comped !== true &&
+      !existing.stripe_subscription_id &&
+      (!existing.tier || existing.tier === "linked");
+
+    if (existing && !isCheckinShell) {
       return NextResponse.json({ error: "An account with this email already exists. Please log in instead." }, { status: 409 });
     }
 
@@ -64,21 +81,24 @@ export async function POST(request: Request) {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 12);
 
-    // Create new member with password
-    const { data: newMember, error: memberError } = await supabase
-      .from("members")
-      .insert({
-        email: normalizedEmail,
-        full_name: name,
-        phone: phone || null,
-        business_name: cleanName,
-        city,
-        tier: "linked",
-        subscription_status: "active",
-        password_hash: passwordHash,
-      })
-      .select("id")
-      .single();
+    const memberFields = {
+      full_name: name,
+      phone: phone || null,
+      business_name: cleanName,
+      city,
+      tier: "linked",
+      subscription_status: "active",
+      password_hash: passwordHash,
+    };
+
+    // Complete the check-in account, or create a new member with password.
+    const { data: newMember, error: memberError } = existing
+      ? await supabase.from("members").update(memberFields).eq("id", existing.id).select("id").single()
+      : await supabase
+          .from("members")
+          .insert({ email: normalizedEmail, ...memberFields })
+          .select("id")
+          .single();
 
     if (memberError) {
       console.error("Member creation error:", memberError);

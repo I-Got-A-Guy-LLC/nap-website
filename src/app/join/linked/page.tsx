@@ -34,6 +34,26 @@ export default function LinkedSignupPage() {
       .catch(() => setCategories([]));
   }, []);
 
+  // Someone arriving from the meeting check-in has just typed their details
+  // there; the check-in page leaves them in sessionStorage so they are not asked
+  // twice. Read once and removed, so they never outlive this visit.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("nap_listing_prefill");
+      if (!raw) return;
+      sessionStorage.removeItem("nap_listing_prefill");
+      const p = JSON.parse(raw) as Record<string, unknown>;
+      const str = (v: unknown) => (typeof v === "string" ? v : "");
+      setName(str(p.name));
+      setBusiness(str(p.business));
+      setEmail(str(p.email));
+      setPhone(str(p.phone));
+      if (cities.some((c) => c.toLowerCase() === p.city)) setCity(str(p.city));
+    } catch {
+      // Storage unavailable or malformed: the form simply starts empty.
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !phone || !business || !city || !category || !description.trim() || !password || !confirmed) {

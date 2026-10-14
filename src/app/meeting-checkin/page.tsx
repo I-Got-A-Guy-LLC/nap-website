@@ -140,6 +140,11 @@ function CheckInContent() {
   // Set when a matched member has >1 listing and must disambiguate.
   const [listingPickerMember, setListingPickerMember] = useState<SearchMember | null>(null);
   const [selectedMatch, setSelectedMatch] = useState<SelectedMatch | null>(null);
+  // Set when a matched member has no listing. They fill in the full guest form
+  // (contact details plus the two answers) and check in as repeat_matched, so a
+  // leader has a phone number for them and the done screen can pre-fill the
+  // free listing signup.
+  const [profileMatch, setProfileMatch] = useState<SelectedMatch | null>(null);
   // The two fields repeat_matched still requires from a returning attendee.
   const [matchAsk, setMatchAsk] = useState("");
   const [matchAnswer, setMatchAnswer] = useState("");
@@ -232,6 +237,7 @@ function CheckInContent() {
     setShowNoMatch(false);
     setListingPickerMember(null);
     setSelectedMatch(null);
+    setProfileMatch(null);
     setMatchAsk("");
     setMatchAnswer("");
     setMatchErrors({});
@@ -283,7 +289,6 @@ function CheckInContent() {
           "X-Checkin-Token": token ?? "",
         },
         body: JSON.stringify({
-          attendee_type: "first_time_guest",
           chapter_slug: chapter,
           meeting_date: meetingDate,
           guest_name: form.guest_name.trim(),
@@ -293,10 +298,34 @@ function CheckInContent() {
           guest_phone: form.guest_phone.trim(),
           ask_for_week: form.ask_for_week.trim(),
           qotw_answer: form.qotw_answer.trim(),
-          // A real JSON boolean — the API rejects "true"/"on".
-          consent_to_email: consent,
+          ...(profileMatch
+            ? { attendee_type: "repeat_matched", member_id: profileMatch.member_id }
+            : {
+                attendee_type: "first_time_guest",
+                // A real JSON boolean — the API rejects "true"/"on".
+                consent_to_email: consent,
+              }),
         }),
       });
+      if (response.status === 201) {
+        // Handed to /join/linked so they do not type it all again. sessionStorage
+        // rather than the link's query string, which would put a phone number and
+        // email into server logs and browser history.
+        try {
+          sessionStorage.setItem(
+            "nap_listing_prefill",
+            JSON.stringify({
+              name: form.guest_name.trim(),
+              business: form.guest_business_name.trim(),
+              email: form.guest_email.trim(),
+              phone: form.guest_phone.trim(),
+              city: chapter,
+            })
+          );
+        } catch {
+          // Private browsing can refuse storage; the signup form just starts empty.
+        }
+      }
       handleCheckinResponse(response.status, false);
     } catch {
       // Network failure, DNS, offline — never surface the raw error.
@@ -369,11 +398,11 @@ function CheckInContent() {
   }
 
   function selectMember(member: SearchMember) {
-    // No listing → nothing to disambiguate, check in against the member alone.
+    // No listing → the full guest form, so we collect their contact details.
     // Single listing → auto-select it and go straight to the answer step.
     // Multiple listings → let the member disambiguate first.
     if (member.listings.length === 0) {
-      beginAnswer(member, null);
+      beginProfile(member);
     } else if (member.listings.length === 1) {
       beginAnswer(member, member.listings[0]);
     } else {
@@ -400,8 +429,29 @@ function CheckInContent() {
     setScreen("returning_answer");
   }
 
+  // Name and business are pre-filled because the search result already showed
+  // them. Email and phone are not: this page sits behind a shared QR code, so
+  // anyone who typed a name would see that person's contact details.
+  function beginProfile(member: SearchMember) {
+    setProfileMatch({
+      member_id: member.member_id,
+      member_name: member.name ?? "",
+      listing_id: null,
+      listing_business_name: member.business_name ?? "",
+    });
+    setForm({
+      ...EMPTY_FORM,
+      guest_name: member.name ?? "",
+      guest_business_name: member.business_name ?? "",
+    });
+    setFieldErrors({});
+    setError(null);
+    setScreen("guest");
+  }
+
   function switchToGuest() {
     setShowNoMatch(false);
+    setProfileMatch(null);
     setError(null);
     setScreen("guest");
   }
@@ -619,7 +669,16 @@ function CheckInContent() {
 
         {screen === "guest" && (
           <form onSubmit={handleSubmit} className="rounded-2xl bg-white p-6 shadow-sm" noValidate>
-            <h2 className="font-heading text-xl font-bold text-navy mb-5">First-Time Guest</h2>
+            {profileMatch ? (
+              <>
+                <h2 className="font-heading text-xl font-bold text-navy mb-1">Welcome back!</h2>
+                <p className="mb-5 text-base text-navy/70">
+                  Please confirm your details so our leaders can reach you.
+                </p>
+              </>
+            ) : (
+              <h2 className="font-heading text-xl font-bold text-navy mb-5">First-Time Guest</h2>
+            )}
 
             <div className="mb-5">
               <label htmlFor="guest_name" className={LABEL_CLASS}>
@@ -767,19 +826,25 @@ function CheckInContent() {
               )}
             </div>
 
-            <label className="mb-6 flex min-h-[48px] cursor-pointer items-center gap-3">
-              <input
-                type="checkbox"
-                checked={consent}
-                onChange={(e) => setConsent(e.target.checked)}
-                className="h-6 w-6 flex-shrink-0 rounded border-2 border-navy/30 accent-navy"
-              />
-              <span className="text-base text-navy">
-                It&apos;s okay to email me about upcoming meetings
-              </span>
-            </label>
+            {/* Guest-only: a returning member already has an account and email
+                preference, and the guest handoff to leaders does not apply. */}
+            {!profileMatch && (
+              <>
+                <label className="mb-6 flex min-h-[48px] cursor-pointer items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="h-6 w-6 flex-shrink-0 rounded border-2 border-navy/30 accent-navy"
+                  />
+                  <span className="text-base text-navy">
+                    It&apos;s okay to email me about upcoming meetings
+                  </span>
+                </label>
 
-            <p className="mb-6 text-sm text-navy/70">New guests will hear from our leadership team.</p>
+                <p className="mb-6 text-sm text-navy/70">New guests will hear from our leadership team.</p>
+              </>
+            )}
 
             {error && (
               <p
@@ -800,7 +865,23 @@ function CheckInContent() {
               {submitting ? "Checking you in..." : "Check In"}
             </button>
 
-            <button type="button" onClick={resetToChooser} disabled={submitting} className={BACK_BTN}>
+            <button
+              type="button"
+              onClick={() => {
+                if (profileMatch) {
+                  // Back to their search results rather than the start.
+                  setProfileMatch(null);
+                  setForm(EMPTY_FORM);
+                  setFieldErrors({});
+                  setError(null);
+                  setScreen("returning");
+                } else {
+                  resetToChooser();
+                }
+              }}
+              disabled={submitting}
+              className={BACK_BTN}
+            >
               Back
             </button>
           </form>
@@ -835,7 +916,7 @@ function CheckInContent() {
                   meetings.
                 </p>
                 <Link
-                  href="/join"
+                  href="/join/linked"
                   className="flex w-full min-h-[56px] items-center justify-center rounded-full bg-navy px-6 py-4 text-lg font-bold text-white transition-all hover:bg-navy/90"
                 >
                   Add my business for free
