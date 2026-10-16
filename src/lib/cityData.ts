@@ -340,7 +340,7 @@ export const cities: Record<string, CityData> = {
         name: "Katie Clark",
         title: "Co-Leader",
         alt: "Katie Clark, Smyrna Co-Leader, Networking For Awesome People",
-        bio: "Katie Clark is the founder of Ring Tree Legal, providing steadfast legal guidance to the Smyrna and Middle Tennessee community. She built her practice on the philosophy that legal support should be as enduring and dependable as the trees that define our landscape. Katie specializes in Estate Planning, offering a personalized approach that simplifies complex legal matters for her clients. For Katie, Smyrna isn't just a market - it's home.",
+        bio: "Katie Clark is the founder of Tree Ring Legal, providing steadfast legal guidance to the Smyrna and Middle Tennessee community. She built her practice on the philosophy that legal support should be as enduring and dependable as the trees that define our landscape. Katie specializes in Estate Planning, offering a personalized approach that simplifies complex legal matters for her clients. For Katie, Smyrna isn't just a market - it's home.",
         image: "/images/leaders/Katie Clark Headshot.jpg",
       },
       {

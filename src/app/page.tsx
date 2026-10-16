@@ -328,12 +328,12 @@ export default async function Home() {
                 </div>
                 <p className="text-white text-sm mt-3 font-medium">615 Insurance Agency</p>
               </div>
-              {/* Ring Tree Legal */}
+              {/* Tree Ring Legal */}
               <div className="flex flex-col items-center">
                 <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border border-gray-200 flex items-center justify-center shadow-sm p-4">
-                  <img src="/images/supporters/ring-tree-legal.png" alt="Ring Tree Legal" className="w-full h-full object-contain" />
+                  <img src="/images/supporters/ring-tree-legal.png" alt="Tree Ring Legal" className="w-full h-full object-contain" />
                 </div>
-                <p className="text-white text-sm mt-3 font-medium">Ring Tree Legal</p>
+                <p className="text-white text-sm mt-3 font-medium">Tree Ring Legal</p>
               </div>
               {/* Soigne */}
               <div className="flex flex-col items-center">
