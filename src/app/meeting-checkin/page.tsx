@@ -139,6 +139,12 @@ function CheckInContent() {
   const [showNoMatch, setShowNoMatch] = useState(false);
   // Set when a matched member has >1 listing and must disambiguate.
   const [listingPickerMember, setListingPickerMember] = useState<SearchMember | null>(null);
+  // Set when someone taps an account with no listing while another account with
+  // the same name has one: the same person signed up twice under different
+  // emails. `chosen` is the account they tapped, `others` the ones with listings.
+  const [otherAccounts, setOtherAccounts] = useState<{ chosen: SearchMember; others: SearchMember[] } | null>(
+    null
+  );
   const [selectedMatch, setSelectedMatch] = useState<SelectedMatch | null>(null);
   // Set when a matched member has no listing. They fill in the full guest form
   // (contact details plus the two answers) and check in as repeat_matched, so a
@@ -236,6 +242,7 @@ function CheckInContent() {
     setSearching(false);
     setShowNoMatch(false);
     setListingPickerMember(null);
+    setOtherAccounts(null);
     setSelectedMatch(null);
     setProfileMatch(null);
     setMatchAsk("");
@@ -402,7 +409,23 @@ function CheckInContent() {
     // Single listing → auto-select it and go straight to the answer step.
     // Multiple listings → let the member disambiguate first.
     if (member.listings.length === 0) {
-      beginProfile(member);
+      // Same name, different account, and that one is in the directory: most
+      // likely the same person with two emails. Ask before sending them through
+      // the "you're not in our directory" path, which would be wrong.
+      const nameKey = (member.name ?? "").trim().toLowerCase();
+      const others = nameKey
+        ? (searchResults ?? []).filter(
+            (m) =>
+              m.member_id !== member.member_id &&
+              m.listings.length > 0 &&
+              (m.name ?? "").trim().toLowerCase() === nameKey
+          )
+        : [];
+      if (others.length > 0) {
+        setOtherAccounts({ chosen: member, others });
+      } else {
+        beginProfile(member);
+      }
     } else if (member.listings.length === 1) {
       beginAnswer(member, member.listings[0]);
     } else {
@@ -957,6 +980,58 @@ function CheckInContent() {
               className={BACK_BTN}
             >
               Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Two accounts, one name: they tapped the one with no listing. Shows only
+          business names, never emails, because this page is behind a shared QR
+          code. */}
+      {otherAccounts && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="You're already in our directory"
+        >
+          <div className="w-full max-w-[440px] rounded-2xl bg-white p-6 shadow-xl">
+            <h3 className="font-heading text-xl font-bold text-navy mb-2">You&apos;re already in our directory</h3>
+            <p className="mb-5 text-base leading-relaxed text-navy/80">
+              We have another account under your name with a different email, and that one has your
+              listing. Tap your business to check in with it.
+            </p>
+            <ul className="space-y-3">
+              {otherAccounts.others.flatMap((m) =>
+                m.listings.map((l) => (
+                  <li key={l.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOtherAccounts(null);
+                        beginAnswer(m, l);
+                      }}
+                      className="w-full min-h-[56px] rounded-lg border-2 border-navy/20 bg-white px-4 py-3 text-left text-base font-semibold text-navy transition-all hover:border-navy"
+                    >
+                      {l.business_name ?? "Unnamed listing"}
+                    </button>
+                  </li>
+                ))
+              )}
+            </ul>
+            <p className="mt-5 text-sm leading-relaxed text-navy/70">
+              Let a chapter leader know so we can combine your accounts.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                const chosen = otherAccounts.chosen;
+                setOtherAccounts(null);
+                beginProfile(chosen);
+              }}
+              className={BACK_BTN}
+            >
+              That&apos;s not me
             </button>
           </div>
         </div>
