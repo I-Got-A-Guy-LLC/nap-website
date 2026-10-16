@@ -298,9 +298,9 @@ export default async function Home() {
 
             {/* Logo grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-8">
-              {/* Order: Featured Supporters by join date, then Amplified leaders
-                  (Inforule, 615 Insurance, then alphabetical), then Connected
-                  members by length of membership. */}
+              {/* Order: Featured Supporters (the paying Connected and Amplified
+                  members) by join date, then leaders (Inforule, 615 Insurance,
+                  then alphabetical). */}
               {/* Reed & Associates */}
               <div className="flex flex-col items-center">
                 <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border-2 border-gold flex items-center justify-center shadow-md p-4 ring-2 ring-gold/30">
@@ -315,6 +315,22 @@ export default async function Home() {
                   <img src="/images/supporters/stillman-signing.webp" alt="Stillman Signing & Mobile Notary" className="w-full object-contain" />
                 </div>
                 <p className="text-white text-sm mt-3 font-medium">Stillman Signing &amp; Notary</p>
+                <span className="text-gold text-xs font-bold mt-1">&#9733; Featured Supporter</span>
+              </div>
+              {/* Eagle Communications */}
+              <div className="flex flex-col items-center">
+                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border-2 border-gold flex items-center justify-center shadow-md p-4 ring-2 ring-gold/30">
+                  <img src="/images/supporters/eagle-communications.png" alt="Eagle Communications Tech Advisors" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-white text-sm mt-3 font-medium">Eagle Communications</p>
+                <span className="text-gold text-xs font-bold mt-1">&#9733; Featured Supporter</span>
+              </div>
+              {/* Better Homes and Gardens Real Estate Heritage Group */}
+              <div className="flex flex-col items-center">
+                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border-2 border-gold flex items-center justify-center shadow-md p-4 ring-2 ring-gold/30">
+                  <img src="/images/supporters/bhgre-heritage.png" alt="Better Homes and Gardens Real Estate Heritage Group" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-white text-sm mt-3 font-medium">Better Homes and Gardens Real Estate Heritage Group</p>
                 <span className="text-gold text-xs font-bold mt-1">&#9733; Featured Supporter</span>
               </div>
               {/* Inforule Social Media */}
@@ -386,20 +402,6 @@ export default async function Home() {
                   <img src="/images/supporters/ring-tree-legal.png" alt="Tree Ring Legal" className="w-full h-full object-contain" />
                 </div>
                 <p className="text-white text-sm mt-3 font-medium">Tree Ring Legal</p>
-              </div>
-              {/* Eagle Communications */}
-              <div className="flex flex-col items-center">
-                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border border-gray-200 flex items-center justify-center shadow-sm p-4">
-                  <img src="/images/supporters/eagle-communications.png" alt="Eagle Communications Tech Advisors" className="w-full h-full object-contain" />
-                </div>
-                <p className="text-white text-sm mt-3 font-medium">Eagle Communications</p>
-              </div>
-              {/* Better Homes and Gardens Real Estate Heritage Group */}
-              <div className="flex flex-col items-center">
-                <div className="w-full aspect-square max-w-[160px] bg-white rounded-xl border border-gray-200 flex items-center justify-center shadow-sm p-4">
-                  <img src="/images/supporters/bhgre-heritage.png" alt="Better Homes and Gardens Real Estate Heritage Group" className="w-full h-full object-contain" />
-                </div>
-                <p className="text-white text-sm mt-3 font-medium">Better Homes and Gardens Real Estate Heritage Group</p>
               </div>
             </div>
             <p className="text-white text-sm italic">
