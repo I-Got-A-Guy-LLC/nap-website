@@ -1510,6 +1510,39 @@ function EditListingContent() {
                 {/* Business Hours */}
                 <div>
                   <label className={labelClass}>Business Hours</label>
+                  {/* One click for round-the-clock businesses. Stored as midnight
+                      to 23:59 every day, the same shape the time inputs produce,
+                      which the listing page shows as "Open 24 hours, 7 days a
+                      week". Derived from the hours rather than kept as its own
+                      flag, so the two can never disagree. */}
+                  {(() => {
+                    const allDay = dayLabels.every((day) => {
+                      const h = businessHours[day.toLowerCase()];
+                      return h?.open && h.openTime === "00:00" && h.closeTime === "23:59";
+                    });
+                    return (
+                      <label className="flex items-center gap-2 mb-3">
+                        <input
+                          type="checkbox"
+                          checked={allDay}
+                          onChange={(e) => {
+                            const on = e.target.checked;
+                            setBusinessHours((prev) => {
+                              const next = { ...prev };
+                              for (const day of dayLabels) {
+                                next[day.toLowerCase()] = on
+                                  ? { open: true, openTime: "00:00", closeTime: "23:59" }
+                                  : { open: true, openTime: "09:00", closeTime: "17:00" };
+                              }
+                              return next;
+                            });
+                          }}
+                          className="w-4 h-4 text-[#c8a951] border-gray-300 rounded focus:ring-[#c8a951]"
+                        />
+                        <span className="text-sm text-navy font-medium">Open 24 hours, 7 days a week</span>
+                      </label>
+                    );
+                  })()}
                   <div className="space-y-2">
                     {dayLabels.map((day) => {
                       const key = day.toLowerCase();
