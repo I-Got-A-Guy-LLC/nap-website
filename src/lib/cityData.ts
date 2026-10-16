@@ -268,7 +268,7 @@ export const cities: Record<string, CityData> = {
         name: "Tony Lane",
         title: "Co-Leader",
         alt: "Tony Lane, Nolensville Co-Leader, Networking For Awesome People",
-        bio: "Tony Lane is the owner of Independent Roofing Specialists, serving Middle Tennessee homeowners and businesses with residential and commercial roofing solutions built to last. He prides himself on quality craftsmanship, honest communication, and showing up for his clients the same way he shows up for his community - fully and without shortcuts. A strong advocate for giving back, Tony is actively involved in local food banks and committed to supporting Nashville and the surrounding areas. He has served as Co-Leader of N\u00B2 since 2024.",
+        bio: "Tony Lane is the owner of Independent Roofing Specialists, serving Middle Tennessee homeowners and businesses with residential and commercial roofing solutions built to last, and Independent Restoration Services, which helps property owners recover from water, fire, mold and storm damage around the clock. He prides himself on quality craftsmanship, honest communication, and showing up for his clients the same way he shows up for his community - fully and without shortcuts. A strong advocate for giving back, Tony is actively involved in local food banks and committed to supporting Nashville and the surrounding areas. He has served as Co-Leader of N\u00B2 since 2024.",
         image: "/images/leaders/Tony Lane headshot.jpg",
       },
     ],

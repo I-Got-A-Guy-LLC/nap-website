@@ -91,6 +91,13 @@ function parseHours(raw: any): Record<string, any> {
   return data;
 }
 
+// The editor's time inputs can only express a 24-hour day as midnight to 23:59,
+// which displayed as "00:00 – 23:59" on round-the-clock businesses like
+// restoration and towing. Treat that span (or midnight to midnight) as open all day.
+function isOpenAllDay(h: any): boolean {
+  return Boolean(h?.open) && h.openTime === "00:00" && ["23:59", "00:00", "24:00"].includes(h.closeTime);
+}
+
 async function getListing(state: string, slug: string) {
   const supabase = getSupabaseAdmin();
 
@@ -369,13 +376,18 @@ export default async function DirectoryListingPage({ params }: { params: { state
           {isAmplified && hasHours && (
             <div className="bg-gray-50 rounded-xl p-6 md:p-8">
               <h2 className="font-heading text-xl font-bold text-navy mb-4">Business Hours</h2>
-              <div className="space-y-2 text-sm">
-                {dayLabels.map((day) => {
-                  const h = hours[day.toLowerCase()];
-                  const isOpen = h && typeof h === "object" && h.open;
-                  return <div key={day} className="flex justify-between text-navy"><span className="font-medium text-navy">{day}</span><span>{isOpen ? `${h.openTime || "9:00"} – ${h.closeTime || "17:00"}` : "Closed"}</span></div>;
-                })}
-              </div>
+              {dayLabels.every((day) => isOpenAllDay(hours[day.toLowerCase()])) ? (
+                <p className="text-sm font-medium text-navy">Open 24 hours, 7 days a week</p>
+              ) : (
+                <div className="space-y-2 text-sm">
+                  {dayLabels.map((day) => {
+                    const h = hours[day.toLowerCase()];
+                    const isOpen = h && typeof h === "object" && h.open;
+                    const label = !isOpen ? "Closed" : isOpenAllDay(h) ? "Open 24 hours" : `${h.openTime || "9:00"} – ${h.closeTime || "17:00"}`;
+                    return <div key={day} className="flex justify-between text-navy"><span className="font-medium text-navy">{day}</span><span>{label}</span></div>;
+                  })}
+                </div>
+              )}
             </div>
           )}
 
