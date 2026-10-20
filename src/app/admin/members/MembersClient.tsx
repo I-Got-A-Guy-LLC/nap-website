@@ -37,6 +37,7 @@ const SOURCE_LABEL: Record<string, string> = {
   checkin: "Check-in",
   checkout: "Purchase",
   admin: "Added by admin",
+  meetup: "Meetup",
 };
 
 // Quote every field and escape embedded quotes. Business names and asks contain
