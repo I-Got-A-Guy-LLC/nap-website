@@ -171,11 +171,22 @@ export async function POST(request: Request) {
           const unsubUrl = member.unsubscribe_token
             ? `${baseUrl}/unsubscribe?token=${member.unsubscribe_token}`
             : `${baseUrl}/contact`;
+          // List-Unsubscribe gives Gmail and Yahoo their own unsubscribe button,
+          // which POSTs to the one-click route (RFC 8058). Every recipient has
+          // a token today; the header is skipped rather than pointed somewhere
+          // useless if one ever does not.
+          const headers: Record<string, string> = member.unsubscribe_token
+            ? {
+                "List-Unsubscribe": `<${baseUrl}/api/unsubscribe/one-click?token=${member.unsubscribe_token}&pref=${prefColumn ?? "notif_broadcasts"}>`,
+                "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+              }
+            : {};
           return {
             from: "Networking For Awesome People <members@networkingforawesomepeople.com>",
             to: member.email,
             subject,
             html: buildEmailHtml(category, body, unsubUrl),
+            headers,
           };
         })
       );
