@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { Resend } from "resend";
+import { COMPANY_POSTAL_LINE } from "@/lib/emails";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
@@ -51,6 +52,7 @@ export async function POST(
         </div>
         <div style="background:#f4f4f7;padding:16px 32px;text-align:center;">
           <p style="color:#999;font-size:12px;margin:0;">Networking For Awesome People · Because regular networking is, well, regular.</p>
+          <p style="color:#999;font-size:11px;margin:6px 0 0;">${COMPANY_POSTAL_LINE}</p>
         </div>
       </div>
     `,

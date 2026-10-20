@@ -7,6 +7,12 @@ function getResend() {
 }
 
 const FROM = "Networking For Awesome People <members@networkingforawesomepeople.com>";
+
+// Legal name and postal address shown in every email footer. CAN-SPAM requires a
+// valid physical postal address in commercial email. Imported by the routes that
+// build their own HTML (broadcasts, admin invites) so there is one copy to update.
+export const COMPANY_POSTAL_LINE =
+  "I Got A Guy, LLC &middot; 1630 S Church St #100, Murfreesboro, TN 37130";
 const ADMIN_EMAIL = "hello@networkingforawesomepeople.com";
 
 // ---------------------------------------------------------------------------
@@ -38,6 +44,7 @@ function emailWrapper(content: string): string {
         <tr>
           <td style="background-color:#0a1628;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center;">
             <p style="margin:0;color:#8899aa;font-size:12px;">&copy; Networking For Awesome People. All rights reserved.</p>
+            <p style="margin:6px 0 0;color:#8899aa;font-size:11px;">${COMPANY_POSTAL_LINE}</p>
           </td>
         </tr>
       </table>

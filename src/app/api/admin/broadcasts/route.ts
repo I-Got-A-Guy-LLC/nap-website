@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { Resend } from "resend";
+import { COMPANY_POSTAL_LINE } from "@/lib/emails";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY || "re_placeholder");
@@ -43,6 +44,7 @@ function buildEmailHtml(category: string, body: string, unsubscribeUrl: string):
         <tr>
           <td style="background-color:#0a1628;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center;">
             <p style="margin:0;color:#8899aa;font-size:12px;">&copy; Networking For Awesome People. All rights reserved.</p>
+            <p style="margin:6px 0 0;color:#8899aa;font-size:11px;">${COMPANY_POSTAL_LINE}</p>
             <p style="margin:8px 0 0;"><a href="${unsubscribeUrl}" style="color:#667788;font-size:11px;text-decoration:underline;">Unsubscribe from broadcasts</a></p>
           </td>
         </tr>

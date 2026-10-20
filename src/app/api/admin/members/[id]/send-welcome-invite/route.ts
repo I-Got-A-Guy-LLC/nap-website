@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { isSuperAdmin } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { Resend } from "resend";
+import { COMPANY_POSTAL_LINE } from "@/lib/emails";
 import crypto from "crypto";
 
 function getResend() {
@@ -38,6 +39,7 @@ function emailWrapper(content: string): string {
         <tr>
           <td style="background-color:#0a1628;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center;">
             <p style="margin:0;color:#8899aa;font-size:12px;">&copy; Networking For Awesome People. All rights reserved.</p>
+            <p style="margin:6px 0 0;color:#8899aa;font-size:11px;">${COMPANY_POSTAL_LINE}</p>
           </td>
         </tr>
       </table>
