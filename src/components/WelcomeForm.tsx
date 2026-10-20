@@ -91,7 +91,7 @@ export default function WelcomeForm({ chapters }: { chapters: WelcomeChapter[] }
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [businessName, setBusinessName] = useState("");
-  const [consent, setConsent] = useState(true);
+  const [consent, setConsent] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
