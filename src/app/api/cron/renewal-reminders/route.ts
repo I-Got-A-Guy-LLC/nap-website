@@ -70,7 +70,8 @@ export async function GET(request: Request) {
     .select("email, full_name, current_period_end")
     .gte("current_period_end", thirty.start)
     .lte("current_period_end", thirty.end)
-    .eq("subscription_status", "active");
+    .eq("subscription_status", "active")
+    .eq("billing_interval", "year");
 
   for (const m of thirtyDayMembers || []) {
     if (canEmail(m.email)) await sendRenewalReminder30(m.email, m.full_name, m.current_period_end);
@@ -84,7 +85,8 @@ export async function GET(request: Request) {
     .select("email, full_name, current_period_end")
     .gte("current_period_end", seven.start)
     .lte("current_period_end", seven.end)
-    .eq("subscription_status", "active");
+    .eq("subscription_status", "active")
+    .eq("billing_interval", "year");
 
   for (const m of sevenDayMembers || []) {
     if (canEmail(m.email)) await sendRenewalReminder7(m.email, m.full_name, m.current_period_end);
