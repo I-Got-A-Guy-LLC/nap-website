@@ -223,10 +223,10 @@ export default function AboutPage() {
               </div>
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-gold p-8">
                 <h3 className="font-heading text-xl font-bold text-navy mb-3">
-                  One Rule: Don&apos;t Be a Jerk&trade;
+                  One Rule: Don&apos;t Be a Jerk
                 </h3>
                 <p className="text-navy leading-relaxed">
-                  We keep it simple. Show up genuine, support each other, and Don&apos;t Be a Jerk&trade;.
+                  We keep it simple. Show up genuine, support each other, and Don&apos;t Be a Jerk.
                   No politics, no pressure, no awkward hard sells. Treat people with respect and
                   you&apos;ll fit right in.
                 </p>

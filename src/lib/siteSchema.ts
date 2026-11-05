@@ -168,7 +168,7 @@ export const HOME_PAGE_SCHEMAS = [
         name: "How does Networking For Awesome People work?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Each meeting starts with a welcome, then visitors give their one-minute pitch and answer the Question of the Week. We discuss upcoming events, then close out. Meetings are about an hour. Our one rule: Don't Be a Jerk™.",
+          text: "Each meeting starts with a welcome, then visitors give their one-minute pitch and answer the Question of the Week. We discuss upcoming events, then close out. Meetings are about an hour. Our one rule: Don't Be a Jerk.",
         },
       },
       {
@@ -189,10 +189,10 @@ export const HOME_PAGE_SCHEMAS = [
       },
       {
         "@type": "Question",
-        name: "What is the Don't Be a Jerk™ rule?",
+        name: "What is the Don't Be a Jerk rule?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "It's our one and only rule. Show up, be genuine, support each other, and Don't Be a Jerk™. We believe networking should feel like belonging, not a sales pitch. If you treat people with respect and bring a spirit of generosity, you'll fit right in.",
+          text: "It's our one and only rule. Show up, be genuine, support each other, and Don't Be a Jerk. We believe networking should feel like belonging, not a sales pitch. If you treat people with respect and bring a spirit of generosity, you'll fit right in.",
         },
       },
       {

@@ -10,7 +10,7 @@ export default function Footer() {
             <h3 className="font-heading text-lg font-bold mb-5 text-gold">About Networking For Awesome People</h3>
             <p className="text-white text-sm leading-relaxed">
               Networking For Awesome People is free weekly networking across four Middle Tennessee
-              cities. Show up, be genuine, and Don&apos;t Be a Jerk&trade;.
+              cities. Show up, be genuine, and Don&apos;t Be a Jerk.
             </p>
           </div>
 
