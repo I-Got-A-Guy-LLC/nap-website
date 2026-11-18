@@ -826,3 +826,32 @@ export async function sendRecapPost(params: {
     throw new Error(`sendRecapPost failed for ${chapter}: ${JSON.stringify(error)}`);
   }
 }
+
+// Alert Rachel when the cron fires for a chapter but zero people checked in.
+// Sent to RECAP_ZERO_ALERT_TO (defaults to rachel@inforulesm.com).
+export async function sendRecapZeroAlert(params: {
+  chapter: string;
+  meetingDate: string;
+}): Promise<void> {
+  const { chapter, meetingDate } = params;
+  const to = (process.env.RECAP_ZERO_ALERT_TO || "rachel@inforulesm.com")
+    .split(",").map((s) => s.trim()).filter(Boolean);
+  if (to.length === 0) return;
+
+  const chapterName = RECAP_CHAPTER_NAMES[chapter] || chapter;
+
+  const { error } = await getResend().emails.send({
+    from: FROM,
+    to,
+    subject: `${chapterName} Recap: Zero check-ins on ${formatRecapDate(meetingDate)}`,
+    html: emailWrapper(`
+      <h2 style="margin:0 0 16px;color:#0a1628;">Zero check-ins for ${chapterName}</h2>
+      <p>The automatic recap for <strong>${chapterName}</strong> on ${formatRecapDate(meetingDate)} found no check-in records.</p>
+      <p>No recap was sent to leadership. If the meeting happened, check-ins may not have been recorded.</p>
+    `),
+  });
+
+  if (error) {
+    console.error(`sendRecapZeroAlert failed for ${chapter}:`, error);
+  }
+}

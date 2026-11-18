@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/guest-handoff",
       "schedule": "0 17 * * *"
+    },
+    {
+      "path": "/api/cron/recap-post",
+      "schedule": "30 16 * * 2-5"
     }
   ]
 }
