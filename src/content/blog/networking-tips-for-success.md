@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["networking tips", "solopreneur networking", "referral networking", "follow-up networking", "networking goals", "small business networking Tennessee"]
 focusKeyword: "networking tips for success"
-metaTitle: "5 Networking Tips That Actually Work (For Real Professionals) | NAP"
+metaTitle: "5 Networking Tips That Actually Work (For Real Professionals)"
 metaDescription: "Skip the generic advice. These 5 networking tips are built for solopreneurs and small business owners who want real referral relationships  -  not just a bigger contact list."
 series: null
 seriesOrder: null

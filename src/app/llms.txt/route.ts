@@ -74,6 +74,7 @@ Networking For Awesome People, usually shortened to NAP, runs free weekly
 in-person networking meetings in Middle Tennessee. Anyone can attend without
 paying or joining. Each meeting runs about an hour in the morning. The founder is
 Rachel Albertson, and the parent company is I Got A Guy, LLC.
+Founded: 2015, in Rachel Albertson's office in Murfreesboro, Tennessee.
 
 Attending is free. A basic directory listing is also free. Paid directory tiers
 exist for members who want a richer listing, but they buy profile features and

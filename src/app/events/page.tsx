@@ -6,11 +6,11 @@ import SpecialEvents from "@/components/SpecialEvents";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Upcoming Networking Events in Middle Tennessee | Networking For Awesome People",
+  title: "Upcoming Networking Events in Middle Tennessee",
   description:
     "Find free weekly networking events across Middle Tennessee. Networking For Awesome People meets every week in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee.",
   openGraph: {
-    title: "Upcoming Networking Events in Middle Tennessee | Networking For Awesome People",
+    title: "Upcoming Networking Events in Middle Tennessee",
     description:
       "Find free weekly networking events across Middle Tennessee. Networking For Awesome People meets every week in Manchester, Murfreesboro, Nolensville, and Smyrna, Tennessee.",
     url: "https://networkingforawesomepeople.com/events",
@@ -42,7 +42,7 @@ const eventSchemas = [
     description: "Free weekly networking meeting in Murfreesboro, Tennessee",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    location: { "@type": "Place", name: "Achieve Entrepreneur & CoWorking Center", address: "1630 S Church St #100, Murfreesboro, TN 37130" },
+    location: { "@type": "Place", name: "Strike & Spare Entertainment Complex", address: "1720 Old Fort Pkwy #2002, Murfreesboro, TN 37129" },
     organizer: { "@type": "Organization", name: "Networking For Awesome People", url: "https://networkingforawesomepeople.com" },
     isAccessibleForFree: true,
     startDate: "2026-01-01",

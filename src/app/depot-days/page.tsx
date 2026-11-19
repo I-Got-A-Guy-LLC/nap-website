@@ -4,11 +4,11 @@ import Link from "next/link";
 import DepotDaysForm from "@/components/DepotDaysForm";
 
 export const metadata: Metadata = {
-  title: "Depot Days 2026 Giveaway | Networking For Awesome People",
+  title: "Depot Days 2026 Giveaway",
   description:
     "Enter to win a gift basket at Depot Days in Smyrna, Tennessee, Saturday September 26, 2026. Two $25 gift cards plus member swag, from Networking For Awesome People and Introverts Welcome.",
   openGraph: {
-    title: "Depot Days 2026 Giveaway | Networking For Awesome People",
+    title: "Depot Days 2026 Giveaway",
     description:
       "Enter to win a gift basket at Depot Days in Smyrna, Saturday September 26, 2026. Stop by the Networking For Awesome People booth.",
     url: "https://networkingforawesomepeople.com/depot-days",

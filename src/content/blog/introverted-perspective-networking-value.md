@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["introvert strengths", "quiet professionals", "authentic networking", "solopreneur networking", "referral networking", "networking confidence"]
 focusKeyword: "introverted perspective networking"
-metaTitle: "The Value of an Introverted Perspective in Networking | NAP"
+metaTitle: "The Value of an Introverted Perspective in Networking"
 metaDescription: "Your thoughtful, observant approach to business isn't a liability  -  it's a lens that sees things others miss. Here's how to use it in your professional network."
 series: "Introverts Welcome"
 seriesOrder: 5

@@ -103,7 +103,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
             rel="noopener noreferrer"
             className={`inline-block ${city.btnClass} font-bold text-lg px-10 py-4 rounded-full hover:opacity-90 hover:shadow-xl transition-all duration-300`}
           >
-            RSVP on Facebook
+            Join the Facebook Group
           </a>
           <p className={`${city.textOnBg === "text-white" ? "text-white" : "text-navy"} text-sm mt-4`}>
             Free to attend  -  no registration required
@@ -359,7 +359,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                 rel="noopener noreferrer"
                 className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
               >
-                RSVP on Facebook
+                Join the Facebook Group
               </a>
               <Link
                 href="/#cities"

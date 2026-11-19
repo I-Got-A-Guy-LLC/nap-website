@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["networking community", "authentic networking", "solopreneur networking", "Middle Tennessee networking", "structured networking", "small business community"]
 focusKeyword: "finding your networking community"
-metaTitle: "Finding Your People: How to Build a Networking Community That Fits | NAP"
+metaTitle: "Finding Your People: How to Build a Networking Community That Fits"
 metaDescription: "The best networking doesn't feel like networking. Here's how to find the professional community where you actually belong  -  in Middle Tennessee and beyond."
 series: "Introverts Welcome"
 seriesOrder: 6

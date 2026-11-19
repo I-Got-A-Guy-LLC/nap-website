@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Connections & Collaboration"
 tags: ["networking follow-up", "follow-up message", "referral networking", "relationship building", "solopreneur networking", "networking tips"]
 focusKeyword: "networking follow-up"
-metaTitle: "How to Follow Up After a Networking Event (And Actually Get Results) | NAP"
+metaTitle: "How to Follow Up After a Networking Event (And Actually Get Results)"
 metaDescription: "Most networking follow-ups are ignored. Here's how to write one that gets a response  -  and turns a first meeting into a real professional relationship."
 series: null
 seriesOrder: null

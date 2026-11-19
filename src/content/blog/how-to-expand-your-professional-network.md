@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["grow your network", "professional network", "solopreneur networking", "referral networking", "networking strategies", "Middle Tennessee networking"]
 focusKeyword: "how to expand your professional network"
-metaTitle: "7 Strategies for Expanding Your Professional Network | Networking For Awesome People"
+metaTitle: "7 Strategies for Expanding Your Professional Network"
 metaDescription: "Ready to grow your professional circle? These 7 strategies help solopreneurs and small business owners build a referral network that actually generates opportunities."
 series: null
 seriesOrder: null

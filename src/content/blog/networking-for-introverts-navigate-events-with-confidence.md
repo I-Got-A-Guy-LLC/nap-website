@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["introvert networking", "networking confidence", "networking preparation", "networking anxiety", "structured networking", "one-to-one networking"]
 focusKeyword: "networking for introverts navigate events"
-metaTitle: "Networking for Introverts: How to Navigate Events with Confidence | NAP"
+metaTitle: "Networking for Introverts: How to Navigate Events with Confidence"
 metaDescription: "Networking events don't have to drain you. Here's a practical, prep-focused guide for introverted professionals who want to show up confidently and leave with real connections."
 series: "Introverts Welcome"
 seriesOrder: 7

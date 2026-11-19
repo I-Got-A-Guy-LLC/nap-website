@@ -72,7 +72,7 @@ export const cities: Record<string, CityData> = {
     zip: "37355",
     lat: 35.4837,
     lng: -86.0886,
-    metaTitle: "Free Weekly Networking in Manchester TN | Networking For Awesome People",
+    metaTitle: "Free Weekly Networking in Manchester TN",
     metaDescription:
       "Join Networking For Awesome People in Manchester, Tennessee  -  free weekly networking every Tuesday at 9:00am at FirstBank. No fees, no registration required.",
     chapterHeading: "About NAPSTER  -  Manchester's Networking For Awesome People Chapter",
@@ -160,7 +160,7 @@ export const cities: Record<string, CityData> = {
     lng: -86.41701216097373,
     meetingFormat: ["8:30am Open Networking", "9:00am Meeting Starts"],
     entryNote: "Enter through the entrance facing AMC Theaters",
-    metaTitle: "Free Weekly Networking in Murfreesboro TN | Networking For Awesome People",
+    metaTitle: "Free Weekly Networking in Murfreesboro TN",
     metaDescription:
       "Join Networking For Awesome People in Murfreesboro, Tennessee  -  free weekly networking every Wednesday from 8:30am to 10:00am at Strike & Spare Entertainment Complex. No fees, no registration required.",
     chapterHeading:
@@ -179,7 +179,7 @@ export const cities: Record<string, CityData> = {
         name: "Lance Chandler",
         title: "Co-Leader",
         alt: "Lance Chandler, Murfreesboro Co-Leader, Networking For Awesome People",
-        bio: "Lance Chandler is the owner of 615 Insurance Agency, an independent brokerage built on the belief that people deserve honest, personalized coverage from someone they actually trust. With a background at State Farm and Liberty Mutual, he partners with AM Best-rated companies to find the right solutions for families, homes, businesses, and cars across Middle Tennessee. He has co-led BORO NAP every Wednesday at Achieve since 2023, and his 615 Insurance Agency carries BBB accreditation. Doing things right matters to him, every time.",
+        bio: "Lance Chandler is the owner of 615 Insurance Agency, an independent brokerage built on the belief that people deserve honest, personalized coverage from someone they actually trust. With a background at State Farm and Liberty Mutual, he partners with AM Best-rated companies to find the right solutions for families, homes, businesses, and cars across Middle Tennessee. He has co-led BORO NAP every Wednesday since 2023, and his 615 Insurance Agency carries BBB accreditation. Doing things right matters to him, every time.",
         image: "/images/leaders/Lance-Chandler-Headshot.jpg",
       },
       {
@@ -187,13 +187,13 @@ export const cities: Record<string, CityData> = {
         title: "Membership Chair",
         alt: "Cynthia Windrow, Murfreesboro Membership Chair, Networking For Awesome People",
         bio: "Cynthia Windrow is a former US Marine, mother of three, and Assistant Pastor who brings discipline, compassion, and organizational firepower to everything she does. As the founder of Cynthia's Consulting, she helps small and medium-sized businesses cut through the chaos and build efficient systems that actually work. She has served as Membership Chair for BORO NAP since 2023, because she knows better than most that a strong support system is the difference between surviving and thriving. Cynthia shows up fully committed and genuinely invested in your success.",
-        image: "/images/leaders/cynthia headshot.jpg",
+        image: "/images/leaders/cynthia-windrow-headshot.jpg",
       },
     ],
     galleryPhotos: [
       { src: "/images/gallery/murfreesboro/BORO_NAP_group_of_members_photo.jpg", alt: "BORO NAP Murfreesboro Wednesday morning networking group" },
-      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_meeting_members.jpg", alt: "BORO NAP members at Achieve Entrepreneur Space in Murfreesboro" },
-      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_meeting_members_2.jpg", alt: "BORO NAP members at Achieve Entrepreneur Space in Murfreesboro" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_meeting_members.jpg", alt: "BORO NAP members at a weekly meeting in Murfreesboro" },
+      { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_meeting_members_2.jpg", alt: "BORO NAP members at a weekly meeting in Murfreesboro" },
       { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_Christmas_meeting.jpg", alt: "BORO NAP Murfreesboro Christmas meeting" },
       { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_amplified_member.jpg", alt: "BORO NAP Murfreesboro Amplified member spotlight" },
       { src: "/images/gallery/murfreesboro/Murfreesboro_NAP_original_group.jpg", alt: "Original BORO NAP Murfreesboro networking group" },
@@ -249,7 +249,7 @@ export const cities: Record<string, CityData> = {
     zip: "37135",
     lat: 35.9523,
     lng: -86.6691,
-    metaTitle: "Free Weekly Networking in Nolensville TN | Networking For Awesome People",
+    metaTitle: "Free Weekly Networking in Nolensville TN",
     metaDescription:
       "Join Networking For Awesome People in Nolensville, Tennessee  -  free weekly networking every Thursday at 9:00am at Waldo's Chicken and Beer. No fees, no registration required.",
     chapterHeading:
@@ -328,7 +328,7 @@ export const cities: Record<string, CityData> = {
     zip: "37167",
     lat: 35.94379470973263,
     lng: -86.53927561346552,
-    metaTitle: "Free Weekly Networking in Smyrna TN | Networking For Awesome People",
+    metaTitle: "Free Weekly Networking in Smyrna TN",
     metaDescription:
       "Join Networking For Awesome People in Smyrna, Tennessee  -  free weekly networking every Friday at 9:00am at Almaville Apartments Conference Center. No fees, no registration required.",
     chapterHeading:

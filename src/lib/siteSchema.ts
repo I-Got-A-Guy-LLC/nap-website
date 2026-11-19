@@ -19,6 +19,7 @@ export const ORGANIZATION_SCHEMA = {
     logo: "https://networkingforawesomepeople.com/images/nap-logo.png",
     description:
       "Free weekly professional networking across four Middle Tennessee cities  -  Manchester, Murfreesboro, Nolensville, and Smyrna. No fees, no contracts.",
+    foundingDate: "2015",
     founder: {
       "@type": "Person",
       name: "Rachel Albertson",

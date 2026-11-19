@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["networking etiquette", "first impression networking", "networking dos and don'ts", "authentic networking", "networking tips", "Don't Be a Jerk"]
 focusKeyword: "networking event etiquette"
-metaTitle: "Networking Event Etiquette: What to Do (and What Not to Do) | NAP"
+metaTitle: "Networking Event Etiquette: What to Do (and What Not to Do)"
 metaDescription: "Good etiquette at a networking event isn't about being formal  -  it's about making people feel respected. Here's what to do, what to avoid, and how to leave the right impression."
 series: null
 seriesOrder: null

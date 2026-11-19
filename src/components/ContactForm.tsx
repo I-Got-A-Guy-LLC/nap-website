@@ -14,8 +14,8 @@ const subjectOptions = [
 
 const subjectMap: Record<string, string> = {};
 
-// Maps the ?interest= query param (set by the /join "Register Interest" CTAs)
-// to a human-readable tier label included in the submission.
+// Maps the ?interest= query param to a human-readable tier label included
+// in the submission.
 const interestLabels: Record<string, string> = {
   connected: "Connected ($300/yr or $30/mo)",
   amplified: "Amplified ($500/yr or $50/mo)",

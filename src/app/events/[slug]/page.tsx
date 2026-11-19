@@ -67,10 +67,10 @@ export async function generateMetadata({
   const description = event.description || `${event.title}  -  ${event.event_date} at ${event.location_name || "TBD"}`;
 
   return {
-    title: `${event.title} | Networking For Awesome People`,
+    title: event.title,
     description,
     openGraph: {
-      title: `${event.title} | Networking For Awesome People`,
+      title: event.title,
       description,
       url: eventUrl,
       type: "website",
@@ -79,7 +79,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${event.title} | Networking For Awesome People`,
+      title: event.title,
       description,
       images: [imageUrl],
     },

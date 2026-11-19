@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["introvert strengths", "solopreneur networking", "deep listening", "authentic networking", "referral networking", "networking confidence"]
 focusKeyword: "introvert networking superpower"
-metaTitle: "Your Quiet Strength Is a Networking Superpower | Networking For Awesome People"
+metaTitle: "Your Quiet Strength Is a Networking Superpower"
 metaDescription: "Introverted solopreneur? Your listening skills, depth, and follow-through are exactly what builds strong referral networks. Here's how to use them at NAP."
 series: "Introverts Welcome"
 seriesOrder: 2

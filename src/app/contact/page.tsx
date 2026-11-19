@@ -5,11 +5,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Networking For Awesome People | Middle Tennessee Networking",
+  title: "Contact | Middle Tennessee Networking",
   description:
     "Get in touch with Networking For Awesome People  -  free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
   openGraph: {
-    title: "Contact Networking For Awesome People | Middle Tennessee Networking",
+    title: "Contact | Middle Tennessee Networking",
     description:
       "Get in touch with Networking For Awesome People  -  free weekly networking across Middle Tennessee. Questions about meetings, membership, or bringing NAP to your city.",
     url: "https://networkingforawesomepeople.com/contact",

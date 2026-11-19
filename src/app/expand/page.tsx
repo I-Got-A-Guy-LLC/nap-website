@@ -4,11 +4,11 @@ import FAQAccordion from "@/components/FAQAccordion";
 import ExpandForm from "@/components/ExpandForm";
 
 export const metadata: Metadata = {
-  title: "Bring Networking For Awesome People to Your City | Community Leader Waitlist",
+  title: "Bring NAP to Your City | Community Leader Waitlist",
   description:
     "Networking For Awesome People is expanding to new cities. Join the waitlist to bring a free weekly NAP meeting to your community as a local chapter leader. Rachel reviews every submission.",
   openGraph: {
-    title: "Bring Networking For Awesome People to Your City | Community Leader Waitlist",
+    title: "Bring NAP to Your City | Community Leader Waitlist",
     description:
       "Networking For Awesome People is expanding to new cities. Join the waitlist to bring a free weekly NAP meeting to your community as a local chapter leader. Rachel reviews every submission.",
     url: "https://networkingforawesomepeople.com/expand",

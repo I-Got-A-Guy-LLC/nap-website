@@ -21,10 +21,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = post.metaDescription || post.excerpt;
 
   return {
-    title: `${title} | Networking For Awesome People`,
+    title,
     description,
     openGraph: {
-      title: `${title} | Networking For Awesome People`,
+      title,
       description,
       url: `https://networkingforawesomepeople.com/blog/${post.slug}`,
       type: "article",

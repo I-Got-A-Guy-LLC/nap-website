@@ -42,11 +42,11 @@ async function getInitialListings() {
 }
 
 export const metadata: Metadata = {
-  title: "Business Directory | Networking For Awesome People",
+  title: "Business Directory",
   description:
     "Browse the Networking For Awesome People business directory. Find trusted professionals across Middle Tennessee  -  Manchester, Murfreesboro, Nolensville, and Smyrna.",
   openGraph: {
-    title: "Business Directory | Networking For Awesome People",
+    title: "Business Directory",
     description: "Browse the Networking For Awesome People business directory. Find trusted professionals across Middle Tennessee.",
     url: "https://networkingforawesomepeople.com/directory",
     images: ["/images/og-default.jpg"],

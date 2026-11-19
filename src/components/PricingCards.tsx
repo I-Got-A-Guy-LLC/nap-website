@@ -92,7 +92,7 @@ export default function PricingCards() {
           </button>
         </div>
         {annual ? (
-          <span className="text-green-600 text-sm font-bold">Save up to $120/yr with annual billing</span>
+          <span className="text-green-600 text-sm font-bold">Save up to $100/yr with annual billing</span>
         ) : (
           <span className="text-navy text-sm">Switch to annual to save</span>
         )}
@@ -191,7 +191,7 @@ export default function PricingCards() {
             </div>
             {annual ? (
               <p className="text-white text-sm mt-2">
-                That&apos;s just $42/month &middot; <span className="text-green-200 font-bold">Save $120/yr vs monthly</span>
+                That&apos;s just $42/month &middot; <span className="text-green-200 font-bold">Save $100/yr vs monthly</span>
               </p>
             ) : (
               <p className="text-white text-sm mt-2">

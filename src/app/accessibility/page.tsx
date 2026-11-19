@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Accessibility Statement | Networking For Awesome People",
+  title: "Accessibility Statement",
   description: "Our commitment to digital accessibility and WCAG 2.1 Level AA compliance.",
   alternates: { canonical: "https://networkingforawesomepeople.com/accessibility" },
 };

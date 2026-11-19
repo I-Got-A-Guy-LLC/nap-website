@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["elevator pitch", "60-second pitch", "networking introduction", "referral networking", "networking preparation", "small business networking"]
 focusKeyword: "60-second elevator pitch networking"
-metaTitle: "How to Craft a 60-Second Pitch That Actually Works | Networking For Awesome People"
+metaTitle: "How to Craft a 60-Second Pitch That Actually Works"
 metaDescription: "Your 60-second pitch is the foundation of every networking meeting. Here's how to write one that's clear, confident, and actually gets you referrals."
 series: null
 seriesOrder: null

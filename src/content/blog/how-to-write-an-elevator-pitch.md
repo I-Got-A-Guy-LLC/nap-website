@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["elevator pitch", "elevator pitch examples", "networking introduction", "referral networking", "pitch writing", "solopreneur networking"]
 focusKeyword: "how to write an elevator pitch"
-metaTitle: "How to Write an Elevator Pitch That Gets You Referrals | Networking For Awesome People"
+metaTitle: "How to Write an Elevator Pitch That Gets You Referrals"
 metaDescription: "A good elevator pitch isn't about sounding polished  -  it's about being clear enough that people know exactly who to send your way. Here's how to write one that works."
 series: null
 seriesOrder: null

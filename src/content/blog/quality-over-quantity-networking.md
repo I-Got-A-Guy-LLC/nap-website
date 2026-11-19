@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["referral networking", "intentional networking", "solopreneur networking", "meaningful connections", "networking tips", "small business networking Tennessee"]
 focusKeyword: "quality networking over quantity"
-metaTitle: "Quality Over Quantity: The Smarter Way to Network | Networking For Awesome People"
+metaTitle: "Quality Over Quantity: The Smarter Way to Network"
 metaDescription: "More cards doesn't mean more business. Here's why focused, intentional connections build stronger referral networks  -  and how to do it at NAP."
 series: null
 seriesOrder: null

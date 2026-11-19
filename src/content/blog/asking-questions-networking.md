@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Networking Tips"
 tags: ["networking conversation starters", "networking questions", "introvert networking", "solopreneur networking", "networking tips", "one-to-one networking"]
 focusKeyword: "asking questions networking events"
-metaTitle: "The Art of Asking Good Questions at Networking Events | NAP"
+metaTitle: "The Art of Asking Good Questions at Networking Events"
 metaDescription: "Don't know how to start a conversation at a networking event? Start with a question. Here are the best questions to ask  -  and why they work."
 series: null
 seriesOrder: null

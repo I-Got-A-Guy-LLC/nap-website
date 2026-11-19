@@ -4,11 +4,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import FAQAccordion from "@/components/FAQAccordion";
 
 export const metadata: Metadata = {
-  title: "About Networking For Awesome People | Free Weekly Networking in Middle Tennessee",
+  title: "About NAP",
   description:
     "Learn about Networking For Awesome People  -  a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
   openGraph: {
-    title: "About Networking For Awesome People | Free Weekly Networking in Middle Tennessee",
+    title: "About NAP | Networking For Awesome People",
     description:
       "Learn about Networking For Awesome People  -  a free weekly networking organization across four Middle Tennessee cities. Founded by Rachel Albertson in Murfreesboro, Tennessee.",
     url: "https://networkingforawesomepeople.com/about",
@@ -82,7 +82,7 @@ const faqs = [
   {
     question: "Is there a business directory for Networking For Awesome People members?",
     answer:
-      "Yes. Networking For Awesome People has a member business directory with three tiers: Linked (free), Connected ($300/year or $30/month), and Amplified ($500/year or $50/month). Each tier offers increasing visibility, profile features, and community benefits. The directory is coming soon  -  visit our Join page to learn more.",
+      "Yes, the directory is live. List your business free, or choose a paid tier for more visibility. Visit our Join page to get started.",
   },
   {
     question: "How do I become a Community Leader for Networking For Awesome People?",
@@ -92,7 +92,7 @@ const faqs = [
   {
     question: "How long has Networking For Awesome People been running?",
     answer:
-      "Networking For Awesome People was founded in Murfreesboro, Tennessee and has been growing across Middle Tennessee since 2024. The organization now operates four active weekly chapters across Murfreesboro, Manchester, Nolensville, and Smyrna.",
+      "Networking For Awesome People was founded in Murfreesboro, Tennessee and has been growing across Middle Tennessee since 2015. The organization now operates four active weekly chapters across Murfreesboro, Manchester, Nolensville, and Smyrna.",
   },
   {
     question: "Is Networking For Awesome People affiliated with any national organization?",
@@ -187,8 +187,8 @@ export default function AboutPage() {
               Networking For Awesome People was founded by Rachel Albertson in Murfreesboro,
               Tennessee. Rachel saw a gap  -  most networking groups were either too expensive, too
               transactional, or too rigid for the kind of community she wanted to build. So she built
-              her own. What started as one weekly meeting at Achieve Entrepreneur &amp; Coworking
-              Space has grown into four active cities and hundreds of Middle Tennessee professionals
+              her own. What started in 2015 as one weekly meeting in her Murfreesboro office
+              has grown into four active cities and hundreds of Middle Tennessee professionals
               who call Networking For Awesome People their networking home.
             </p>
           </div>

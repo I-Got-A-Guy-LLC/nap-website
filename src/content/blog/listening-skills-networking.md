@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["active listening", "introvert strengths", "referral networking", "authentic networking", "networking tips", "solopreneur networking"]
 focusKeyword: "listening skills networking"
-metaTitle: "Why Listening Is the Most Underrated Networking Skill | NAP"
+metaTitle: "Why Listening Is the Most Underrated Networking Skill"
 metaDescription: "The best networkers aren't the best talkers. Here's how deep listening builds stronger referral relationships  -  and why it's an introvert's natural advantage."
 series: "Introverts Welcome"
 seriesOrder: 4

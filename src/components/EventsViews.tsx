@@ -230,7 +230,7 @@ function CardsView({ specials }: { specials: SpecialEvent[] }) {
               rel="noopener noreferrer"
               className="bg-gold text-navy font-bold text-sm px-5 py-2 rounded-full hover:bg-gold/90 transition-colors"
             >
-              RSVP on Facebook &rarr;
+              See Facebook Event &rarr;
             </a>
           </div>
         </div>
@@ -312,7 +312,7 @@ function ListView({ specials }: { specials: SpecialEvent[] }) {
                   <td className="px-5 py-4 text-navy text-sm">{e.address}</td>
                   <td className="px-5 py-4">
                     <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy font-bold text-xs px-4 py-1.5 rounded-full hover:bg-gold/90 transition-colors">
-                      RSVP
+                      See Event
                     </a>
                   </td>
                 </tr>
@@ -355,7 +355,7 @@ function ListView({ specials }: { specials: SpecialEvent[] }) {
             <p className="text-navy text-sm">{e.venue}</p>
             <p className="text-navy text-xs mb-3">{e.address}</p>
             <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy font-bold text-xs px-4 py-1.5 rounded-full hover:bg-gold/90 transition-colors">
-              RSVP
+              See Event
             </a>
           </div>
         ))}
@@ -563,7 +563,7 @@ function CalendarView({ specials }: { specials: SpecialEvent[] }) {
                     <p className="font-bold text-navy">{b.weekly.city}  -  {b.weekly.time}</p>
                     <p className="text-navy text-sm">{b.weekly.venue}</p>
                     <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="text-gold text-sm font-bold hover:underline">
-                      RSVP on Facebook &rarr;
+                      See Facebook Event &rarr;
                     </a>
                   </>
                 )}

@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["introvert networking", "solopreneur networking", "structured networking", "free networking Middle Tennessee", "networking anxiety", "one-to-one networking"]
 focusKeyword: "networking for introverts"
-metaTitle: "Networking for Introverts: How to Find Your Tribe as a Solopreneur | NAP"
+metaTitle: "Networking for Introverts: How to Find Your Tribe as a Solopreneur"
 metaDescription: "Introverted solopreneur? Learn how to network authentically  -  without the crowded rooms or forced small talk. NAP meets weekly across Middle Tennessee."
 series: "Introverts Welcome"
 seriesOrder: 1

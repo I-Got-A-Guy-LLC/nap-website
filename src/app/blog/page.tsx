@@ -4,11 +4,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import BlogGrid from "@/components/BlogGrid";
 
 export const metadata: Metadata = {
-  title: "Business Talk | Networking For Awesome People",
+  title: "Business Talk",
   description:
     "Networking tips, community stories, and professional development advice from Networking For Awesome People  -  free weekly networking across Middle Tennessee.",
   openGraph: {
-    title: "Business Talk | Networking For Awesome People",
+    title: "Business Talk",
     description:
       "Networking tips, community stories, and professional development advice from Networking For Awesome People  -  free weekly networking across Middle Tennessee.",
     url: "https://networkingforawesomepeople.com/blog",

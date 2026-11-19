@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Introverts Welcome"
 tags: ["introvert networking", "networking anxiety", "networking energy", "solopreneur networking", "structured networking", "networking self-care"]
 focusKeyword: "networking breaks for introverts"
-metaTitle: "It's OK to Take Breaks at Networking Events | Networking For Awesome People"
+metaTitle: "It's OK to Take Breaks at Networking Events"
 metaDescription: "Introverted solopreneur? Taking breaks at networking events isn't weakness  -  it's strategy. Here's how to recharge and come back stronger."
 series: "Introverts Welcome"
 seriesOrder: 3

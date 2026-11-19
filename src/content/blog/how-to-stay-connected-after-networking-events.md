@@ -5,7 +5,7 @@ author: "Rachel Albertson"
 category: "Connections & Collaboration"
 tags: ["networking follow-up", "post-event networking", "LinkedIn networking", "relationship building", "referral networking", "solopreneur networking"]
 focusKeyword: "how to stay connected after networking events"
-metaTitle: "Beyond Business Cards: How to Stay Connected After a Networking Event | NAP"
+metaTitle: "Beyond Business Cards: How to Stay Connected After a Networking Event"
 metaDescription: "Exchanging cards is just the start. Here are 6 practical ways to follow up after a networking meeting and turn first conversations into lasting professional relationships."
 series: null
 seriesOrder: null

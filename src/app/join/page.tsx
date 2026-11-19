@@ -5,11 +5,11 @@ import FAQAccordion from "@/components/FAQAccordion";
 import PricingCards from "@/components/PricingCards";
 
 export const metadata: Metadata = {
-  title: "Join the Directory | Networking For Awesome People Membership",
+  title: "Join the Directory",
   description:
     "Join the Networking For Awesome People business directory. Choose from three membership tiers  -  Linked (free), Connected ($300/yr), or Amplified ($500/yr)  -  and get found by Middle Tennessee professionals.",
   openGraph: {
-    title: "Join the Directory | Networking For Awesome People Membership",
+    title: "Join the Directory",
     description:
       "Join the Networking For Awesome People business directory. Choose from three membership tiers  -  Linked (free), Connected ($300/yr), or Amplified ($500/yr)  -  and get found by Middle Tennessee professionals.",
     url: "https://networkingforawesomepeople.com/join",
@@ -26,30 +26,30 @@ const productSchemas = [
     "@type": "Product",
     name: "Linked  -  Networking For Awesome People Directory Membership",
     description: "Free basic listing in the Networking For Awesome People business directory with business name, contact info, and one category.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/ComingSoon" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   },
   {
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Connected  -  Networking For Awesome People Directory Membership",
     description: "Enhanced directory listing with logo, website, referral form, preferred Facebook mentions, and quarterly shoutouts.",
-    offers: { "@type": "Offer", price: "300", priceCurrency: "USD", availability: "https://schema.org/ComingSoon" },
+    offers: { "@type": "Offer", price: "300", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   },
   {
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Amplified  -  Networking For Awesome People Directory Membership",
     description: "Full-featured directory listing with photos, videos, reviews, map, special offers, monthly shoutouts, event tickets, and sponsorship priority.",
-    offers: { "@type": "Offer", price: "500", priceCurrency: "USD", availability: "https://schema.org/ComingSoon" },
+    offers: { "@type": "Offer", price: "500", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   },
 ];
 
 const faqs = [
   { question: "Is Networking For Awesome People free to join?", answer: "Attending any Networking For Awesome People meeting is always completely free. The Networking For Awesome People business directory has a free Linked tier that gives you a basic listing at no cost. Connected and Amplified paid tiers offer enhanced visibility and additional benefits." },
   { question: "What is the difference between Linked, Connected, and Amplified?", answer: "Linked is the free tier  -  it includes a basic directory listing with your business name, contact info, and one category. Connected at $300/year adds your logo, website, referral form, and preferred Facebook mentions. Amplified at $500/year is the full-featured listing with photos, videos, reviews, map, special offers, monthly shoutouts, and sponsorship priority." },
-  { question: "Can I pay monthly instead of annually?", answer: "Yes  -  Connected is available at $30/month and Amplified at $50/month. Annual plans save you $60/year on Connected and $120/year on Amplified. Most members choose the annual plan for the savings." },
+  { question: "Can I pay monthly instead of annually?", answer: "Yes  -  Connected is available at $30/month and Amplified at $50/month. Annual plans save you $60/year on Connected and $100/year on Amplified. Most members choose the annual plan for the savings." },
   { question: "Do free Linked members need to renew?", answer: "Yes  -  Linked members go through a simple annual confirmation to keep their listing active. This keeps the directory current and gives us a chance to reconnect with you once a year. It takes about 30 seconds." },
-  { question: "When does the directory launch?", answer: "The Networking For Awesome People directory is coming soon. Register your interest now and you'll be the first to know when membership opens and your listing goes live." },
+  { question: "When does the directory launch?", answer: "The Networking For Awesome People directory is live. Free Linked listings are open now, and Connected and Amplified paid tiers are available with enhanced features and visibility." },
   { question: "Can I upgrade my membership later?", answer: "Absolutely. You can upgrade from Linked to Connected or Amplified, or from Connected to Amplified, at any time. Your billing will be prorated when you upgrade." },
   { question: "What happens to my listing if I cancel?", answer: "If you cancel a paid membership, your listing will be downgraded to the Linked free tier rather than removed entirely. You'll keep basic visibility in the directory. If you cancel Linked, your listing will be removed after a short grace period." },
 ];
@@ -104,7 +104,7 @@ export default function JoinPage() {
             Get found. Get referred. Get connected.
           </p>
           <p className="text-white text-sm">
-            Directory membership is coming soon  -  register your interest below
+            Directory membership is open  -  choose your tier and join today
           </p>
         </div>
       </section>
@@ -216,15 +216,14 @@ export default function JoinPage() {
               Ready to Get Found?
             </h2>
             <p className="text-white text-lg md:text-xl leading-relaxed mb-10">
-              Register your interest now and be first in line when the Networking For Awesome People
-              directory launches.
+              Join the directory today and start getting found by Middle Tennessee professionals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/contact"
+                href="/join/linked"
                 className="inline-block bg-gold text-navy font-bold text-lg px-10 py-4 rounded-full hover:bg-white hover:shadow-xl transition-all duration-300"
               >
-                Register Your Interest
+                Join Now
               </Link>
               <Link
                 href="/events"
