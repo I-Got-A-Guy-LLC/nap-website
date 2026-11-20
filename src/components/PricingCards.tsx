@@ -215,7 +215,7 @@ export default function PricingCards() {
             >
               {loading === "amplified" ? "Redirecting..." : `Get Started  -  ${annual ? "$500/yr" : "$50/mo"}`}
             </button>
-            <p className="text-white text-xs text-center mt-3">
+            <p className="text-navy text-xs text-center mt-3">
               🔒 Secure checkout via Stripe &middot; Cancel anytime
             </p>
           </div>
