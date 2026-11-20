@@ -1,3 +1,5 @@
+import { exceptDatesFor } from "@/lib/holidayClosures";
+
 // Structured data that is not page specific.
 //
 // All of this used to live in the root layout, which injected 11 JSON-LD blocks
@@ -251,6 +253,7 @@ export const HOME_PAGE_SCHEMAS = [
       byDay: "https://schema.org/Wednesday",
       startTime: "08:30:00-05:00",
       endTime: "10:00:00-05:00",
+      ...(exceptDatesFor("murfreesboro").length > 0 && { exceptDate: exceptDatesFor("murfreesboro") }),
     },
     location: {
       "@type": "Place",
@@ -274,6 +277,7 @@ export const HOME_PAGE_SCHEMAS = [
       byDay: "https://schema.org/Thursday",
       startTime: "09:00:00-05:00",
       endTime: "10:00:00-05:00",
+      ...(exceptDatesFor("nolensville").length > 0 && { exceptDate: exceptDatesFor("nolensville") }),
     },
     location: {
       "@type": "Place",
@@ -297,6 +301,7 @@ export const HOME_PAGE_SCHEMAS = [
       byDay: "https://schema.org/Friday",
       startTime: "09:00:00-05:00",
       endTime: "10:00:00-05:00",
+      ...(exceptDatesFor("smyrna").length > 0 && { exceptDate: exceptDatesFor("smyrna") }),
     },
     location: {
       "@type": "Place",

@@ -4,6 +4,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import EventsViews from "@/components/EventsViews";
 import SpecialEvents from "@/components/SpecialEvents";
 import Link from "next/link";
+import { exceptDatesFor } from "@/lib/holidayClosures";
 
 export const metadata: Metadata = {
   title: "Upcoming Networking Events in Middle Tennessee",
@@ -46,7 +47,7 @@ const eventSchemas = [
     organizer: { "@type": "Organization", name: "Networking For Awesome People", url: "https://networkingforawesomepeople.com" },
     isAccessibleForFree: true,
     startDate: "2026-01-01",
-    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Wednesday", startTime: "09:00:00-06:00", endTime: "10:00:00-06:00" },
+    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Wednesday", startTime: "09:00:00-06:00", endTime: "10:00:00-06:00", ...(exceptDatesFor("murfreesboro").length > 0 && { exceptDate: exceptDatesFor("murfreesboro") }) },
   },
   {
     "@context": "https://schema.org",
@@ -59,7 +60,7 @@ const eventSchemas = [
     organizer: { "@type": "Organization", name: "Networking For Awesome People", url: "https://networkingforawesomepeople.com" },
     isAccessibleForFree: true,
     startDate: "2026-01-01",
-    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Thursday", startTime: "09:00:00-06:00", endTime: "10:00:00-06:00" },
+    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Thursday", startTime: "09:00:00-06:00", endTime: "10:00:00-06:00", ...(exceptDatesFor("nolensville").length > 0 && { exceptDate: exceptDatesFor("nolensville") }) },
   },
   {
     "@context": "https://schema.org",
@@ -72,7 +73,7 @@ const eventSchemas = [
     organizer: { "@type": "Organization", name: "Networking For Awesome People", url: "https://networkingforawesomepeople.com" },
     isAccessibleForFree: true,
     startDate: "2026-01-01",
-    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Friday", startTime: "09:15:00-06:00", endTime: "10:15:00-06:00" },
+    eventSchedule: { "@type": "Schedule", repeatFrequency: "P1W", byDay: "https://schema.org/Friday", startTime: "09:15:00-06:00", endTime: "10:15:00-06:00", ...(exceptDatesFor("smyrna").length > 0 && { exceptDate: exceptDatesFor("smyrna") }) },
   },
 ];
 

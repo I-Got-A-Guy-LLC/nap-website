@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 import FAQAccordion from "@/components/FAQAccordion";
+import { CityClosureNotice } from "@/components/HolidayBanner";
 import type { CityData } from "@/lib/cityData";
 
 interface CityPageTemplateProps {
@@ -140,6 +141,7 @@ export default function CityPageTemplate({ city }: CityPageTemplateProps) {
                     {city.dayPlural} &middot; {city.timeRange}
                   </p>
                 )}
+                <CityClosureNotice citySlug={city.slug} />
               </div>
               <div
                 className="bg-white rounded-xl shadow-sm border border-gray-100 border-t-4 p-7"

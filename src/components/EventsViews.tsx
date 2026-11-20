@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { ACTIVE_CLOSURE, isClosureActive, closureForCity } from "@/lib/holidayClosures";
 
 const FB_URL = "https://www.facebook.com/groups/networkingforawesomepeople";
 
@@ -120,6 +121,11 @@ function formatSpecialDate(dateStr: string): string {
 export default function EventsViews() {
   const [view, setView] = useState<View>("cards");
   const specials = useSpecialEvents();
+  const [closureActive, setClosureActive] = useState(false);
+
+  useEffect(() => {
+    setClosureActive(isClosureActive());
+  }, []);
 
   return (
     <div>
@@ -144,15 +150,25 @@ export default function EventsViews() {
         ))}
       </div>
 
-      {view === "cards" && <CardsView specials={specials} />}
-      {view === "list" && <ListView specials={specials} />}
-      {view === "calendar" && <CalendarView specials={specials} />}
+      {view === "cards" && <CardsView specials={specials} closureActive={closureActive} />}
+      {view === "list" && <ListView specials={specials} closureActive={closureActive} />}
+      {view === "calendar" && <CalendarView specials={specials} closureActive={closureActive} />}
     </div>
   );
 }
 
+function ClosureNotice({ citySlug }: { citySlug: string }) {
+  const closure = closureForCity(citySlug);
+  if (!closure) return null;
+  const d = new Date(closure.date + "T12:00:00");
+  const formatted = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  return (
+    <p className="text-smyrna text-sm font-bold mt-2">No meeting {formatted} ({closure.reason})</p>
+  );
+}
+
 /* ===== CARDS VIEW ===== */
-function CardsView({ specials }: { specials: SpecialEvent[] }) {
+function CardsView({ specials, closureActive }: { specials: SpecialEvent[]; closureActive: boolean }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Special event cards first (timely) */}
@@ -220,6 +236,7 @@ function CardsView({ specials }: { specials: SpecialEvent[] }) {
           <p className="text-navy mb-1">{e.venue}</p>
           {e.leaders && <p className="text-navy text-sm">Led by {e.leaders}</p>}
           <p className="text-navy text-sm mb-4">{e.address}</p>
+          {closureActive && <ClosureNotice citySlug={e.city.toLowerCase()} />}
           <div className="flex items-center justify-between">
             <span className="text-green-600 text-xs font-bold bg-green-50 px-3 py-1 rounded-full">
               Free to Attend
@@ -252,7 +269,7 @@ function CardsView({ specials }: { specials: SpecialEvent[] }) {
 }
 
 /* ===== LIST VIEW ===== */
-function ListView({ specials }: { specials: SpecialEvent[] }) {
+function ListView({ specials, closureActive }: { specials: SpecialEvent[]; closureActive: boolean }) {
   return (
     <>
       {/* Desktop table */}
@@ -297,6 +314,7 @@ function ListView({ specials }: { specials: SpecialEvent[] }) {
                   <td className="px-5 py-4 font-medium text-navy">
                     <span className="inline-block w-3 h-3 rounded-full mr-2" style={{ backgroundColor: e.color }} />
                     {e.city}
+                    {closureActive && <ClosureNotice citySlug={e.city.toLowerCase()} />}
                   </td>
                   <td className="px-5 py-4 text-navy">Every {e.day}</td>
                   <td className="px-5 py-4 text-navy">
@@ -354,6 +372,7 @@ function ListView({ specials }: { specials: SpecialEvent[] }) {
             <p className="text-navy text-sm">{e.day} &middot; {e.timeRange}</p>
             <p className="text-navy text-sm">{e.venue}</p>
             <p className="text-navy text-xs mb-3">{e.address}</p>
+            {closureActive && <ClosureNotice citySlug={e.city.toLowerCase()} />}
             <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="bg-gold text-navy font-bold text-xs px-4 py-1.5 rounded-full hover:bg-gold/90 transition-colors">
               See Event
             </a>
@@ -374,9 +393,11 @@ interface DayBadge {
   kind: "weekly" | "special";
   weekly?: CityEvent;
   special?: SpecialEvent;
+  cancelled?: boolean;
+  closureReason?: string;
 }
 
-function CalendarView({ specials }: { specials: SpecialEvent[] }) {
+function CalendarView({ specials, closureActive }: { specials: SpecialEvent[]; closureActive: boolean }) {
   const [monthOffset, setMonthOffset] = useState(0);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
@@ -402,13 +423,18 @@ function CalendarView({ specials }: { specials: SpecialEvent[] }) {
 
       // Weekly meetings on this day-of-week
       for (const e of events.filter((ev) => ev.dayOfWeek === dow)) {
+        const closure = closureActive
+          ? ACTIVE_CLOSURE?.closures.find((c) => c.date === isoDate && c.citySlug === e.city.toLowerCase())
+          : undefined;
         badges.push({
           label: e.city,
-          sublabel: "Networking",
-          color: e.color,
-          textColor: e.textOnColor,
+          sublabel: closure ? "No meeting" : "Networking",
+          color: closure ? "#9CA3AF" : e.color,
+          textColor: closure ? "white" : e.textOnColor,
           kind: "weekly",
           weekly: e,
+          cancelled: !!closure,
+          closureReason: closure?.reason,
         });
       }
 
@@ -427,7 +453,7 @@ function CalendarView({ specials }: { specials: SpecialEvent[] }) {
       days.push({ date: d, badges });
     }
     return days;
-  }, [daysInMonth, currentDate, specials]);
+  }, [daysInMonth, currentDate, specials, closureActive]);
 
   const selectedBadges = selectedDay
     ? calendarDays.find((d) => d.date === parseInt(selectedDay))?.badges || []
@@ -529,10 +555,17 @@ function CalendarView({ specials }: { specials: SpecialEvent[] }) {
                   {day.badges.map((b, i) => (
                     <div key={i} className="text-sm">
                       {b.kind === "weekly" && b.weekly && (
-                        <>
-                          <span className="font-bold text-navy">{b.weekly.city}</span>
-                          <span className="text-navy"> · {b.weekly.time} · {b.weekly.venue}</span>
-                        </>
+                        b.cancelled ? (
+                          <>
+                            <span className="font-bold text-navy">{b.weekly.city}</span>
+                            <span className="text-navy/60"> · No meeting ({b.closureReason})</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="font-bold text-navy">{b.weekly.city}</span>
+                            <span className="text-navy"> · {b.weekly.time} · {b.weekly.venue}</span>
+                          </>
+                        )
                       )}
                       {b.kind === "special" && b.special && (
                         <>
@@ -559,13 +592,20 @@ function CalendarView({ specials }: { specials: SpecialEvent[] }) {
               <span className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: b.color }} />
               <div>
                 {b.kind === "weekly" && b.weekly && (
-                  <>
-                    <p className="font-bold text-navy">{b.weekly.city}  -  {b.weekly.time}</p>
-                    <p className="text-navy text-sm">{b.weekly.venue}</p>
-                    <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="text-gold text-sm font-bold hover:underline">
-                      See Facebook Event &rarr;
-                    </a>
-                  </>
+                  b.cancelled ? (
+                    <>
+                      <p className="font-bold text-navy">{b.weekly.city}</p>
+                      <p className="text-navy/60 text-sm">No meeting ({b.closureReason})</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-bold text-navy">{b.weekly.city}  -  {b.weekly.time}</p>
+                      <p className="text-navy text-sm">{b.weekly.venue}</p>
+                      <a href={FB_URL} target="_blank" rel="noopener noreferrer" className="text-gold text-sm font-bold hover:underline">
+                        See Facebook Event &rarr;
+                      </a>
+                    </>
+                  )
                 )}
                 {b.kind === "special" && b.special && (
                   <>

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import NotificationBanner from "@/components/NotificationBanner";
 import MixerBanner from "@/components/MixerBanner";
+import HolidayBanner from "@/components/HolidayBanner";
 import ScrollToTop from "@/components/ScrollToTop";
 import { ORGANIZATION_SCHEMA } from "@/lib/siteSchema";
 
@@ -110,6 +111,7 @@ export default function RootLayout({
         </a>
         <Providers>
           <Navigation />
+          <HolidayBanner />
           <NotificationBanner />
           <MixerBanner />
           <main id="main-content">{children}</main>
