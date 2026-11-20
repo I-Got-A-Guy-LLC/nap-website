@@ -17,6 +17,54 @@ Do not modify these files unless Rachel explicitly names them in the prompt:
 - Always run `npm run build` before pushing to verify the build passes
 - Stripe is in LIVE mode — never modify webhook or checkout logic without explicit instruction
 - Never change working UI components without explicit instruction
+- Never guess dates, years, or facts in copy. Ask Rachel.
+
+## Founding
+
+NAP was founded in 2015 in Rachel Albertson's office in Murfreesboro, Tennessee.
+It did NOT start at a coworking space. `foundingDate: "2015"` is set in the
+Organization JSON-LD in `src/lib/siteSchema.ts`. The `/llms.txt` route
+(`src/app/llms.txt/route.ts`) also states the founding year and location.
+
+## Venue: Murfreesboro
+
+The Murfreesboro venue is **Strike & Spare Entertainment Complex**. There are no
+remaining references to "Achieve Entrepreneur & Coworking" or "Achieve" anywhere
+in the codebase. If you see one, it is stale and should be fixed.
+
+## Title Convention
+
+The root layout (`src/app/layout.tsx`) defines
+`template: "%s | Networking For Awesome People"`. Every page sets a plain `title`
+(e.g. `"About NAP"`) and the template appends the brand once. Blog post
+`metaTitle` fields in frontmatter must NOT include `| NAP` or
+`| Networking For Awesome People`. The template handles it.
+
+Directory profile pages use `{ absolute: title }` to skip the template and set
+their own full title: `"[Business] in [City], TN | NAP Directory"`.
+
+## Holiday Closures
+
+`src/lib/holidayClosures.ts` holds the `ACTIVE_CLOSURE` config object, a
+reusable structure with an id, banner text, `showThrough` date, and per-city
+closure entries. Set `ACTIVE_CLOSURE = null` to disable everything at once.
+
+Display components:
+- `src/components/HolidayBanner.tsx`: site-wide dismissible banner (default
+  export) and `CityClosureNotice` (named export, used in city page When cards)
+- `src/components/EventsViews.tsx`: reads the config to show notices on
+  cards/list views and gray out cancelled dates on the calendar
+
+All visibility is decided client-side from `America/Chicago` time, not the build
+date, so banners auto-hide after the closure window.
+
+Schema: `exceptDate` is added to `Schedule` objects in `src/app/events/page.tsx`
+(EventSeries) and `src/lib/siteSchema.ts` (home page Events) via
+`exceptDatesFor()`.
+
+**Note:** `src/lib/meetingSchedule.ts` has a separate holiday closure list used
+by the automated recap cron (`src/app/api/cron/recap-post/route.ts`). These two
+closure systems should be merged so holiday dates live in one place.
 
 ## Active Branches
 
@@ -71,12 +119,13 @@ The rules themselves:
   everyone so they feed on-site search, meta tags and schema; whether they render
   is decided at display time. Do not gate the write.
 
-## Checkout state (updated 2026-10-07)
+## Checkout state (updated 2026-11-20)
 
 Self-serve checkout is live. `/join` has working Stripe buttons for Connected
-($300/yr) and Amplified ($500/yr), the four `NEXT_PUBLIC_STRIPE_PRICE_*` vars are
-confirmed present in Vercel, and there is one active Stripe subscriber. Every
-other paid member is comped leadership, added manually.
+($300/yr or $30/mo) and Amplified ($500/yr or $50/mo). The four
+`NEXT_PUBLIC_STRIPE_PRICE_*` vars are confirmed present in Vercel. Product
+JSON-LD schemas on `/join` use `InStock` (not `ComingSoon`). The join page hero
+says the directory is "open" and CTAs say "Join Now".
 
 What works end to end:
 

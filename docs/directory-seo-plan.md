@@ -79,7 +79,8 @@ items below are partly done already.
 **10 live listings have no category.** All arrived through `/join/linked`, which
 never asks for one. Every future free signup repeats this.
 
-**No llms.txt.** Relevant to part 2.
+**llms.txt now exists.** Generated dynamically by `src/app/llms.txt/route.ts`
+from Supabase and `cityData.ts`. Includes founding year (2015) and location.
 
 ## Plan
 
@@ -106,9 +107,10 @@ categories just publish the mistakes.
    give every listing a crawlable inbound link. Also solves finding 3.
 3. **Server-render listings on `/directory`** so the browse page is not an
    empty shell, with the client filter layered on top.
-4. **Better title tags.** Today: "Business Name | NAP Directory". Better:
-   "Business Name, Category in City TN | NAP". Categories and cities are what
-   people search.
+4. **Better title tags.** Done. Directory profiles now use absolute titles:
+   "[Business] in [City], TN | NAP Directory". All other pages set a plain
+   `title` and the layout template appends "| Networking For Awesome People"
+   once. Blog `metaTitle` fields must not include the brand suffix.
 5. **Descriptions for the 59 listings without one.** The biggest labor item and
    the one that most limits how well anything ranks.
 6. **Enrich the JSON-LD** with telephone, structured PostalAddress, areaServed,
