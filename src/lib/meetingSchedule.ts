@@ -89,10 +89,11 @@ export function chaptersMeetingOn(isoDate: string): ChapterSlug[] {
 // null. The rules apply to all four chapters, so slug does not affect the
 // result; it is part of the signature for symmetry and future-proofing.
 //
-// Exactly three rules, nothing else, no extra holidays:
+// Closure rules, computed from the calendar, never hardcoded per year:
 //   -  Winter break: December 25 through January 2 inclusive, spanning the
 //      year boundary. reason "Winter break".
-//   -  Thanksgiving: the fourth Thursday of November. reason "Thanksgiving".
+//   -  Thanksgiving week: the Wednesday before, Thanksgiving Thursday, and
+//      the Friday after. reason "Thanksgiving week".
 //   -  July 4: month 7 day 4. reason "Independence Day".
 export function getScheduledClosure(
   slug: ChapterSlug,
@@ -105,8 +106,12 @@ export function getScheduledClosure(
     return { reason: "Winter break" };
   }
 
-  if (month === 11 && day === fourthThursdayOfNovember(year)) {
-    return { reason: "Thanksgiving" };
+  // Thanksgiving week: the Wednesday before, Thursday of, and Friday after.
+  if (month === 11) {
+    const thanksgivingDay = fourthThursdayOfNovember(year);
+    if (day === thanksgivingDay - 1 || day === thanksgivingDay || day === thanksgivingDay + 1) {
+      return { reason: "Thanksgiving week" };
+    }
   }
 
   if (month === 7 && day === 4) {
