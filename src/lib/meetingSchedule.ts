@@ -101,6 +101,11 @@ export function getScheduledClosure(
 ): { reason: string } | null {
   const { year, month, day } = parseIsoDate(isoDate);
 
+  // 2026 only: Nolensville starts winter break one day early (Dec 24).
+  if (year === 2026 && month === 12 && day === 24 && slug === "nolensville") {
+    return { reason: "Winter break" };
+  }
+
   // Winter break spans the year boundary.
   if ((month === 12 && day >= 25) || (month === 1 && day <= 2)) {
     return { reason: "Winter break" };
